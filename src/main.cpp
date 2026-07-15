@@ -119,6 +119,11 @@ static void av_log_to_debugger(void*, int level, const char* fmt, va_list args) 
 }
 
 int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
+    // When launched from a console, show our log lines there.
+    if (AttachConsole(ATTACH_PARENT_PROCESS)) {
+        FILE* f = nullptr;
+        freopen_s(&f, "CONOUT$", "w", stderr);
+    }
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
     timeBeginPeriod(1);
     av_log_set_callback(av_log_to_debugger);
@@ -139,8 +144,10 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
 
     g_player = player_create(hwnd);
     if (!g_player) {
-        MessageBoxW(hwnd, L"Failed to initialize D3D11 video output.", APP_TITLE,
-                    MB_OK | MB_ICONERROR);
+        wchar_t msg[512];
+        swprintf(msg, 512, L"Failed to initialize D3D11 video output.\n\n%s",
+                 vo_init_error());
+        MessageBoxW(hwnd, msg, APP_TITLE, MB_OK | MB_ICONERROR);
         return 1;
     }
 

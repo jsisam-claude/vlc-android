@@ -148,6 +148,9 @@ private:
 
 struct D3DState;  // D3D11/D2D bits hidden in video_out.cpp
 
+// Which init step failed and its HRESULT (empty if none).
+const wchar_t* vo_init_error();
+
 class VideoOut {
 public:
     bool init(HWND hwnd);

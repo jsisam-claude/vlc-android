@@ -15,6 +15,14 @@ template <class T> static void safe_release(T*& p) {
     if (p) { p->Release(); p = nullptr; }
 }
 
+static wchar_t g_vo_err[256];
+const wchar_t* vo_init_error() { return g_vo_err; }
+static bool fail_step(const wchar_t* step, HRESULT hr) {
+    swprintf(g_vo_err, 256, L"%s failed (hr=0x%08X)", step, (unsigned)hr);
+    log_line("video: %ls", g_vo_err);
+    return false;
+}
+
 struct D3DState {
     HWND hwnd = nullptr;
     ID3D11Device* dev = nullptr;
@@ -51,7 +59,7 @@ static bool create_device_swapchain(D3DState* d) {
         hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, flags,
                                nullptr, 0, D3D11_SDK_VERSION, &d->dev, &fl, &d->ctx);
     }
-    if (FAILED(hr)) return false;
+    if (FAILED(hr)) return fail_step(L"D3D11CreateDevice (hardware and WARP)", hr);
 
     IDXGIDevice* dxgi_dev = nullptr;
     IDXGIAdapter* adapter = nullptr;
@@ -72,11 +80,11 @@ static bool create_device_swapchain(D3DState* d) {
     safe_release(factory);
     safe_release(adapter);
     safe_release(dxgi_dev);
-    if (FAILED(hr)) return false;
+    if (FAILED(hr)) return fail_step(L"DXGI swapchain creation", hr);
 
     hr = d->dev->QueryInterface(__uuidof(ID3D11VideoDevice), (void**)&d->vdev);
     if (SUCCEEDED(hr)) hr = d->ctx->QueryInterface(__uuidof(ID3D11VideoContext), (void**)&d->vctx);
-    if (FAILED(hr)) { log_line("video: no D3D11 video device support"); return false; }
+    if (FAILED(hr)) return fail_step(L"ID3D11VideoDevice query (no video API support)", hr);
 
     RECT rc;
     GetClientRect(d->hwnd, &rc);
