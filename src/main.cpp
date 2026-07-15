@@ -1,11 +1,11 @@
 // Win32 shell: main window with a video child window, a native control
 // bar (play/pause, skip, seek slider, volume slider), a right-click
 // context menu, drag-and-drop, and hotkeys. Standard OS controls only.
-#include "player_int.h"
+#include "player.h"
 #include <shellapi.h>
-#include <timeapi.h>
 #include <commctrl.h>
 #include <commdlg.h>
+#include <cstdio>
 
 static Player* g_player = nullptr;
 static HWND g_main = nullptr, g_video = nullptr;
@@ -22,8 +22,24 @@ static WINDOWPLACEMENT g_saved_placement = {sizeof(WINDOWPLACEMENT)};
 static const wchar_t* APP_TITLE = L"minimal-player";
 enum {
     IDC_PLAY = 101, IDC_BACK, IDC_FWD, IDC_SEEK, IDC_VOL, IDC_FULL,
-    IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_EXIT,
+    IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE, IDM_EXIT,
 };
+#define MSG_PLAYER_EVENT (WM_APP + 1)
+
+// Engine events arrive on engine threads; bounce them to the UI thread.
+static void on_player_event(void* user, PlayerEvent evt) {
+    PostMessageW((HWND)user, MSG_PLAYER_EVENT, (WPARAM)evt, 0);
+}
+
+static void play_pause() {
+    if (!g_player) return;
+    if (player_media_ended(g_player)) {
+        player_seek_to(g_player, 0);  // restart from the top after the end
+        if (player_is_paused(g_player)) player_toggle_pause(g_player);
+    } else {
+        player_toggle_pause(g_player);
+    }
+}
 static const int BAR_H = 34;
 static const int SEEK_RANGE = 1000;
 static const ULONGLONG FS_HIDE_MS = 2500;
@@ -120,20 +136,22 @@ static void update_ui(HWND hwnd) {
     wchar_t buf[512];
     bool media = g_player && player_has_media(g_player);
     bool paused = g_player && player_is_paused(g_player);
+    bool ended = g_player && player_media_ended(g_player);
     if (media) {
         double pos = player_position(g_player);
         double dur = player_duration(g_player);
         swprintf(buf, 512, L"%02d:%02d:%02d / %02d:%02d:%02d%s — %s",
                  (int)pos / 3600, ((int)pos / 60) % 60, (int)pos % 60,
                  (int)dur / 3600, ((int)dur / 60) % 60, (int)dur % 60,
-                 paused ? L"  [paused]" : L"", APP_TITLE);
+                 ended ? L"  [ended]" : paused ? L"  [paused]" : L"", APP_TITLE);
         if (!g_seek_dragging && dur > 0)
-            SendMessageW(g_seek, TBM_SETPOS, TRUE, (LPARAM)(pos / dur * SEEK_RANGE));
+            SendMessageW(g_seek, TBM_SETPOS, TRUE,
+                         ended ? SEEK_RANGE : (LPARAM)(pos / dur * SEEK_RANGE));
     } else {
         swprintf(buf, 512, L"%s — drop a video file here", APP_TITLE);
     }
     SetWindowTextW(hwnd, buf);
-    SetWindowTextW(g_play, paused || !media ? L"Play" : L"Pause");
+    SetWindowTextW(g_play, paused || ended || !media ? L"Play" : L"Pause");
 }
 
 static void open_path(HWND hwnd, const wchar_t* path) {
@@ -164,6 +182,8 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_SUBS, L"Next Subtitle Track\tS");
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING | (g_fullscreen ? MF_CHECKED : 0), IDM_FULL, L"Fullscreen\tF");
+    AppendMenuW(m, MF_STRING | (g_player && player_is_muted(g_player) ? MF_CHECKED : 0),
+                IDM_MUTE, L"Mute\tM");
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING, IDM_EXIT, L"Exit\tQ");
     TrackPopupMenu(m, TPM_RIGHTBUTTON, x, y, 0, hwnd, nullptr);
@@ -173,7 +193,8 @@ static void show_context_menu(HWND hwnd, int x, int y) {
 static void on_key(HWND hwnd, WPARAM key) {
     if (!g_player) return;
     switch (key) {
-        case VK_SPACE: player_toggle_pause(g_player); break;
+        case VK_SPACE: play_pause(); break;
+        case 'M': player_set_mute(g_player, !player_is_muted(g_player)); break;
         case VK_LEFT: player_seek_rel(g_player, -10); break;
         case VK_RIGHT: player_seek_rel(g_player, 10); break;
         case VK_PRIOR: player_seek_rel(g_player, -60); break;
@@ -234,7 +255,10 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         case WM_COMMAND:
             switch (LOWORD(wp)) {
                 case IDC_PLAY:
-                case IDM_PAUSE: if (g_player) player_toggle_pause(g_player); break;
+                case IDM_PAUSE: play_pause(); break;
+                case IDM_MUTE:
+                    if (g_player) player_set_mute(g_player, !player_is_muted(g_player));
+                    break;
                 case IDC_BACK: if (g_player) player_seek_rel(g_player, -10); break;
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
@@ -278,10 +302,12 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             fs_autohide_tick(hwnd);
             update_ui(hwnd);
             return 0;
-        case WM_APP_PLAYER_ERROR:
-            if (g_player)
-                MessageBoxW(hwnd, player_error(g_player), APP_TITLE,
-                            MB_OK | MB_ICONERROR);
+        case MSG_PLAYER_EVENT:
+            if ((PlayerEvent)wp == PLAYER_EVT_ERROR && g_player) {
+                wchar_t err[512];
+                player_last_error(g_player, err, 512);
+                MessageBoxW(hwnd, err, APP_TITLE, MB_OK | MB_ICONERROR);
+            }
             update_ui(hwnd);
             return 0;
         case WM_DESTROY:
@@ -291,13 +317,6 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     return DefWindowProcW(hwnd, msg, wp, lp);
 }
 
-static void av_log_to_debugger(void*, int level, const char* fmt, va_list args) {
-    if (level > AV_LOG_WARNING) return;
-    char buf[1024];
-    vsnprintf(buf, sizeof(buf), fmt, args);
-    OutputDebugStringA(buf);
-}
-
 int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     // When launched from a console, show our log lines there.
     if (AttachConsole(ATTACH_PARENT_PROCESS)) {
@@ -305,8 +324,6 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         freopen_s(&f, "CONOUT$", "w", stderr);
     }
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-    timeBeginPeriod(1);
-    av_log_set_callback(av_log_to_debugger);
     INITCOMMONCONTROLSEX icc = {sizeof(INITCOMMONCONTROLSEX), ICC_BAR_CLASSES};
     InitCommonControlsEx(&icc);
 
@@ -358,10 +375,11 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     if (!g_player) {
         wchar_t msg[512];
         swprintf(msg, 512, L"Failed to initialize D3D11 video output.\n\n%s",
-                 vo_init_error());
+                 player_video_init_error());
         MessageBoxW(g_main, msg, APP_TITLE, MB_OK | MB_ICONERROR);
         return 1;
     }
+    player_set_event_callback(g_player, on_player_event, g_main);
     SendMessageW(g_vol, TBM_SETPOS, TRUE, (LPARAM)(player_volume(g_player) * 100));
 
     layout(g_main);
@@ -382,7 +400,6 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
 
     player_destroy(g_player);
     g_player = nullptr;
-    timeEndPeriod(1);
     CoUninitialize();
     return 0;
 }

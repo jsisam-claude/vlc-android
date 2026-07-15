@@ -61,6 +61,14 @@ void video_render_thread(Player* p) {
 
     while (!p->abort) {
         if (p->paused) {
+            if (p->redraw_req.exchange(false)) {
+                std::lock_guard<std::mutex> lk(p->lastf_m);
+                if (p->last_frame) {
+                    double lp = p->vclock.load();
+                    std::wstring lsub = std::isnan(lp) ? L"" : p->subs.active_at(lp);
+                    p->vo->render(p->last_frame, lsub);
+                }
+            }
             Sleep(20);
             continue;
         }
@@ -104,6 +112,11 @@ void video_render_thread(Player* p) {
         std::wstring sub = std::isnan(pts) ? L"" : p->subs.active_at(pts);
         p->vo->render(fr.f, sub);
         if (!std::isnan(pts)) p->vclock.store(pts);
+        {
+            std::lock_guard<std::mutex> lk(p->lastf_m);
+            av_frame_free(&p->last_frame);
+            p->last_frame = av_frame_clone(fr.f);
+        }
         av_frame_free(&fr.f);
         first_frame = false;
     }

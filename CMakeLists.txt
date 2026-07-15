@@ -20,8 +20,9 @@ endif()
 # see cmake/ffmpeg.cmake. No package manager, no shell, no prebuilts.
 include(cmake/ffmpeg.cmake)
 
-add_executable(minimal-player WIN32
-  src/main.cpp
+# Embeddable engine: hosts (the bundled shell, or another app such as a
+# gallery) link this and include only src/player.h.
+add_library(player_engine STATIC
   src/player.cpp
   src/demux.cpp
   src/decode.cpp
@@ -30,14 +31,23 @@ add_executable(minimal-player WIN32
   src/video_out.cpp
   src/subs.cpp
 )
+target_include_directories(player_engine PUBLIC src)
+target_link_libraries(player_engine
+  PRIVATE ffmpeg
+  PUBLIC d3d11 dxgi d3dcompiler d2d1 dwrite ole32 avrt winmm user32
+)
+
+add_executable(minimal-player WIN32
+  src/main.cpp
+  src/version.rc
+  src/app.manifest
+)
+target_link_libraries(minimal-player PRIVATE
+  player_engine
+  shell32 gdi32 comctl32 comdlg32
+)
 
 if(MSVC)
+  target_compile_options(player_engine PRIVATE /W3 /utf-8)
   target_compile_options(minimal-player PRIVATE /W3 /utf-8)
 endif()
-
-target_link_libraries(minimal-player PRIVATE
-  ffmpeg
-  d3d11 dxgi d3dcompiler d2d1 dwrite
-  ole32 avrt winmm
-  user32 shell32 gdi32 comctl32 comdlg32
-)

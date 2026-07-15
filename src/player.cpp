@@ -3,6 +3,23 @@
 // simple (v1 tradeoff documented in PLAN.md).
 #include "player_int.h"
 #include <cmath>
+#include <mutex>
+#include <timeapi.h>
+
+static void engine_av_log(void*, int level, const char* fmt, va_list args) {
+    if (level > AV_LOG_WARNING) return;
+    char buf[1024];
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    OutputDebugStringA(buf);
+}
+
+static void engine_global_init() {
+    static std::once_flag once;
+    std::call_once(once, [] {
+        av_log_set_callback(engine_av_log);
+        timeBeginPeriod(1);  // engine pacing relies on ~1ms Sleep granularity
+    });
+}
 
 double Player::master_clock() {
     if (ast >= 0) {
@@ -23,6 +40,7 @@ void Player::extclk_set(double pts) {
 }
 
 Player* player_create(HWND video_window) {
+    engine_global_init();
     Player* p = new Player();
     p->hwnd = video_window;
     p->vo = new VideoOut();
@@ -66,6 +84,12 @@ static void stop_pipeline(Player* p) {
     p->running = false;
     p->abort = false;
     p->eof = false;
+    p->ended = false;
+    p->ended_fired = false;
+    {
+        std::lock_guard<std::mutex> lk(p->lastf_m);
+        av_frame_free(&p->last_frame);
+    }
     p->vclock = NAN;
     p->duration = 0;
     {
@@ -163,6 +187,7 @@ int player_cycle_subtitle(Player* p) {
 
 void player_notify_resize(Player* p) {
     if (p->vo) p->vo->resize();
+    p->redraw_req = true;
 }
 
 double player_position(Player* p) {
@@ -176,4 +201,53 @@ double player_position(Player* p) {
 
 double player_duration(Player* p) { return p->running ? p->duration : 0; }
 
-const wchar_t* player_error(Player* p) { return p->error.c_str(); }
+void player_set_event_callback(Player* p, PlayerEventFn fn, void* user) {
+    p->evt_fn = fn;
+    p->evt_user = user;
+}
+
+bool player_media_ended(Player* p) { return p->ended; }
+
+void player_set_mute(Player* p, bool m) { p->ao.set_mute(m); }
+bool player_is_muted(Player* p) { return p->ao.muted(); }
+
+void player_last_error(Player* p, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    std::lock_guard<std::mutex> lk(p->err_m);
+    wcsncpy(buf, p->error.c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
+const wchar_t* player_video_init_error(void) { return vo_init_error(); }
+
+bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
+    if (!info) return false;
+    memset(info, 0, sizeof(*info));
+    std::string u8 = wide_to_utf8(path);
+    AVFormatContext* fc = nullptr;
+    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return false;
+    if (avformat_find_stream_info(fc, nullptr) < 0) {
+        avformat_close_input(&fc);
+        return false;
+    }
+    info->duration_sec = fc->duration > 0 ? fc->duration / (double)AV_TIME_BASE : 0;
+    for (unsigned i = 0; i < fc->nb_streams; i++) {
+        AVCodecParameters* par = fc->streams[i]->codecpar;
+        if (par->codec_type == AVMEDIA_TYPE_VIDEO && !info->width) {
+            info->width = par->width;
+            info->height = par->height;
+            std::wstring n = utf8_to_wide(avcodec_get_name(par->codec_id));
+            wcsncpy(info->video_codec, n.c_str(), 31);
+        } else if (par->codec_type == AVMEDIA_TYPE_AUDIO) {
+            if (!info->audio_tracks) {
+                std::wstring n = utf8_to_wide(avcodec_get_name(par->codec_id));
+                wcsncpy(info->audio_codec, n.c_str(), 31);
+            }
+            info->audio_tracks++;
+        } else if (par->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+            info->sub_tracks++;
+        }
+    }
+    avformat_close_input(&fc);
+    return true;
+}

@@ -1,17 +1,28 @@
-// Public C-style engine API. The shell (main.cpp today, possibly a WinForms
-// host later) talks to the engine only through these calls.
+// Public C-style engine API. Hosts (the bundled shell in main.cpp, or an
+// embedding application like a gallery) talk to the engine only through
+// these calls and never see FFmpeg or renderer types.
 #pragma once
 #include <windows.h>
 
 struct Player;
 
+// Events fire on engine threads - marshal to your UI thread (e.g.
+// PostMessage) before touching UI state.
+typedef enum PlayerEvent {
+    PLAYER_EVT_OPENED = 1,  // media opened, pipeline running
+    PLAYER_EVT_ERROR = 2,   // open failed; see player_last_error
+    PLAYER_EVT_ENDED = 3,   // playback reached end of media
+} PlayerEvent;
+typedef void (*PlayerEventFn)(void* user, enum PlayerEvent evt);
+
 Player* player_create(HWND video_window);
 void player_destroy(Player* p);
+void player_set_event_callback(Player* p, PlayerEventFn fn, void* user);
 
-// Opens asynchronously; failures are reported via WM_APP_PLAYER_ERROR.
-bool player_open(Player* p, const wchar_t* path);
+bool player_open(Player* p, const wchar_t* path);  // async; events follow
 void player_close(Player* p);
 bool player_has_media(Player* p);
+bool player_media_ended(Player* p);
 
 void player_toggle_pause(Player* p);
 bool player_is_paused(Player* p);
@@ -20,6 +31,8 @@ void player_seek_to(Player* p, double seconds);
 void player_volume_step(Player* p, int steps);
 void player_volume_set(Player* p, float v);  // 0..1
 float player_volume(Player* p);
+void player_set_mute(Player* p, bool mute);
+bool player_is_muted(Player* p);
 
 // Both return the number of the now-active track (1-based) or 0 if none.
 int player_cycle_audio(Player* p);
@@ -28,6 +41,19 @@ int player_cycle_subtitle(Player* p);
 void player_notify_resize(Player* p);
 double player_position(Player* p);
 double player_duration(Player* p);
-const wchar_t* player_error(Player* p);
 
-#define WM_APP_PLAYER_ERROR (WM_APP + 1)
+// Copies the last open error into buf (always NUL-terminated).
+void player_last_error(Player* p, wchar_t* buf, size_t buflen);
+// Which video-init step failed when player_create returned null.
+const wchar_t* player_video_init_error(void);
+
+// Lightweight metadata probe without starting playback (synchronous,
+// hits the disk - call off the UI thread for slow media).
+typedef struct PlayerMediaInfo {
+    double duration_sec;
+    int width, height;
+    int audio_tracks, sub_tracks;
+    wchar_t video_codec[32];
+    wchar_t audio_codec[32];
+} PlayerMediaInfo;
+bool player_probe(const wchar_t* path, PlayerMediaInfo* info);

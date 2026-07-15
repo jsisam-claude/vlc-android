@@ -112,6 +112,16 @@ void AudioOut::volume_set(float v) {
     dev_->volume->SetMasterVolume(std::fmax(0.0f, std::fmin(1.0f, v)), nullptr);
 }
 
+void AudioOut::set_mute(bool m) {
+    if (dev_ && dev_->volume) dev_->volume->SetMute(m, nullptr);
+}
+
+bool AudioOut::muted() {
+    BOOL m = FALSE;
+    if (dev_ && dev_->volume) dev_->volume->GetMute(&m);
+    return m != FALSE;
+}
+
 float AudioOut::volume() {
     float v = 1.0f;
     if (dev_ && dev_->volume) dev_->volume->GetMasterVolume(&v);

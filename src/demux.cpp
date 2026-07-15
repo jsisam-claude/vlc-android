@@ -28,10 +28,12 @@ static bool open_input(Player* p) {
     if (ret < 0) {
         char err[256];
         av_strerror(ret, err, sizeof(err));
+        std::lock_guard<std::mutex> lk(p->err_m);
         p->error = L"Cannot open file:\n" + p->path + L"\n\n" + utf8_to_wide(err);
         return false;
     }
     if (avformat_find_stream_info(p->fmt, nullptr) < 0) {
+        std::lock_guard<std::mutex> lk(p->err_m);
         p->error = L"Cannot read stream info:\n" + p->path;
         return false;
     }
@@ -44,6 +46,7 @@ static bool open_input(Player* p) {
         p->fmt->streams[i]->discard = AVDISCARD_ALL;
     }
     if (p->vst < 0 && p->audio_streams.empty()) {
+        std::lock_guard<std::mutex> lk(p->err_m);
         p->error = L"No playable streams in:\n" + p->path;
         return false;
     }
@@ -84,6 +87,7 @@ static bool open_input(Player* p) {
     if (p->ast >= 0 && !p->actx) p->ast = -1;
     if (p->sst >= 0 && !p->sctx) p->sst = -1;
     if (p->vst < 0 && p->ast < 0) {
+        std::lock_guard<std::mutex> lk(p->err_m);
         p->error = L"No decodable streams in:\n" + p->path;
         return false;
     }
@@ -117,12 +121,14 @@ static void do_seek(Player* p, double target) {
         p->extclk_pts = NAN;
     }
     p->eof = false;
+    p->ended = false;
+    p->ended_fired = false;
 }
 
 void demux_thread(Player* p) {
     if (!open_input(p)) {
         p->open_failed = true;
-        PostMessageW(p->hwnd, WM_APP_PLAYER_ERROR, 0, 0);
+        p->fire(PLAYER_EVT_ERROR);
         return;
     }
 
@@ -136,6 +142,7 @@ void demux_thread(Player* p) {
     }
     if (p->vst >= 0) p->th_vrender = std::thread(video_render_thread, p);
     p->running = true;
+    p->fire(PLAYER_EVT_OPENED);
 
     AVPacket* pkt = av_packet_alloc();
     const size_t MAX_QUEUE_BYTES = 16 * 1024 * 1024;
@@ -158,6 +165,12 @@ void demux_thread(Player* p) {
         int ret = av_read_frame(p->fmt, pkt);
         if (ret == AVERROR_EOF || ret == AVERROR(EIO)) {
             p->eof = true;
+            if (!p->ended_fired && p->vq.count() == 0 && p->aq.count() == 0 &&
+                p->vfq.count() == 0 && p->afq.count() == 0) {
+                p->ended = true;
+                p->ended_fired = true;
+                p->fire(PLAYER_EVT_ENDED);
+            }
             Sleep(50);
             continue;
         }

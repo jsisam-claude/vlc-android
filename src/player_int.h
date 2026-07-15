@@ -128,6 +128,8 @@ public:
     void volume_step(int steps);  // +-5% per step
     void volume_set(float v);     // 0..1
     float volume();
+    void set_mute(bool m);
+    bool muted();
     ~AudioOut() { stop(); }
 
 private:
@@ -202,6 +204,22 @@ struct Player {
     std::mutex seek_m;
     bool seek_req = false;
     double seek_to = 0;
+
+    // host event callback (fires on engine threads)
+    PlayerEventFn evt_fn = nullptr;
+    void* evt_user = nullptr;
+    std::atomic<bool> ended{false};
+    bool ended_fired = false;         // demux thread only
+    std::mutex err_m;                 // guards `error`
+
+    // last presented frame, kept for repaint-while-paused
+    std::mutex lastf_m;
+    AVFrame* last_frame = nullptr;
+    std::atomic<bool> redraw_req{false};
+
+    void fire(PlayerEvent evt) {
+        if (evt_fn) evt_fn(evt_user, evt);
+    }
 
     // external clock fallback when there is no audio stream
     std::mutex extclk_m;
