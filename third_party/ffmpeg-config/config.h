@@ -246,8 +246,14 @@
 #ifndef ARCH_MIPS
 #define ARCH_MIPS 0
 #endif
+#ifndef ARCH_MIPS64
+#define ARCH_MIPS64 0
+#endif
 #ifndef ARCH_PPC
 #define ARCH_PPC 0
+#endif
+#ifndef ARCH_PPC64
+#define ARCH_PPC64 0
 #endif
 #ifndef ARCH_RISCV
 #define ARCH_RISCV 0
@@ -420,6 +426,9 @@
 #ifndef CONFIG_SHADER_COMPRESSION
 #define CONFIG_SHADER_COMPRESSION 0
 #endif
+#ifndef CONFIG_THUMB
+#define CONFIG_THUMB 0
+#endif
 #ifndef CONFIG_UNSTABLE
 #define CONFIG_UNSTABLE 0
 #endif
@@ -450,17 +459,83 @@
 #ifndef HAVE_7REGS
 #define HAVE_7REGS 0
 #endif
+#ifndef HAVE_ALIGNED_STACK
+#define HAVE_ALIGNED_STACK 0
+#endif
 #ifndef HAVE_ALTIVEC
 #define HAVE_ALTIVEC 0
 #endif
 #ifndef HAVE_ARC4RANDOM_BUF
 #define HAVE_ARC4RANDOM_BUF 0
 #endif
+#ifndef HAVE_ARMV5TE
+#define HAVE_ARMV5TE 0
+#endif
+#ifndef HAVE_ARMV5TE_EXTERNAL
+#define HAVE_ARMV5TE_EXTERNAL 0
+#endif
+#ifndef HAVE_ARMV5TE_INLINE
+#define HAVE_ARMV5TE_INLINE 0
+#endif
+#ifndef HAVE_ARMV6
+#define HAVE_ARMV6 0
+#endif
+#ifndef HAVE_ARMV6T2
+#define HAVE_ARMV6T2 0
+#endif
+#ifndef HAVE_ARMV6T2_INLINE
+#define HAVE_ARMV6T2_INLINE 0
+#endif
+#ifndef HAVE_ARMV6_EXTERNAL
+#define HAVE_ARMV6_EXTERNAL 0
+#endif
+#ifndef HAVE_ARMV6_INLINE
+#define HAVE_ARMV6_INLINE 0
+#endif
+#ifndef HAVE_ARMV8
+#define HAVE_ARMV8 0
+#endif
+#ifndef HAVE_ARM_CRC
+#define HAVE_ARM_CRC 0
+#endif
+#ifndef HAVE_ASM_HWPROBE_H
+#define HAVE_ASM_HWPROBE_H 0
+#endif
+#ifndef HAVE_ASM_MOD_Q
+#define HAVE_ASM_MOD_Q 0
+#endif
+#ifndef HAVE_AS_DN_DIRECTIVE
+#define HAVE_AS_DN_DIRECTIVE 0
+#endif
+#ifndef HAVE_AVX
+#define HAVE_AVX 0
+#endif
+#ifndef HAVE_AVX2
+#define HAVE_AVX2 0
+#endif
+#ifndef HAVE_AVX2_EXTERNAL
+#define HAVE_AVX2_EXTERNAL 0
+#endif
+#ifndef HAVE_AVX512
+#define HAVE_AVX512 0
+#endif
+#ifndef HAVE_AVX512ICL
+#define HAVE_AVX512ICL 0
+#endif
+#ifndef HAVE_AVX512ICL_EXTERNAL
+#define HAVE_AVX512ICL_EXTERNAL 0
+#endif
+#ifndef HAVE_AVX_EXTERNAL
+#define HAVE_AVX_EXTERNAL 0
+#endif
 #ifndef HAVE_BCRYPT
 #define HAVE_BCRYPT 0
 #endif
 #ifndef HAVE_BIGENDIAN
 #define HAVE_BIGENDIAN 0
+#endif
+#ifndef HAVE_CLMUL_EXTERNAL
+#define HAVE_CLMUL_EXTERNAL 0
 #endif
 #ifndef HAVE_CLOCK_GETTIME
 #define HAVE_CLOCK_GETTIME 0
@@ -471,14 +546,23 @@
 #ifndef HAVE_COMPRESSED_TILEMAP
 #define HAVE_COMPRESSED_TILEMAP 0
 #endif
+#ifndef HAVE_DCBZL
+#define HAVE_DCBZL 0
+#endif
 #ifndef HAVE_DIRENT_H
 #define HAVE_DIRENT_H 0
+#endif
+#ifndef HAVE_DOTPROD
+#define HAVE_DOTPROD 0
 #endif
 #ifndef HAVE_DXGIDEBUG_H
 #define HAVE_DXGIDEBUG_H 0
 #endif
 #ifndef HAVE_DXVA_H
 #define HAVE_DXVA_H 0
+#endif
+#ifndef HAVE_EBP_AVAILABLE
+#define HAVE_EBP_AVAILABLE 0
 #endif
 #ifndef HAVE_EBX_AVAILABLE
 #define HAVE_EBX_AVAILABLE 0
@@ -519,11 +603,23 @@
 #ifndef HAVE_GSM_H
 #define HAVE_GSM_H 0
 #endif
+#ifndef HAVE_I686
+#define HAVE_I686 0
+#endif
 #ifndef HAVE_INET_ATON
 #define HAVE_INET_ATON 0
 #endif
+#ifndef HAVE_INLINE_ASM_DIRECT_SYMBOL_REFS
+#define HAVE_INLINE_ASM_DIRECT_SYMBOL_REFS 0
+#endif
+#ifndef HAVE_INLINE_ASM_NONLOCAL_LABELS
+#define HAVE_INLINE_ASM_NONLOCAL_LABELS 0
+#endif
 #ifndef HAVE_INTRINSICS_NEON
 #define HAVE_INTRINSICS_NEON 0
+#endif
+#ifndef HAVE_INTRINSICS_SSE2
+#define HAVE_INTRINSICS_SSE2 0
 #endif
 #ifndef HAVE_KCMVIDEOCODECTYPE_AV1
 #define HAVE_KCMVIDEOCODECTYPE_AV1 0
@@ -582,6 +678,12 @@
 #ifndef HAVE_KVTQPMODULATIONLEVEL_DEFAULT
 #define HAVE_KVTQPMODULATIONLEVEL_DEFAULT 0
 #endif
+#ifndef HAVE_LASX
+#define HAVE_LASX 0
+#endif
+#ifndef HAVE_LDBRX
+#define HAVE_LDBRX 0
+#endif
 #ifndef HAVE_LEFT
 #define HAVE_LEFT 0
 #endif
@@ -590,6 +692,12 @@
 #endif
 #ifndef HAVE_LOCALTIME_R
 #define HAVE_LOCALTIME_R 0
+#endif
+#ifndef HAVE_LOONGSON2
+#define HAVE_LOONGSON2 0
+#endif
+#ifndef HAVE_LOONGSON3
+#define HAVE_LOONGSON3 0
 #endif
 #ifndef HAVE_LSTAT
 #define HAVE_LSTAT 0
@@ -600,6 +708,18 @@
 #ifndef HAVE_MEMALIGN
 #define HAVE_MEMALIGN 0
 #endif
+#ifndef HAVE_MIPS32R2
+#define HAVE_MIPS32R2 0
+#endif
+#ifndef HAVE_MIPS32R6
+#define HAVE_MIPS32R6 0
+#endif
+#ifndef HAVE_MIPS64R2
+#define HAVE_MIPS64R2 0
+#endif
+#ifndef HAVE_MIPS64R6
+#define HAVE_MIPS64R6 0
+#endif
 #ifndef HAVE_MIPSDSP
 #define HAVE_MIPSDSP 0
 #endif
@@ -609,11 +729,17 @@
 #ifndef HAVE_MMAL_PARAMETER_VIDEO_MAX_NUM_CALLBACKS
 #define HAVE_MMAL_PARAMETER_VIDEO_MAX_NUM_CALLBACKS 0
 #endif
+#ifndef HAVE_MMI
+#define HAVE_MMI 0
+#endif
 #ifndef HAVE_MMX
 #define HAVE_MMX 0
 #endif
 #ifndef HAVE_MMXEXT
 #define HAVE_MMXEXT 0
+#endif
+#ifndef HAVE_MMXEXT_EXTERNAL
+#define HAVE_MMXEXT_EXTERNAL 0
 #endif
 #ifndef HAVE_MMXEXT_INLINE
 #define HAVE_MMXEXT_INLINE 0
@@ -630,8 +756,14 @@
 #ifndef HAVE_MPROTECT
 #define HAVE_MPROTECT 0
 #endif
+#ifndef HAVE_MSA
+#define HAVE_MSA 0
+#endif
 #ifndef HAVE_NEON
 #define HAVE_NEON 0
+#endif
+#ifndef HAVE_NEON_INLINE
+#define HAVE_NEON_INLINE 0
 #endif
 #ifndef HAVE_OPENCL_D3D11
 #define HAVE_OPENCL_D3D11 0
@@ -663,6 +795,12 @@
 #ifndef HAVE_POSIX_MEMALIGN
 #define HAVE_POSIX_MEMALIGN 0
 #endif
+#ifndef HAVE_POWER8
+#define HAVE_POWER8 0
+#endif
+#ifndef HAVE_PPC4XX
+#define HAVE_PPC4XX 0
+#endif
 #ifndef HAVE_PRAGMA_DEPRECATED
 #define HAVE_PRAGMA_DEPRECATED 0
 #endif
@@ -681,8 +819,20 @@
 #ifndef HAVE_PTHREAD_SET_NAME_NP
 #define HAVE_PTHREAD_SET_NAME_NP 0
 #endif
+#ifndef HAVE_RDTSC
+#define HAVE_RDTSC 0
+#endif
+#ifndef HAVE_RV
+#define HAVE_RV 0
+#endif
 #ifndef HAVE_RVV
 #define HAVE_RVV 0
+#endif
+#ifndef HAVE_RV_ZICBOP
+#define HAVE_RV_ZICBOP 0
+#endif
+#ifndef HAVE_RV_ZVBB
+#define HAVE_RV_ZVBB 0
 #endif
 #ifndef HAVE_SCHED_GETAFFINITY
 #define HAVE_SCHED_GETAFFINITY 0
@@ -693,11 +843,44 @@
 #ifndef HAVE_SECPKGCONTEXT_KEYINGMATERIALINFO
 #define HAVE_SECPKGCONTEXT_KEYINGMATERIALINFO 0
 #endif
+#ifndef HAVE_SIMD128
+#define HAVE_SIMD128 0
+#endif
 #ifndef HAVE_SME
 #define HAVE_SME 0
 #endif
+#ifndef HAVE_SME2
+#define HAVE_SME2 0
+#endif
+#ifndef HAVE_SME_I16I64
+#define HAVE_SME_I16I64 0
+#endif
 #ifndef HAVE_SOCKLEN_T
 #define HAVE_SOCKLEN_T 0
+#endif
+#ifndef HAVE_SSE
+#define HAVE_SSE 0
+#endif
+#ifndef HAVE_SSE2_EXTERNAL
+#define HAVE_SSE2_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE2_INLINE
+#define HAVE_SSE2_INLINE 0
+#endif
+#ifndef HAVE_SSE3_EXTERNAL
+#define HAVE_SSE3_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE4_EXTERNAL
+#define HAVE_SSE4_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE_INLINE
+#define HAVE_SSE_INLINE 0
+#endif
+#ifndef HAVE_SSSE3_EXTERNAL
+#define HAVE_SSSE3_EXTERNAL 0
+#endif
+#ifndef HAVE_SSSE3_INLINE
+#define HAVE_SSSE3_INLINE 0
 #endif
 #ifndef HAVE_STRUCT_ADDRINFO
 #define HAVE_STRUCT_ADDRINFO 0
@@ -734,6 +917,12 @@
 #endif
 #ifndef HAVE_SYSCONF
 #define HAVE_SYSCONF 0
+#endif
+#ifndef HAVE_SYSCTLBYNAME
+#define HAVE_SYSCTLBYNAME 0
+#endif
+#ifndef HAVE_SYS_HWPROBE_H
+#define HAVE_SYS_HWPROBE_H 0
 #endif
 #ifndef HAVE_SYS_PARAM_H
 #define HAVE_SYS_PARAM_H 0
@@ -774,10 +963,28 @@
 #ifndef HAVE_VDPAU_X11
 #define HAVE_VDPAU_X11 0
 #endif
+#ifndef HAVE_VEC_XL
+#define HAVE_VEC_XL 0
+#endif
+#ifndef HAVE_VFP
+#define HAVE_VFP 0
+#endif
+#ifndef HAVE_VFPV3
+#define HAVE_VFPV3 0
+#endif
+#ifndef HAVE_VSX
+#define HAVE_VSX 0
+#endif
 #ifndef HAVE_WINRT
 #define HAVE_WINRT 0
 #endif
 #ifndef HAVE_WINSOCK2_H
 #define HAVE_WINSOCK2_H 0
+#endif
+#ifndef HAVE_XFORM_ASM
+#define HAVE_XFORM_ASM 0
+#endif
+#ifndef HAVE_XMM_CLOBBERS
+#define HAVE_XMM_CLOBBERS 0
 #endif
 #endif /* FFMPEG_CONFIG_H */

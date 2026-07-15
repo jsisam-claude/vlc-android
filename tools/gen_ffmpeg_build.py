@@ -187,11 +187,12 @@ def main() -> int:
     # explicitly enable.
     macro_re = re.compile(r"\b((?:HAVE|CONFIG|ARCH)_[A-Z0-9_]+)\b")
     referenced: set[str] = set()
+    # scan arch dirs too: non-arch code includes arch headers
+    # unconditionally (e.g. swscale/utils.c -> loongarch/cpu.h), and
+    # zero-filling extra macros is harmless
     for top in LIBS + ["compat"]:
         for p in (FF / top).rglob("*"):
             if p.suffix not in (".c", ".h") or not p.is_file():
-                continue
-            if any(part in ARCH_DIRS for part in p.relative_to(FF).parts):
                 continue
             referenced |= set(macro_re.findall(p.read_text(errors="ignore")))
     referenced.discard("HAVE_AV_CONFIG_H")
