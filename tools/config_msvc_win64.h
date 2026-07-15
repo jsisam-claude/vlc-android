@@ -111,6 +111,9 @@
 /* 64-bit target */
 #define HAVE_FAST_64BIT 1
 
+/* configure value-tunables (defaults) */
+#define SWS_MAX_FILTER_SIZE 256
+
 /* libc-ish functions: MSVC universal CRT */
 #define HAVE_LIBC_MSVCRT 1
 #define HAVE_ISATTY 1
