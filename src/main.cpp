@@ -3,9 +3,15 @@
 // context menu, drag-and-drop, and hotkeys. Standard OS controls only.
 #include "player.h"
 #include <shellapi.h>
+#include <shlobj.h>
+#include <shlwapi.h>
 #include <commctrl.h>
 #include <commdlg.h>
 #include <cstdio>
+#include <algorithm>
+#include <map>
+#include <string>
+#include <vector>
 
 static Player* g_player = nullptr;
 static HWND g_main = nullptr, g_video = nullptr;
@@ -22,13 +28,124 @@ static WINDOWPLACEMENT g_saved_placement = {sizeof(WINDOWPLACEMENT)};
 static const wchar_t* APP_TITLE = L"minimal-player";
 enum {
     IDC_PLAY = 101, IDC_BACK, IDC_FWD, IDC_SEEK, IDC_VOL, IDC_FULL,
-    IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE, IDM_EXIT,
+    IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE,
+    IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
+    IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
 };
 #define MSG_PLAYER_EVENT (WM_APP + 1)
 
 // Engine events arrive on engine threads; bounce them to the UI thread.
 static void on_player_event(void* user, PlayerEvent evt) {
     PostMessageW((HWND)user, MSG_PLAYER_EVENT, (WPARAM)evt, 0);
+}
+
+// ------------------------- persisted state (resume, window, options) ----
+static std::wstring g_cur_path;
+static std::vector<std::wstring> g_siblings;   // video files in current folder
+static int g_sib_cur = -1;
+static std::map<std::wstring, double> g_resume;
+static bool g_autonext = false;
+static bool g_have_placement = false;
+static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
+
+static bool is_video_ext(const wchar_t* path) {
+    const wchar_t* dot = wcsrchr(path, L'.');
+    if (!dot) return false;
+    for (const wchar_t* e : {L".mp4", L".m4v", L".mov", L".mkv", L".webm", L".avi"})
+        if (!_wcsicmp(dot, e)) return true;
+    return false;
+}
+
+static std::wstring state_path() {
+    wchar_t dir[MAX_PATH];
+    if (FAILED(SHGetFolderPathW(nullptr, CSIDL_APPDATA, nullptr, 0, dir))) return L"";
+    std::wstring d = std::wstring(dir) + L"\\minimal-player";
+    CreateDirectoryW(d.c_str(), nullptr);
+    return d + L"\\state.txt";
+}
+
+static void save_state(HWND hwnd) {
+    std::wstring sp = state_path();
+    if (sp.empty()) return;
+    FILE* f = _wfopen(sp.c_str(), L"w, ccs=UTF-8");
+    if (!f) return;
+    fwprintf(f, L"A|%d\n", g_autonext ? 1 : 0);
+    WINDOWPLACEMENT wp = {sizeof(WINDOWPLACEMENT)};
+    if (hwnd && GetWindowPlacement(hwnd, &wp))
+        fwprintf(f, L"W|%ld,%ld,%ld,%ld,%u\n",
+                 wp.rcNormalPosition.left, wp.rcNormalPosition.top,
+                 wp.rcNormalPosition.right, wp.rcNormalPosition.bottom,
+                 wp.showCmd == SW_SHOWMAXIMIZED ? SW_SHOWMAXIMIZED : SW_SHOWNORMAL);
+    int n = 0;
+    for (auto& kv : g_resume) {
+        if (++n > 500) break;  // keep the file bounded
+        fwprintf(f, L"R|%.1f|%s\n", kv.second, kv.first.c_str());
+    }
+    fclose(f);
+}
+
+static void load_state() {
+    std::wstring sp = state_path();
+    if (sp.empty()) return;
+    FILE* f = _wfopen(sp.c_str(), L"r, ccs=UTF-8");
+    if (!f) return;
+    wchar_t line[1200];
+    while (fgetws(line, 1200, f)) {
+        size_t len = wcslen(line);
+        while (len && (line[len - 1] == L'\n' || line[len - 1] == L'\r')) line[--len] = 0;
+        if (line[0] == L'A' && line[1] == L'|') {
+            g_autonext = line[2] == L'1';
+        } else if (line[0] == L'W' && line[1] == L'|') {
+            WINDOWPLACEMENT& wp = g_loaded_placement;
+            unsigned cmd = SW_SHOWNORMAL;
+            if (swscanf(line + 2, L"%ld,%ld,%ld,%ld,%u",
+                        &wp.rcNormalPosition.left, &wp.rcNormalPosition.top,
+                        &wp.rcNormalPosition.right, &wp.rcNormalPosition.bottom,
+                        &cmd) == 5) {
+                wp.showCmd = cmd;
+                g_have_placement = true;
+            }
+        } else if (line[0] == L'R' && line[1] == L'|') {
+            wchar_t* bar = wcschr(line + 2, L'|');
+            if (bar) {
+                *bar = 0;
+                g_resume[bar + 1] = _wtof(line + 2);
+            }
+        }
+    }
+    fclose(f);
+}
+
+static void remember_position() {
+    if (g_cur_path.empty() || !g_player) return;
+    double pos = player_position(g_player), dur = player_duration(g_player);
+    if (pos > 15 && dur > 0 && pos < dur * 0.95 && !player_media_ended(g_player))
+        g_resume[g_cur_path] = pos;
+    else
+        g_resume.erase(g_cur_path);
+}
+
+static void build_siblings(const wchar_t* path) {
+    g_siblings.clear();
+    g_sib_cur = -1;
+    std::wstring dir(path);
+    size_t slash = dir.find_last_of(L"\\/");
+    if (slash == std::wstring::npos) return;
+    dir.resize(slash);
+    WIN32_FIND_DATAW fd;
+    HANDLE h = FindFirstFileW((dir + L"\\*").c_str(), &fd);
+    if (h == INVALID_HANDLE_VALUE) return;
+    do {
+        if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && is_video_ext(fd.cFileName))
+            g_siblings.push_back(dir + L"\\" + fd.cFileName);
+    } while (FindNextFileW(h, &fd));
+    FindClose(h);
+    std::sort(g_siblings.begin(), g_siblings.end(),
+              [](const std::wstring& a, const std::wstring& b) {
+                  return StrCmpLogicalW(a.c_str(), b.c_str()) < 0;
+              });
+    for (size_t i = 0; i < g_siblings.size(); i++)
+        if (!_wcsicmp(g_siblings[i].c_str(), path)) { g_sib_cur = (int)i; break; }
 }
 
 static void play_pause() {
@@ -156,8 +273,19 @@ static void update_ui(HWND hwnd) {
 
 static void open_path(HWND hwnd, const wchar_t* path) {
     if (!g_player) return;
+    remember_position();
+    g_cur_path = path;
+    build_siblings(path);
     player_open(g_player, path);
     update_ui(hwnd);
+}
+
+static void nav_folder(HWND hwnd, int step) {
+    if (g_siblings.empty()) return;
+    int n = (int)g_siblings.size();
+    int idx = g_sib_cur < 0 ? 0 : (g_sib_cur + step % n + n) % n;
+    std::wstring next = g_siblings[idx];  // copy: open_path rebuilds the list
+    open_path(hwnd, next.c_str());
 }
 
 static void open_dialog(HWND hwnd) {
@@ -177,10 +305,39 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     AppendMenuW(m, MF_STRING, IDM_OPEN, L"Open File...");
     AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_PAUSE,
                 g_player && player_is_paused(g_player) ? L"Play\tSpace" : L"Pause\tSpace");
+    AppendMenuW(m, MF_STRING | (g_siblings.size() > 1 ? 0 : MF_GRAYED),
+                IDM_NEXTFILE, L"Next in Folder\tN");
+    AppendMenuW(m, MF_STRING | (g_siblings.size() > 1 ? 0 : MF_GRAYED),
+                IDM_PREVFILE, L"Previous in Folder\tP");
+    AppendMenuW(m, MF_STRING | (g_autonext ? MF_CHECKED : 0), IDM_AUTONEXT,
+                L"Autoplay Next");
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
-    AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_AUDIO, L"Next Audio Track\tA");
-    AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_SUBS, L"Next Subtitle Track\tS");
-    AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
+    int ac = media ? player_audio_track_count(g_player) : 0;
+    if (ac > 0) {
+        HMENU am = CreatePopupMenu();
+        int cur = player_audio_track_current(g_player);
+        for (int i = 0; i < ac && i < 32; i++) {
+            wchar_t nm[128];
+            player_audio_track_name(g_player, i, nm, 128);
+            AppendMenuW(am, MF_STRING | (i == cur ? MF_CHECKED : 0),
+                        IDM_ATRACK_BASE + i, nm);
+        }
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)am, L"Audio Track\tA");
+    }
+    int sc = media ? player_sub_track_count(g_player) : 0;
+    if (sc > 0) {
+        HMENU sm = CreatePopupMenu();
+        int cur = player_sub_track_current(g_player);
+        AppendMenuW(sm, MF_STRING | (cur < 0 ? MF_CHECKED : 0), IDM_STRACK_OFF, L"Off");
+        for (int i = 0; i < sc && i < 32; i++) {
+            wchar_t nm[128];
+            player_sub_track_name(g_player, i, nm, 128);
+            AppendMenuW(sm, MF_STRING | (i == cur ? MF_CHECKED : 0),
+                        IDM_STRACK_BASE + i, nm);
+        }
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)sm, L"Subtitles\tS");
+    }
+    if (ac > 0 || sc > 0) AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING | (g_fullscreen ? MF_CHECKED : 0), IDM_FULL, L"Fullscreen\tF");
     AppendMenuW(m, MF_STRING | (g_player && player_is_muted(g_player) ? MF_CHECKED : 0),
                 IDM_MUTE, L"Mute\tM");
@@ -203,6 +360,8 @@ static void on_key(HWND hwnd, WPARAM key) {
         case VK_DOWN: player_volume_step(g_player, -1); break;
         case 'A': player_cycle_audio(g_player); break;
         case 'S': player_cycle_subtitle(g_player); break;
+        case 'N': nav_folder(hwnd, 1); break;
+        case 'P': nav_folder(hwnd, -1); break;
         case 'F': toggle_fullscreen(hwnd); break;
         case 'O': open_dialog(hwnd); break;
         case VK_ESCAPE:
@@ -263,8 +422,20 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_OPEN: open_dialog(hwnd); break;
-                case IDM_AUDIO: if (g_player) player_cycle_audio(g_player); break;
-                case IDM_SUBS: if (g_player) player_cycle_subtitle(g_player); break;
+                case IDM_NEXTFILE: nav_folder(hwnd, 1); break;
+                case IDM_PREVFILE: nav_folder(hwnd, -1); break;
+                case IDM_AUTONEXT: g_autonext = !g_autonext; break;
+                case IDM_STRACK_OFF:
+                    if (g_player) player_select_sub_track(g_player, -1);
+                    break;
+                default:
+                    if (g_player && LOWORD(wp) >= IDM_ATRACK_BASE &&
+                        LOWORD(wp) < IDM_ATRACK_BASE + 32)
+                        player_select_audio_track(g_player, LOWORD(wp) - IDM_ATRACK_BASE);
+                    else if (g_player && LOWORD(wp) >= IDM_STRACK_BASE &&
+                             LOWORD(wp) < IDM_STRACK_BASE + 32)
+                        player_select_sub_track(g_player, LOWORD(wp) - IDM_STRACK_BASE);
+                    break;
                 case IDM_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_EXIT: PostMessageW(hwnd, WM_CLOSE, 0, 0); break;
             }
@@ -307,8 +478,20 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 wchar_t err[512];
                 player_last_error(g_player, err, 512);
                 MessageBoxW(hwnd, err, APP_TITLE, MB_OK | MB_ICONERROR);
+            } else if ((PlayerEvent)wp == PLAYER_EVT_OPENED && g_player) {
+                auto it = g_resume.find(g_cur_path);
+                if (it != g_resume.end() && it->second > 15)
+                    player_seek_to(g_player, it->second);
+            } else if ((PlayerEvent)wp == PLAYER_EVT_ENDED) {
+                g_resume.erase(g_cur_path);
+                if (g_autonext && g_siblings.size() > 1) nav_folder(hwnd, 1);
             }
             update_ui(hwnd);
+            return 0;
+        case WM_CLOSE:
+            remember_position();
+            save_state(hwnd);
+            DestroyWindow(hwnd);
             return 0;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -324,6 +507,7 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         freopen_s(&f, "CONOUT$", "w", stderr);
     }
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    load_state();
     INITCOMMONCONTROLSEX icc = {sizeof(INITCOMMONCONTROLSEX), ICC_BAR_CLASSES};
     InitCommonControlsEx(&icc);
 
@@ -382,8 +566,12 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     player_set_event_callback(g_player, on_player_event, g_main);
     SendMessageW(g_vol, TBM_SETPOS, TRUE, (LPARAM)(player_volume(g_player) * 100));
 
+    if (g_have_placement) {
+        g_loaded_placement.length = sizeof(WINDOWPLACEMENT);
+        SetWindowPlacement(g_main, &g_loaded_placement);
+    }
     layout(g_main);
-    ShowWindow(g_main, show);
+    ShowWindow(g_main, g_have_placement ? (int)g_loaded_placement.showCmd : show);
     SetTimer(g_main, 1, 250, nullptr);
     update_ui(g_main);
 

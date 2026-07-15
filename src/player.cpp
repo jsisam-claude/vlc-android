@@ -80,6 +80,11 @@ static void stop_pipeline(Player* p) {
     p->subs.clear();
     p->audio_streams.clear();
     p->sub_streams.clear();
+    {
+        std::lock_guard<std::mutex> lk(p->tracks_m);
+        p->audio_names.clear();
+        p->sub_names.clear();
+    }
     p->vst = p->ast = p->sst = -1;
     p->running = false;
     p->abort = false;
@@ -183,6 +188,56 @@ int player_cycle_subtitle(Player* p) {
     int next = (p->sub_choice + 1) % (n_subs + 1);  // extra slot = off
     reopen(p, p->want_audio_rel, next);
     return next == n_subs ? 0 : next + 1;
+}
+
+int player_audio_track_count(Player* p) {
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    return (int)p->audio_names.size();
+}
+
+int player_audio_track_current(Player* p) { return p->want_audio_rel; }
+
+void player_audio_track_name(Player* p, int i, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    if (i < 0 || i >= (int)p->audio_names.size()) return;
+    wcsncpy(buf, p->audio_names[i].c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
+void player_select_audio_track(Player* p, int i) {
+    if (!p->running || i == p->want_audio_rel) return;
+    if (i < 0 || i >= player_audio_track_count(p)) return;
+    reopen(p, i, p->sub_choice);
+}
+
+int player_sub_track_count(Player* p) {
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    return (int)p->sub_names.size();
+}
+
+int player_sub_track_current(Player* p) {
+    int n = player_sub_track_count(p);
+    return p->sub_choice >= n ? -1 : p->sub_choice;
+}
+
+void player_sub_track_name(Player* p, int i, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    if (i < 0 || i >= (int)p->sub_names.size()) return;
+    wcsncpy(buf, p->sub_names[i].c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
+void player_select_sub_track(Player* p, int i) {
+    if (!p->running) return;
+    int n = player_sub_track_count(p);
+    if (n == 0) return;
+    int choice = (i < 0) ? n : i;  // n = the "off" slot
+    if (choice > n || choice == p->sub_choice) return;
+    reopen(p, p->want_audio_rel, choice);
 }
 
 void player_notify_resize(Player* p) {

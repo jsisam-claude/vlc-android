@@ -76,6 +76,28 @@ static bool open_input(Player* p) {
         }
     }
 
+    // Human-readable track labels for host menus.
+    auto stream_label = [&](int idx, int n) {
+        AVDictionaryEntry* lang = av_dict_get(p->fmt->streams[idx]->metadata,
+                                              "language", nullptr, 0);
+        AVDictionaryEntry* title = av_dict_get(p->fmt->streams[idx]->metadata,
+                                               "title", nullptr, 0);
+        std::wstring name = L"Track " + std::to_wstring(n);
+        if (lang) name += L" [" + utf8_to_wide(lang->value) + L"]";
+        if (title) name += L" \u2014 " + utf8_to_wide(title->value);
+        return name;
+    };
+    {
+        std::lock_guard<std::mutex> lk(p->tracks_m);
+        p->audio_names.clear();
+        p->sub_names.clear();
+        int n = 1;
+        for (int idx : p->audio_streams) p->audio_names.push_back(stream_label(idx, n++));
+        if (p->has_external_subs) p->sub_names.push_back(L"External file");
+        n = 1;
+        for (int idx : p->sub_streams) p->sub_names.push_back(stream_label(idx, n++));
+    }
+
     if (p->vst >= 0) p->fmt->streams[p->vst]->discard = AVDISCARD_DEFAULT;
     if (p->ast >= 0) p->fmt->streams[p->ast]->discard = AVDISCARD_DEFAULT;
     if (p->sst >= 0) p->fmt->streams[p->sst]->discard = AVDISCARD_DEFAULT;

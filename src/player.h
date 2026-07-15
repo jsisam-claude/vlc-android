@@ -38,6 +38,18 @@ bool player_is_muted(Player* p);
 int player_cycle_audio(Player* p);
 int player_cycle_subtitle(Player* p);
 
+// Track enumeration/selection. Subtitle index -1 = off; the external
+// sidecar file, when present, is subtitle track 0. Selection reopens the
+// media at the current position (cheap for local files).
+int player_audio_track_count(Player* p);
+int player_audio_track_current(Player* p);
+void player_audio_track_name(Player* p, int i, wchar_t* buf, size_t buflen);
+void player_select_audio_track(Player* p, int i);
+int player_sub_track_count(Player* p);
+int player_sub_track_current(Player* p);  // -1 = off
+void player_sub_track_name(Player* p, int i, wchar_t* buf, size_t buflen);
+void player_select_sub_track(Player* p, int i);  // -1 = off
+
 void player_notify_resize(Player* p);
 double player_position(Player* p);
 double player_duration(Player* p);
