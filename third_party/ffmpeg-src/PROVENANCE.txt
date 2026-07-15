@@ -1,5 +1,5 @@
 Origin: https://git.ffmpeg.org/ffmpeg.git (mirror github.com/FFmpeg/FFmpeg)
 Tag: n8.1.2
 Commit: 38b88335f99e76ed89ff3c93f877fdefce736c13
-Files: 927 (compiled subset + transitive includes + build description inputs)
+Files: 940 (compiled subset + transitive includes + build description inputs)
 Vendored by tools/vendor_ffmpeg.cmake; unmodified upstream text. License: LGPL-2.1-or-later (COPYING.LGPLv2.1).

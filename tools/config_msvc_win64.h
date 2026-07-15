@@ -4,8 +4,8 @@
  * lib, pure C (no inline asm, no external asm, no nasm).
  * Undefined HAVE_/CONFIG_ macros evaluate to 0 in #if - only truths are
  * listed. Wrong guesses surface as compile/link errors and get fixed here.
- * Note: tools/gen_ffmpeg_build.py appends the CONFIG_ subsystem flags and
- * closes the include guard. */
+ * Note: tools/gen_ffmpeg_build.cmake appends the CONFIG_ subsystem flags
+ * and closes the include guard. */
 #ifndef FFMPEG_CONFIG_H
 #define FFMPEG_CONFIG_H
 
@@ -58,6 +58,8 @@
 #define HAVE_POLL_H 0
 #define HAVE_PTHREAD_H 0
 #define HAVE_STDATOMIC_H 1
+#define HAVE_DXVA_H 1
+#define HAVE_DXGIDEBUG_H 1
 
 /* win32 API functions used by the libraries */
 #define HAVE_ALIGNED_MALLOC 1
@@ -166,9 +168,9 @@
 #define CONFIG_SECURETRANSPORT 0
 #define CONFIG_SCHANNEL 0
 #define CONFIG_MEDIAFOUNDATION 0
-#define CONFIG_D3D11VA 0
+/* CONFIG_D3D11VA / CONFIG_DXVA2 are driven by the hwaccel selection in
+ * the generator (closure of the configure dependency graph). */
 #define CONFIG_D3D12VA 0
-#define CONFIG_DXVA2 0
 #define CONFIG_VULKAN 0
 #define CONFIG_CUDA 0
 #define CONFIG_OPENCL 0

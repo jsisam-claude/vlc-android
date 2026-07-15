@@ -10,6 +10,11 @@ cmake_minimum_required(VERSION 3.24)
 
 get_filename_component(ROOT "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 set(FF "${ROOT}/third_party/ffmpeg-src")
+# For upgrades/feature changes that add files, run against a full tree
+# first, then re-vendor:  cmake -P tools/gen_ffmpeg_build.cmake <tree>
+if(CMAKE_ARGV3)
+  get_filename_component(FF "${CMAKE_ARGV3}" ABSOLUTE)
+endif()
 set(OUT "${ROOT}/third_party/ffmpeg-config")
 set(FFMPEG_VERSION "n8.1.2")
 set(LIBS libavutil libavcodec libavformat libswresample libswscale)
@@ -26,7 +31,12 @@ set(MUXERS "")
 set(ENCODERS "")
 set(PROTOCOLS file)
 set(BSFS null)
-set(HWACCELS "")
+# Both D3D11 hwaccel families per codec: the engine negotiates AV_PIX_FMT_D3D11
+# (the *_d3d11va2 hwaccels), but libavcodec/Makefile gates the shared
+# implementation objects (dxva2_h264.o, ...) under the old-API
+# CONFIG_*_D3D11VA_HWACCEL flags only, so both must be on.
+set(HWACCELS h264_d3d11va h264_d3d11va2 hevc_d3d11va hevc_d3d11va2
+    mpeg2_d3d11va mpeg2_d3d11va2 vp9_d3d11va vp9_d3d11va2)
 set(EXTRA_CONFIG avcodec avformat avutil swresample swscale
     static decoders demuxers parsers protocols bsfs
     safe_bitstream_reader swscale_alpha)

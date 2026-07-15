@@ -54,6 +54,11 @@ libavcodec/dovi_rpudec.c
 libavcodec/dv_profile.c
 libavcodec/dvdsub.c
 libavcodec/dvdsubdec.c
+libavcodec/dxva2.c
+libavcodec/dxva2_h264.c
+libavcodec/dxva2_hevc.c
+libavcodec/dxva2_mpeg2.c
+libavcodec/dxva2_vp9.c
 libavcodec/dynamic_hdr_vivid.c
 libavcodec/eac3_data.c
 libavcodec/encode.c
@@ -305,6 +310,7 @@ libavutil/hdr_dynamic_metadata.c
 libavutil/hdr_dynamic_vivid_metadata.c
 libavutil/hmac.c
 libavutil/hwcontext.c
+libavutil/hwcontext_d3d11va.c
 libavutil/hwcontext_stub.c
 libavutil/iamf.c
 libavutil/imgutils.c

@@ -5,8 +5,8 @@
  * lib, pure C (no inline asm, no external asm, no nasm).
  * Undefined HAVE_/CONFIG_ macros evaluate to 0 in #if - only truths are
  * listed. Wrong guesses surface as compile/link errors and get fixed here.
- * Note: tools/gen_ffmpeg_build.py appends the CONFIG_ subsystem flags and
- * closes the include guard. */
+ * Note: tools/gen_ffmpeg_build.cmake appends the CONFIG_ subsystem flags
+ * and closes the include guard. */
 #ifndef FFMPEG_CONFIG_H
 #define FFMPEG_CONFIG_H
 
@@ -59,6 +59,8 @@
 #define HAVE_POLL_H 0
 #define HAVE_PTHREAD_H 0
 #define HAVE_STDATOMIC_H 1
+#define HAVE_DXVA_H 1
+#define HAVE_DXGIDEBUG_H 1
 
 /* win32 API functions used by the libraries */
 #define HAVE_ALIGNED_MALLOC 1
@@ -167,9 +169,9 @@
 #define CONFIG_SECURETRANSPORT 0
 #define CONFIG_SCHANNEL 0
 #define CONFIG_MEDIAFOUNDATION 0
-#define CONFIG_D3D11VA 0
+/* CONFIG_D3D11VA / CONFIG_DXVA2 are driven by the hwaccel selection in
+ * the generator (closure of the configure dependency graph). */
 #define CONFIG_D3D12VA 0
-#define CONFIG_DXVA2 0
 #define CONFIG_VULKAN 0
 #define CONFIG_CUDA 0
 #define CONFIG_OPENCL 0
@@ -187,9 +189,13 @@
 #define CONFIG_CABAC 1
 #define CONFIG_CBS 1
 #define CONFIG_CBS_VP9 1
+#define CONFIG_D3D11VA 1
 #define CONFIG_DECODERS 1
 #define CONFIG_DEMUXERS 1
 #define CONFIG_DOVI_RPUDEC 1
+#define CONFIG_DXVA_H 1
+#define CONFIG_DXVA_PICPARAMS_HEVC 1
+#define CONFIG_DXVA_PICPARAMS_VP9 1
 #define CONFIG_ERROR_RESILIENCE 1
 #define CONFIG_FMTCONVERT 1
 #define CONFIG_GOLOMB 1
@@ -203,6 +209,8 @@
 #define CONFIG_HEVCPARSE 1
 #define CONFIG_HEVC_SEI 1
 #define CONFIG_HPELDSP 1
+#define CONFIG_ID3D11VIDEOCONTEXT 1
+#define CONFIG_ID3D11VIDEODECODER 1
 #define CONFIG_IDCTDSP 1
 #define CONFIG_ISO_MEDIA 1
 #define CONFIG_ME_CMP 1
@@ -299,6 +307,9 @@
 #endif
 #ifndef CONFIG_DVPROFILE
 #define CONFIG_DVPROFILE 0
+#endif
+#ifndef CONFIG_DXVA2
+#define CONFIG_DXVA2 0
 #endif
 #ifndef CONFIG_FAANIDCT
 #define CONFIG_FAANIDCT 0

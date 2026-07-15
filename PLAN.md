@@ -109,7 +109,13 @@ permanent fallbacks, not throwaway):
    codecs and WARP/VM environments, and as the known-good baseline for
    bisecting render bugs. Only the ~30 swscale lines are disposable.
 2. *VideoProcessor path:* hw decode textures through
-   `ID3D11VideoProcessor`. The main path.
+   `ID3D11VideoProcessor`. The main path. **Implemented**: the engine
+   shares its render device with libavcodec (`AVD3D11VADeviceContext`,
+   `ID3D10Multithread` protection), the video decoder negotiates
+   `AV_PIX_FMT_D3D11` via `get_format` (h264/hevc/mpeg2/vp9 hwaccels
+   compiled in), and the renderer feeds decoder array slices to the video
+   processor with per-frame input views — zero CPU copies. Any hwaccel
+   setup failure falls back to stage-1 software decode transparently.
 3. *Custom NV12 shader:* only if a driver misbehaves or quality control is
    ever needed (mpv-style). Not scheduled; contingency.
 

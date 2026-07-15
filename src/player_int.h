@@ -170,6 +170,7 @@ private:
 // ---------------------------------------------------------------- video out
 
 struct D3DState;  // D3D11/D2D bits hidden in video_out.cpp
+struct ID3D11Device;
 
 // Which init step failed and its HRESULT (empty if none).
 const wchar_t* vo_init_error();
@@ -177,10 +178,15 @@ const wchar_t* vo_init_error();
 class VideoOut {
 public:
     bool init(HWND hwnd);
-    // Renders a CPU frame (any sw pix fmt) + subtitle/OSD overlays.
+    // Renders a CPU frame (any sw pix fmt) or an AV_PIX_FMT_D3D11 decoder
+    // texture, plus subtitle/OSD overlays.
     bool render(AVFrame* f, const SubRender& overlays);
     void resize();
     void shutdown();
+    // Device for D3D11VA decoding (shared with rendering so decoder output
+    // feeds the video processor with zero copies). Null when the device has
+    // no video API (shader fallback) - callers then decode in software.
+    ID3D11Device* decode_device();
     ~VideoOut() { shutdown(); }
 
 private:

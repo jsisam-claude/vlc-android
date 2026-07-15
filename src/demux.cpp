@@ -2,7 +2,48 @@
 // executes seeks, decodes subtitle packets inline (cheap, synchronous).
 #include "player_int.h"
 
-static AVCodecContext* open_decoder(AVFormatContext* fmt, int stream, int threads) {
+#include <d3d11.h>
+extern "C" {
+#include <libavutil/hwcontext.h>
+#include <libavutil/hwcontext_d3d11va.h>
+}
+
+// Prefer D3D11 decoder surfaces when the codec's hwaccel offers them; any
+// failure later in avcodec's hwaccel setup re-invokes this without
+// AV_PIX_FMT_D3D11 in the list, falling back to software transparently.
+static AVPixelFormat get_d3d11_format(AVCodecContext* ctx, const AVPixelFormat* fmts) {
+    for (const AVPixelFormat* f = fmts; *f != AV_PIX_FMT_NONE; f++)
+        if (*f == AV_PIX_FMT_D3D11) {
+            log_line("decode: D3D11VA hardware decoding active (%s)",
+                     avcodec_get_name(ctx->codec_id));
+            return AV_PIX_FMT_D3D11;
+        }
+    log_line("decode: no D3D11VA for %s, decoding in software",
+             avcodec_get_name(ctx->codec_id));
+    return avcodec_default_get_format(ctx, fmts);
+}
+
+// Wraps the renderer's D3D11 device for libavcodec. Sharing one device
+// keeps decoder output textures directly usable by the video processor.
+static AVBufferRef* create_hw_device(Player* p) {
+    ID3D11Device* dev = p->vo ? p->vo->decode_device() : nullptr;
+    if (!dev) return nullptr;
+    AVBufferRef* ref = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_D3D11VA);
+    if (!ref) return nullptr;
+    AVHWDeviceContext* hc = (AVHWDeviceContext*)ref->data;
+    AVD3D11VADeviceContext* dc = (AVD3D11VADeviceContext*)hc->hwctx;
+    dev->AddRef();  // the hwdevice ctx releases it on free, always
+    dc->device = dev;
+    if (av_hwdevice_ctx_init(ref) < 0) {
+        log_line("decode: av_hwdevice_ctx_init(d3d11va) failed");
+        av_buffer_unref(&ref);
+        return nullptr;
+    }
+    return ref;
+}
+
+static AVCodecContext* open_decoder(AVFormatContext* fmt, int stream, int threads,
+                                    AVBufferRef* hwdev = nullptr) {
     if (stream < 0) return nullptr;
     AVCodecParameters* par = fmt->streams[stream]->codecpar;
     const AVCodec* dec = avcodec_find_decoder(par->codec_id);
@@ -13,6 +54,13 @@ static AVCodecContext* open_decoder(AVFormatContext* fmt, int stream, int thread
     }
     AVCodecContext* ctx = avcodec_alloc_context3(dec);
     if (!ctx) return nullptr;
+    if (hwdev) {
+        ctx->hw_device_ctx = av_buffer_ref(hwdev);
+        ctx->get_format = get_d3d11_format;
+        // The frame queue, the paused-repaint clone and the in-flight render
+        // all hold decoder surfaces beyond the codec's own working set.
+        ctx->extra_hw_frames = 8;
+    }
     if (avcodec_parameters_to_context(ctx, par) < 0 ||
         (ctx->thread_count = threads, ctx->pkt_timebase = fmt->streams[stream]->time_base,
          avcodec_open2(ctx, dec, nullptr)) < 0) {
@@ -102,7 +150,9 @@ static bool open_input(Player* p) {
     if (p->ast >= 0) p->fmt->streams[p->ast]->discard = AVDISCARD_DEFAULT;
     if (p->sst >= 0) p->fmt->streams[p->sst]->discard = AVDISCARD_DEFAULT;
 
-    p->vctx = open_decoder(p->fmt, p->vst, 0 /*auto threads*/);
+    AVBufferRef* hwdev = (p->vst >= 0) ? create_hw_device(p) : nullptr;
+    p->vctx = open_decoder(p->fmt, p->vst, 0 /*auto threads*/, hwdev);
+    av_buffer_unref(&hwdev);
     p->actx = open_decoder(p->fmt, p->ast, 1);
     p->sctx = open_decoder(p->fmt, p->sst, 1);
     if (p->vst >= 0 && !p->vctx) p->vst = -1;
