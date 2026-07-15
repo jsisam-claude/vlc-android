@@ -127,10 +127,9 @@ void player_toggle_pause(Player* p) {
 
 bool player_is_paused(Player* p) { return p->paused; }
 
-void player_seek_rel(Player* p, double seconds) {
+void player_seek_to(Player* p, double seconds) {
     if (!p->running) return;
-    double cur = player_position(p);
-    double target = cur + seconds;
+    double target = seconds;
     if (target < 0) target = 0;
     if (p->duration > 0 && target > p->duration - 0.5) target = p->duration - 0.5;
     std::lock_guard<std::mutex> lk(p->seek_m);
@@ -138,7 +137,12 @@ void player_seek_rel(Player* p, double seconds) {
     p->seek_req = true;
 }
 
+void player_seek_rel(Player* p, double seconds) {
+    player_seek_to(p, player_position(p) + seconds);
+}
+
 void player_volume_step(Player* p, int steps) { p->ao.volume_step(steps); }
+void player_volume_set(Player* p, float v) { p->ao.volume_set(v); }
 float player_volume(Player* p) { return p->ao.volume(); }
 
 int player_cycle_audio(Player* p) {

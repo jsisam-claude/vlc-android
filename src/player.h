@@ -16,7 +16,9 @@ bool player_has_media(Player* p);
 void player_toggle_pause(Player* p);
 bool player_is_paused(Player* p);
 void player_seek_rel(Player* p, double seconds);
+void player_seek_to(Player* p, double seconds);
 void player_volume_step(Player* p, int steps);
+void player_volume_set(Player* p, float v);  // 0..1
 float player_volume(Player* p);
 
 // Both return the number of the now-active track (1-based) or 0 if none.

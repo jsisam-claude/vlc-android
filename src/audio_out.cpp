@@ -107,6 +107,11 @@ void AudioOut::volume_step(int steps) {
     dev_->volume->SetMasterVolume(v, nullptr);
 }
 
+void AudioOut::volume_set(float v) {
+    if (!dev_ || !dev_->volume) return;
+    dev_->volume->SetMasterVolume(std::fmax(0.0f, std::fmin(1.0f, v)), nullptr);
+}
+
 float AudioOut::volume() {
     float v = 1.0f;
     if (dev_ && dev_->volume) dev_->volume->GetMasterVolume(&v);

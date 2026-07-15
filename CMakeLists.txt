@@ -39,5 +39,5 @@ target_link_libraries(minimal-player PRIVATE
   ffmpeg
   d3d11 dxgi d3dcompiler d2d1 dwrite
   ole32 avrt winmm
-  user32 shell32 gdi32
+  user32 shell32 gdi32 comctl32 comdlg32
 )

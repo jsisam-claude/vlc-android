@@ -45,8 +45,10 @@ anywhere, run `tools/vendor_ffmpeg.cmake <tree>` + the generator, commit.
 CI builds run on every push (`.github/workflows/build.yml`) and upload
 `minimal-player.exe` as an artifact.
 
-Keys: Space pause · ←/→ ±10s · PgUp/PgDn ±60s · ↑/↓ volume ·
-A audio track · S subtitle track · F or double-click fullscreen · Q quit.
+Controls: bottom bar (Play/Pause, ±10s, seek slider, volume slider) and
+a right-click context menu (Open File, tracks, fullscreen). Keys: Space
+pause · ←/→ ±10s · PgUp/PgDn ±60s · ↑/↓ volume · A audio track ·
+S subtitle track · F or double-click fullscreen · O open · Q quit.
 Drop a video file onto the window to play it; a same-name `.srt`/`.ass`
 next to the file loads automatically.
 

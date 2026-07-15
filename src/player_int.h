@@ -126,6 +126,7 @@ public:
     void flush();                 // seek: clear FIFO, clock invalid until next frame
     double clock();               // playback pts in seconds; NAN when unknown
     void volume_step(int steps);  // +-5% per step
+    void volume_set(float v);     // 0..1
     float volume();
     ~AudioOut() { stop(); }
 
