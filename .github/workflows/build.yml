@@ -67,6 +67,16 @@ jobs:
               Copy-Item $p $dst
             }
           }
+          # generated component list sources (codec_list.c etc.) + any other
+          # configure-generated .c/.h in the buildtree
+          Get-ChildItem $rel.FullName -Recurse -Include *_list.c,*.h |
+            Where-Object { $_.FullName -notmatch '\\(tests|doc)\\' } |
+            ForEach-Object {
+              $relpath = $_.FullName.Substring($rel.FullName.Length + 1)
+              $dst = Join-Path harvest $relpath
+              New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
+              Copy-Item $_.FullName $dst
+            }
           Get-ChildItem $rel.FullName -Recurse -Include *.o,*.obj |
             ForEach-Object { $_.FullName.Substring($rel.FullName.Length + 1) -replace '\\','/' } |
             Sort-Object | Set-Content harvest/objects.txt
