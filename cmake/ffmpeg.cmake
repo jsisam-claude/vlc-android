@@ -34,6 +34,7 @@ target_include_directories(ffmpeg INTERFACE ${FF_CFG} ${FF_SRC})
 
 target_compile_definitions(ffmpeg PRIVATE
   HAVE_AV_CONFIG_H
+  _USE_MATH_DEFINES
   _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS
   _WINSOCK_DEPRECATED_NO_WARNINGS)
 
