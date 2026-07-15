@@ -15,33 +15,38 @@ endif()
 
 file(STRINGS ${CMAKE_SOURCE_DIR}/cmake/ffmpeg_sources.txt FF_REL_SOURCES
      REGEX "^[^#].*\\.c$")
-set(FF_SOURCES "")
-foreach(s IN LISTS FF_REL_SOURCES)
-  list(APPEND FF_SOURCES ${FF_SRC}/${s})
+
+# One static lib per FFmpeg library, mirroring FFmpeg's own build: each
+# compiles with its *own* directory on the include path (subdirectory
+# files include parent headers like "bsf_internal.h", and every lib has
+# its own "internal.h" that must not cross-resolve).
+set(FF_LIBS libavutil libswresample libswscale libavcodec libavformat)
+foreach(lib IN LISTS FF_LIBS)
+  set(srcs "")
+  foreach(s IN LISTS FF_REL_SOURCES)
+    if(s MATCHES "^${lib}/")
+      list(APPEND srcs ${FF_SRC}/${s})
+    endif()
+  endforeach()
+  add_library(ff_${lib} STATIC ${srcs})
+  set_target_properties(ff_${lib} PROPERTIES C_STANDARD 17 C_EXTENSIONS ON)
+  target_include_directories(ff_${lib} BEFORE PRIVATE
+    ${FF_CFG}            # config.h, config_components.h, generated *_list.c
+    ${FF_SRC}/${lib}     # the lib's own headers for subdirectory sources
+    ${FF_SRC})           # path-qualified includes ("libavutil/...")
+  target_compile_definitions(ff_${lib} PRIVATE
+    HAVE_AV_CONFIG_H
+    _USE_MATH_DEFINES
+    _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS
+    _WINSOCK_DEPRECATED_NO_WARNINGS)
+  if(MSVC)
+    # third-party code: silence warnings; C11 atomics needed by ffmpeg>=6
+    target_compile_options(ff_${lib} PRIVATE /W0 /experimental:c11atomics)
+  endif()
 endforeach()
 
-add_library(ffmpeg STATIC ${FF_SOURCES})
-set_target_properties(ffmpeg PROPERTIES C_STANDARD 17 C_EXTENSIONS ON)
-
-# Config/generated tree first so its config.h and *_list.c win; per-lib
-# config dirs let quoted includes of generated files resolve.
-target_include_directories(ffmpeg BEFORE PRIVATE
-  ${FF_CFG}
-  ${FF_CFG}/libavcodec ${FF_CFG}/libavformat ${FF_CFG}/libavutil
-  ${FF_CFG}/libswscale ${FF_CFG}/libswresample
-  ${FF_SRC})
+add_library(ffmpeg INTERFACE)
 target_include_directories(ffmpeg INTERFACE ${FF_CFG} ${FF_SRC})
-
-target_compile_definitions(ffmpeg PRIVATE
-  HAVE_AV_CONFIG_H
-  _USE_MATH_DEFINES
-  _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS
-  _WINSOCK_DEPRECATED_NO_WARNINGS)
-
-if(MSVC)
-  # third-party code: silence warnings; C11 atomics needed by ffmpeg>=6
-  target_compile_options(ffmpeg PRIVATE /W0 /experimental:c11atomics)
-endif()
-
 target_link_libraries(ffmpeg INTERFACE
+  ff_libavformat ff_libavcodec ff_libswresample ff_libswscale ff_libavutil
   ws2_32 secur32 bcrypt mfuuid strmiids ole32 user32)
