@@ -33,12 +33,12 @@ build\x64-release\minimal-player.exe somefile.mkv
 Or open the folder in the VS IDE — it picks up `CMakePresets.json`
 automatically. The first build compiles the vendored FFmpeg sources
 (~5–15 min once); incremental builds take seconds. FFmpeg's configure
-never runs: `tools/gen_ffmpeg_build.py` derives the config headers and
+never runs: `tools/gen_ffmpeg_build.cmake` derives the config headers and
 source list from the source text (committed under
 `third_party/ffmpeg-config/` and `cmake/ffmpeg_sources.txt`), and
 `tools/config_msvc_win64.h` is the hand-authored platform config. SIMD
 asm is disabled (pure C decode). To upgrade FFmpeg: fetch a new tree
-anywhere, run `tools/vendor_ffmpeg.py <tree>` + the generator, commit.
+anywhere, run `tools/vendor_ffmpeg.cmake <tree>` + the generator, commit.
 
 CI builds run on every push (`.github/workflows/build.yml`) and upload
 `minimal-player.exe` as an artifact.

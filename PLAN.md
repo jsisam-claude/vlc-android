@@ -43,7 +43,7 @@ constraint, so **neither runs anywhere in this project**. Instead:
 - The needed FFmpeg source subset is **committed directly in this repo**
   (`third_party/ffmpeg-src/`, 927 plain text files: the 387 compiled
   sources + transitive includes + build-description inputs, extracted
-  from tag n8.1.2 by `tools/vendor_ffmpeg.py`, provenance recorded).
+  from tag n8.1.2 by `tools/vendor_ffmpeg.cmake`, provenance recorded).
   No submodule, no fetch from any other repository at build time.
 - The artifacts configure *would* generate are **committed as text**
   under `third_party/ffmpeg-config/`: `config.h`,
