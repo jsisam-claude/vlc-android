@@ -1,0 +1,10 @@
+This project is licensed under the GNU Lesser General Public License,
+version 2.1 or (at your option) any later version (LGPL-2.1-or-later).
+
+It links statically against FFmpeg (LGPL-2.1+, built from source via
+vcpkg) and adapts code patterns from FFmpeg's fftools/ffplay.c, mpv's
+audio/out/ao_wasapi.c, and VLC's subtitle/mmdevice modules (all
+LGPL-2.1+). D3D11 VideoProcessor setup follows Microsoft's MIT-licensed
+DX11VideoRenderer sample. No GPL components are used.
+
+Full LGPL-2.1 text: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
