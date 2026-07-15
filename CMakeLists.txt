@@ -7,6 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(MSVC)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
   add_compile_definitions(_CRT_SECURE_NO_WARNINGS UNICODE _UNICODE)
+  # The default "Developer Command Prompt/PowerShell" targets x86; its LIB
+  # paths make every x64 link fail with LNK4272/LNK2001 on all symbols.
+  if(DEFINED ENV{LIB} AND "$ENV{LIB}" MATCHES "[\\\\/]x86(;|$)")
+    message(FATAL_ERROR "This shell's LIB points at x86 libraries. "
+      "Use the 'x64 Native Tools Command Prompt for VS' (or "
+      "VsDevCmd.bat -arch=x64 -host_arch=x64), then reconfigure.")
+  endif()
 endif()
 
 # Vendored FFmpeg, compiled by this toolchain from source text only —

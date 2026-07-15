@@ -21,7 +21,9 @@ Requirements: Visual Studio 2022 or later with the **Desktop development
 with C++** workload (includes CMake and Ninja). No other installs, no
 downloads at build time.
 
-From a **Developer PowerShell for VS** prompt:
+From an **x64 Native Tools Command Prompt for VS** (important: the plain
+"Developer Command Prompt/PowerShell" targets x86 and the link will fail
+with LNK4272 machine-type conflicts):
 
 ```
 git clone <this repo> && cd vlc-light-win64
