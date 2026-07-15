@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-FF = ROOT / "third_party" / "ffmpeg"
+FF = ROOT / "third_party" / "ffmpeg-src"
 OUT = ROOT / "third_party" / "ffmpeg-config"
 LIBS = ["libavutil", "libavcodec", "libavformat", "libswresample", "libswscale"]
 

@@ -40,8 +40,11 @@ FFmpeg's own build uses a `configure` shell script (needs a POSIX shell)
 and nasm (a prebuilt assembler). Both violate the no-msys/no-prebuilts
 constraint, so **neither runs anywhere in this project**. Instead:
 
-- FFmpeg is vendored as a **pinned source submodule**
-  (`third_party/ffmpeg`, official repo, tag n8.1.2) — text files only.
+- The needed FFmpeg source subset is **committed directly in this repo**
+  (`third_party/ffmpeg-src/`, 927 plain text files: the 387 compiled
+  sources + transitive includes + build-description inputs, extracted
+  from tag n8.1.2 by `tools/vendor_ffmpeg.py`, provenance recorded).
+  No submodule, no fetch from any other repository at build time.
 - The artifacts configure *would* generate are **committed as text**
   under `third_party/ffmpeg-config/`: `config.h`,
   `config_components.h`, the `*_list.c` component tables, version

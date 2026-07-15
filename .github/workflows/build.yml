@@ -9,8 +9,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Set up MSVC environment
         uses: ilammy/msvc-dev-cmd@v1
