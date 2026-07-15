@@ -459,11 +459,38 @@
 #ifndef HAVE_7REGS
 #define HAVE_7REGS 0
 #endif
+#ifndef HAVE_AESNI
+#define HAVE_AESNI 0
+#endif
+#ifndef HAVE_AESNI_EXTERNAL
+#define HAVE_AESNI_EXTERNAL 0
+#endif
+#ifndef HAVE_AESNI_FAST
+#define HAVE_AESNI_FAST 0
+#endif
+#ifndef HAVE_AESNI_INLINE
+#define HAVE_AESNI_INLINE 0
+#endif
+#ifndef HAVE_AESNI_SLOW
+#define HAVE_AESNI_SLOW 0
+#endif
 #ifndef HAVE_ALIGNED_STACK
 #define HAVE_ALIGNED_STACK 0
 #endif
 #ifndef HAVE_ALTIVEC
 #define HAVE_ALTIVEC 0
+#endif
+#ifndef HAVE_ALTIVEC_EXTERNAL
+#define HAVE_ALTIVEC_EXTERNAL 0
+#endif
+#ifndef HAVE_ALTIVEC_FAST
+#define HAVE_ALTIVEC_FAST 0
+#endif
+#ifndef HAVE_ALTIVEC_INLINE
+#define HAVE_ALTIVEC_INLINE 0
+#endif
+#ifndef HAVE_ALTIVEC_SLOW
+#define HAVE_ALTIVEC_SLOW 0
 #endif
 #ifndef HAVE_ARC4RANDOM_BUF
 #define HAVE_ARC4RANDOM_BUF 0
@@ -474,8 +501,14 @@
 #ifndef HAVE_ARMV5TE_EXTERNAL
 #define HAVE_ARMV5TE_EXTERNAL 0
 #endif
+#ifndef HAVE_ARMV5TE_FAST
+#define HAVE_ARMV5TE_FAST 0
+#endif
 #ifndef HAVE_ARMV5TE_INLINE
 #define HAVE_ARMV5TE_INLINE 0
+#endif
+#ifndef HAVE_ARMV5TE_SLOW
+#define HAVE_ARMV5TE_SLOW 0
 #endif
 #ifndef HAVE_ARMV6
 #define HAVE_ARMV6 0
@@ -483,20 +516,59 @@
 #ifndef HAVE_ARMV6T2
 #define HAVE_ARMV6T2 0
 #endif
+#ifndef HAVE_ARMV6T2_EXTERNAL
+#define HAVE_ARMV6T2_EXTERNAL 0
+#endif
+#ifndef HAVE_ARMV6T2_FAST
+#define HAVE_ARMV6T2_FAST 0
+#endif
 #ifndef HAVE_ARMV6T2_INLINE
 #define HAVE_ARMV6T2_INLINE 0
+#endif
+#ifndef HAVE_ARMV6T2_SLOW
+#define HAVE_ARMV6T2_SLOW 0
 #endif
 #ifndef HAVE_ARMV6_EXTERNAL
 #define HAVE_ARMV6_EXTERNAL 0
 #endif
+#ifndef HAVE_ARMV6_FAST
+#define HAVE_ARMV6_FAST 0
+#endif
 #ifndef HAVE_ARMV6_INLINE
 #define HAVE_ARMV6_INLINE 0
+#endif
+#ifndef HAVE_ARMV6_SLOW
+#define HAVE_ARMV6_SLOW 0
 #endif
 #ifndef HAVE_ARMV8
 #define HAVE_ARMV8 0
 #endif
+#ifndef HAVE_ARMV8_EXTERNAL
+#define HAVE_ARMV8_EXTERNAL 0
+#endif
+#ifndef HAVE_ARMV8_FAST
+#define HAVE_ARMV8_FAST 0
+#endif
+#ifndef HAVE_ARMV8_INLINE
+#define HAVE_ARMV8_INLINE 0
+#endif
+#ifndef HAVE_ARMV8_SLOW
+#define HAVE_ARMV8_SLOW 0
+#endif
 #ifndef HAVE_ARM_CRC
 #define HAVE_ARM_CRC 0
+#endif
+#ifndef HAVE_ARM_CRC_EXTERNAL
+#define HAVE_ARM_CRC_EXTERNAL 0
+#endif
+#ifndef HAVE_ARM_CRC_FAST
+#define HAVE_ARM_CRC_FAST 0
+#endif
+#ifndef HAVE_ARM_CRC_INLINE
+#define HAVE_ARM_CRC_INLINE 0
+#endif
+#ifndef HAVE_ARM_CRC_SLOW
+#define HAVE_ARM_CRC_SLOW 0
 #endif
 #ifndef HAVE_ASM_HWPROBE_H
 #define HAVE_ASM_HWPROBE_H 0
@@ -516,6 +588,15 @@
 #ifndef HAVE_AVX2_EXTERNAL
 #define HAVE_AVX2_EXTERNAL 0
 #endif
+#ifndef HAVE_AVX2_FAST
+#define HAVE_AVX2_FAST 0
+#endif
+#ifndef HAVE_AVX2_INLINE
+#define HAVE_AVX2_INLINE 0
+#endif
+#ifndef HAVE_AVX2_SLOW
+#define HAVE_AVX2_SLOW 0
+#endif
 #ifndef HAVE_AVX512
 #define HAVE_AVX512 0
 #endif
@@ -525,8 +606,29 @@
 #ifndef HAVE_AVX512ICL_EXTERNAL
 #define HAVE_AVX512ICL_EXTERNAL 0
 #endif
+#ifndef HAVE_AVX512_EXTERNAL
+#define HAVE_AVX512_EXTERNAL 0
+#endif
+#ifndef HAVE_AVX512_FAST
+#define HAVE_AVX512_FAST 0
+#endif
+#ifndef HAVE_AVX512_INLINE
+#define HAVE_AVX512_INLINE 0
+#endif
+#ifndef HAVE_AVX512_SLOW
+#define HAVE_AVX512_SLOW 0
+#endif
 #ifndef HAVE_AVX_EXTERNAL
 #define HAVE_AVX_EXTERNAL 0
+#endif
+#ifndef HAVE_AVX_FAST
+#define HAVE_AVX_FAST 0
+#endif
+#ifndef HAVE_AVX_INLINE
+#define HAVE_AVX_INLINE 0
+#endif
+#ifndef HAVE_AVX_SLOW
+#define HAVE_AVX_SLOW 0
 #endif
 #ifndef HAVE_BCRYPT
 #define HAVE_BCRYPT 0
@@ -534,8 +636,20 @@
 #ifndef HAVE_BIGENDIAN
 #define HAVE_BIGENDIAN 0
 #endif
+#ifndef HAVE_CLMUL
+#define HAVE_CLMUL 0
+#endif
 #ifndef HAVE_CLMUL_EXTERNAL
 #define HAVE_CLMUL_EXTERNAL 0
+#endif
+#ifndef HAVE_CLMUL_FAST
+#define HAVE_CLMUL_FAST 0
+#endif
+#ifndef HAVE_CLMUL_INLINE
+#define HAVE_CLMUL_INLINE 0
+#endif
+#ifndef HAVE_CLMUL_SLOW
+#define HAVE_CLMUL_SLOW 0
 #endif
 #ifndef HAVE_CLOCK_GETTIME
 #define HAVE_CLOCK_GETTIME 0
@@ -546,6 +660,21 @@
 #ifndef HAVE_COMPRESSED_TILEMAP
 #define HAVE_COMPRESSED_TILEMAP 0
 #endif
+#ifndef HAVE_CPUEXT
+#define HAVE_CPUEXT 0
+#endif
+#ifndef HAVE_CPUEXT_EXTERNAL
+#define HAVE_CPUEXT_EXTERNAL 0
+#endif
+#ifndef HAVE_CPUEXT_FAST
+#define HAVE_CPUEXT_FAST 0
+#endif
+#ifndef HAVE_CPUEXT_INLINE
+#define HAVE_CPUEXT_INLINE 0
+#endif
+#ifndef HAVE_CPUEXT_SLOW
+#define HAVE_CPUEXT_SLOW 0
+#endif
 #ifndef HAVE_DCBZL
 #define HAVE_DCBZL 0
 #endif
@@ -554,6 +683,18 @@
 #endif
 #ifndef HAVE_DOTPROD
 #define HAVE_DOTPROD 0
+#endif
+#ifndef HAVE_DOTPROD_EXTERNAL
+#define HAVE_DOTPROD_EXTERNAL 0
+#endif
+#ifndef HAVE_DOTPROD_FAST
+#define HAVE_DOTPROD_FAST 0
+#endif
+#ifndef HAVE_DOTPROD_INLINE
+#define HAVE_DOTPROD_INLINE 0
+#endif
+#ifndef HAVE_DOTPROD_SLOW
+#define HAVE_DOTPROD_SLOW 0
 #endif
 #ifndef HAVE_DXGIDEBUG_H
 #define HAVE_DXGIDEBUG_H 0
@@ -582,6 +723,36 @@
 #ifndef HAVE_FCNTL
 #define HAVE_FCNTL 0
 #endif
+#ifndef HAVE_FMA3
+#define HAVE_FMA3 0
+#endif
+#ifndef HAVE_FMA3_EXTERNAL
+#define HAVE_FMA3_EXTERNAL 0
+#endif
+#ifndef HAVE_FMA3_FAST
+#define HAVE_FMA3_FAST 0
+#endif
+#ifndef HAVE_FMA3_INLINE
+#define HAVE_FMA3_INLINE 0
+#endif
+#ifndef HAVE_FMA3_SLOW
+#define HAVE_FMA3_SLOW 0
+#endif
+#ifndef HAVE_FMA4
+#define HAVE_FMA4 0
+#endif
+#ifndef HAVE_FMA4_EXTERNAL
+#define HAVE_FMA4_EXTERNAL 0
+#endif
+#ifndef HAVE_FMA4_FAST
+#define HAVE_FMA4_FAST 0
+#endif
+#ifndef HAVE_FMA4_INLINE
+#define HAVE_FMA4_INLINE 0
+#endif
+#ifndef HAVE_FMA4_SLOW
+#define HAVE_FMA4_SLOW 0
+#endif
 #ifndef HAVE_GETADDRINFO
 #define HAVE_GETADDRINFO 0
 #endif
@@ -605,6 +776,21 @@
 #endif
 #ifndef HAVE_I686
 #define HAVE_I686 0
+#endif
+#ifndef HAVE_I8MM
+#define HAVE_I8MM 0
+#endif
+#ifndef HAVE_I8MM_EXTERNAL
+#define HAVE_I8MM_EXTERNAL 0
+#endif
+#ifndef HAVE_I8MM_FAST
+#define HAVE_I8MM_FAST 0
+#endif
+#ifndef HAVE_I8MM_INLINE
+#define HAVE_I8MM_INLINE 0
+#endif
+#ifndef HAVE_I8MM_SLOW
+#define HAVE_I8MM_SLOW 0
 #endif
 #ifndef HAVE_INET_ATON
 #define HAVE_INET_ATON 0
@@ -681,6 +867,18 @@
 #ifndef HAVE_LASX
 #define HAVE_LASX 0
 #endif
+#ifndef HAVE_LASX_EXTERNAL
+#define HAVE_LASX_EXTERNAL 0
+#endif
+#ifndef HAVE_LASX_FAST
+#define HAVE_LASX_FAST 0
+#endif
+#ifndef HAVE_LASX_INLINE
+#define HAVE_LASX_INLINE 0
+#endif
+#ifndef HAVE_LASX_SLOW
+#define HAVE_LASX_SLOW 0
+#endif
 #ifndef HAVE_LDBRX
 #define HAVE_LDBRX 0
 #endif
@@ -701,6 +899,21 @@
 #endif
 #ifndef HAVE_LSTAT
 #define HAVE_LSTAT 0
+#endif
+#ifndef HAVE_LSX
+#define HAVE_LSX 0
+#endif
+#ifndef HAVE_LSX_EXTERNAL
+#define HAVE_LSX_EXTERNAL 0
+#endif
+#ifndef HAVE_LSX_FAST
+#define HAVE_LSX_FAST 0
+#endif
+#ifndef HAVE_LSX_INLINE
+#define HAVE_LSX_INLINE 0
+#endif
+#ifndef HAVE_LSX_SLOW
+#define HAVE_LSX_SLOW 0
 #endif
 #ifndef HAVE_MACH_ABSOLUTE_TIME
 #define HAVE_MACH_ABSOLUTE_TIME 0
@@ -732,6 +945,18 @@
 #ifndef HAVE_MMI
 #define HAVE_MMI 0
 #endif
+#ifndef HAVE_MMI_EXTERNAL
+#define HAVE_MMI_EXTERNAL 0
+#endif
+#ifndef HAVE_MMI_FAST
+#define HAVE_MMI_FAST 0
+#endif
+#ifndef HAVE_MMI_INLINE
+#define HAVE_MMI_INLINE 0
+#endif
+#ifndef HAVE_MMI_SLOW
+#define HAVE_MMI_SLOW 0
+#endif
 #ifndef HAVE_MMX
 #define HAVE_MMX 0
 #endif
@@ -741,14 +966,26 @@
 #ifndef HAVE_MMXEXT_EXTERNAL
 #define HAVE_MMXEXT_EXTERNAL 0
 #endif
+#ifndef HAVE_MMXEXT_FAST
+#define HAVE_MMXEXT_FAST 0
+#endif
 #ifndef HAVE_MMXEXT_INLINE
 #define HAVE_MMXEXT_INLINE 0
+#endif
+#ifndef HAVE_MMXEXT_SLOW
+#define HAVE_MMXEXT_SLOW 0
 #endif
 #ifndef HAVE_MMX_EXTERNAL
 #define HAVE_MMX_EXTERNAL 0
 #endif
+#ifndef HAVE_MMX_FAST
+#define HAVE_MMX_FAST 0
+#endif
 #ifndef HAVE_MMX_INLINE
 #define HAVE_MMX_INLINE 0
+#endif
+#ifndef HAVE_MMX_SLOW
+#define HAVE_MMX_SLOW 0
 #endif
 #ifndef HAVE_MM_EMPTY
 #define HAVE_MM_EMPTY 0
@@ -759,11 +996,32 @@
 #ifndef HAVE_MSA
 #define HAVE_MSA 0
 #endif
+#ifndef HAVE_MSA_EXTERNAL
+#define HAVE_MSA_EXTERNAL 0
+#endif
+#ifndef HAVE_MSA_FAST
+#define HAVE_MSA_FAST 0
+#endif
+#ifndef HAVE_MSA_INLINE
+#define HAVE_MSA_INLINE 0
+#endif
+#ifndef HAVE_MSA_SLOW
+#define HAVE_MSA_SLOW 0
+#endif
 #ifndef HAVE_NEON
 #define HAVE_NEON 0
 #endif
+#ifndef HAVE_NEON_EXTERNAL
+#define HAVE_NEON_EXTERNAL 0
+#endif
+#ifndef HAVE_NEON_FAST
+#define HAVE_NEON_FAST 0
+#endif
 #ifndef HAVE_NEON_INLINE
 #define HAVE_NEON_INLINE 0
+#endif
+#ifndef HAVE_NEON_SLOW
+#define HAVE_NEON_SLOW 0
 #endif
 #ifndef HAVE_OPENCL_D3D11
 #define HAVE_OPENCL_D3D11 0
@@ -797,6 +1055,18 @@
 #endif
 #ifndef HAVE_POWER8
 #define HAVE_POWER8 0
+#endif
+#ifndef HAVE_POWER8_EXTERNAL
+#define HAVE_POWER8_EXTERNAL 0
+#endif
+#ifndef HAVE_POWER8_FAST
+#define HAVE_POWER8_FAST 0
+#endif
+#ifndef HAVE_POWER8_INLINE
+#define HAVE_POWER8_INLINE 0
+#endif
+#ifndef HAVE_POWER8_SLOW
+#define HAVE_POWER8_SLOW 0
 #endif
 #ifndef HAVE_PPC4XX
 #define HAVE_PPC4XX 0
@@ -843,6 +1113,21 @@
 #ifndef HAVE_SECPKGCONTEXT_KEYINGMATERIALINFO
 #define HAVE_SECPKGCONTEXT_KEYINGMATERIALINFO 0
 #endif
+#ifndef HAVE_SETEND
+#define HAVE_SETEND 0
+#endif
+#ifndef HAVE_SETEND_EXTERNAL
+#define HAVE_SETEND_EXTERNAL 0
+#endif
+#ifndef HAVE_SETEND_FAST
+#define HAVE_SETEND_FAST 0
+#endif
+#ifndef HAVE_SETEND_INLINE
+#define HAVE_SETEND_INLINE 0
+#endif
+#ifndef HAVE_SETEND_SLOW
+#define HAVE_SETEND_SLOW 0
+#endif
 #ifndef HAVE_SIMD128
 #define HAVE_SIMD128 0
 #endif
@@ -852,8 +1137,44 @@
 #ifndef HAVE_SME2
 #define HAVE_SME2 0
 #endif
+#ifndef HAVE_SME2_EXTERNAL
+#define HAVE_SME2_EXTERNAL 0
+#endif
+#ifndef HAVE_SME2_FAST
+#define HAVE_SME2_FAST 0
+#endif
+#ifndef HAVE_SME2_INLINE
+#define HAVE_SME2_INLINE 0
+#endif
+#ifndef HAVE_SME2_SLOW
+#define HAVE_SME2_SLOW 0
+#endif
+#ifndef HAVE_SME_EXTERNAL
+#define HAVE_SME_EXTERNAL 0
+#endif
+#ifndef HAVE_SME_FAST
+#define HAVE_SME_FAST 0
+#endif
 #ifndef HAVE_SME_I16I64
 #define HAVE_SME_I16I64 0
+#endif
+#ifndef HAVE_SME_I16I64_EXTERNAL
+#define HAVE_SME_I16I64_EXTERNAL 0
+#endif
+#ifndef HAVE_SME_I16I64_FAST
+#define HAVE_SME_I16I64_FAST 0
+#endif
+#ifndef HAVE_SME_I16I64_INLINE
+#define HAVE_SME_I16I64_INLINE 0
+#endif
+#ifndef HAVE_SME_I16I64_SLOW
+#define HAVE_SME_I16I64_SLOW 0
+#endif
+#ifndef HAVE_SME_INLINE
+#define HAVE_SME_INLINE 0
+#endif
+#ifndef HAVE_SME_SLOW
+#define HAVE_SME_SLOW 0
 #endif
 #ifndef HAVE_SOCKLEN_T
 #define HAVE_SOCKLEN_T 0
@@ -861,26 +1182,92 @@
 #ifndef HAVE_SSE
 #define HAVE_SSE 0
 #endif
+#ifndef HAVE_SSE2
+#define HAVE_SSE2 0
+#endif
 #ifndef HAVE_SSE2_EXTERNAL
 #define HAVE_SSE2_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE2_FAST
+#define HAVE_SSE2_FAST 0
 #endif
 #ifndef HAVE_SSE2_INLINE
 #define HAVE_SSE2_INLINE 0
 #endif
+#ifndef HAVE_SSE2_SLOW
+#define HAVE_SSE2_SLOW 0
+#endif
+#ifndef HAVE_SSE3
+#define HAVE_SSE3 0
+#endif
 #ifndef HAVE_SSE3_EXTERNAL
 #define HAVE_SSE3_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE3_FAST
+#define HAVE_SSE3_FAST 0
+#endif
+#ifndef HAVE_SSE3_INLINE
+#define HAVE_SSE3_INLINE 0
+#endif
+#ifndef HAVE_SSE3_SLOW
+#define HAVE_SSE3_SLOW 0
+#endif
+#ifndef HAVE_SSE4
+#define HAVE_SSE4 0
+#endif
+#ifndef HAVE_SSE42
+#define HAVE_SSE42 0
+#endif
+#ifndef HAVE_SSE42_EXTERNAL
+#define HAVE_SSE42_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE42_FAST
+#define HAVE_SSE42_FAST 0
+#endif
+#ifndef HAVE_SSE42_INLINE
+#define HAVE_SSE42_INLINE 0
+#endif
+#ifndef HAVE_SSE42_SLOW
+#define HAVE_SSE42_SLOW 0
 #endif
 #ifndef HAVE_SSE4_EXTERNAL
 #define HAVE_SSE4_EXTERNAL 0
 #endif
+#ifndef HAVE_SSE4_FAST
+#define HAVE_SSE4_FAST 0
+#endif
+#ifndef HAVE_SSE4_INLINE
+#define HAVE_SSE4_INLINE 0
+#endif
+#ifndef HAVE_SSE4_SLOW
+#define HAVE_SSE4_SLOW 0
+#endif
+#ifndef HAVE_SSE_EXTERNAL
+#define HAVE_SSE_EXTERNAL 0
+#endif
+#ifndef HAVE_SSE_FAST
+#define HAVE_SSE_FAST 0
+#endif
 #ifndef HAVE_SSE_INLINE
 #define HAVE_SSE_INLINE 0
+#endif
+#ifndef HAVE_SSE_SLOW
+#define HAVE_SSE_SLOW 0
+#endif
+#ifndef HAVE_SSSE3
+#define HAVE_SSSE3 0
 #endif
 #ifndef HAVE_SSSE3_EXTERNAL
 #define HAVE_SSSE3_EXTERNAL 0
 #endif
+#ifndef HAVE_SSSE3_FAST
+#define HAVE_SSSE3_FAST 0
+#endif
 #ifndef HAVE_SSSE3_INLINE
 #define HAVE_SSSE3_INLINE 0
+#endif
+#ifndef HAVE_SSSE3_SLOW
+#define HAVE_SSSE3_SLOW 0
 #endif
 #ifndef HAVE_STRUCT_ADDRINFO
 #define HAVE_STRUCT_ADDRINFO 0
@@ -914,6 +1301,33 @@
 #endif
 #ifndef HAVE_SVE
 #define HAVE_SVE 0
+#endif
+#ifndef HAVE_SVE2
+#define HAVE_SVE2 0
+#endif
+#ifndef HAVE_SVE2_EXTERNAL
+#define HAVE_SVE2_EXTERNAL 0
+#endif
+#ifndef HAVE_SVE2_FAST
+#define HAVE_SVE2_FAST 0
+#endif
+#ifndef HAVE_SVE2_INLINE
+#define HAVE_SVE2_INLINE 0
+#endif
+#ifndef HAVE_SVE2_SLOW
+#define HAVE_SVE2_SLOW 0
+#endif
+#ifndef HAVE_SVE_EXTERNAL
+#define HAVE_SVE_EXTERNAL 0
+#endif
+#ifndef HAVE_SVE_FAST
+#define HAVE_SVE_FAST 0
+#endif
+#ifndef HAVE_SVE_INLINE
+#define HAVE_SVE_INLINE 0
+#endif
+#ifndef HAVE_SVE_SLOW
+#define HAVE_SVE_SLOW 0
 #endif
 #ifndef HAVE_SYSCONF
 #define HAVE_SYSCONF 0
@@ -972,8 +1386,44 @@
 #ifndef HAVE_VFPV3
 #define HAVE_VFPV3 0
 #endif
+#ifndef HAVE_VFPV3_EXTERNAL
+#define HAVE_VFPV3_EXTERNAL 0
+#endif
+#ifndef HAVE_VFPV3_FAST
+#define HAVE_VFPV3_FAST 0
+#endif
+#ifndef HAVE_VFPV3_INLINE
+#define HAVE_VFPV3_INLINE 0
+#endif
+#ifndef HAVE_VFPV3_SLOW
+#define HAVE_VFPV3_SLOW 0
+#endif
+#ifndef HAVE_VFP_EXTERNAL
+#define HAVE_VFP_EXTERNAL 0
+#endif
+#ifndef HAVE_VFP_FAST
+#define HAVE_VFP_FAST 0
+#endif
+#ifndef HAVE_VFP_INLINE
+#define HAVE_VFP_INLINE 0
+#endif
+#ifndef HAVE_VFP_SLOW
+#define HAVE_VFP_SLOW 0
+#endif
 #ifndef HAVE_VSX
 #define HAVE_VSX 0
+#endif
+#ifndef HAVE_VSX_EXTERNAL
+#define HAVE_VSX_EXTERNAL 0
+#endif
+#ifndef HAVE_VSX_FAST
+#define HAVE_VSX_FAST 0
+#endif
+#ifndef HAVE_VSX_INLINE
+#define HAVE_VSX_INLINE 0
+#endif
+#ifndef HAVE_VSX_SLOW
+#define HAVE_VSX_SLOW 0
 #endif
 #ifndef HAVE_WINRT
 #define HAVE_WINRT 0
@@ -986,5 +1436,20 @@
 #endif
 #ifndef HAVE_XMM_CLOBBERS
 #define HAVE_XMM_CLOBBERS 0
+#endif
+#ifndef HAVE_XOP
+#define HAVE_XOP 0
+#endif
+#ifndef HAVE_XOP_EXTERNAL
+#define HAVE_XOP_EXTERNAL 0
+#endif
+#ifndef HAVE_XOP_FAST
+#define HAVE_XOP_FAST 0
+#endif
+#ifndef HAVE_XOP_INLINE
+#define HAVE_XOP_INLINE 0
+#endif
+#ifndef HAVE_XOP_SLOW
+#define HAVE_XOP_SLOW 0
 #endif
 #endif /* FFMPEG_CONFIG_H */

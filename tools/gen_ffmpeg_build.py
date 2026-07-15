@@ -197,6 +197,16 @@ def main() -> int:
             referenced |= set(macro_re.findall(p.read_text(errors="ignore")))
     referenced.discard("HAVE_AV_CONFIG_H")
 
+    # CPUEXT(flags, LSX) token-pastes HAVE_##LSX(_EXTERNAL/_INLINE/_FAST):
+    # those names never appear literally, so derive them from paste sites.
+    paste_re = re.compile(r"CPUEXT(?:_SUFFIX)?\(\s*flags\s*,\s*([A-Za-z0-9_]+)\s*\)")
+    for top in LIBS + ["compat"]:
+        for p in (FF / top).rglob("*.h"):
+            for name in paste_re.findall(p.read_text(errors="ignore")):
+                base = name.upper()
+                for suffix in ("", "_EXTERNAL", "_INLINE", "_FAST", "_SLOW"):
+                    referenced.add(f"HAVE_{base}{suffix}")
+
     COMP_SUFFIX_U = tuple(s.upper() for s in comp_suffixes)
     ref_components = {m for m in referenced
                       if m.startswith("CONFIG_") and m.endswith(COMP_SUFFIX_U)}
