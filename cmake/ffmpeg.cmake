@@ -32,8 +32,13 @@ foreach(lib IN LISTS FF_LIBS)
   set_target_properties(ff_${lib} PROPERTIES C_STANDARD 17 C_EXTENSIONS ON)
   target_include_directories(ff_${lib} BEFORE PRIVATE
     ${FF_CFG}            # config.h, config_components.h, generated *_list.c
-    ${FF_SRC}/${lib}     # the lib's own headers for subdirectory sources
     ${FF_SRC})           # path-qualified includes ("libavutil/...")
+  if(lib STREQUAL "libavcodec")
+    # Only avcodec has non-arch subdirectories (aac/, opus/, bsf/) whose
+    # sources include parent-dir headers. Do NOT do this for libavutil:
+    # it contains time.h, which would hijack #include <time.h>.
+    target_include_directories(ff_${lib} BEFORE PRIVATE ${FF_SRC}/${lib})
+  endif()
   target_compile_definitions(ff_${lib} PRIVATE
     HAVE_AV_CONFIG_H
     _USE_MATH_DEFINES
