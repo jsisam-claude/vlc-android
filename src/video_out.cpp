@@ -7,6 +7,7 @@
 #include "player_int.h"
 
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include <dxgi1_2.h>
 #include <d2d1.h>
 #include <dwrite.h>
@@ -37,6 +38,15 @@ struct D3DState {
     int in_w = 0, in_h = 0;
     int out_w = 0, out_h = 0;
 
+    // shader fallback path (devices without the D3D11 video API)
+    bool use_vp = false;
+    ID3D11VertexShader* vs = nullptr;
+    ID3D11PixelShader* ps = nullptr;
+    ID3D11SamplerState* samp = nullptr;
+    ID3D11Texture2D* rgb_tex = nullptr;
+    ID3D11ShaderResourceView* rgb_srv = nullptr;
+    int rgb_w = 0, rgb_h = 0;
+
     ID2D1Factory* d2df = nullptr;
     ID2D1RenderTarget* d2drt = nullptr;
     IDWriteFactory* dwf = nullptr;
@@ -48,6 +58,49 @@ struct D3DState {
     int nv12_pitch = 0;
     size_t nv12_size = 0;
 };
+
+// Fullscreen-triangle blit of a BGRA texture; scaling via the sampler,
+// letterboxing via the viewport. Compiled at runtime with the OS's
+// d3dcompiler (an inbox Windows component since 8.1).
+static const char SHADER_SRC[] =
+    "struct VSOut { float4 pos : SV_Position; float2 uv : TEXCOORD0; };\n"
+    "VSOut VSMain(uint id : SV_VertexID) {\n"
+    "    VSOut o;\n"
+    "    float2 uv = float2((id << 1) & 2, id & 2);\n"
+    "    o.uv = uv;\n"
+    "    o.pos = float4(uv * float2(2, -2) + float2(-1, 1), 0, 1);\n"
+    "    return o;\n"
+    "}\n"
+    "Texture2D tex : register(t0);\n"
+    "SamplerState smp : register(s0);\n"
+    "float4 PSMain(VSOut i) : SV_Target { return tex.Sample(smp, i.uv); }\n";
+
+static bool init_shader_path(D3DState* d) {
+    ID3DBlob *vsb = nullptr, *psb = nullptr, *err = nullptr;
+    HRESULT hr = D3DCompile(SHADER_SRC, sizeof(SHADER_SRC) - 1, nullptr, nullptr,
+                            nullptr, "VSMain", "vs_4_0", 0, 0, &vsb, &err);
+    if (SUCCEEDED(hr))
+        hr = D3DCompile(SHADER_SRC, sizeof(SHADER_SRC) - 1, nullptr, nullptr,
+                        nullptr, "PSMain", "ps_4_0", 0, 0, &psb, &err);
+    if (SUCCEEDED(hr))
+        hr = d->dev->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(),
+                                        nullptr, &d->vs);
+    if (SUCCEEDED(hr))
+        hr = d->dev->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(),
+                                       nullptr, &d->ps);
+    if (SUCCEEDED(hr)) {
+        D3D11_SAMPLER_DESC sd = {};
+        sd.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+        sd.AddressU = sd.AddressV = sd.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+        hr = d->dev->CreateSamplerState(&sd, &d->samp);
+    }
+    if (err) err->Release();
+    if (vsb) vsb->Release();
+    if (psb) psb->Release();
+    if (FAILED(hr)) return fail_step(L"shader fallback initialization", hr);
+    log_line("video: using shader render path (no D3D11 video API)");
+    return true;
+}
 
 static bool create_device_swapchain(D3DState* d) {
     UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -84,7 +137,9 @@ static bool create_device_swapchain(D3DState* d) {
 
     hr = d->dev->QueryInterface(__uuidof(ID3D11VideoDevice), (void**)&d->vdev);
     if (SUCCEEDED(hr)) hr = d->ctx->QueryInterface(__uuidof(ID3D11VideoContext), (void**)&d->vctx);
-    if (FAILED(hr)) return fail_step(L"ID3D11VideoDevice query (no video API support)", hr);
+    d->use_vp = SUCCEEDED(hr);
+    if (!d->use_vp && !init_shader_path(d))
+        return false;
 
     RECT rc;
     GetClientRect(d->hwnd, &rc);
@@ -241,13 +296,9 @@ void VideoOut::resize() {
     d->in_w = d->in_h = 0;
 }
 
-bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
-    std::lock_guard<std::mutex> lk(m_);
-    if (!d || !d->swap || !f) return false;
-
+static bool render_vp(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
+                      const RECT& dst_rc) {
     int w = f->width, h = f->height;
-    if (w <= 0 || h <= 0) return false;
-
     // Convert to NV12 (contiguous Y then interleaved UV, single pitch).
     int pitch = (w + 127) & ~127;
     size_t need = (size_t)pitch * h * 3 / 2;
@@ -270,23 +321,16 @@ bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
     d->ctx->UpdateSubresource(d->in_tex, 0, nullptr, d->nv12, pitch, 0);
     set_colorspace(d, f);
 
-    ID3D11Texture2D* back = nullptr;
-    if (FAILED(d->swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back)))
-        return false;
-
     D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC ovd = {};
     ovd.ViewDimension = D3D11_VPOV_DIMENSION_TEXTURE2D;
     ID3D11VideoProcessorOutputView* out_view = nullptr;
     HRESULT hr = d->vdev->CreateVideoProcessorOutputView(back, d->vpe, &ovd, &out_view);
     if (SUCCEEDED(hr)) {
         RECT src = {0, 0, w, h};
-        int disp_w = w, disp_h = h;
-        if (f->sample_aspect_ratio.num > 0 && f->sample_aspect_ratio.den > 0)
-            disp_w = (int)av_rescale(w, f->sample_aspect_ratio.num, f->sample_aspect_ratio.den);
-        RECT dst_rc = letterbox(disp_w, disp_h, d->out_w, d->out_h);
         RECT out_rc = {0, 0, d->out_w, d->out_h};
+        RECT dst_copy = dst_rc;
         d->vctx->VideoProcessorSetStreamSourceRect(d->vp, 0, TRUE, &src);
-        d->vctx->VideoProcessorSetStreamDestRect(d->vp, 0, TRUE, &dst_rc);
+        d->vctx->VideoProcessorSetStreamDestRect(d->vp, 0, TRUE, &dst_copy);
         d->vctx->VideoProcessorSetOutputTargetRect(d->vp, TRUE, &out_rc);
         D3D11_VIDEO_COLOR black = {};
         black.YCbCr.Y = 0.0625f;
@@ -301,12 +345,101 @@ bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
         hr = d->vctx->VideoProcessorBlt(d->vp, out_view, 0, 1, &stream);
         out_view->Release();
     }
-    if (SUCCEEDED(hr)) draw_subtitle(d, back, subtitle);
-    back->Release();
-    if (FAILED(hr)) {
-        log_line("video: VideoProcessorBlt failed 0x%08lx", hr);
-        return false;
+    if (FAILED(hr)) log_line("video: VideoProcessorBlt failed 0x%08lx", hr);
+    return SUCCEEDED(hr);
+}
+
+static bool render_shader(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
+                          const RECT& dst_rc) {
+    int w = f->width, h = f->height;
+    // Convert to BGRA and upload as a shader resource.
+    int pitch = w * 4;
+    size_t need = (size_t)pitch * h;
+    if (need > d->nv12_size) {
+        av_free(d->nv12);
+        d->nv12 = (uint8_t*)av_malloc(need);
+        d->nv12_size = d->nv12 ? need : 0;
     }
+    if (!d->nv12) return false;
+    d->sws = sws_getCachedContext(d->sws, w, h, (AVPixelFormat)f->format,
+                                  w, h, AV_PIX_FMT_BGRA, SWS_BILINEAR,
+                                  nullptr, nullptr, nullptr);
+    if (!d->sws) return false;
+    uint8_t* dst[1] = {d->nv12};
+    int dst_stride[1] = {pitch};
+    sws_scale(d->sws, f->data, f->linesize, 0, h, dst, dst_stride);
+
+    if (w != d->rgb_w || h != d->rgb_h) {
+        safe_release(d->rgb_srv);
+        safe_release(d->rgb_tex);
+        D3D11_TEXTURE2D_DESC td = {};
+        td.Width = w;
+        td.Height = h;
+        td.MipLevels = 1;
+        td.ArraySize = 1;
+        td.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+        td.SampleDesc.Count = 1;
+        td.Usage = D3D11_USAGE_DEFAULT;
+        td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        if (FAILED(d->dev->CreateTexture2D(&td, nullptr, &d->rgb_tex))) return false;
+        if (FAILED(d->dev->CreateShaderResourceView(d->rgb_tex, nullptr, &d->rgb_srv)))
+            return false;
+        d->rgb_w = w;
+        d->rgb_h = h;
+    }
+    d->ctx->UpdateSubresource(d->rgb_tex, 0, nullptr, d->nv12, pitch, 0);
+
+    ID3D11RenderTargetView* rtv = nullptr;
+    if (FAILED(d->dev->CreateRenderTargetView(back, nullptr, &rtv))) return false;
+    float clear[4] = {0, 0, 0, 1};
+    d->ctx->ClearRenderTargetView(rtv, clear);
+    d->ctx->OMSetRenderTargets(1, &rtv, nullptr);
+
+    D3D11_VIEWPORT vp = {};
+    vp.TopLeftX = (float)dst_rc.left;
+    vp.TopLeftY = (float)dst_rc.top;
+    vp.Width = (float)(dst_rc.right - dst_rc.left);
+    vp.Height = (float)(dst_rc.bottom - dst_rc.top);
+    vp.MaxDepth = 1.0f;
+    d->ctx->RSSetViewports(1, &vp);
+
+    d->ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    d->ctx->IASetInputLayout(nullptr);
+    d->ctx->VSSetShader(d->vs, nullptr, 0);
+    d->ctx->PSSetShader(d->ps, nullptr, 0);
+    d->ctx->PSSetShaderResources(0, 1, &d->rgb_srv);
+    d->ctx->PSSetSamplers(0, 1, &d->samp);
+    d->ctx->Draw(3, 0);
+
+    ID3D11ShaderResourceView* nullsrv = nullptr;
+    d->ctx->PSSetShaderResources(0, 1, &nullsrv);
+    ID3D11RenderTargetView* nullrtv = nullptr;
+    d->ctx->OMSetRenderTargets(1, &nullrtv, nullptr);
+    rtv->Release();
+    return true;
+}
+
+bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
+    std::lock_guard<std::mutex> lk(m_);
+    if (!d || !d->swap || !f) return false;
+
+    int w = f->width, h = f->height;
+    if (w <= 0 || h <= 0) return false;
+
+    int disp_w = w, disp_h = h;
+    if (f->sample_aspect_ratio.num > 0 && f->sample_aspect_ratio.den > 0)
+        disp_w = (int)av_rescale(w, f->sample_aspect_ratio.num, f->sample_aspect_ratio.den);
+    RECT dst_rc = letterbox(disp_w, disp_h, d->out_w, d->out_h);
+
+    ID3D11Texture2D* back = nullptr;
+    if (FAILED(d->swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back)))
+        return false;
+
+    bool ok = d->use_vp ? render_vp(d, f, back, dst_rc)
+                        : render_shader(d, f, back, dst_rc);
+    if (ok) draw_subtitle(d, back, subtitle);
+    back->Release();
+    if (!ok) return false;
     d->swap->Present(1, 0);
     return true;
 }
@@ -323,6 +456,11 @@ void VideoOut::shutdown() {
     safe_release(d->vpe);
     safe_release(d->vctx);
     safe_release(d->vdev);
+    safe_release(d->rgb_srv);
+    safe_release(d->rgb_tex);
+    safe_release(d->samp);
+    safe_release(d->ps);
+    safe_release(d->vs);
     safe_release(d->swap);
     safe_release(d->ctx);
     safe_release(d->dev);
