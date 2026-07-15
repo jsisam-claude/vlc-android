@@ -24,6 +24,28 @@ std::wstring SubtitleList::active_at(double pts) {
 void SubtitleList::clear() {
     std::lock_guard<std::mutex> lk(m_);
     entries_.clear();
+    bitmaps_.clear();
+}
+
+void SubtitleList::add_bitmap(std::shared_ptr<SubBitmap> b) {
+    if (!b || b->pixels.empty()) return;
+    std::lock_guard<std::mutex> lk(m_);
+    bitmaps_.push_back(std::move(b));
+    if (bitmaps_.size() > 64)  // bound memory; old cues are long gone
+        bitmaps_.erase(bitmaps_.begin(), bitmaps_.begin() + 32);
+}
+
+void SubtitleList::clear_bitmaps_at(double pts) {
+    std::lock_guard<std::mutex> lk(m_);
+    for (auto& b : bitmaps_)
+        if (b->end > pts && b->start <= pts) b->end = pts;
+}
+
+void SubtitleList::active_bitmaps_at(double pts,
+                                     std::vector<std::shared_ptr<SubBitmap>>& out) {
+    std::lock_guard<std::mutex> lk(m_);
+    for (auto& b : bitmaps_)
+        if (pts >= b->start && pts <= b->end) out.push_back(b);
 }
 
 // Strip ASS override tags ("{\...}") and unescape \N, \n, \h.
@@ -70,6 +92,9 @@ void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb, Subti
         end = start + dur;
     }
 
+    if (sub.num_rects == 0)  // PGS-style clear event ends open bitmaps
+        out->clear_bitmaps_at(start);
+
     std::wstring text;
     for (unsigned i = 0; i < sub.num_rects; i++) {
         AVSubtitleRect* r = sub.rects[i];
@@ -78,6 +103,34 @@ void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb, Subti
             piece = ass_event_text(r->ass);
         else if (r->type == SUBTITLE_TEXT && r->text)
             piece = clean_markup(utf8_to_wide(r->text));
+        else if (r->type == SUBTITLE_BITMAP && r->data[0] && r->data[1] &&
+                 r->w > 0 && r->h > 0) {
+            auto b = std::make_shared<SubBitmap>();
+            b->start = start;
+            // PGS often signals the end with a later empty event
+            b->end = (sub.end_display_time > 0) ? end : start + 10.0;
+            b->x = r->x;
+            b->y = r->y;
+            b->w = r->w;
+            b->h = r->h;
+            b->src_w = ctx->width > 0 ? ctx->width : r->x + r->w;
+            b->src_h = ctx->height > 0 ? ctx->height : r->y + r->h;
+            b->pixels.resize((size_t)r->w * r->h);
+            const uint32_t* pal = (const uint32_t*)r->data[1];
+            for (int row = 0; row < r->h; row++) {
+                const uint8_t* src = r->data[0] + (size_t)row * r->linesize[0];
+                uint32_t* dst = b->pixels.data() + (size_t)row * r->w;
+                for (int col = 0; col < r->w; col++) {
+                    uint32_t c = pal[src[col]];  // AARRGGBB
+                    uint32_t a = c >> 24;
+                    uint32_t rr = ((c >> 16) & 0xFF) * a / 255;
+                    uint32_t gg = ((c >> 8) & 0xFF) * a / 255;
+                    uint32_t bb = (c & 0xFF) * a / 255;
+                    dst[col] = (a << 24) | (rr << 16) | (gg << 8) | bb;
+                }
+            }
+            out->add_bitmap(std::move(b));
+        }
         if (!piece.empty()) {
             if (!text.empty()) text += L"\n";
             text += piece;

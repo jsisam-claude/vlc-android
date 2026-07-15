@@ -65,8 +65,13 @@ void video_render_thread(Player* p) {
                 std::lock_guard<std::mutex> lk(p->lastf_m);
                 if (p->last_frame) {
                     double lp = p->vclock.load();
-                    std::wstring lsub = std::isnan(lp) ? L"" : p->subs.active_at(lp);
-                    p->vo->render(p->last_frame, lsub);
+                    SubRender ov;
+                    ov.osd = p->osd_now();
+                    if (!std::isnan(lp)) {
+                        ov.text = p->subs.active_at(lp);
+                        p->subs.active_bitmaps_at(lp, ov.bitmaps);
+                    }
+                    p->vo->render(p->last_frame, ov);
                 }
             }
             Sleep(20);
@@ -109,8 +114,13 @@ void video_render_thread(Player* p) {
             continue;
         }
 
-        std::wstring sub = std::isnan(pts) ? L"" : p->subs.active_at(pts);
-        p->vo->render(fr.f, sub);
+        SubRender ov;
+        ov.osd = p->osd_now();
+        if (!std::isnan(pts)) {
+            ov.text = p->subs.active_at(pts);
+            p->subs.active_bitmaps_at(pts, ov.bitmaps);
+        }
+        p->vo->render(fr.f, ov);
         if (!std::isnan(pts)) p->vclock.store(pts);
         {
             std::lock_guard<std::mutex> lk(p->lastf_m);

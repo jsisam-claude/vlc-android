@@ -148,13 +148,29 @@ static void build_siblings(const wchar_t* path) {
         if (!_wcsicmp(g_siblings[i].c_str(), path)) { g_sib_cur = (int)i; break; }
 }
 
+static void osd(const wchar_t* s) {
+    if (g_player) player_show_osd(g_player, s, 1.5);
+}
+
+static void osd_volume() {
+    if (!g_player) return;
+    wchar_t b[64];
+    if (player_is_muted(g_player))
+        wcscpy(b, L"Muted");
+    else
+        swprintf(b, 64, L"Volume %d%%", (int)(player_volume(g_player) * 100 + 0.5f));
+    osd(b);
+}
+
 static void play_pause() {
     if (!g_player) return;
     if (player_media_ended(g_player)) {
         player_seek_to(g_player, 0);  // restart from the top after the end
         if (player_is_paused(g_player)) player_toggle_pause(g_player);
+        osd(L"Playing");
     } else {
         player_toggle_pause(g_player);
+        osd(player_is_paused(g_player) ? L"Paused" : L"Playing");
     }
 }
 static const int BAR_H = 34;
@@ -351,13 +367,16 @@ static void on_key(HWND hwnd, WPARAM key) {
     if (!g_player) return;
     switch (key) {
         case VK_SPACE: play_pause(); break;
-        case 'M': player_set_mute(g_player, !player_is_muted(g_player)); break;
-        case VK_LEFT: player_seek_rel(g_player, -10); break;
-        case VK_RIGHT: player_seek_rel(g_player, 10); break;
-        case VK_PRIOR: player_seek_rel(g_player, -60); break;
-        case VK_NEXT: player_seek_rel(g_player, 60); break;
-        case VK_UP: player_volume_step(g_player, 1); break;
-        case VK_DOWN: player_volume_step(g_player, -1); break;
+        case 'M':
+            player_set_mute(g_player, !player_is_muted(g_player));
+            osd_volume();
+            break;
+        case VK_LEFT: player_seek_rel(g_player, -10); osd(L"-10s"); break;
+        case VK_RIGHT: player_seek_rel(g_player, 10); osd(L"+10s"); break;
+        case VK_PRIOR: player_seek_rel(g_player, -60); osd(L"-60s"); break;
+        case VK_NEXT: player_seek_rel(g_player, 60); osd(L"+60s"); break;
+        case VK_UP: player_volume_step(g_player, 1); osd_volume(); break;
+        case VK_DOWN: player_volume_step(g_player, -1); osd_volume(); break;
         case 'A': player_cycle_audio(g_player); break;
         case 'S': player_cycle_subtitle(g_player); break;
         case 'N': nav_folder(hwnd, 1); break;
@@ -416,7 +435,10 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_PLAY:
                 case IDM_PAUSE: play_pause(); break;
                 case IDM_MUTE:
-                    if (g_player) player_set_mute(g_player, !player_is_muted(g_player));
+                    if (g_player) {
+                        player_set_mute(g_player, !player_is_muted(g_player));
+                        osd_volume();
+                    }
                     break;
                 case IDC_BACK: if (g_player) player_seek_rel(g_player, -10); break;
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
@@ -446,7 +468,19 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             HWND src = (HWND)lp;
             int code = LOWORD(wp);
             if (src == g_seek && g_player) {
-                if (code == TB_THUMBTRACK) g_seek_dragging = true;
+                if (code == TB_THUMBTRACK) {
+                    g_seek_dragging = true;
+                    static ULONGLONG last_live = 0;  // throttled live seek
+                    ULONGLONG now = GetTickCount64();
+                    if (now - last_live > 250) {
+                        last_live = now;
+                        double dur = player_duration(g_player);
+                        if (dur > 0) {
+                            LRESULT pos = SendMessageW(g_seek, TBM_GETPOS, 0, 0);
+                            player_seek_to(g_player, (double)pos / SEEK_RANGE * dur);
+                        }
+                    }
+                }
                 if (code == TB_ENDTRACK || code == TB_THUMBPOSITION) {
                     double dur = player_duration(g_player);
                     if (dur > 0) {
@@ -459,6 +493,7 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             } else if (src == g_vol && g_player) {
                 LRESULT pos = SendMessageW(g_vol, TBM_GETPOS, 0, 0);
                 player_volume_set(g_player, (float)pos / 100.0f);
+                osd_volume();
                 if (code == TB_ENDTRACK) SetFocus(hwnd);
             }
             return 0;

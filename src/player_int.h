@@ -14,6 +14,7 @@
 #include <condition_variable>
 #include <deque>
 #include <mutex>
+#include <memory>
 #include <string>
 #include <thread>
 #include <vector>
@@ -95,15 +96,34 @@ struct SubEntry {
     std::wstring text;
 };
 
+// One decoded bitmap subtitle rect (PGS/VobSub), BGRA premultiplied.
+struct SubBitmap {
+    double start = 0, end = 0;
+    int x = 0, y = 0, w = 0, h = 0;   // in (src_w, src_h) coordinate space
+    int src_w = 0, src_h = 0;
+    std::vector<uint32_t> pixels;      // w*h premultiplied BGRA
+};
+
+// What the renderer composites over a frame.
+struct SubRender {
+    std::wstring text;
+    std::wstring osd;
+    std::vector<std::shared_ptr<SubBitmap>> bitmaps;
+};
+
 class SubtitleList {
 public:
     void add(double start, double end, std::wstring text);
+    void add_bitmap(std::shared_ptr<SubBitmap> b);
+    void clear_bitmaps_at(double pts);  // PGS empty event ends open bitmaps
     std::wstring active_at(double pts);
+    void active_bitmaps_at(double pts, std::vector<std::shared_ptr<SubBitmap>>& out);
     void clear();
 
 private:
     std::mutex m_;
     std::vector<SubEntry> entries_;
+    std::vector<std::shared_ptr<SubBitmap>> bitmaps_;
 };
 
 // Decode one subtitle packet with ctx and append results (handles srt/ass/mov_text).
@@ -157,8 +177,8 @@ const wchar_t* vo_init_error();
 class VideoOut {
 public:
     bool init(HWND hwnd);
-    // Renders a CPU frame (any sw pix fmt) + optional subtitle text overlay.
-    bool render(AVFrame* f, const std::wstring& subtitle);
+    // Renders a CPU frame (any sw pix fmt) + subtitle/OSD overlays.
+    bool render(AVFrame* f, const SubRender& overlays);
     void resize();
     void shutdown();
     ~VideoOut() { shutdown(); }
@@ -219,6 +239,16 @@ struct Player {
     std::mutex lastf_m;
     AVFrame* last_frame = nullptr;
     std::atomic<bool> redraw_req{false};
+
+    // transient OSD text (guarded by osd_m)
+    std::mutex osd_m;
+    std::wstring osd_text;
+    int64_t osd_until = 0;            // av_gettime_relative() deadline
+    std::wstring osd_now() {
+        std::lock_guard<std::mutex> lk(osd_m);
+        if (osd_text.empty() || av_gettime_relative() > osd_until) return L"";
+        return osd_text;
+    }
 
     void fire(PlayerEvent evt) {
         if (evt_fn) evt_fn(evt_user, evt);

@@ -50,6 +50,9 @@ int player_sub_track_current(Player* p);  // -1 = off
 void player_sub_track_name(Player* p, int i, wchar_t* buf, size_t buflen);
 void player_select_sub_track(Player* p, int i);  // -1 = off
 
+// Transient on-screen text (volume, seek feedback...), auto-expires.
+void player_show_osd(Player* p, const wchar_t* text, double seconds);
+
 void player_notify_resize(Player* p);
 double player_position(Player* p);
 double player_duration(Player* p);

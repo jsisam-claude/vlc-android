@@ -240,6 +240,15 @@ void player_select_sub_track(Player* p, int i) {
     reopen(p, p->want_audio_rel, choice);
 }
 
+void player_show_osd(Player* p, const wchar_t* text, double seconds) {
+    {
+        std::lock_guard<std::mutex> lk(p->osd_m);
+        p->osd_text = text ? text : L"";
+        p->osd_until = av_gettime_relative() + (int64_t)(seconds * 1e6);
+    }
+    p->redraw_req = true;  // repaint promptly while paused
+}
+
 void player_notify_resize(Player* p) {
     if (p->vo) p->vo->resize();
     p->redraw_req = true;

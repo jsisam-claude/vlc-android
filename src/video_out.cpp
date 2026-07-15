@@ -219,8 +219,11 @@ static RECT letterbox(int vw, int vh, int ww, int wh) {
     return r;
 }
 
-static void draw_subtitle(D3DState* d, ID3D11Texture2D* backbuffer, const std::wstring& text) {
-    if (!d->d2df || !d->dwf || text.empty()) return;
+static void draw_overlays(D3DState* d, ID3D11Texture2D* backbuffer,
+                          const SubRender& ov, const RECT& dst_rc) {
+    if (!d->d2df || !d->dwf) return;
+    if (ov.text.empty() && ov.osd.empty() && ov.bitmaps.empty()) return;
+    const std::wstring& text = ov.text;
 
     if (!d->d2drt) {
         IDXGISurface* surf = nullptr;
@@ -232,6 +235,33 @@ static void draw_subtitle(D3DState* d, ID3D11Texture2D* backbuffer, const std::w
         surf->Release();
         if (FAILED(hr)) { d->d2drt = nullptr; return; }
     }
+
+    // bitmap subtitles: map from their source coordinate space onto the
+    // letterboxed video rect
+    if (!ov.bitmaps.empty()) {
+        d->d2drt->BeginDraw();
+        for (auto& b : ov.bitmaps) {
+            if (!b || b->src_w <= 0 || b->src_h <= 0) continue;
+            ID2D1Bitmap* bmp = nullptr;
+            D2D1_BITMAP_PROPERTIES bp = D2D1::BitmapProperties(
+                D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM,
+                                  D2D1_ALPHA_MODE_PREMULTIPLIED));
+            if (FAILED(d->d2drt->CreateBitmap(D2D1::SizeU(b->w, b->h),
+                                              b->pixels.data(), b->w * 4, bp, &bmp)))
+                continue;
+            float sx = (float)(dst_rc.right - dst_rc.left) / b->src_w;
+            float sy = (float)(dst_rc.bottom - dst_rc.top) / b->src_h;
+            D2D1_RECT_F dest = D2D1::RectF(
+                dst_rc.left + b->x * sx, dst_rc.top + b->y * sy,
+                dst_rc.left + (b->x + b->w) * sx, dst_rc.top + (b->y + b->h) * sy);
+            d->d2drt->DrawBitmap(bmp, dest, 1.0f,
+                                 D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+            bmp->Release();
+        }
+        d->d2drt->EndDraw();
+    }
+
+    if (text.empty() && ov.osd.empty()) return;
 
     int px = d->out_h / 18;
     if (px < 14) px = 14;
@@ -257,12 +287,33 @@ static void draw_subtitle(D3DState* d, ID3D11Texture2D* backbuffer, const std::w
     d->d2drt->BeginDraw();
     const float o = px / 14.0f;  // shadow/outline offset
     const D2D1_POINT_2F offs[] = {{-o, 0}, {o, 0}, {0, -o}, {0, o}, {o, o}};
-    for (auto& off : offs) {
-        D2D1_RECT_F b = box;
-        b.left += off.x; b.right += off.x; b.top += off.y; b.bottom += off.y;
-        d->d2drt->DrawTextW(text.c_str(), (UINT32)text.size(), d->text_fmt, b, black);
+    if (!text.empty()) {
+        for (auto& off : offs) {
+            D2D1_RECT_F b = box;
+            b.left += off.x; b.right += off.x; b.top += off.y; b.bottom += off.y;
+            d->d2drt->DrawTextW(text.c_str(), (UINT32)text.size(), d->text_fmt, b, black);
+        }
+        d->d2drt->DrawTextW(text.c_str(), (UINT32)text.size(), d->text_fmt, box, white);
     }
-    d->d2drt->DrawTextW(text.c_str(), (UINT32)text.size(), d->text_fmt, box, white);
+    if (!ov.osd.empty()) {
+        IDWriteTextFormat* of = nullptr;
+        int opx = d->out_h / 24;
+        if (opx < 12) opx = 12;
+        d->dwf->CreateTextFormat(L"Segoe UI", nullptr, DWRITE_FONT_WEIGHT_SEMI_BOLD,
+                                 DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
+                                 (float)opx, L"", &of);
+        if (of) {
+            D2D1_RECT_F obox = D2D1::RectF(14.0f, 12.0f, d->out_w - 14.0f,
+                                           12.0f + opx * 1.6f);
+            for (auto& off : offs) {
+                D2D1_RECT_F b = obox;
+                b.left += off.x; b.right += off.x; b.top += off.y; b.bottom += off.y;
+                d->d2drt->DrawTextW(ov.osd.c_str(), (UINT32)ov.osd.size(), of, b, black);
+            }
+            d->d2drt->DrawTextW(ov.osd.c_str(), (UINT32)ov.osd.size(), of, obox, white);
+            of->Release();
+        }
+    }
     d->d2drt->EndDraw();
     black->Release();
     white->Release();
@@ -419,7 +470,7 @@ static bool render_shader(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
     return true;
 }
 
-bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
+bool VideoOut::render(AVFrame* f, const SubRender& overlays) {
     std::lock_guard<std::mutex> lk(m_);
     if (!d || !d->swap || !f) return false;
 
@@ -437,7 +488,7 @@ bool VideoOut::render(AVFrame* f, const std::wstring& subtitle) {
 
     bool ok = d->use_vp ? render_vp(d, f, back, dst_rc)
                         : render_shader(d, f, back, dst_rc);
-    if (ok) draw_subtitle(d, back, subtitle);
+    if (ok) draw_overlays(d, back, overlays, dst_rc);
     back->Release();
     if (!ok) return false;
     d->swap->Present(1, 0);
