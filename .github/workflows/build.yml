@@ -7,21 +7,10 @@ on:
 jobs:
   win64:
     runs-on: windows-latest
-    env:
-      # 'clear' for this run: force a real ffmpeg build so the buildtree
-      # exists for the config harvest below (bootstrap for vcpkg removal)
-      VCPKG_BINARY_SOURCES: clear
     steps:
       - uses: actions/checkout@v4
-
-      - name: Export GitHub Actions cache env for vcpkg
-        uses: actions/github-script@v7
         with:
-          script: |
-            for (const k of ['ACTIONS_CACHE_URL', 'ACTIONS_RUNTIME_TOKEN',
-                             'ACTIONS_RESULTS_URL', 'ACTIONS_CACHE_SERVICE_V2']) {
-              if (process.env[k]) core.exportVariable(k, process.env[k]);
-            }
+          submodules: true
 
       - name: Set up MSVC environment
         uses: ilammy/msvc-dev-cmd@v1
@@ -29,65 +18,13 @@ jobs:
           arch: x64
 
       - name: Configure
-        shell: pwsh
-        run: |
-          $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
-          cmake --preset x64-release
+        run: cmake --preset x64-release
 
       - name: Build
-        shell: pwsh
-        run: |
-          $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
-          cmake --build --preset x64-release
+        run: cmake --build --preset x64-release
 
       - name: Upload player exe
         uses: actions/upload-artifact@v4
         with:
           name: minimal-player-win64
           path: build/x64-release/minimal-player.exe
-
-      - name: Harvest ffmpeg build config (bootstrap for vcpkg-free build)
-        if: always()
-        shell: pwsh
-        run: |
-          $bld = "build/x64-release/vcpkg_installed/vcpkg/blds/ffmpeg"
-          if (-not (Test-Path $bld)) { Write-Host "no buildtree (cache hit?)"; exit 0 }
-          $rel = Get-ChildItem $bld -Directory | Where-Object Name -like "*-rel" | Select-Object -First 1
-          if (-not $rel) { Write-Host "no -rel build dir"; exit 0 }
-          New-Item -ItemType Directory -Force harvest | Out-Null
-          foreach ($f in @("config.h", "config_components.h", "config.asm",
-                           "ffbuild/config.mak", "libavutil/avconfig.h",
-                           "libavutil/ffversion.h", "config_avcodec.h",
-                           "config_avformat.h", "config_avutil.h",
-                           "config_swresample.h", "config_swscale.h")) {
-            $p = Join-Path $rel.FullName $f
-            if (Test-Path $p) {
-              $dst = Join-Path harvest $f
-              New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
-              Copy-Item $p $dst
-            }
-          }
-          # generated component list sources (codec_list.c etc.) + any other
-          # configure-generated .c/.h in the buildtree
-          Get-ChildItem $rel.FullName -Recurse -Include *_list.c,*.h |
-            Where-Object { $_.FullName -notmatch '\\(tests|doc)\\' } |
-            ForEach-Object {
-              $relpath = $_.FullName.Substring($rel.FullName.Length + 1)
-              $dst = Join-Path harvest $relpath
-              New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
-              Copy-Item $_.FullName $dst
-            }
-          Get-ChildItem $rel.FullName -Recurse -Include *.o,*.obj |
-            ForEach-Object { $_.FullName.Substring($rel.FullName.Length + 1) -replace '\\','/' } |
-            Sort-Object | Set-Content harvest/objects.txt
-          $src = Get-ChildItem "$bld/src" -Directory | Select-Object -First 1
-          if ($src) { $src.Name | Set-Content harvest/source-version.txt }
-          Get-ChildItem harvest -Recurse | Select-Object -ExpandProperty FullName
-
-      - name: Upload ffmpeg config harvest
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ffmpeg-config-harvest
-          path: harvest/
-          if-no-files-found: ignore

@@ -34,41 +34,35 @@ repo. Microsoft samples are MIT (compatible). No GPL-only FFmpeg features
 MPC Video Renderer) — reference reading only, or the whole project flips
 to GPL.
 
-## The one hard build problem, solved up front
+## The one hard build problem — resolved: no configure, ever
 
-FFmpeg's build uses a `configure` shell script; MSVC/clang-cl are fully
-supported *compilers* for it, but the script needs a POSIX shell. With
-MSYS banned, in order of preference:
+FFmpeg's own build uses a `configure` shell script (needs a POSIX shell)
+and nasm (a prebuilt assembler). Both violate the no-msys/no-prebuilts
+constraint, so **neither runs anywhere in this project**. Instead:
 
-1. **vcpkg in manifest mode, static triplet** (`x64-windows-static`) —
-   vcpkg *ships inside the VS 2022 installer*, so this stays within
-   "tooling that comes with Visual Studio". `cmake --preset x64-release`
-   has vcpkg build our *vendored* FFmpeg checkout (overlay port pointing
-   at `third_party/ffmpeg`) and link it statically. vcpkg internally
-   fetches a private msys2 subprocess to run configure and nasm for the
-   SIMD asm — automatic, never installed system-wide, never touched by
-   you. Output is `.lib` files in the build tree.
-2. If a hidden shell is still unacceptable: a one-time
-   `tools/build-ffmpeg.ps1` that runs configure via the `busybox-w32`
-   single-binary shell (one ~700 KB exe checked into `tools/`, no
-   installation, no environment). Same compilers, same static output.
-3. Never: system MSYS2, mingw toolchains, or prebuilt FFmpeg/libvlc DLLs.
+- FFmpeg is vendored as a **pinned source submodule**
+  (`third_party/ffmpeg`, official repo, tag n8.1.2) — text files only.
+- The artifacts configure *would* generate are **committed as text**
+  under `third_party/ffmpeg-config/`: `config.h`,
+  `config_components.h`, the `*_list.c` component tables, version
+  headers. Provenance: harvested once from a reference MSVC configure
+  run on a throwaway CI runner, then hand-patched (asm disabled) and
+  pinned. They change only on a deliberate FFmpeg version bump.
+- `cmake/ffmpeg.cmake` compiles the needed `.c` files (list committed
+  in `cmake/ffmpeg_sources.txt`) into a static lib with plain
+  `cl.exe`. No package manager, no shell, no downloads, nothing
+  prebuilt — the same CMake+Ninja+MSVC that builds the player.
 
-**Compiler choice:** prefer **clang-cl** (LLVM toolset in the VS
-installer) for the FFmpeg objects — it handles FFmpeg's hot paths better —
-while player code stays plain MSVC; they link together freely. Escape
-hatch for asm/tooling friction: `--disable-x86asm` (slower, functional).
+**SIMD asm is disabled** (`HAVE_X86ASM 0`, x86/ sources excluded):
+avoiding nasm costs CPU-decode speed (FFmpeg's C fallbacks, roughly
+2–4× slower kernels). Acceptable at 1080p on modern CPUs, and the
+phase-4 D3D11VA hardware decode path removes CPU decode from the
+equation for H.264/HEVC/VP9 entirely.
 
-FFmpeg is built **once per FFmpeg version bump**, `.lib` outputs cached;
-day-to-day development is pure Visual Studio: open folder, F5.
-
-**Bring-up sequencing note:** phase 1 uses the *official* vcpkg ffmpeg
-port (features: avcodec/avformat/swresample/swscale, full decoder set
-within those libs) instead of the trimmed custom configure below — it is
-the battle-tested MSVC build path and maximizes the chance the first
-build succeeds. The `--disable-everything` trim moves to the size-trim
-phase as an overlay port; until then the exe is larger (~30–60 MB) but
-functionally identical.
+History note: bring-up initially used the vcpkg ffmpeg port; it proved
+MSVC compiles this FFmpeg cleanly and supplied the reference config
+harvest, then was removed per the constraint. clang-cl remains an
+optional later experiment for faster C decode paths.
 
 FFmpeg configure line (trimmed, static, LGPL):
 
