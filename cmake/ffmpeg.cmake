@@ -58,4 +58,4 @@ add_library(ffmpeg INTERFACE)
 target_include_directories(ffmpeg INTERFACE ${FF_CFG} ${FF_SRC})
 target_link_libraries(ffmpeg INTERFACE
   ff_libavformat ff_libavcodec ff_libswresample ff_libswscale ff_libavutil
-  ws2_32 secur32 crypt32 bcrypt mfuuid strmiids ole32 user32)
+  ws2_32 secur32 crypt32 ncrypt bcrypt mfuuid strmiids ole32 user32)
