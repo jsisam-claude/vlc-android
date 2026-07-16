@@ -43,7 +43,11 @@ foreach(lib IN LISTS FF_LIBS)
     HAVE_AV_CONFIG_H
     _USE_MATH_DEFINES
     _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS
-    _WINSOCK_DEPRECATED_NO_WARNINGS)
+    _WINSOCK_DEPRECATED_NO_WARNINGS
+    # ffmpeg's configure adds this on all Windows targets; without it
+    # windows.h drags in winsock.h, which collides with winsock2.h in the
+    # network code (WSAAsyncSelect/ip_mreq redefinitions).
+    WIN32_LEAN_AND_MEAN)
   if(MSVC)
     # third-party code: silence warnings; C11 atomics needed by ffmpeg>=6
     target_compile_options(ff_${lib} PRIVATE /W0 /experimental:c11atomics)
