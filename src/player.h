@@ -2,6 +2,7 @@
 // embedding application like a gallery) talk to the engine only through
 // these calls and never see FFmpeg or renderer types.
 #pragma once
+#include <stdint.h>
 #include <windows.h>
 
 struct Player;
