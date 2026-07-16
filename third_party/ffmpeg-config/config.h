@@ -659,6 +659,9 @@
 #ifndef HAVE_GETHRTIME
 #define HAVE_GETHRTIME 0
 #endif
+#ifndef HAVE_GLOB
+#define HAVE_GLOB 0
+#endif
 #ifndef HAVE_GMTIME_R
 #define HAVE_GMTIME_R 0
 #endif

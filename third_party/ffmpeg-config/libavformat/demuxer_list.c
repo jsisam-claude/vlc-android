@@ -5,4 +5,5 @@ static const FFInputFormat * const demuxer_list[] = {
     &ff_avi_demuxer,
     &ff_srt_demuxer,
     &ff_ass_demuxer,
+    &ff_hls_demuxer,
     NULL };

@@ -6,4 +6,5 @@ static const URLProtocol * const url_protocols[] = {
     &ff_tcp_protocol,
     &ff_tls_protocol,
     &ff_udp_protocol,
+    &ff_crypto_protocol,
     NULL };

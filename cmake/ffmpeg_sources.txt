@@ -219,7 +219,10 @@ libavcodec/vp9recon.c
 libavcodec/vpx_rac.c
 libavcodec/xiph.c
 libavcodec/xvididct.c
+libavformat/aacdec.c
+libavformat/ac3dec.c
 libavformat/allformats.c
+libavformat/apetag.c
 libavformat/assdec.c
 libavformat/av1.c
 libavformat/avformat.c
@@ -227,6 +230,7 @@ libavformat/avidec.c
 libavformat/avio.c
 libavformat/aviobuf.c
 libavformat/codecstring.c
+libavformat/crypto.c
 libavformat/demux.c
 libavformat/demux_utils.c
 libavformat/dovi_isom.c
@@ -236,10 +240,13 @@ libavformat/dvdclut.c
 libavformat/file.c
 libavformat/flac_picture.c
 libavformat/format.c
+libavformat/hls.c
+libavformat/hls_sample_encryption.c
 libavformat/http.c
 libavformat/httpauth.c
 libavformat/id3v1.c
 libavformat/id3v2.c
+libavformat/img2.c
 libavformat/ip.c
 libavformat/isom.c
 libavformat/isom_tags.c
@@ -249,6 +256,7 @@ libavformat/metadata.c
 libavformat/mov.c
 libavformat/mov_chan.c
 libavformat/mov_esds.c
+libavformat/mpegts.c
 libavformat/mux.c
 libavformat/mux_utils.c
 libavformat/nal.c
@@ -258,6 +266,7 @@ libavformat/options.c
 libavformat/os_support.c
 libavformat/protocols.c
 libavformat/qtpalette.c
+libavformat/rawdec.c
 libavformat/replaygain.c
 libavformat/riff.c
 libavformat/riffdec.c

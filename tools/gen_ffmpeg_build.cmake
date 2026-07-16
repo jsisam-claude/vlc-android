@@ -26,12 +26,14 @@ set(DECODERS h264 hevc mpeg2video mpeg4 msmpeg4v3 vp8 vp9
     pcm_s16le pcm_s24le pcm_s32le pcm_f32le
     subrip srt ass ssa movtext pgssub dvdsub)
 set(PARSERS h264 hevc mpegvideo mpeg4video mpegaudio aac ac3 flac vorbis opus vp8 vp9)
-set(DEMUXERS mov matroska avi srt ass)
+# hls pulls aac/ac3/eac3/mov/mpegts demuxers through its select chain.
+set(DEMUXERS mov matroska avi srt ass hls)
 set(MUXERS "")
 set(ENCODERS "")
 # udp is needed at link time regardless of use: tls_schannel's DTLS path
 # calls ff_udp_* helpers (runtime-gated, so the linker still wants them).
-set(PROTOCOLS file http https tcp tls udp)
+# crypto: AES-128 HLS segments open through the crypto: protocol (avutil aes).
+set(PROTOCOLS file http https tcp tls udp crypto)
 set(BSFS null)
 # Both D3D11 hwaccel families per codec: the engine negotiates AV_PIX_FMT_D3D11
 # (the *_d3d11va2 hwaccels), but libavcodec/Makefile gates the shared
