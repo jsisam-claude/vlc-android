@@ -39,7 +39,7 @@ enum {
     IDM_SHUFFLE, IDM_OPENURL,
     IDM_PIC_BR_UP, IDM_PIC_BR_DN, IDM_PIC_CO_UP, IDM_PIC_CO_DN,
     IDM_PIC_SA_UP, IDM_PIC_SA_DN, IDM_PIC_HU_UP, IDM_PIC_HU_DN,
-    IDM_PIC_RESET, IDM_ASSOC,
+    IDM_PIC_RESET, IDM_ASSOC, IDM_SUB_BIGGER, IDM_SUB_SMALLER,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
     IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
@@ -78,6 +78,7 @@ static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
 static int g_loaded_vol = -1;   // 0..200, -1 = not in state file
 static int g_loaded_mute = 0;
 static bool g_loaded_fs = false;
+static int g_loaded_subscale = 100;
 
 static bool is_video_ext(const wchar_t* path) {
     const wchar_t* dot = wcsrchr(path, L'.');
@@ -103,6 +104,8 @@ static void save_state(HWND hwnd) {
     fwprintf(f, L"A|%d\n", g_autonext ? 1 : 0);
     fwprintf(f, L"P|%d|%d\n", g_repeat, g_shuffle ? 1 : 0);
     fwprintf(f, L"F|%d\n", g_fullscreen ? 1 : 0);
+    if (g_player)
+        fwprintf(f, L"S|%d\n", (int)(player_sub_scale(g_player) * 100 + 0.5));
     if (g_player)
         fwprintf(f, L"V|%d|%d\n", (int)(player_volume(g_player) * 100 + 0.5f),
                  player_is_muted(g_player) ? 1 : 0);
@@ -145,6 +148,9 @@ static void load_state() {
             }
         } else if (line[0] == L'F' && line[1] == L'|') {
             g_loaded_fs = line[2] == L'1';
+        } else if (line[0] == L'S' && line[1] == L'|') {
+            int s = _wtoi(line + 2);
+            if (s >= 50 && s <= 200) g_loaded_subscale = s;
         } else if (line[0] == L'W' && line[1] == L'|') {
             WINDOWPLACEMENT& wp = g_loaded_placement;
             unsigned cmd = SW_SHOWNORMAL;
@@ -1017,6 +1023,9 @@ static void show_context_menu(HWND hwnd, int x, int y) {
             AppendMenuW(sm, MF_STRING | (i == cur ? MF_CHECKED : 0),
                         IDM_STRACK_BASE + i, nm);
         }
+        AppendMenuW(sm, MF_SEPARATOR, 0, nullptr);
+        AppendMenuW(sm, MF_STRING, IDM_SUB_BIGGER, L"Larger Text");
+        AppendMenuW(sm, MF_STRING, IDM_SUB_SMALLER, L"Smaller Text");
         AppendMenuW(m, MF_POPUP, (UINT_PTR)sm, L"Subtitles\tS");
     }
     int cc = media ? player_chapter_count(g_player) : 0;
@@ -1235,6 +1244,18 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_OPEN: open_dialog(hwnd); break;
                 case IDM_ASSOC: register_associations(hwnd); break;
+                case IDM_SUB_BIGGER:
+                case IDM_SUB_SMALLER:
+                    if (g_player) {
+                        double s = player_sub_scale(g_player) *
+                                   (LOWORD(wp) == IDM_SUB_BIGGER ? 1.1 : 1 / 1.1);
+                        player_set_sub_scale(g_player, s);
+                        wchar_t b[48];
+                        swprintf(b, 48, L"Subtitle size %d%%",
+                                 (int)(player_sub_scale(g_player) * 100 + 0.5));
+                        osd(b);
+                    }
+                    break;
                 case IDM_OPENURL: {
                     std::wstring url;
                     if (open_url_dialog(hwnd, url)) open_any(hwnd, url.c_str());
@@ -1504,6 +1525,34 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         FILE* f = nullptr;
         freopen_s(&f, "CONOUT$", "w", stderr);
     }
+
+    // Headless probe mode: exit codes 0 ok / 1 unreadable / 2 usage. CI
+    // executes this as a smoke test, so a broken binary fails the build.
+    {
+        int argc = 0;
+        wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+        if (argv && argc >= 2 && !_wcsicmp(argv[1], L"--probe")) {
+            FILE* fo = nullptr;
+            freopen_s(&fo, "CONOUT$", "w", stdout);
+            int rc = 2;
+            if (argc >= 3) {
+                PlayerMediaInfo info;
+                bool ok = player_probe(argv[2], &info);
+                if (ok)
+                    wprintf(L"ok %dx%d %.1fs video=%ls audio_tracks=%d subs=%d\n",
+                            info.width, info.height, info.duration_sec,
+                            info.video_codec, info.audio_tracks, info.sub_tracks);
+                else
+                    wprintf(L"probe failed\n");
+                rc = ok ? 0 : 1;
+            } else {
+                wprintf(L"usage: minimal-player --probe <file-or-url>\n");
+            }
+            LocalFree(argv);
+            return rc;
+        }
+        if (argv) LocalFree(argv);
+    }
     // Single instance: hand the command line to the running player instead
     // of opening a second window.
     HANDLE single = CreateMutexW(nullptr, TRUE, L"minimal-player-single-instance");
@@ -1605,6 +1654,8 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         player_volume_set(g_player, g_loaded_vol / 100.0f);
         player_set_mute(g_player, g_loaded_mute > 0);
     }
+    if (g_loaded_subscale != 100)
+        player_set_sub_scale(g_player, g_loaded_subscale / 100.0);
     SendMessageW(g_vol, TBM_SETPOS, TRUE, (LPARAM)(player_volume(g_player) * 100));
 
     if (g_have_placement) {
@@ -1646,6 +1697,9 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
 
     player_destroy(g_player);
     g_player = nullptr;
+    if (g_taskbar) g_taskbar->Release();
+    for (HICON ic : {g_ic_prev, g_ic_play, g_ic_pause, g_ic_next})
+        if (ic) DestroyIcon(ic);
     CoUninitialize();
     return 0;
 }

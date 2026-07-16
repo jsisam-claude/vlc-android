@@ -48,6 +48,6 @@ target_link_libraries(minimal-player PRIVATE
 )
 
 if(MSVC)
-  target_compile_options(player_engine PRIVATE /W3 /utf-8)
-  target_compile_options(minimal-player PRIVATE /W3 /utf-8)
+  target_compile_options(player_engine PRIVATE /W4 /utf-8)
+  target_compile_options(minimal-player PRIVATE /W4 /utf-8)
 endif()

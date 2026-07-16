@@ -231,6 +231,13 @@ void player_set_sub_delay(Player* p, double s) {
 }
 double player_sub_delay(Player* p) { return p->sub_delay; }
 
+void player_set_sub_scale(Player* p, double s) {
+    if (p->vo) p->vo->set_sub_scale(s);
+    p->redraw_req = true;
+}
+
+double player_sub_scale(Player* p) { return p->vo ? p->vo->sub_scale() : 1.0; }
+
 void player_volume_step(Player* p, int steps) { p->ao.volume_step(steps); }
 void player_volume_set(Player* p, float v) { p->ao.volume_set(v); }
 float player_volume(Player* p) { return p->ao.volume(); }

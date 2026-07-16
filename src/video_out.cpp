@@ -45,6 +45,7 @@ struct D3DState {
     bool pic_ok[4] = {};
     D3D11_VIDEO_PROCESSOR_FILTER_RANGE pic_range[4] = {};
     int aspect_mode = 0;  // 0 auto, 1 16:9, 2 4:3, 3 stretch, 4 crop-fill
+    double sub_scale = 1.0;  // subtitle text size multiplier, 0.5..2
     ID3D11Texture2D* in_tex = nullptr;
     ID3D11VideoProcessorInputView* in_view = nullptr;
     bool staging_p010 = false;   // staging texture format (P010 vs NV12)
@@ -374,8 +375,8 @@ static void draw_overlays(D3DState* d, ID3D11Texture2D* backbuffer,
 
     if (text.empty() && ov.osd.empty()) return;
 
-    int px = d->out_h / 18;
-    if (px < 14) px = 14;
+    int px = (int)(d->out_h / 18 * d->sub_scale);
+    if (px < 12) px = 12;
     if (!d->text_fmt || d->text_fmt_px != px) {
         safe_release(d->text_fmt);
         d->dwf->CreateTextFormat(L"Segoe UI", nullptr, DWRITE_FONT_WEIGHT_SEMI_BOLD,
@@ -473,6 +474,16 @@ void VideoOut::set_aspect(int mode) {
 int VideoOut::aspect() {
     std::lock_guard<std::mutex> lk(m_);
     return d ? d->aspect_mode : 0;
+}
+
+void VideoOut::set_sub_scale(double s) {
+    std::lock_guard<std::mutex> lk(m_);
+    if (d) d->sub_scale = s < 0.5 ? 0.5 : s > 2.0 ? 2.0 : s;
+}
+
+double VideoOut::sub_scale() {
+    std::lock_guard<std::mutex> lk(m_);
+    return d ? d->sub_scale : 1.0;
 }
 
 void VideoOut::resize() {

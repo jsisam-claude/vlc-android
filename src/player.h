@@ -46,6 +46,9 @@ void player_set_audio_delay(Player* p, double s);
 double player_audio_delay(Player* p);
 void player_set_sub_delay(Player* p, double s);
 double player_sub_delay(Player* p);
+// Subtitle text size multiplier, 0.5..2 (1 = default).
+void player_set_sub_scale(Player* p, double s);
+double player_sub_scale(Player* p);
 
 // Audio output endpoints. Enumeration is standalone (COM-initialized
 // thread); selection by endpoint id, NULL = follow the system default.

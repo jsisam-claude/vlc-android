@@ -153,39 +153,161 @@ std::wstring subs_find_sidecar(const wchar_t* media_path) {
     return L"";
 }
 
+// ---- sidecar encoding detection -----------------------------------------
+// FFmpeg's text-subtitle demuxers require UTF-8. Real-world .srt files come
+// as UTF-8 (with or without BOM), UTF-16, or legacy ANSI codepages; detect
+// and convert, then feed avformat from memory.
+
+static bool valid_utf8(const std::string& s) {
+    size_t i = 0;
+    while (i < s.size()) {
+        unsigned char c = s[i];
+        int follow = c < 0x80 ? 0 : (c & 0xE0) == 0xC0 ? 1
+                     : (c & 0xF0) == 0xE0              ? 2
+                     : (c & 0xF8) == 0xF0              ? 3
+                                                       : -1;
+        if (follow < 0 || i + follow >= s.size()) return false;
+        for (int k = 1; k <= follow; k++)
+            if ((s[i + k] & 0xC0) != 0x80) return false;
+        i += follow + 1;
+    }
+    return true;
+}
+
+static std::string wide_span_to_utf8(const wchar_t* w, size_t n) {
+    int len = WideCharToMultiByte(CP_UTF8, 0, w, (int)n, nullptr, 0, nullptr, nullptr);
+    std::string out(len > 0 ? len : 0, 0);
+    if (len > 0) WideCharToMultiByte(CP_UTF8, 0, w, (int)n, &out[0], len, nullptr, nullptr);
+    return out;
+}
+
+static std::string read_sidecar_utf8(const wchar_t* path) {
+    FILE* f = _wfopen(path, L"rb");
+    if (!f) return "";
+    fseek(f, 0, SEEK_END);
+    long len = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    if (len <= 0 || len > 8 * 1024 * 1024) {
+        fclose(f);
+        return "";
+    }
+    std::string raw((size_t)len, 0);
+    size_t rd = fread(&raw[0], 1, (size_t)len, f);
+    fclose(f);
+    raw.resize(rd);
+    if (raw.size() < 2) return raw;
+
+    const unsigned char* b = (const unsigned char*)raw.data();
+    if (raw.size() >= 3 && b[0] == 0xEF && b[1] == 0xBB && b[2] == 0xBF)
+        return raw.substr(3);  // UTF-8 BOM
+    if (b[0] == 0xFF && b[1] == 0xFE) {  // UTF-16 LE
+        return wide_span_to_utf8((const wchar_t*)(raw.data() + 2),
+                                 (raw.size() - 2) / 2);
+    }
+    if (b[0] == 0xFE && b[1] == 0xFF) {  // UTF-16 BE
+        std::wstring w((raw.size() - 2) / 2, 0);
+        for (size_t i = 0; i < w.size(); i++)
+            w[i] = (wchar_t)((b[2 + 2 * i] << 8) | b[3 + 2 * i]);
+        return wide_span_to_utf8(w.c_str(), w.size());
+    }
+    if (valid_utf8(raw)) return raw;
+    // legacy single-byte file: interpret in the user's ANSI codepage
+    int wn = MultiByteToWideChar(CP_ACP, 0, raw.c_str(), (int)raw.size(), nullptr, 0);
+    std::wstring w(wn > 0 ? wn : 0, 0);
+    if (wn > 0)
+        MultiByteToWideChar(CP_ACP, 0, raw.c_str(), (int)raw.size(), &w[0], wn);
+    log_line("subs: sidecar converted from ANSI codepage");
+    return wide_span_to_utf8(w.c_str(), w.size());
+}
+
+struct MemReader {
+    const uint8_t* data;
+    size_t size, pos;
+};
+
+static int mem_read(void* op, uint8_t* buf, int n) {
+    MemReader* m = (MemReader*)op;
+    size_t left = m->size - m->pos;
+    if (left == 0) return AVERROR_EOF;
+    if ((size_t)n > left) n = (int)left;
+    memcpy(buf, m->data + m->pos, n);
+    m->pos += n;
+    return n;
+}
+
+static int64_t mem_seek(void* op, int64_t off, int whence) {
+    MemReader* m = (MemReader*)op;
+    if (whence == AVSEEK_SIZE) return (int64_t)m->size;
+    int64_t base = whence == SEEK_CUR ? (int64_t)m->pos
+                   : whence == SEEK_END ? (int64_t)m->size
+                                        : 0;
+    int64_t p = base + off;
+    if (p < 0 || p > (int64_t)m->size) return -1;
+    m->pos = (size_t)p;
+    return p;
+}
+
 int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out) {
     std::wstring side = subs_find_sidecar(media_path);
     if (side.empty()) return 0;
 
-    std::string u8 = wide_to_utf8(side.c_str());
-    AVFormatContext* fc = nullptr;
-    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return 0;
-    if (avformat_find_stream_info(fc, nullptr) < 0) { avformat_close_input(&fc); return 0; }
+    std::string text = read_sidecar_utf8(side.c_str());
+    if (text.empty()) return 0;
 
-    int si = av_find_best_stream(fc, AVMEDIA_TYPE_SUBTITLE, -1, -1, nullptr, 0);
-    if (si < 0) { avformat_close_input(&fc); return 0; }
-
-    const AVCodec* dec = avcodec_find_decoder(fc->streams[si]->codecpar->codec_id);
-    AVCodecContext* ctx = dec ? avcodec_alloc_context3(dec) : nullptr;
-    if (!ctx || avcodec_parameters_to_context(ctx, fc->streams[si]->codecpar) < 0 ||
-        avcodec_open2(ctx, dec, nullptr) < 0) {
-        if (ctx) avcodec_free_context(&ctx);
-        avformat_close_input(&fc);
+    MemReader mr = {(const uint8_t*)text.data(), text.size(), 0};
+    unsigned char* iobuf = (unsigned char*)av_malloc(4096);
+    AVIOContext* avio =
+        iobuf ? avio_alloc_context(iobuf, 4096, 0, &mr, mem_read, nullptr, mem_seek)
+              : nullptr;
+    if (!avio) {
+        av_free(iobuf);
         return 0;
     }
 
-    int n = 0;
-    AVPacket* pkt = av_packet_alloc();
-    while (av_read_frame(fc, pkt) >= 0) {
-        if (pkt->stream_index == si) {
-            subs_decode_packet(ctx, pkt, fc->streams[si]->time_base, out);
-            n++;
-        }
-        av_packet_unref(pkt);
+    std::string u8 = wide_to_utf8(side.c_str());  // name only (format hints)
+    AVFormatContext* fc = avformat_alloc_context();
+    if (!fc) {
+        av_freep(&avio->buffer);
+        avio_context_free(&avio);
+        return 0;
     }
+    fc->pb = avio;
+    fc->flags |= AVFMT_FLAG_CUSTOM_IO;
+    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) {
+        av_freep(&avio->buffer);
+        avio_context_free(&avio);
+        return 0;
+    }
+    int n = -1;
+    AVCodecContext* ctx = nullptr;
+    AVPacket* pkt = nullptr;
+    do {
+        if (avformat_find_stream_info(fc, nullptr) < 0) break;
+        int si = av_find_best_stream(fc, AVMEDIA_TYPE_SUBTITLE, -1, -1, nullptr, 0);
+        if (si < 0) break;
+
+        const AVCodec* dec = avcodec_find_decoder(fc->streams[si]->codecpar->codec_id);
+        ctx = dec ? avcodec_alloc_context3(dec) : nullptr;
+        if (!ctx || avcodec_parameters_to_context(ctx, fc->streams[si]->codecpar) < 0 ||
+            avcodec_open2(ctx, dec, nullptr) < 0)
+            break;
+
+        n = 0;
+        pkt = av_packet_alloc();
+        if (!pkt) break;
+        while (av_read_frame(fc, pkt) >= 0) {
+            if (pkt->stream_index == si) {
+                subs_decode_packet(ctx, pkt, fc->streams[si]->time_base, out);
+                n++;
+            }
+            av_packet_unref(pkt);
+        }
+    } while (false);
     av_packet_free(&pkt);
     avcodec_free_context(&ctx);
     avformat_close_input(&fc);
-    log_line("subs: loaded %d cues from sidecar", n);
-    return n;
+    av_freep(&avio->buffer);
+    avio_context_free(&avio);
+    if (n > 0) log_line("subs: loaded %d cues from sidecar", n);
+    return n > 0 ? n : 0;
 }

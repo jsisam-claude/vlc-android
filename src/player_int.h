@@ -211,6 +211,8 @@ public:
     void get_picture(int* b, int* c, int* s, int* h);
     void set_aspect(int mode);
     int aspect();
+    void set_sub_scale(double s);  // 0.5..2 text size multiplier
+    double sub_scale();
     ~VideoOut() { shutdown(); }
 
 private:

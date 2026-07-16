@@ -21,6 +21,17 @@ jobs:
       - name: Build
         run: cmake --build --preset x64-release
 
+      - name: Smoke test (run the binary, check probe exit codes)
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath build\x64-release\minimal-player.exe `
+               -ArgumentList '--probe','no-such-file.mkv' -PassThru -Wait
+          if ($p.ExitCode -ne 1) { throw "probe missing-file: expected 1, got $($p.ExitCode)" }
+          $p = Start-Process -FilePath build\x64-release\minimal-player.exe `
+               -ArgumentList '--probe' -PassThru -Wait
+          if ($p.ExitCode -ne 2) { throw "probe usage: expected 2, got $($p.ExitCode)" }
+          Write-Host "smoke test passed"
+
       - name: Upload player exe
         uses: actions/upload-artifact@v4
         with:
