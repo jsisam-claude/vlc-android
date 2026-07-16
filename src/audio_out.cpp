@@ -100,41 +100,77 @@ double AudioOut::clock() {
 }
 
 void AudioOut::volume_step(int steps) {
+    std::lock_guard<std::mutex> lk(dev_m_);
     if (!dev_ || !dev_->volume) return;
     float v = 1.0f;
     dev_->volume->GetMasterVolume(&v);
     v = std::fmax(0.0f, std::fmin(1.0f, v + 0.05f * steps));
     dev_->volume->SetMasterVolume(v, nullptr);
+    want_vol_ = v;
 }
 
 void AudioOut::volume_set(float v) {
-    if (!dev_ || !dev_->volume) return;
-    dev_->volume->SetMasterVolume(std::fmax(0.0f, std::fmin(1.0f, v)), nullptr);
+    v = std::fmax(0.0f, std::fmin(1.0f, v));
+    want_vol_ = v;
+    std::lock_guard<std::mutex> lk(dev_m_);
+    if (dev_ && dev_->volume) dev_->volume->SetMasterVolume(v, nullptr);
 }
 
 void AudioOut::set_mute(bool m) {
+    want_mute_ = m ? 1 : 0;
+    std::lock_guard<std::mutex> lk(dev_m_);
     if (dev_ && dev_->volume) dev_->volume->SetMute(m, nullptr);
 }
 
 bool AudioOut::muted() {
-    BOOL m = FALSE;
-    if (dev_ && dev_->volume) dev_->volume->GetMute(&m);
-    return m != FALSE;
+    std::lock_guard<std::mutex> lk(dev_m_);
+    if (dev_ && dev_->volume) {
+        BOOL m = FALSE;
+        dev_->volume->GetMute(&m);
+        return m != FALSE;
+    }
+    return want_mute_ > 0;  // no device yet: report the pending choice
 }
 
 float AudioOut::volume() {
-    float v = 1.0f;
-    if (dev_ && dev_->volume) dev_->volume->GetMasterVolume(&v);
-    return v;
+    std::lock_guard<std::mutex> lk(dev_m_);
+    if (dev_ && dev_->volume) {
+        float v = 1.0f;
+        dev_->volume->GetMasterVolume(&v);
+        return v;
+    }
+    float w = want_vol_;
+    return w >= 0 ? w : 1.0f;
 }
 
 void AudioOut::thread_main() {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-    dev_ = mmdevice_open();
-    if (!dev_) { CoUninitialize(); return; }
-
     DWORD task_idx = 0;
     HANDLE task = AvSetMmThreadCharacteristicsW(L"Audio", &task_idx);
+
+    // Each run_device() spans one device lifetime; when the endpoint goes
+    // away (unplugged, default output switched) we reopen the new default
+    // and continue. The clock freezes across the gap, so video waits.
+    while (!abort_) {
+        if (!run_device()) break;
+        Sleep(500);
+    }
+
+    if (task) AvRevertMmThreadCharacteristics(task);
+    CoUninitialize();
+}
+
+bool AudioOut::run_device() {
+    MMDevice* d = mmdevice_open();
+    {
+        std::lock_guard<std::mutex> lk(dev_m_);
+        dev_ = d;
+    }
+    if (!d) return !abort_;  // no endpoint right now: retry until abort
+
+    // Session volume/mute are per device; carry the user's choice over.
+    if (want_vol_ >= 0 && d->volume) d->volume->SetMasterVolume(want_vol_, nullptr);
+    if (want_mute_ >= 0 && d->volume) d->volume->SetMute(want_mute_ > 0, nullptr);
 
     const int out_rate = dev_->wf->nSamplesPerSec;
     const int out_ch = dev_->wf->nChannels;
@@ -145,8 +181,10 @@ void AudioOut::thread_main() {
     double queued_pts = NAN;  // pts at the *end* of everything pushed into fifo
     bool client_started = false;
     bool device_paused = false;
+    bool lost = false;
+    HRESULT hr;
 
-    while (!abort_) {
+    while (!abort_ && !lost) {
         if (flush_req_) {
             flush_req_ = false;
             av_audio_fifo_reset(fifo_);
@@ -207,12 +245,23 @@ void AudioOut::thread_main() {
         DWORD wr = WaitForSingleObject(dev_->event, 100);
         (void)wr;
         UINT32 padding = 0;
-        if (FAILED(dev_->client->GetCurrentPadding(&padding))) continue;
+        hr = dev_->client->GetCurrentPadding(&padding);
+        if (FAILED(hr)) {
+            if (hr == AUDCLNT_E_DEVICE_INVALIDATED) {
+                log_line("audio: device invalidated, reopening default endpoint");
+                lost = true;
+            }
+            continue;
+        }
         UINT32 want = dev_->buffer_frames - padding;
         if (want == 0) continue;
 
         BYTE* buf = nullptr;
-        if (FAILED(dev_->render->GetBuffer(want, &buf))) continue;
+        hr = dev_->render->GetBuffer(want, &buf);
+        if (FAILED(hr)) {
+            if (hr == AUDCLNT_E_DEVICE_INVALIDATED) lost = true;
+            continue;
+        }
         int have = av_audio_fifo_size(fifo_);
         int take = (int)((UINT32)have < want ? (UINT32)have : want);
         if (take > 0) av_audio_fifo_read(fifo_, (void**)&buf, take);
@@ -239,8 +288,10 @@ void AudioOut::thread_main() {
     av_channel_layout_uninit(&in_layout_);
     if (fifo_) av_audio_fifo_free(fifo_);
     fifo_ = nullptr;
-    if (task) AvRevertMmThreadCharacteristics(task);
-    mmdevice_free(dev_);
-    dev_ = nullptr;
-    CoUninitialize();
+    {
+        std::lock_guard<std::mutex> lk(dev_m_);
+        mmdevice_free(dev_);
+        dev_ = nullptr;
+    }
+    return lost && !abort_;
 }

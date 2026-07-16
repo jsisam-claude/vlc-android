@@ -47,6 +47,8 @@ static std::map<std::wstring, double> g_resume;
 static bool g_autonext = false;
 static bool g_have_placement = false;
 static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
+static int g_loaded_vol = -1;   // 0..100, -1 = not in state file
+static int g_loaded_mute = 0;
 
 static bool is_video_ext(const wchar_t* path) {
     const wchar_t* dot = wcsrchr(path, L'.');
@@ -70,6 +72,9 @@ static void save_state(HWND hwnd) {
     FILE* f = _wfopen(sp.c_str(), L"w, ccs=UTF-8");
     if (!f) return;
     fwprintf(f, L"A|%d\n", g_autonext ? 1 : 0);
+    if (g_player)
+        fwprintf(f, L"V|%d|%d\n", (int)(player_volume(g_player) * 100 + 0.5f),
+                 player_is_muted(g_player) ? 1 : 0);
     WINDOWPLACEMENT wp = {sizeof(WINDOWPLACEMENT)};
     if (hwnd && GetWindowPlacement(hwnd, &wp))
         fwprintf(f, L"W|%ld,%ld,%ld,%ld,%u\n",
@@ -104,6 +109,12 @@ static void load_state() {
                         &cmd) == 5) {
                 wp.showCmd = cmd;
                 g_have_placement = true;
+            }
+        } else if (line[0] == L'V' && line[1] == L'|') {
+            int v = -1, m = 0;
+            if (swscanf(line + 2, L"%d|%d", &v, &m) >= 1 && v >= 0 && v <= 100) {
+                g_loaded_vol = v;
+                g_loaded_mute = m;
             }
         } else if (line[0] == L'R' && line[1] == L'|') {
             wchar_t* bar = wcschr(line + 2, L'|');
@@ -371,6 +382,7 @@ static void on_key(HWND hwnd, WPARAM key) {
             player_set_mute(g_player, !player_is_muted(g_player));
             osd_volume();
             break;
+        case VK_OEM_PERIOD: player_frame_step(g_player); osd(L"Frame step"); break;
         case VK_LEFT: player_seek_rel(g_player, -10); osd(L"-10s"); break;
         case VK_RIGHT: player_seek_rel(g_player, 10); osd(L"+10s"); break;
         case VK_PRIOR: player_seek_rel(g_player, -60); osd(L"-60s"); break;
@@ -599,6 +611,10 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         return 1;
     }
     player_set_event_callback(g_player, on_player_event, g_main);
+    if (g_loaded_vol >= 0) {
+        player_volume_set(g_player, g_loaded_vol / 100.0f);
+        player_set_mute(g_player, g_loaded_mute > 0);
+    }
     SendMessageW(g_vol, TBM_SETPOS, TRUE, (LPARAM)(player_volume(g_player) * 100));
 
     if (g_have_placement) {

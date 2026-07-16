@@ -156,6 +156,12 @@ void player_toggle_pause(Player* p) {
 
 bool player_is_paused(Player* p) { return p->paused; }
 
+void player_frame_step(Player* p) {
+    if (!p->running) return;
+    if (!p->paused) player_toggle_pause(p);
+    p->step_req = true;
+}
+
 void player_seek_to(Player* p, double seconds) {
     if (!p->running) return;
     double target = seconds;
@@ -284,11 +290,21 @@ void player_last_error(Player* p, wchar_t* buf, size_t buflen) {
 
 const wchar_t* player_video_init_error(void) { return vo_init_error(); }
 
+// Interrupt callback giving standalone avformat calls a wall-clock budget,
+// so probing a file on a dead share fails instead of hanging the caller.
+static int deadline_interrupt(void* op) {
+    return av_gettime_relative() > *(int64_t*)op ? 1 : 0;
+}
+
 bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
     if (!info) return false;
     memset(info, 0, sizeof(*info));
     std::string u8 = wide_to_utf8(path);
-    AVFormatContext* fc = nullptr;
+    int64_t deadline = av_gettime_relative() + 5 * INT64_C(1000000);
+    AVFormatContext* fc = avformat_alloc_context();
+    if (!fc) return false;
+    fc->interrupt_callback.callback = deadline_interrupt;
+    fc->interrupt_callback.opaque = &deadline;
     if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return false;
     if (avformat_find_stream_info(fc, nullptr) < 0) {
         avformat_close_input(&fc);

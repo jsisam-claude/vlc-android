@@ -154,7 +154,11 @@ public:
 
 private:
     void thread_main();
+    bool run_device();            // one device lifetime; true = lost, retry
     MMDevice* dev_ = nullptr;
+    std::mutex dev_m_;            // guards dev_ vs. reopen on device loss
+    std::atomic<float> want_vol_{-1.0f};  // last requested; reapplied on reopen
+    std::atomic<int> want_mute_{-1};
     FrameQueue* fq_ = nullptr;
     const std::atomic<int>* pq_serial_ = nullptr;
     std::thread th_;
@@ -245,6 +249,7 @@ struct Player {
     std::mutex lastf_m;
     AVFrame* last_frame = nullptr;
     std::atomic<bool> redraw_req{false};
+    std::atomic<bool> step_req{false};  // advance one frame while paused
 
     // transient OSD text (guarded by osd_m)
     std::mutex osd_m;

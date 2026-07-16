@@ -61,6 +61,30 @@ void video_render_thread(Player* p) {
 
     while (!p->abort) {
         if (p->paused) {
+            if (p->step_req.exchange(false)) {
+                FQFrame fr;
+                if (p->vfq.pop(fr, 200)) {
+                    if (fr.serial == p->vq.serial()) {
+                        double pts = fr.pts;
+                        SubRender ov;
+                        ov.osd = p->osd_now();
+                        if (!std::isnan(pts)) {
+                            ov.text = p->subs.active_at(pts);
+                            p->subs.active_bitmaps_at(pts, ov.bitmaps);
+                        }
+                        p->vo->render(fr.f, ov);
+                        if (!std::isnan(pts)) {
+                            p->vclock.store(pts);
+                            p->extclk_set(pts);
+                        }
+                        std::lock_guard<std::mutex> lk(p->lastf_m);
+                        av_frame_free(&p->last_frame);
+                        p->last_frame = av_frame_clone(fr.f);
+                    }
+                    av_frame_free(&fr.f);
+                }
+                continue;
+            }
             if (p->redraw_req.exchange(false)) {
                 std::lock_guard<std::mutex> lk(p->lastf_m);
                 if (p->last_frame) {

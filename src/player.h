@@ -26,6 +26,7 @@ bool player_media_ended(Player* p);
 
 void player_toggle_pause(Player* p);
 bool player_is_paused(Player* p);
+void player_frame_step(Player* p);  // pauses if playing, then advances one frame
 void player_seek_rel(Player* p, double seconds);
 void player_seek_to(Player* p, double seconds);
 void player_volume_step(Player* p, int steps);
