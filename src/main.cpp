@@ -35,6 +35,7 @@ enum {
     IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
+    IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
 };
 #define MSG_PLAYER_EVENT (WM_APP + 1)
 #define MSG_PREVIEW_READY (WM_APP + 2)
@@ -50,6 +51,7 @@ static std::vector<std::wstring> g_siblings;   // video files in current folder
 static int g_sib_cur = -1;
 static std::map<std::wstring, double> g_resume;
 static std::map<std::wstring, std::pair<int, int>> g_track_mem;  // audio, sub
+static std::vector<std::wstring> g_adev_ids;  // context-menu endpoint ids
 static double g_loop_a = -1, g_loop_b = -1;  // A-B loop (seconds; <0 unset)
 static bool g_autonext = false;
 static bool g_have_placement = false;
@@ -560,7 +562,25 @@ static void show_context_menu(HWND hwnd, int x, int y) {
         }
         AppendMenuW(m, MF_POPUP, (UINT_PTR)cm, L"Chapters\tCtrl+PgUp/PgDn");
     }
-    if (ac > 0 || sc > 0 || cc > 0) AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
+    g_adev_ids.clear();
+    int dc = player_audio_device_count();
+    if (dc > 0) {
+        HMENU dm = CreatePopupMenu();
+        wchar_t cur[512] = L"";
+        if (g_player) player_audio_device_current(g_player, cur, 512);
+        AppendMenuW(dm, MF_STRING | (cur[0] ? 0 : MF_CHECKED),
+                    IDM_ADEV_DEFAULT, L"System Default");
+        for (int i = 0; i < dc && i < 32; i++) {
+            wchar_t nm[128], id[512];
+            player_audio_device_name(i, nm, 128);
+            player_audio_device_id(i, id, 512);
+            g_adev_ids.push_back(id);
+            AppendMenuW(dm, MF_STRING | (!wcscmp(cur, id) ? MF_CHECKED : 0),
+                        IDM_ADEV_BASE + i, nm);
+        }
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)dm, L"Audio Device");
+    }
+    if (ac > 0 || sc > 0 || cc > 0 || dc > 0) AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING | (g_fullscreen ? MF_CHECKED : 0), IDM_FULL, L"Fullscreen\tF");
     AppendMenuW(m, MF_STRING | (g_player && player_is_muted(g_player) ? MF_CHECKED : 0),
                 IDM_MUTE, L"Mute\tM");
@@ -624,6 +644,38 @@ static void on_key(HWND hwnd, WPARAM key) {
         case 'P': nav_folder(hwnd, -1); break;
         case 'F': toggle_fullscreen(hwnd); break;
         case 'O': open_dialog(hwnd); break;
+        case VK_OEM_4:   // '[' slower
+        case VK_OEM_6: { // ']' faster
+            double s = player_speed(g_player) + (key == VK_OEM_6 ? 0.25 : -0.25);
+            s = s < 0.25 ? 0.25 : s > 2.0 ? 2.0 : s;
+            player_set_speed(g_player, s);
+            wchar_t b[32];
+            swprintf(b, 32, L"Speed ×%.2f", s);
+            osd(b);
+            break;
+        }
+        case VK_BACK:
+            player_set_speed(g_player, 1.0);
+            osd(L"Speed ×1.00");
+            break;
+        case 'Z':
+        case 'X': {
+            double d = player_audio_delay(g_player) + (key == 'X' ? 0.05 : -0.05);
+            player_set_audio_delay(g_player, d);
+            wchar_t b[48];
+            swprintf(b, 48, L"Audio delay %+.2fs", d);
+            osd(b);
+            break;
+        }
+        case 'G':
+        case 'H': {
+            double d = player_sub_delay(g_player) + (key == 'H' ? 0.05 : -0.05);
+            player_set_sub_delay(g_player, d);
+            wchar_t b[48];
+            swprintf(b, 48, L"Subtitle delay %+.2fs", d);
+            osd(b);
+            break;
+        }
         case VK_ESCAPE:
             if (g_fullscreen) toggle_fullscreen(hwnd);
             break;
@@ -707,6 +759,19 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                     else if (g_player && LOWORD(wp) >= IDM_CHAP_BASE &&
                              LOWORD(wp) < IDM_CHAP_BASE + 64)
                         player_chapter_go(g_player, LOWORD(wp) - IDM_CHAP_BASE);
+                    else if (g_player && LOWORD(wp) == IDM_ADEV_DEFAULT) {
+                        player_set_audio_device(g_player, nullptr);
+                        osd(L"Audio: System Default");
+                    } else if (g_player && LOWORD(wp) >= IDM_ADEV_BASE &&
+                               LOWORD(wp) < IDM_ADEV_BASE + 32) {
+                        size_t i = LOWORD(wp) - IDM_ADEV_BASE;
+                        if (i < g_adev_ids.size()) {
+                            player_set_audio_device(g_player, g_adev_ids[i].c_str());
+                            wchar_t nm[128];
+                            player_audio_device_name((int)i, nm, 128);
+                            osd(nm);
+                        }
+                    }
                     break;
                 case IDM_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_EXIT: PostMessageW(hwnd, WM_CLOSE, 0, 0); break;

@@ -9,6 +9,7 @@
 #include <mmdeviceapi.h>
 #include <audioclient.h>
 #include <ksmedia.h>
+#include <functiondiscoverykeys_devpkey.h>
 #include <avrt.h>
 #include <cmath>
 
@@ -46,11 +47,16 @@ static bool wf_is_float(const WAVEFORMATEX* wf) {
     return false;
 }
 
-static MMDevice* mmdevice_open() {
+static MMDevice* mmdevice_open(const std::wstring& want_id) {
     MMDevice* d = new MMDevice();
     HRESULT hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL,
                                   __uuidof(IMMDeviceEnumerator), (void**)&d->enu);
-    if (SUCCEEDED(hr)) hr = d->enu->GetDefaultAudioEndpoint(eRender, eConsole, &d->dev);
+    if (SUCCEEDED(hr)) {
+        if (!want_id.empty())
+            hr = d->enu->GetDevice(want_id.c_str(), &d->dev);
+        if (want_id.empty() || FAILED(hr))  // picked device gone: use default
+            hr = d->enu->GetDefaultAudioEndpoint(eRender, eConsole, &d->dev);
+    }
     if (SUCCEEDED(hr)) hr = d->dev->Activate(__uuidof(IAudioClient), CLSCTX_ALL, nullptr,
                                              (void**)&d->client);
     if (SUCCEEDED(hr)) hr = d->client->GetMixFormat(&d->wf);
@@ -145,6 +151,92 @@ float AudioOut::volume() {
     return w >= 0 ? w : 1.0f;
 }
 
+// ------------------------------------------- endpoint enumeration (API)
+// Standalone helpers behind the public player.h device functions; the
+// caller's thread must have COM initialized (any apartment).
+
+static IMMDeviceCollection* enum_endpoints(IMMDeviceEnumerator** enu_out) {
+    IMMDeviceEnumerator* enu = nullptr;
+    if (FAILED(CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL,
+                                __uuidof(IMMDeviceEnumerator), (void**)&enu)))
+        return nullptr;
+    IMMDeviceCollection* col = nullptr;
+    if (FAILED(enu->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &col))) {
+        enu->Release();
+        return nullptr;
+    }
+    *enu_out = enu;
+    return col;
+}
+
+int player_audio_device_count(void) {
+    IMMDeviceEnumerator* enu = nullptr;
+    IMMDeviceCollection* col = enum_endpoints(&enu);
+    if (!col) return 0;
+    UINT n = 0;
+    col->GetCount(&n);
+    col->Release();
+    enu->Release();
+    return (int)n;
+}
+
+void player_audio_device_name(int i, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    IMMDeviceEnumerator* enu = nullptr;
+    IMMDeviceCollection* col = enum_endpoints(&enu);
+    if (!col) return;
+    IMMDevice* dev = nullptr;
+    if (SUCCEEDED(col->Item((UINT)i, &dev))) {
+        IPropertyStore* ps = nullptr;
+        if (SUCCEEDED(dev->OpenPropertyStore(STGM_READ, &ps))) {
+            PROPVARIANT v;
+            PropVariantInit(&v);
+            if (SUCCEEDED(ps->GetValue(PKEY_Device_FriendlyName, &v)) &&
+                v.vt == VT_LPWSTR) {
+                wcsncpy(buf, v.pwszVal, buflen - 1);
+                buf[buflen - 1] = 0;
+            }
+            PropVariantClear(&v);
+            ps->Release();
+        }
+        dev->Release();
+    }
+    col->Release();
+    enu->Release();
+}
+
+void player_audio_device_id(int i, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    IMMDeviceEnumerator* enu = nullptr;
+    IMMDeviceCollection* col = enum_endpoints(&enu);
+    if (!col) return;
+    IMMDevice* dev = nullptr;
+    if (SUCCEEDED(col->Item((UINT)i, &dev))) {
+        LPWSTR id = nullptr;
+        if (SUCCEEDED(dev->GetId(&id)) && id) {
+            wcsncpy(buf, id, buflen - 1);
+            buf[buflen - 1] = 0;
+            CoTaskMemFree(id);
+        }
+        dev->Release();
+    }
+    col->Release();
+    enu->Release();
+}
+
+void player_set_audio_device(Player* p, const wchar_t* id) {
+    p->ao.set_device(id);
+}
+
+void player_audio_device_current(Player* p, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    std::wstring cur = p->ao.device();
+    wcsncpy(buf, cur.c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
 void AudioOut::thread_main() {
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     DWORD task_idx = 0;
@@ -162,8 +254,29 @@ void AudioOut::thread_main() {
     CoUninitialize();
 }
 
+void AudioOut::set_device(const wchar_t* id) {
+    {
+        std::lock_guard<std::mutex> lk(dev_m_);
+        want_dev_ = id ? id : L"";
+    }
+    dev_change_ = true;  // playing: the thread reopens on the new endpoint
+}
+
+std::wstring AudioOut::device() {
+    std::lock_guard<std::mutex> lk(dev_m_);
+    return want_dev_;
+}
+
+void AudioOut::set_speed(double s) { speed_ = s; }
+
 bool AudioOut::run_device() {
-    MMDevice* d = mmdevice_open();
+    std::wstring want;
+    {
+        std::lock_guard<std::mutex> lk(dev_m_);
+        want = want_dev_;
+    }
+    dev_change_ = false;
+    MMDevice* d = mmdevice_open(want);
     {
         std::lock_guard<std::mutex> lk(dev_m_);
         dev_ = d;
@@ -186,7 +299,9 @@ bool AudioOut::run_device() {
     bool lost = false;
     HRESULT hr;
 
+    double spd_used = 1.0;
     while (!abort_ && !lost) {
+        if (dev_change_) { lost = true; continue; }  // reopen on new endpoint
         if (flush_req_) {
             flush_req_ = false;
             av_audio_fifo_reset(fifo_);
@@ -220,16 +335,25 @@ bool AudioOut::run_device() {
             }
 
             AVFrame* f = fr.f;
+            double spd = speed_.load();
+            if (spd < 0.25) spd = 0.25;
+            if (spd > 4.0) spd = 4.0;
             if (!swr_ || in_rate_ != f->sample_rate || in_fmt_ != f->format ||
+                spd != spd_used ||
                 av_channel_layout_compare(&in_layout_, &f->ch_layout)) {
                 swr_free(&swr_);
                 av_channel_layout_uninit(&in_layout_);
                 av_channel_layout_copy(&in_layout_, &f->ch_layout);
                 in_rate_ = f->sample_rate;
                 in_fmt_ = f->format;
+                spd_used = spd;
+                // Playback speed: claim a scaled input rate so the resampler
+                // emits 1/speed as many samples (pitch shifts with rate).
+                int claimed = (int)(f->sample_rate * spd + 0.5);
                 swr_alloc_set_opts2(&swr_, &out_layout, AV_SAMPLE_FMT_FLT, out_rate,
                                     &f->ch_layout, (AVSampleFormat)f->format,
-                                    f->sample_rate, 0, nullptr);
+                                    claimed > 0 ? claimed : f->sample_rate,
+                                    0, nullptr);
                 if (!swr_ || swr_init(swr_) < 0) {
                     log_line("audio: swr_init failed");
                     swr_free(&swr_);
@@ -249,7 +373,7 @@ bool AudioOut::run_device() {
                 if (!std::isnan(fr.pts))
                     queued_pts = fr.pts + (double)f->nb_samples / f->sample_rate;
                 else if (!std::isnan(queued_pts))
-                    queued_pts += (double)got / out_rate;
+                    queued_pts += (double)got / out_rate * spd_used;
             }
             av_freep(&outbuf);
             av_frame_free(&fr.f);
@@ -288,12 +412,13 @@ bool AudioOut::run_device() {
             dev_->started = true;
         }
 
-        // clock = pts at fifo end, minus what is still buffered (fifo + device)
+        // clock = pts at fifo end, minus what is still buffered (fifo +
+        // device), converted from real seconds to media seconds by speed
         if (!std::isnan(queued_pts)) {
             double buffered = (double)av_audio_fifo_size(fifo_) / out_rate +
                               (double)(padding + (want - take)) / out_rate;
             std::lock_guard<std::mutex> lk(clock_m_);
-            fifo_end_pts_ = queued_pts - buffered;
+            fifo_end_pts_ = queued_pts - buffered * spd_used;
         }
     }
 

@@ -69,8 +69,8 @@ void video_render_thread(Player* p) {
                         SubRender ov;
                         ov.osd = p->osd_now();
                         if (!std::isnan(pts)) {
-                            ov.text = p->subs.active_at(pts);
-                            p->subs.active_bitmaps_at(pts, ov.bitmaps);
+                            ov.text = p->subs.active_at(pts - p->sub_delay);
+                            p->subs.active_bitmaps_at(pts - p->sub_delay, ov.bitmaps);
                         }
                         p->vo->render(fr.f, ov, p->rotation);
                         if (!std::isnan(pts)) {
@@ -92,8 +92,8 @@ void video_render_thread(Player* p) {
                     SubRender ov;
                     ov.osd = p->osd_now();
                     if (!std::isnan(lp)) {
-                        ov.text = p->subs.active_at(lp);
-                        p->subs.active_bitmaps_at(lp, ov.bitmaps);
+                        ov.text = p->subs.active_at(lp - p->sub_delay);
+                        p->subs.active_bitmaps_at(lp - p->sub_delay, ov.bitmaps);
                     }
                     p->vo->render(p->last_frame, ov, p->rotation);
                 }
@@ -153,8 +153,8 @@ void video_render_thread(Player* p) {
         SubRender ov;
         ov.osd = p->osd_now();
         if (!std::isnan(pts)) {
-            ov.text = p->subs.active_at(pts);
-            p->subs.active_bitmaps_at(pts, ov.bitmaps);
+            ov.text = p->subs.active_at(pts - p->sub_delay);
+            p->subs.active_bitmaps_at(pts - p->sub_delay, ov.bitmaps);
         }
         p->vo->render(fr.f, ov, p->rotation);
         if (!std::isnan(pts)) p->vclock.store(pts);

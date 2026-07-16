@@ -36,6 +36,25 @@ float player_volume(Player* p);
 void player_set_mute(Player* p, bool mute);
 bool player_is_muted(Player* p);
 
+// Playback speed 0.25..4 (audio pitch shifts with rate). Persists across
+// files within the session.
+void player_set_speed(Player* p, double s);
+double player_speed(Player* p);
+// Sync corrections in seconds, reset on every open. Positive audio delay
+// = audio heard later; positive subtitle delay = subtitles shown later.
+void player_set_audio_delay(Player* p, double s);
+double player_audio_delay(Player* p);
+void player_set_sub_delay(Player* p, double s);
+double player_sub_delay(Player* p);
+
+// Audio output endpoints. Enumeration is standalone (COM-initialized
+// thread); selection by endpoint id, NULL = follow the system default.
+int player_audio_device_count(void);
+void player_audio_device_name(int i, wchar_t* buf, size_t buflen);
+void player_audio_device_id(int i, wchar_t* buf, size_t buflen);
+void player_set_audio_device(Player* p, const wchar_t* id);
+void player_audio_device_current(Player* p, wchar_t* buf, size_t buflen);
+
 // Both return the number of the now-active track (1-based) or 0 if none.
 int player_cycle_audio(Player* p);
 int player_cycle_subtitle(Player* p);

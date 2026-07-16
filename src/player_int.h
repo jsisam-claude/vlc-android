@@ -153,13 +153,21 @@ public:
     float volume();
     void set_mute(bool m);
     bool muted();
+    // Endpoint id ("" = follow system default). Takes effect immediately
+    // when playing (device reopen) and on the next start otherwise.
+    void set_device(const wchar_t* id);
+    std::wstring device();
+    void set_speed(double s);     // resample ratio (pitch shifts with rate)
     ~AudioOut() { stop(); }
 
 private:
     void thread_main();
     bool run_device();            // one device lifetime; true = lost, retry
     MMDevice* dev_ = nullptr;
-    std::mutex dev_m_;            // guards dev_ vs. reopen on device loss
+    std::mutex dev_m_;            // guards dev_/want_dev_ vs. reopen
+    std::wstring want_dev_;       // endpoint id; empty = system default
+    std::atomic<bool> dev_change_{false};
+    std::atomic<double> speed_{1.0};
     std::atomic<float> want_vol_{-1.0f};  // last requested; reapplied on reopen
     std::atomic<int> want_mute_{-1};
     FrameQueue* fq_ = nullptr;
@@ -274,6 +282,11 @@ struct Player {
     void fire(PlayerEvent evt) {
         if (evt_fn) evt_fn(evt_user, evt);
     }
+
+    // playback shaping
+    std::atomic<double> speed{1.0};       // 0.25..4
+    std::atomic<double> audio_delay{0};   // s; + = audio heard later
+    std::atomic<double> sub_delay{0};     // s; + = subtitles shown later
 
     // external clock fallback when there is no audio stream
     std::mutex extclk_m;

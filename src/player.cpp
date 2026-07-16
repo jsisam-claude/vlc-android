@@ -28,12 +28,12 @@ static void engine_global_init() {
 double Player::master_clock() {
     if (ast >= 0) {
         double c = ao.clock();
-        if (!std::isnan(c)) return c;
+        if (!std::isnan(c)) return c + audio_delay;  // + = audio heard later
         return NAN;
     }
     std::lock_guard<std::mutex> lk(extclk_m);
     if (std::isnan(extclk_pts)) return NAN;
-    return extclk_pts + (av_gettime_relative() - extclk_time) / 1e6;
+    return extclk_pts + (av_gettime_relative() - extclk_time) / 1e6 * speed;
 }
 
 void Player::extclk_set(double pts) {
@@ -127,6 +127,8 @@ bool player_open(Player* p, const wchar_t* path) {
     p->sub_choice = 0;
     p->open_at = 0;
     p->paused = false;
+    p->audio_delay = 0;  // per-file corrections; speed persists
+    p->sub_delay = 0;
     return start_pipeline(p);
 }
 
@@ -183,6 +185,29 @@ void player_seek_to(Player* p, double seconds) {
 void player_seek_rel(Player* p, double seconds) {
     player_seek_to(p, player_position(p) + seconds);
 }
+
+void player_set_speed(Player* p, double s) {
+    if (s < 0.25) s = 0.25;
+    if (s > 4.0) s = 4.0;
+    if (p->ast < 0) {  // re-anchor the wall-clock fallback at the current pos
+        double cur = p->master_clock();
+        p->speed = s;
+        p->extclk_set(cur);
+    } else {
+        p->speed = s;
+    }
+    p->ao.set_speed(s);
+}
+
+double player_speed(Player* p) { return p->speed; }
+
+void player_set_audio_delay(Player* p, double s) { p->audio_delay = s; }
+double player_audio_delay(Player* p) { return p->audio_delay; }
+void player_set_sub_delay(Player* p, double s) {
+    p->sub_delay = s;
+    p->redraw_req = true;  // repaint promptly while paused
+}
+double player_sub_delay(Player* p) { return p->sub_delay; }
 
 void player_volume_step(Player* p, int steps) { p->ao.volume_step(steps); }
 void player_volume_set(Player* p, float v) { p->ao.volume_set(v); }
