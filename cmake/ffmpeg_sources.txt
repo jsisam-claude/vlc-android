@@ -240,6 +240,7 @@ libavformat/http.c
 libavformat/httpauth.c
 libavformat/id3v1.c
 libavformat/id3v2.c
+libavformat/ip.c
 libavformat/isom.c
 libavformat/isom_tags.c
 libavformat/matroska.c
@@ -268,6 +269,7 @@ libavformat/subtitles.c
 libavformat/tcp.c
 libavformat/tls.c
 libavformat/tls_schannel.c
+libavformat/udp.c
 libavformat/url.c
 libavformat/urldecode.c
 libavformat/utils.c

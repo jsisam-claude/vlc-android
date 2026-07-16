@@ -848,6 +848,9 @@
 #ifndef HAVE_PRCTL
 #define HAVE_PRCTL 0
 #endif
+#ifndef HAVE_PTHREAD_CANCEL
+#define HAVE_PTHREAD_CANCEL 0
+#endif
 #ifndef HAVE_PTHREAD_NP_H
 #define HAVE_PTHREAD_NP_H 0
 #endif
@@ -1057,6 +1060,9 @@
 #endif
 #ifndef HAVE_TOPRIGHT
 #define HAVE_TOPRIGHT 0
+#endif
+#ifndef HAVE_UDPLITE_H
+#define HAVE_UDPLITE_H 0
 #endif
 #ifndef HAVE_UWP
 #define HAVE_UWP 0
