@@ -4,6 +4,7 @@
 
 #include <d3d11.h>
 extern "C" {
+#include <libavutil/display.h>
 #include <libavutil/hwcontext.h>
 #include <libavutil/hwcontext_d3d11va.h>
 }
@@ -153,6 +154,25 @@ static bool open_input(Player* p) {
         if (p->has_external_subs) p->sub_names.push_back(L"External file");
         n = 1;
         for (int idx : p->sub_streams) p->sub_names.push_back(stream_label(idx, n++));
+    }
+
+    // Phone recordings store their orientation as a display matrix; the
+    // renderer applies it so portrait videos play upright.
+    if (p->vst >= 0) {
+        AVCodecParameters* vp = p->fmt->streams[p->vst]->codecpar;
+        const AVPacketSideData* sd = av_packet_side_data_get(
+            vp->coded_side_data, vp->nb_coded_side_data, AV_PKT_DATA_DISPLAYMATRIX);
+        int rot = 0;
+        if (sd && sd->size >= 9 * sizeof(int32_t)) {
+            double a = av_display_rotation_get((const int32_t*)sd->data);
+            if (!std::isnan(a)) {
+                rot = (int)lround(-a);          // matrix angle is CCW; we rotate CW
+                rot = ((rot % 360) + 360) % 360;
+                rot = ((rot + 45) / 90 * 90) % 360;  // snap to 90-degree steps
+            }
+        }
+        p->rotation = rot;
+        if (rot) log_line("demux: video is rotated %d degrees", rot);
     }
 
     if (p->vst >= 0) p->fmt->streams[p->vst]->discard = AVDISCARD_DEFAULT;

@@ -10,8 +10,10 @@ headers (FFmpeg's configure never runs). Player structure follows ffplay;
 WASAPI output adapted from mpv; rendering uses Windows' own D3D11 +
 ID3D11VideoProcessor. H.264/HEVC/MPEG-2/VP9 decode in hardware via
 D3D11VA when the GPU supports it (zero-copy into the video processor),
-falling back to software decode transparently. Ships as a single
-statically-linked exe.
+falling back to software decode transparently. Phone-rotation metadata
+is applied, 10-bit content stays 10-bit through the video processor
+(P010), and BT.2020/PQ/HLG colorspaces are signalled to the driver so
+HDR files don't wash out. Ships as a single statically-linked exe.
 
 See [PLAN.md](PLAN.md) for the full design: reuse strategy and licensing,
 the FFmpeg-under-MSVC build solution, renderer decision (staged D3D11, no

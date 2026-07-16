@@ -183,8 +183,9 @@ class VideoOut {
 public:
     bool init(HWND hwnd);
     // Renders a CPU frame (any sw pix fmt) or an AV_PIX_FMT_D3D11 decoder
-    // texture, plus subtitle/OSD overlays.
-    bool render(AVFrame* f, const SubRender& overlays);
+    // texture, plus subtitle/OSD overlays. rotation_deg (0/90/180/270,
+    // clockwise) comes from the stream's display matrix.
+    bool render(AVFrame* f, const SubRender& overlays, int rotation_deg = 0);
     void resize();
     void shutdown();
     // Device for D3D11VA decoding (shared with rendering so decoder output
@@ -219,6 +220,7 @@ struct Player {
     AVCodecContext* vctx = nullptr;
     AVCodecContext* actx = nullptr;
     AVCodecContext* sctx = nullptr;
+    std::atomic<int> rotation{0};     // display-matrix rotation, CW degrees
 
     PacketQueue vq, aq;
     std::atomic<int> vq_serial{0}, aq_serial{0}; // mirrors queue serials for consumers

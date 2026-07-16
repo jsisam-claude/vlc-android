@@ -7,10 +7,15 @@
 #include "player_int.h"
 
 #include <d3d11.h>
+#include <d3d11_1.h>
 #include <d3dcompiler.h>
 #include <dxgi1_2.h>
 #include <d2d1.h>
 #include <dwrite.h>
+
+extern "C" {
+#include <libavutil/pixdesc.h>
+}
 
 template <class T> static void safe_release(T*& p) {
     if (p) { p->Release(); p = nullptr; }
@@ -31,10 +36,14 @@ struct D3DState {
     IDXGISwapChain1* swap = nullptr;
     ID3D11VideoDevice* vdev = nullptr;
     ID3D11VideoContext* vctx = nullptr;
+    ID3D11VideoContext1* vctx1 = nullptr;  // colorspace1 (BT.2020/PQ); optional
     ID3D11VideoProcessorEnumerator* vpe = nullptr;
     ID3D11VideoProcessor* vp = nullptr;
+    bool vp_can_rotate = false;
     ID3D11Texture2D* in_tex = nullptr;
     ID3D11VideoProcessorInputView* in_view = nullptr;
+    bool staging_p010 = false;   // staging texture format (P010 vs NV12)
+    bool no_p010 = false;        // driver rejected P010; stay on NV12
     int in_w = 0, in_h = 0;
     int out_w = 0, out_h = 0;
 
@@ -43,6 +52,8 @@ struct D3DState {
     ID3D11VertexShader* vs = nullptr;
     ID3D11PixelShader* ps = nullptr;
     ID3D11SamplerState* samp = nullptr;
+    ID3D11Buffer* cbuf = nullptr;  // uv transform (rotation)
+    int cbuf_rot = -1;
     ID3D11Texture2D* rgb_tex = nullptr;
     ID3D11ShaderResourceView* rgb_srv = nullptr;
     int rgb_w = 0, rgb_h = 0;
@@ -63,17 +74,33 @@ struct D3DState {
 // letterboxing via the viewport. Compiled at runtime with the OS's
 // d3dcompiler (an inbox Windows component since 8.1).
 static const char SHADER_SRC[] =
+    "cbuffer C : register(b0) { float4 UX; float4 UY; };\n"
     "struct VSOut { float4 pos : SV_Position; float2 uv : TEXCOORD0; };\n"
     "VSOut VSMain(uint id : SV_VertexID) {\n"
     "    VSOut o;\n"
     "    float2 uv = float2((id << 1) & 2, id & 2);\n"
-    "    o.uv = uv;\n"
     "    o.pos = float4(uv * float2(2, -2) + float2(-1, 1), 0, 1);\n"
+    "    o.uv = float2(UX.x + UX.y * uv.x + UX.z * uv.y,\n"
+    "                  UY.x + UY.y * uv.x + UY.z * uv.y);\n"
     "    return o;\n"
     "}\n"
     "Texture2D tex : register(t0);\n"
     "SamplerState smp : register(s0);\n"
     "float4 PSMain(VSOut i) : SV_Target { return tex.Sample(smp, i.uv); }\n";
+
+// Affine uv maps realizing 0/90/180/270-degree clockwise display rotation.
+static void rot_constants(int rot, float ux[4], float uy[4]) {
+    static const float T[4][8] = {
+        //  UX            UY
+        {0, 1, 0, 0,   0, 0, 1, 0},   // 0:   uv' = (u, v)
+        {0, 0, 1, 0,   1, -1, 0, 0},  // 90:  uv' = (v, 1-u)
+        {1, -1, 0, 0,  1, 0, -1, 0},  // 180: uv' = (1-u, 1-v)
+        {1, 0, -1, 0,  0, 1, 0, 0},   // 270: uv' = (1-v, u)
+    };
+    const float* t = T[(rot / 90) & 3];
+    memcpy(ux, t, 4 * sizeof(float));
+    memcpy(uy, t + 4, 4 * sizeof(float));
+}
 
 static bool init_shader_path(D3DState* d) {
     ID3DBlob *vsb = nullptr, *psb = nullptr, *err = nullptr;
@@ -93,6 +120,13 @@ static bool init_shader_path(D3DState* d) {
         sd.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
         sd.AddressU = sd.AddressV = sd.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
         hr = d->dev->CreateSamplerState(&sd, &d->samp);
+    }
+    if (SUCCEEDED(hr)) {
+        D3D11_BUFFER_DESC bd = {};
+        bd.ByteWidth = 8 * sizeof(float);
+        bd.Usage = D3D11_USAGE_DEFAULT;
+        bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+        hr = d->dev->CreateBuffer(&bd, nullptr, &d->cbuf);
     }
     if (err) err->Release();
     if (vsb) vsb->Release();
@@ -146,6 +180,9 @@ static bool create_device_swapchain(D3DState* d) {
     hr = d->dev->QueryInterface(__uuidof(ID3D11VideoDevice), (void**)&d->vdev);
     if (SUCCEEDED(hr)) hr = d->ctx->QueryInterface(__uuidof(ID3D11VideoContext), (void**)&d->vctx);
     d->use_vp = SUCCEEDED(hr);
+    if (d->use_vp &&
+        FAILED(d->vctx->QueryInterface(__uuidof(ID3D11VideoContext1), (void**)&d->vctx1)))
+        d->vctx1 = nullptr;  // pre-1607 OS: legacy colorspace struct only
     if (!d->use_vp && !init_shader_path(d))
         return false;
 
@@ -182,19 +219,25 @@ static bool ensure_video_processor(D3DState* d, int w, int h) {
     if (FAILED(d->vdev->CreateVideoProcessorEnumerator(&cd, &d->vpe))) return false;
     if (FAILED(d->vdev->CreateVideoProcessor(d->vpe, 0, &d->vp))) return false;
 
+    D3D11_VIDEO_PROCESSOR_CAPS caps = {};
+    d->vp_can_rotate = SUCCEEDED(d->vpe->GetVideoProcessorCaps(&caps)) &&
+                       (caps.FeatureCaps & D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ROTATION);
+
     d->in_w = w;
     d->in_h = h;
     return true;
 }
 
-static bool ensure_staging_input(D3DState* d) {
-    if (d->in_tex) return true;
+static bool ensure_staging_input(D3DState* d, bool p010) {
+    if (d->in_tex && d->staging_p010 == p010) return true;
+    safe_release(d->in_view);
+    safe_release(d->in_tex);
     D3D11_TEXTURE2D_DESC td = {};
     td.Width = d->in_w;
     td.Height = d->in_h;
     td.MipLevels = 1;
     td.ArraySize = 1;
-    td.Format = DXGI_FORMAT_NV12;
+    td.Format = p010 ? DXGI_FORMAT_P010 : DXGI_FORMAT_NV12;
     td.SampleDesc.Count = 1;
     td.Usage = D3D11_USAGE_DEFAULT;
     if (FAILED(d->dev->CreateTexture2D(&td, nullptr, &d->in_tex))) return false;
@@ -207,18 +250,46 @@ static bool ensure_staging_input(D3DState* d) {
         safe_release(d->in_tex);
         return false;
     }
+    d->staging_p010 = p010;
     return true;
 }
 
 static void set_colorspace(D3DState* d, const AVFrame* f) {
-    D3D11_VIDEO_PROCESSOR_COLOR_SPACE cs = {};
+    bool full = f->color_range == AVCOL_RANGE_JPEG;
     bool bt709 = f->height >= 720;
     if (f->colorspace == AVCOL_SPC_BT709) bt709 = true;
     else if (f->colorspace == AVCOL_SPC_BT470BG || f->colorspace == AVCOL_SPC_SMPTE170M) bt709 = false;
+
+    // DXGI colorspaces (Win10 1607+) understand BT.2020 primaries and the
+    // PQ/HLG transfers, so HDR content gets driver conversion to SDR 709
+    // instead of a washed-out 709 misread.
+    if (d->vctx1) {
+        bool bt2020 = f->colorspace == AVCOL_SPC_BT2020_NCL ||
+                      f->colorspace == AVCOL_SPC_BT2020_CL;
+        DXGI_COLOR_SPACE_TYPE in;
+        if (bt2020 && f->color_trc == AVCOL_TRC_SMPTE2084)
+            in = DXGI_COLOR_SPACE_YCBCR_STUDIO_G2084_LEFT_P2020;
+        else if (bt2020 && f->color_trc == AVCOL_TRC_ARIB_STD_B67)
+            in = DXGI_COLOR_SPACE_YCBCR_STUDIO_GHLG_TOPLEFT_P2020;
+        else if (bt2020)
+            in = full ? DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P2020
+                      : DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P2020;
+        else if (bt709)
+            in = full ? DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P709
+                      : DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P709;
+        else
+            in = full ? DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P601
+                      : DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P601;
+        d->vctx1->VideoProcessorSetStreamColorSpace1(d->vp, 0, in);
+        d->vctx1->VideoProcessorSetOutputColorSpace1(
+            d->vp, DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709);
+        return;
+    }
+
+    D3D11_VIDEO_PROCESSOR_COLOR_SPACE cs = {};
     cs.YCbCr_Matrix = bt709 ? 1 : 0;
-    cs.Nominal_Range = (f->color_range == AVCOL_RANGE_JPEG)
-                           ? D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_0_255
-                           : D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_16_235;
+    cs.Nominal_Range = full ? D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_0_255
+                            : D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_16_235;
     d->vctx->VideoProcessorSetStreamColorSpace(d->vp, 0, &cs);
     D3D11_VIDEO_PROCESSOR_COLOR_SPACE out_cs = {};
     out_cs.RGB_Range = 0;  // full-range RGB out
@@ -369,8 +440,23 @@ void VideoOut::resize() {
 }
 
 static bool vp_blt(D3DState* d, ID3D11VideoProcessorInputView* in_view,
-                   AVFrame* f, ID3D11Texture2D* back, const RECT& dst_rc) {
+                   AVFrame* f, ID3D11Texture2D* back, const RECT& dst_rc, int rot) {
     set_colorspace(d, f);
+
+    if (d->vp_can_rotate) {
+        D3D11_VIDEO_PROCESSOR_ROTATION r =
+            rot == 90    ? D3D11_VIDEO_PROCESSOR_ROTATION_90
+            : rot == 180 ? D3D11_VIDEO_PROCESSOR_ROTATION_180
+            : rot == 270 ? D3D11_VIDEO_PROCESSOR_ROTATION_270
+                         : D3D11_VIDEO_PROCESSOR_ROTATION_IDENTITY;
+        d->vctx->VideoProcessorSetStreamRotation(d->vp, 0, rot != 0, r);
+    } else if (rot) {
+        static bool warned = false;
+        if (!warned) {
+            warned = true;
+            log_line("video: driver lacks VP rotation; playing unrotated");
+        }
+    }
 
     D3D11_VIDEO_PROCESSOR_OUTPUT_VIEW_DESC ovd = {};
     ovd.ViewDimension = D3D11_VPOV_DIMENSION_TEXTURE2D;
@@ -401,9 +487,10 @@ static bool vp_blt(D3DState* d, ID3D11VideoProcessorInputView* in_view,
 }
 
 static bool render_vp(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
-                      const RECT& dst_rc) {
+                      const RECT& dst_rc, int rot) {
     // D3D11VA decoder output: a slice of the decoder's texture array on our
     // own device. Feed it to the video processor directly - no CPU copy.
+    // (Works for NV12 and P010 alike; the view takes the texture's format.)
     if (f->format == AV_PIX_FMT_D3D11) {
         ID3D11Texture2D* tex = (ID3D11Texture2D*)f->data[0];
         UINT slice = (UINT)(uintptr_t)f->data[1];
@@ -419,14 +506,19 @@ static bool render_vp(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
         ID3D11VideoProcessorInputView* view = nullptr;
         if (FAILED(d->vdev->CreateVideoProcessorInputView(tex, d->vpe, &ivd, &view)))
             return false;
-        bool ok = vp_blt(d, view, f, back, dst_rc);
+        bool ok = vp_blt(d, view, f, back, dst_rc, rot);
         view->Release();
         return ok;
     }
 
     int w = f->width, h = f->height;
-    // Convert to NV12 (contiguous Y then interleaved UV, single pitch).
-    int pitch = (w + 127) & ~127;
+    // Upload as P010 when the source is >8-bit (10-bit stays 10-bit through
+    // the video processor), NV12 otherwise. Both are Y plane then
+    // interleaved UV at the same pitch.
+    const AVPixFmtDescriptor* pd = av_pix_fmt_desc_get((AVPixelFormat)f->format);
+    bool p010 = pd && pd->comp[0].depth > 8 && !d->no_p010;
+    int bpp = p010 ? 2 : 1;
+    int pitch = (w * bpp + 127) & ~127;
     size_t need = (size_t)pitch * h * 3 / 2;
     if (need > d->nv12_size) {
         av_free(d->nv12);
@@ -436,21 +528,33 @@ static bool render_vp(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
     }
     if (!d->nv12) return false;
     d->sws = sws_getCachedContext(d->sws, w, h, (AVPixelFormat)f->format,
-                                  w, h, AV_PIX_FMT_NV12, SWS_BILINEAR,
-                                  nullptr, nullptr, nullptr);
+                                  w, h, p010 ? AV_PIX_FMT_P010LE : AV_PIX_FMT_NV12,
+                                  SWS_BILINEAR, nullptr, nullptr, nullptr);
     if (!d->sws) return false;
     uint8_t* dst[2] = {d->nv12, d->nv12 + (size_t)pitch * h};
     int dst_stride[2] = {pitch, pitch};
     sws_scale(d->sws, f->data, f->linesize, 0, h, dst, dst_stride);
 
     if (!ensure_video_processor(d, w, h)) return false;
-    if (!ensure_staging_input(d)) return false;
+    if (!ensure_staging_input(d, p010)) {
+        if (p010) {
+            d->no_p010 = true;  // driver has no P010 VP input; next frame NV12
+            log_line("video: P010 staging rejected, falling back to 8-bit");
+        }
+        return false;
+    }
     d->ctx->UpdateSubresource(d->in_tex, 0, nullptr, d->nv12, pitch, 0);
-    return vp_blt(d, d->in_view, f, back, dst_rc);
+    return vp_blt(d, d->in_view, f, back, dst_rc, rot);
 }
 
 static bool render_shader(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
-                          const RECT& dst_rc) {
+                          const RECT& dst_rc, int rot) {
+    if (d->cbuf && rot != d->cbuf_rot) {
+        float c[8];
+        rot_constants(rot, c, c + 4);
+        d->ctx->UpdateSubresource(d->cbuf, 0, nullptr, c, 0, 0);
+        d->cbuf_rot = rot;
+    }
     int w = f->width, h = f->height;
     // Convert to BGRA and upload as a shader resource.
     int pitch = w * 4;
@@ -505,6 +609,7 @@ static bool render_shader(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
 
     d->ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     d->ctx->IASetInputLayout(nullptr);
+    d->ctx->VSSetConstantBuffers(0, 1, &d->cbuf);
     d->ctx->VSSetShader(d->vs, nullptr, 0);
     d->ctx->PSSetShader(d->ps, nullptr, 0);
     d->ctx->PSSetShaderResources(0, 1, &d->rgb_srv);
@@ -519,16 +624,22 @@ static bool render_shader(D3DState* d, AVFrame* f, ID3D11Texture2D* back,
     return true;
 }
 
-bool VideoOut::render(AVFrame* f, const SubRender& overlays) {
+bool VideoOut::render(AVFrame* f, const SubRender& overlays, int rotation_deg) {
     std::lock_guard<std::mutex> lk(m_);
     if (!d || !d->swap || !f) return false;
 
     int w = f->width, h = f->height;
     if (w <= 0 || h <= 0) return false;
+    int rot = ((rotation_deg % 360) + 360) % 360 / 90 * 90;
 
     int disp_w = w, disp_h = h;
     if (f->sample_aspect_ratio.num > 0 && f->sample_aspect_ratio.den > 0)
         disp_w = (int)av_rescale(w, f->sample_aspect_ratio.num, f->sample_aspect_ratio.den);
+    if (rot == 90 || rot == 270) {
+        int t = disp_w;
+        disp_w = disp_h;
+        disp_h = t;
+    }
     RECT dst_rc = letterbox(disp_w, disp_h, d->out_w, d->out_h);
 
     ID3D11Texture2D* back = nullptr;
@@ -539,8 +650,8 @@ bool VideoOut::render(AVFrame* f, const SubRender& overlays) {
         back->Release();  // hw frames only exist when decode_device() was handed out
         return false;
     }
-    bool ok = d->use_vp ? render_vp(d, f, back, dst_rc)
-                        : render_shader(d, f, back, dst_rc);
+    bool ok = d->use_vp ? render_vp(d, f, back, dst_rc, rot)
+                        : render_shader(d, f, back, dst_rc, rot);
     if (ok) draw_overlays(d, back, overlays, dst_rc);
     back->Release();
     if (!ok) return false;
@@ -558,10 +669,12 @@ void VideoOut::shutdown() {
     safe_release(d->in_tex);
     safe_release(d->vp);
     safe_release(d->vpe);
+    safe_release(d->vctx1);
     safe_release(d->vctx);
     safe_release(d->vdev);
     safe_release(d->rgb_srv);
     safe_release(d->rgb_tex);
+    safe_release(d->cbuf);
     safe_release(d->samp);
     safe_release(d->ps);
     safe_release(d->vs);

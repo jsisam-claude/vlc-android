@@ -6,6 +6,10 @@
 #include <mutex>
 #include <timeapi.h>
 
+extern "C" {
+#include <libavutil/display.h>
+}
+
 static void engine_av_log(void*, int level, const char* fmt, va_list args) {
     if (level > AV_LOG_WARNING) return;
     char buf[1024];
@@ -87,6 +91,7 @@ static void stop_pipeline(Player* p) {
         p->chapters.clear();
     }
     p->vst = p->ast = p->sst = -1;
+    p->rotation = 0;
     p->running = false;
     p->abort = false;
     p->eof = false;
@@ -414,6 +419,18 @@ bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
 
         const AVCodec* dec = avcodec_find_decoder(fc->streams[vst]->codecpar->codec_id);
         if (!dec) break;
+
+        int rot = 0;  // display-matrix rotation, CW (phone recordings)
+        {
+            AVCodecParameters* par = fc->streams[vst]->codecpar;
+            const AVPacketSideData* sd = av_packet_side_data_get(
+                par->coded_side_data, par->nb_coded_side_data, AV_PKT_DATA_DISPLAYMATRIX);
+            if (sd && sd->size >= 9 * sizeof(int32_t)) {
+                double a = av_display_rotation_get((const int32_t*)sd->data);
+                if (!std::isnan(a))
+                    rot = ((((int)lround(-a) % 360) + 360) % 360 + 45) / 90 * 90 % 360;
+            }
+        }
         ctx = avcodec_alloc_context3(dec);
         if (!ctx || avcodec_parameters_to_context(ctx, fc->streams[vst]->codecpar) < 0)
             break;
@@ -449,7 +466,11 @@ bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
         if (frame->sample_aspect_ratio.num > 0 && frame->sample_aspect_ratio.den > 0)
             sw = (int)av_rescale(sw, frame->sample_aspect_ratio.num,
                                  frame->sample_aspect_ratio.den);
-        double scale = std::fmin((double)max_w / sw, (double)max_h / sh);
+        // Scale to fit the caller box in *display* orientation: for 90/270
+        // the pre-rotation image fits the swapped box, then pixels rotate.
+        int box_w = (rot == 90 || rot == 270) ? max_h : max_w;
+        int box_h = (rot == 90 || rot == 270) ? max_w : max_h;
+        double scale = std::fmin((double)box_w / sw, (double)box_h / sh);
         if (scale > 1.0) scale = 1.0;
         int tw = (int)(sw * scale + 0.5), th = (int)(sh * scale + 0.5);
         if (tw < 1) tw = 1;
@@ -459,11 +480,34 @@ bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
                              tw, th, AV_PIX_FMT_BGRA, SWS_BILINEAR,
                              nullptr, nullptr, nullptr);
         if (!sws) break;
-        uint8_t* dst[1] = {buf};
+        std::vector<uint8_t> tmp;
+        uint8_t* target = buf;
+        if (rot) {
+            tmp.resize((size_t)tw * th * 4);
+            target = tmp.data();
+        }
+        uint8_t* dst[1] = {target};
         int dst_stride[1] = {tw * 4};
         sws_scale(sws, frame->data, frame->linesize, 0, frame->height, dst, dst_stride);
-        *out_w = tw;
-        *out_h = th;
+
+        if (rot) {
+            const uint32_t* in = (const uint32_t*)tmp.data();
+            uint32_t* out = (uint32_t*)buf;
+            int ow = (rot == 180) ? tw : th, oh = (rot == 180) ? th : tw;
+            for (int y = 0; y < oh; y++)
+                for (int x = 0; x < ow; x++) {
+                    int sx, sy;
+                    if (rot == 90) { sx = y; sy = th - 1 - x; }
+                    else if (rot == 270) { sx = tw - 1 - y; sy = x; }
+                    else { sx = tw - 1 - x; sy = th - 1 - y; }
+                    out[(size_t)y * ow + x] = in[(size_t)sy * tw + sx];
+                }
+            *out_w = ow;
+            *out_h = oh;
+        } else {
+            *out_w = tw;
+            *out_h = th;
+        }
         ok = true;
     } while (false);
 
