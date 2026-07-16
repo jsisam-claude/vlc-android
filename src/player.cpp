@@ -5,9 +5,29 @@
 #include <cmath>
 #include <mutex>
 #include <timeapi.h>
+#include <wincodec.h>
 
 extern "C" {
 #include <libavutil/display.h>
+}
+
+// Rotate packed BGRA clockwise by 0/90/180/270 into out; returns new dims.
+static void rotate_bgra(const uint32_t* in, int w, int h, int rot,
+                        std::vector<uint32_t>& out, int* ow_out, int* oh_out) {
+    int ow = (rot == 90 || rot == 270) ? h : w;
+    int oh = (rot == 90 || rot == 270) ? w : h;
+    out.resize((size_t)ow * oh);
+    for (int y = 0; y < oh; y++)
+        for (int x = 0; x < ow; x++) {
+            int sx, sy;
+            if (rot == 90) { sx = y; sy = h - 1 - x; }
+            else if (rot == 270) { sx = w - 1 - y; sy = x; }
+            else if (rot == 180) { sx = w - 1 - x; sy = h - 1 - y; }
+            else { sx = x; sy = y; }
+            out[(size_t)y * ow + x] = in[(size_t)sy * w + sx];
+        }
+    *ow_out = ow;
+    *oh_out = oh;
 }
 
 static void engine_av_log(void*, int level, const char* fmt, va_list args) {
@@ -538,19 +558,9 @@ bool player_extract_thumb_at(const wchar_t* path, double at_seconds,
         sws_scale(sws, frame->data, frame->linesize, 0, frame->height, dst, dst_stride);
 
         if (rot) {
-            const uint32_t* in = (const uint32_t*)tmp.data();
-            uint32_t* out = (uint32_t*)buf;
-            int ow = (rot == 180) ? tw : th, oh = (rot == 180) ? th : tw;
-            for (int y = 0; y < oh; y++)
-                for (int x = 0; x < ow; x++) {
-                    int sx, sy;
-                    if (rot == 90) { sx = y; sy = th - 1 - x; }
-                    else if (rot == 270) { sx = tw - 1 - y; sy = x; }
-                    else { sx = tw - 1 - x; sy = th - 1 - y; }
-                    out[(size_t)y * ow + x] = in[(size_t)sy * tw + sx];
-                }
-            *out_w = ow;
-            *out_h = oh;
+            std::vector<uint32_t> r;
+            rotate_bgra((const uint32_t*)tmp.data(), tw, th, rot, r, out_w, out_h);
+            memcpy(buf, r.data(), r.size() * 4);
         } else {
             *out_w = tw;
             *out_h = th;
@@ -563,5 +573,98 @@ bool player_extract_thumb_at(const wchar_t* path, double at_seconds,
     av_frame_free(&frame);
     avcodec_free_context(&ctx);
     avformat_close_input(&fc);
+    return ok;
+}
+
+// ------------------------------------------------------------- snapshot
+
+static bool write_png_wic(const wchar_t* path, const uint32_t* px, int w, int h) {
+    IWICImagingFactory* fac = nullptr;
+    if (FAILED(CoCreateInstance(CLSID_WICImagingFactory, nullptr,
+                                CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&fac))))
+        return false;
+    IWICStream* st = nullptr;
+    IWICBitmapEncoder* enc = nullptr;
+    IWICBitmapFrameEncode* fr = nullptr;
+    IPropertyBag2* props = nullptr;
+    bool ok = false;
+    do {
+        if (FAILED(fac->CreateStream(&st))) break;
+        if (FAILED(st->InitializeFromFilename(path, GENERIC_WRITE))) break;
+        if (FAILED(fac->CreateEncoder(GUID_ContainerFormatPng, nullptr, &enc))) break;
+        if (FAILED(enc->Initialize(st, WICBitmapEncoderNoCache))) break;
+        if (FAILED(enc->CreateNewFrame(&fr, &props))) break;
+        if (FAILED(fr->Initialize(props))) break;
+        if (FAILED(fr->SetSize(w, h))) break;
+        WICPixelFormatGUID pf = GUID_WICPixelFormat32bppBGRA;
+        if (FAILED(fr->SetPixelFormat(&pf))) break;
+        if (!IsEqualGUID(pf, GUID_WICPixelFormat32bppBGRA)) break;
+        if (FAILED(fr->WritePixels(h, (UINT)w * 4, (UINT)w * h * 4,
+                                   (BYTE*)px))) break;
+        if (FAILED(fr->Commit())) break;
+        if (FAILED(enc->Commit())) break;
+        ok = true;
+    } while (false);
+    if (props) props->Release();
+    if (fr) fr->Release();
+    if (enc) enc->Release();
+    if (st) st->Release();
+    fac->Release();
+    return ok;
+}
+
+bool player_snapshot(Player* p, const wchar_t* png_path) {
+    AVFrame* src = nullptr;
+    {
+        std::lock_guard<std::mutex> lk(p->lastf_m);
+        if (p->last_frame) src = av_frame_clone(p->last_frame);
+    }
+    if (!src) return false;
+
+    AVFrame* sw = src;
+    AVFrame* xfer = nullptr;
+    if (src->format == AV_PIX_FMT_D3D11) {  // download the decoder texture
+        xfer = av_frame_alloc();
+        if (!xfer || av_hwframe_transfer_data(xfer, src, 0) < 0) {
+            av_frame_free(&xfer);
+            av_frame_free(&src);
+            return false;
+        }
+        sw = xfer;
+    }
+
+    bool ok = false;
+    int w = sw->width, h = sw->height;
+    int dw = w;
+    if (sw->sample_aspect_ratio.num > 0 && sw->sample_aspect_ratio.den > 0)
+        dw = (int)av_rescale(w, sw->sample_aspect_ratio.num,
+                             sw->sample_aspect_ratio.den);
+    SwsContext* sc = nullptr;
+    if (w > 0 && h > 0 && dw > 0) {
+        std::vector<uint32_t> bgra((size_t)dw * h);
+        sc = sws_getContext(w, h, (AVPixelFormat)sw->format, dw, h,
+                            AV_PIX_FMT_BGRA, SWS_BICUBIC, nullptr, nullptr, nullptr);
+        if (sc) {
+            uint8_t* dst[1] = {(uint8_t*)bgra.data()};
+            int stride[1] = {dw * 4};
+            sws_scale(sc, sw->data, sw->linesize, 0, h, dst, stride);
+            // sws leaves alpha at 0 for some paths; PNG wants opaque
+            for (auto& c : bgra) c |= 0xFF000000u;
+
+            int rot = p->rotation;
+            if (rot) {
+                std::vector<uint32_t> r;
+                int ow = 0, oh = 0;
+                rotate_bgra(bgra.data(), dw, h, rot, r, &ow, &oh);
+                ok = write_png_wic(png_path, r.data(), ow, oh);
+            } else {
+                ok = write_png_wic(png_path, bgra.data(), dw, h);
+            }
+        }
+    }
+    sws_freeContext(sc);
+    av_frame_free(&xfer);
+    av_frame_free(&src);
+    if (ok) log_line("snapshot: wrote %ls", png_path);
     return ok;
 }

@@ -56,9 +56,13 @@ pause · `.` frame step · ←/→ ±10s · PgUp/PgDn ±60s · Ctrl+PgUp/PgDn
 chapters · L set A-B loop points · `[`/`]` speed ±0.25× (Backspace
 resets) · Z/X audio delay ∓50ms · G/H subtitle delay ∓50ms · ↑/↓
 volume · M mute · A audio track · S subtitle track · N/P next/prev in
-folder · F or double-click fullscreen · O open · Q quit. Seeks are
-frame-exact; hovering the seek slider previews the frame at that
-position; the context menu picks the audio output device. Volume, mute,
+folder/queue · F12 snapshot to Pictures · F or double-click fullscreen ·
+O open · Q quit. Seeks are frame-exact; hovering the seek slider
+previews the frame at that position; the context menu picks the audio
+output device and repeat/shuffle modes. Dropping several files (or an
+.m3u/.m3u8 playlist, also openable and saveable) builds a queue;
+keyboard media keys and the taskbar thumbnail buttons control playback,
+and the taskbar button shows progress. Volume, mute, repeat/shuffle,
 window placement, per-file resume positions and per-file track choices
 persist across runs.
 Drop a video file onto the window to play it; a same-name `.srt`/`.ass`

@@ -81,6 +81,10 @@ int player_chapter_current(Player* p);          // index, -1 when none
 void player_chapter_go(Player* p, int i);       // seek to chapter i
 int player_chapter_seek(Player* p, int delta);  // jump +-N; returns target or -1
 
+// Saves the currently displayed frame as a PNG (synchronous, WIC encoder;
+// call from a COM-initialized thread). Applies aspect ratio and rotation.
+bool player_snapshot(Player* p, const wchar_t* png_path);
+
 // Transient on-screen text (volume, seek feedback...), auto-expires.
 void player_show_osd(Player* p, const wchar_t* text, double seconds);
 

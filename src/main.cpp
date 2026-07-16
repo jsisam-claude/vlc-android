@@ -4,6 +4,7 @@
 #include "player.h"
 #include <shellapi.h>
 #include <shlobj.h>
+#include <shobjidl.h>
 #include <shlwapi.h>
 #include <commctrl.h>
 #include <commdlg.h>
@@ -33,9 +34,12 @@ enum {
     IDC_PLAY = 101, IDC_BACK, IDC_FWD, IDC_SEEK, IDC_VOL, IDC_FULL,
     IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE,
     IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
+    IDM_SNAPSHOT, IDM_PL_SAVE, IDM_REP_OFF, IDM_REP_ALL, IDM_REP_ONE,
+    IDM_SHUFFLE,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
     IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
+    IDT_PREV = 701, IDT_PLAY = 702, IDT_NEXT = 703,  // taskbar thumb buttons
 };
 #define MSG_PLAYER_EVENT (WM_APP + 1)
 #define MSG_PREVIEW_READY (WM_APP + 2)
@@ -53,6 +57,14 @@ static std::map<std::wstring, double> g_resume;
 static std::map<std::wstring, std::pair<int, int>> g_track_mem;  // audio, sub
 static std::vector<std::wstring> g_adev_ids;  // context-menu endpoint ids
 static double g_loop_a = -1, g_loop_b = -1;  // A-B loop (seconds; <0 unset)
+static std::vector<std::wstring> g_playlist;  // explicit queue (multi-drop/m3u)
+static int g_pl_cur = -1;
+static int g_repeat = 0;                      // 0 off, 1 all, 2 one
+static bool g_shuffle = false;
+static ITaskbarList3* g_taskbar = nullptr;
+static UINT g_msg_tbcreated = 0;
+static HICON g_ic_prev = nullptr, g_ic_play = nullptr, g_ic_pause = nullptr,
+             g_ic_next = nullptr;
 static bool g_autonext = false;
 static bool g_have_placement = false;
 static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
@@ -81,6 +93,7 @@ static void save_state(HWND hwnd) {
     FILE* f = _wfopen(sp.c_str(), L"w, ccs=UTF-8");
     if (!f) return;
     fwprintf(f, L"A|%d\n", g_autonext ? 1 : 0);
+    fwprintf(f, L"P|%d|%d\n", g_repeat, g_shuffle ? 1 : 0);
     if (g_player)
         fwprintf(f, L"V|%d|%d\n", (int)(player_volume(g_player) * 100 + 0.5f),
                  player_is_muted(g_player) ? 1 : 0);
@@ -115,6 +128,12 @@ static void load_state() {
         while (len && (line[len - 1] == L'\n' || line[len - 1] == L'\r')) line[--len] = 0;
         if (line[0] == L'A' && line[1] == L'|') {
             g_autonext = line[2] == L'1';
+        } else if (line[0] == L'P' && line[1] == L'|') {
+            int r = 0, s = 0;
+            if (swscanf(line + 2, L"%d|%d", &r, &s) == 2 && r >= 0 && r <= 2) {
+                g_repeat = r;
+                g_shuffle = s == 1;
+            }
         } else if (line[0] == L'W' && line[1] == L'|') {
             WINDOWPLACEMENT& wp = g_loaded_placement;
             unsigned cmd = SW_SHOWNORMAL;
@@ -478,6 +497,147 @@ static void update_ui(HWND hwnd) {
     SetWindowTextW(g_play, paused || ended || !media ? L"Play" : L"Pause");
 }
 
+// ------------------------------------------------ snapshot + taskbar
+
+static void do_snapshot(HWND) {
+    if (!g_player || !player_has_media(g_player) || g_cur_path.empty()) return;
+    wchar_t dir[MAX_PATH];
+    if (FAILED(SHGetFolderPathW(nullptr, CSIDL_MYPICTURES, nullptr, 0, dir))) return;
+    std::wstring d = std::wstring(dir) + L"\\minimal-player";
+    CreateDirectoryW(d.c_str(), nullptr);
+    size_t slash = g_cur_path.find_last_of(L"\\/");
+    std::wstring name = slash == std::wstring::npos ? g_cur_path
+                                                    : g_cur_path.substr(slash + 1);
+    size_t dot = name.find_last_of(L'.');
+    if (dot != std::wstring::npos) name.resize(dot);
+    int s = (int)player_position(g_player);
+    wchar_t file[MAX_PATH * 2];
+    swprintf(file, MAX_PATH * 2, L"%s\\%s-%02d.%02d.%02d.png", d.c_str(),
+             name.c_str(), s / 3600, (s / 60) % 60, s % 60);
+    osd(player_snapshot(g_player, file) ? L"Snapshot saved to Pictures"
+                                        : L"Snapshot failed");
+}
+
+// 16x16 white-glyph icons for the taskbar thumbnail toolbar, drawn with
+// GDI (no image resources): 0 prev, 1 play, 2 pause, 3 next.
+static HICON make_glyph_icon(int kind) {
+    const int S = 16;
+    HDC screen = GetDC(nullptr);
+    HDC cdc = CreateCompatibleDC(screen);
+    HDC mdc = CreateCompatibleDC(screen);
+    HBITMAP color = CreateCompatibleBitmap(screen, S, S);
+    HBITMAP mask = CreateBitmap(S, S, 1, 1, nullptr);
+    HGDIOBJ oc = SelectObject(cdc, color), om = SelectObject(mdc, mask);
+    PatBlt(cdc, 0, 0, S, S, BLACKNESS);
+    PatBlt(mdc, 0, 0, S, S, WHITENESS);
+    auto draw = [&](HDC dc, HBRUSH br) {
+        HGDIOBJ ob = SelectObject(dc, br);
+        HGDIOBJ op = SelectObject(dc, GetStockObject(NULL_PEN));
+        RECT r;
+        POINT t[3];
+        switch (kind) {
+            case 0:  // |<
+                SetRect(&r, 3, 4, 5, 13);
+                FillRect(dc, &r, br);
+                t[0] = {13, 4};
+                t[1] = {13, 13};
+                t[2] = {6, 8};
+                Polygon(dc, t, 3);
+                break;
+            case 1:  // >
+                t[0] = {5, 3};
+                t[1] = {5, 14};
+                t[2] = {13, 8};
+                Polygon(dc, t, 3);
+                break;
+            case 2:  // ||
+                SetRect(&r, 4, 3, 7, 14);
+                FillRect(dc, &r, br);
+                SetRect(&r, 9, 3, 12, 14);
+                FillRect(dc, &r, br);
+                break;
+            case 3:  // >|
+                t[0] = {3, 4};
+                t[1] = {3, 13};
+                t[2] = {10, 8};
+                Polygon(dc, t, 3);
+                SetRect(&r, 11, 4, 13, 13);
+                FillRect(dc, &r, br);
+                break;
+        }
+        SelectObject(dc, ob);
+        SelectObject(dc, op);
+    };
+    draw(cdc, (HBRUSH)GetStockObject(WHITE_BRUSH));
+    draw(mdc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+    SelectObject(cdc, oc);
+    SelectObject(mdc, om);
+    DeleteDC(cdc);
+    DeleteDC(mdc);
+    ReleaseDC(nullptr, screen);
+    ICONINFO ii = {TRUE, 0, 0, mask, color};
+    HICON ic = CreateIconIndirect(&ii);
+    DeleteObject(color);
+    DeleteObject(mask);
+    return ic;
+}
+
+static void init_taskbar(HWND hwnd) {
+    if (g_taskbar) return;
+    if (FAILED(CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER,
+                                IID_PPV_ARGS(&g_taskbar))) ||
+        FAILED(g_taskbar->HrInit())) {
+        if (g_taskbar) g_taskbar->Release();
+        g_taskbar = nullptr;
+        return;
+    }
+    g_ic_prev = make_glyph_icon(0);
+    g_ic_play = make_glyph_icon(1);
+    g_ic_pause = make_glyph_icon(2);
+    g_ic_next = make_glyph_icon(3);
+    THUMBBUTTON b[3] = {};
+    b[0].dwMask = b[1].dwMask = b[2].dwMask =
+        (THUMBBUTTONMASK)(THB_ICON | THB_TOOLTIP | THB_FLAGS);
+    b[0].iId = IDT_PREV;
+    b[0].hIcon = g_ic_prev;
+    wcscpy(b[0].szTip, L"Previous");
+    b[1].iId = IDT_PLAY;
+    b[1].hIcon = g_ic_play;
+    wcscpy(b[1].szTip, L"Play/Pause");
+    b[2].iId = IDT_NEXT;
+    b[2].hIcon = g_ic_next;
+    wcscpy(b[2].szTip, L"Next");
+    b[0].dwFlags = b[1].dwFlags = b[2].dwFlags = THBF_ENABLED;
+    g_taskbar->ThumbBarAddButtons(hwnd, 3, b);
+}
+
+static void taskbar_update(HWND hwnd) {
+    if (!g_taskbar) return;
+    bool media = g_player && player_has_media(g_player);
+    bool paused = g_player && player_is_paused(g_player);
+    bool ended = g_player && player_media_ended(g_player);
+    double dur = media ? player_duration(g_player) : 0;
+    if (media && dur > 0) {
+        g_taskbar->SetProgressState(hwnd, (paused || ended) ? TBPF_PAUSED : TBPF_NORMAL);
+        g_taskbar->SetProgressValue(hwnd,
+                                    (ULONGLONG)(player_position(g_player) * 100),
+                                    (ULONGLONG)(dur * 100));
+    } else {
+        g_taskbar->SetProgressState(hwnd, TBPF_NOPROGRESS);
+    }
+    static HICON last = nullptr;
+    HICON want = (!media || paused || ended) ? g_ic_play : g_ic_pause;
+    if (want != last) {
+        last = want;
+        THUMBBUTTON b = {};
+        b.dwMask = (THUMBBUTTONMASK)(THB_ICON | THB_FLAGS);
+        b.iId = IDT_PLAY;
+        b.hIcon = want;
+        b.dwFlags = THBF_ENABLED;
+        g_taskbar->ThumbBarUpdateButtons(hwnd, 1, &b);
+    }
+}
+
 static void open_path(HWND hwnd, const wchar_t* path) {
     if (!g_player) return;
     remember_position();
@@ -498,15 +658,136 @@ static void nav_folder(HWND hwnd, int step) {
     open_path(hwnd, next.c_str());
 }
 
+// ---------------------------------------------------------------- playlist
+
+static bool is_m3u(const wchar_t* path) {
+    const wchar_t* dot = wcsrchr(path, L'.');
+    return dot && (!_wcsicmp(dot, L".m3u") || !_wcsicmp(dot, L".m3u8"));
+}
+
+static void playlist_play(HWND hwnd, int idx) {
+    if (idx < 0 || idx >= (int)g_playlist.size()) return;
+    g_pl_cur = idx;
+    std::wstring path = g_playlist[idx];  // copy: open_path may reenter
+    open_path(hwnd, path.c_str());
+}
+
+static void playlist_load_m3u(HWND hwnd, const wchar_t* path) {
+    FILE* f = _wfopen(path, L"rb");
+    if (!f) return;
+    fseek(f, 0, SEEK_END);
+    long len = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    if (len <= 0 || len > 16 * 1024 * 1024) { fclose(f); return; }
+    std::string u8((size_t)len, 0);
+    fread(&u8[0], 1, (size_t)len, f);
+    fclose(f);
+    if (u8.size() >= 3 && (unsigned char)u8[0] == 0xEF) u8.erase(0, 3);  // BOM
+
+    std::wstring dir(path);
+    size_t slash = dir.find_last_of(L"\\/");
+    dir = slash == std::wstring::npos ? L"." : dir.substr(0, slash);
+
+    g_playlist.clear();
+    size_t pos = 0;
+    while (pos < u8.size()) {
+        size_t eol = u8.find_first_of("\r\n", pos);
+        std::string line = u8.substr(pos, eol == std::string::npos ? eol : eol - pos);
+        pos = eol == std::string::npos ? u8.size() : eol + 1;
+        if (line.empty() || line[0] == '#') continue;
+        int wn = MultiByteToWideChar(CP_UTF8, 0, line.c_str(), -1, nullptr, 0);
+        std::wstring wl(wn > 0 ? wn - 1 : 0, 0);
+        if (wn > 1) MultiByteToWideChar(CP_UTF8, 0, line.c_str(), -1, &wl[0], wn);
+        if (wl.empty()) continue;
+        wchar_t full[MAX_PATH * 2];
+        if (PathIsRelativeW(wl.c_str()))
+            swprintf(full, MAX_PATH * 2, L"%s\\%s", dir.c_str(), wl.c_str());
+        else
+            wcsncpy(full, wl.c_str(), MAX_PATH * 2 - 1), full[MAX_PATH * 2 - 1] = 0;
+        g_playlist.push_back(full);
+    }
+    if (g_playlist.empty()) {
+        g_pl_cur = -1;
+        return;
+    }
+    playlist_play(hwnd, 0);
+}
+
+static void playlist_save_dialog(HWND hwnd) {
+    if (g_playlist.empty()) return;
+    wchar_t path[MAX_PATH] = L"playlist.m3u8";
+    OPENFILENAMEW ofn = {sizeof(OPENFILENAMEW)};
+    ofn.hwndOwner = hwnd;
+    ofn.lpstrFilter = L"Playlist (*.m3u8)\0*.m3u8;*.m3u\0";
+    ofn.lpstrFile = path;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.lpstrDefExt = L"m3u8";
+    ofn.Flags = OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
+    if (!GetSaveFileNameW(&ofn)) return;
+    FILE* f = _wfopen(path, L"wb");
+    if (!f) return;
+    fputs("#EXTM3U\n", f);
+    for (auto& e : g_playlist) {
+        int n = WideCharToMultiByte(CP_UTF8, 0, e.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        std::string u8(n > 0 ? n - 1 : 0, 0);
+        if (n > 1) WideCharToMultiByte(CP_UTF8, 0, e.c_str(), -1, &u8[0], n, nullptr, nullptr);
+        fputs(u8.c_str(), f);
+        fputc('\n', f);
+    }
+    fclose(f);
+    osd(L"Playlist saved");
+}
+
+// Advance in the playlist (dir +-1), or in the folder when no playlist.
+// from_ended: sequential, honoring repeat; stops after the last entry.
+static void media_next(HWND hwnd, int dir, bool from_ended) {
+    if (g_playlist.empty()) {
+        if (from_ended) {
+            if (g_autonext && g_siblings.size() > 1) nav_folder(hwnd, 1);
+        } else {
+            nav_folder(hwnd, dir);
+        }
+        return;
+    }
+    int n = (int)g_playlist.size();
+    int next;
+    if (g_shuffle && n > 1) {
+        next = rand() % (n - 1);
+        if (next >= g_pl_cur) next++;
+    } else if (from_ended) {
+        next = g_pl_cur + 1;
+        if (next >= n) {
+            if (g_repeat != 1) return;  // queue done
+            next = 0;
+        }
+    } else {
+        next = (g_pl_cur + dir % n + n) % n;
+    }
+    playlist_play(hwnd, next);
+}
+
+// Route any path the user hands us: playlists load, media plays directly.
+static void open_any(HWND hwnd, const wchar_t* path) {
+    if (is_m3u(path)) {
+        playlist_load_m3u(hwnd, path);
+    } else {
+        g_playlist.clear();
+        g_pl_cur = -1;
+        open_path(hwnd, path);
+    }
+}
+
 static void open_dialog(HWND hwnd) {
     wchar_t path[MAX_PATH] = L"";
     OPENFILENAMEW ofn = {sizeof(OPENFILENAMEW)};
     ofn.hwndOwner = hwnd;
-    ofn.lpstrFilter = L"Video files\0*.mp4;*.m4v;*.mov;*.mkv;*.webm;*.avi\0All files\0*.*\0";
+    ofn.lpstrFilter = L"Video and playlists\0"
+                      L"*.mp4;*.m4v;*.mov;*.mkv;*.webm;*.avi;*.m3u;*.m3u8\0"
+                      L"All files\0*.*\0";
     ofn.lpstrFile = path;
     ofn.nMaxFile = MAX_PATH;
     ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-    if (GetOpenFileNameW(&ofn)) open_path(hwnd, path);
+    if (GetOpenFileNameW(&ofn)) open_any(hwnd, path);
 }
 
 static void show_context_menu(HWND hwnd, int x, int y) {
@@ -515,12 +796,32 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     AppendMenuW(m, MF_STRING, IDM_OPEN, L"Open File...");
     AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_PAUSE,
                 g_player && player_is_paused(g_player) ? L"Play\tSpace" : L"Pause\tSpace");
-    AppendMenuW(m, MF_STRING | (g_siblings.size() > 1 ? 0 : MF_GRAYED),
-                IDM_NEXTFILE, L"Next in Folder\tN");
-    AppendMenuW(m, MF_STRING | (g_siblings.size() > 1 ? 0 : MF_GRAYED),
-                IDM_PREVFILE, L"Previous in Folder\tP");
+    bool can_nav = g_playlist.size() > 1 || g_siblings.size() > 1;
+    AppendMenuW(m, MF_STRING | (can_nav ? 0 : MF_GRAYED), IDM_NEXTFILE,
+                g_playlist.empty() ? L"Next in Folder\tN" : L"Next in Queue\tN");
+    AppendMenuW(m, MF_STRING | (can_nav ? 0 : MF_GRAYED), IDM_PREVFILE,
+                g_playlist.empty() ? L"Previous in Folder\tP"
+                                   : L"Previous in Queue\tP");
     AppendMenuW(m, MF_STRING | (g_autonext ? MF_CHECKED : 0), IDM_AUTONEXT,
                 L"Autoplay Next");
+    {
+        HMENU pl = CreatePopupMenu();
+        AppendMenuW(pl, MF_STRING | (g_playlist.empty() ? MF_GRAYED : 0),
+                    IDM_PL_SAVE, L"Save Playlist...");
+        AppendMenuW(pl, MF_SEPARATOR, 0, nullptr);
+        AppendMenuW(pl, MF_STRING | (g_repeat == 0 ? MF_CHECKED : 0),
+                    IDM_REP_OFF, L"Repeat Off");
+        AppendMenuW(pl, MF_STRING | (g_repeat == 1 ? MF_CHECKED : 0),
+                    IDM_REP_ALL, L"Repeat All");
+        AppendMenuW(pl, MF_STRING | (g_repeat == 2 ? MF_CHECKED : 0),
+                    IDM_REP_ONE, L"Repeat One");
+        AppendMenuW(pl, MF_SEPARATOR, 0, nullptr);
+        AppendMenuW(pl, MF_STRING | (g_shuffle ? MF_CHECKED : 0), IDM_SHUFFLE,
+                    L"Shuffle");
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)pl, L"Playlist");
+    }
+    AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_SNAPSHOT,
+                L"Save Snapshot\tF12");
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     int ac = media ? player_audio_track_count(g_player) : 0;
     if (ac > 0) {
@@ -640,8 +941,9 @@ static void on_key(HWND hwnd, WPARAM key) {
                 osd(L"Loop: off");
             }
             break;
-        case 'N': nav_folder(hwnd, 1); break;
-        case 'P': nav_folder(hwnd, -1); break;
+        case 'N': media_next(hwnd, 1, false); break;
+        case 'P': media_next(hwnd, -1, false); break;
+        case VK_F12: do_snapshot(hwnd); break;
         case 'F': toggle_fullscreen(hwnd); break;
         case 'O': open_dialog(hwnd); break;
         case VK_OEM_4:   // '[' slower
@@ -709,6 +1011,10 @@ static LRESULT CALLBACK video_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 }
 
 static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
+    if (msg && msg == g_msg_tbcreated) {
+        init_taskbar(hwnd);
+        return 0;
+    }
     switch (msg) {
         case WM_KEYDOWN:
             on_key(hwnd, wp);
@@ -737,9 +1043,18 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_OPEN: open_dialog(hwnd); break;
-                case IDM_NEXTFILE: nav_folder(hwnd, 1); break;
-                case IDM_PREVFILE: nav_folder(hwnd, -1); break;
+                case IDM_NEXTFILE:
+                case IDT_NEXT: media_next(hwnd, 1, false); break;
+                case IDM_PREVFILE:
+                case IDT_PREV: media_next(hwnd, -1, false); break;
+                case IDT_PLAY: play_pause(); break;
                 case IDM_AUTONEXT: g_autonext = !g_autonext; break;
+                case IDM_SNAPSHOT: do_snapshot(hwnd); break;
+                case IDM_PL_SAVE: playlist_save_dialog(hwnd); break;
+                case IDM_REP_OFF: g_repeat = 0; break;
+                case IDM_REP_ALL: g_repeat = 1; break;
+                case IDM_REP_ONE: g_repeat = 2; break;
+                case IDM_SHUFFLE: g_shuffle = !g_shuffle; break;
                 case IDM_STRACK_OFF:
                     if (g_player) {
                         player_select_sub_track(g_player, -1);
@@ -814,8 +1129,24 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             return 0;
         }
         case WM_DROPFILES: {
+            UINT n = DragQueryFileW((HDROP)wp, 0xFFFFFFFF, nullptr, 0);
             wchar_t path[MAX_PATH];
-            if (DragQueryFileW((HDROP)wp, 0, path, MAX_PATH)) open_path(hwnd, path);
+            if (n > 1) {  // multi-drop builds a queue
+                g_playlist.clear();
+                g_pl_cur = -1;
+                for (UINT i = 0; i < n; i++)
+                    if (DragQueryFileW((HDROP)wp, i, path, MAX_PATH) &&
+                        is_video_ext(path))
+                        g_playlist.push_back(path);
+                if (!g_playlist.empty()) {
+                    playlist_play(hwnd, 0);
+                    wchar_t b[64];
+                    swprintf(b, 64, L"Queue: %d files", (int)g_playlist.size());
+                    osd(b);
+                }
+            } else if (DragQueryFileW((HDROP)wp, 0, path, MAX_PATH)) {
+                open_any(hwnd, path);
+            }
             DragFinish((HDROP)wp);
             return 0;
         }
@@ -824,7 +1155,24 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             if (g_player && g_loop_b > 0 && player_position(g_player) > g_loop_b)
                 player_seek_to(g_player, g_loop_a > 0 ? g_loop_a : 0);
             update_ui(hwnd);
+            taskbar_update(hwnd);
             return 0;
+        case WM_APPCOMMAND:
+            switch (GET_APPCOMMAND_LPARAM(lp)) {
+                case APPCOMMAND_MEDIA_PLAY_PAUSE:
+                case APPCOMMAND_MEDIA_PLAY:
+                case APPCOMMAND_MEDIA_PAUSE:
+                    play_pause();
+                    update_ui(hwnd);
+                    return TRUE;
+                case APPCOMMAND_MEDIA_NEXTTRACK:
+                    media_next(hwnd, 1, false);
+                    return TRUE;
+                case APPCOMMAND_MEDIA_PREVIOUSTRACK:
+                    media_next(hwnd, -1, false);
+                    return TRUE;
+            }
+            break;
         case MSG_PREVIEW_READY: {
             PvResult* r = (PvResult*)lp;
             bool current;
@@ -860,7 +1208,10 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                                          tm->second.second);
             } else if ((PlayerEvent)wp == PLAYER_EVT_ENDED) {
                 g_resume.erase(g_cur_path);
-                if (g_autonext && g_siblings.size() > 1) nav_folder(hwnd, 1);
+                if (g_repeat == 2 && g_player)
+                    player_seek_to(g_player, 0);  // clears the ended state
+                else
+                    media_next(hwnd, 1, true);
             }
             update_ui(hwnd);
             return 0;
@@ -883,6 +1234,8 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         freopen_s(&f, "CONOUT$", "w", stderr);
     }
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+    srand(GetTickCount());
+    g_msg_tbcreated = RegisterWindowMessageW(L"TaskbarButtonCreated");
     load_state();
     INITCOMMONCONTROLSEX icc = {sizeof(INITCOMMONCONTROLSEX), ICC_BAR_CLASSES};
     InitCommonControlsEx(&icc);
@@ -971,7 +1324,14 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
 
     int argc = 0;
     wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-    if (argv && argc > 1) open_path(g_main, argv[1]);
+    if (argv && argc > 2) {  // several files on the command line = a queue
+        for (int i = 1; i < argc; i++)
+            if (is_video_ext(argv[i])) g_playlist.push_back(argv[i]);
+        if (!g_playlist.empty()) playlist_play(g_main, 0);
+        else open_any(g_main, argv[1]);
+    } else if (argv && argc > 1) {
+        open_any(g_main, argv[1]);
+    }
     if (argv) LocalFree(argv);
 
     MSG msg;

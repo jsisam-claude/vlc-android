@@ -34,7 +34,7 @@ add_library(player_engine STATIC
 target_include_directories(player_engine PUBLIC src)
 target_link_libraries(player_engine
   PRIVATE ffmpeg
-  PUBLIC d3d11 dxgi d3dcompiler d2d1 dwrite ole32 avrt winmm user32
+  PUBLIC d3d11 dxgi d3dcompiler d2d1 dwrite windowscodecs ole32 avrt winmm user32
 )
 
 add_executable(minimal-player WIN32
