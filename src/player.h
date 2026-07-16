@@ -81,6 +81,18 @@ int player_chapter_current(Player* p);          // index, -1 when none
 void player_chapter_go(Player* p, int i);       // seek to chapter i
 int player_chapter_seek(Player* p, int delta);  // jump +-N; returns target or -1
 
+// Picture controls, -100..100 each (0 = neutral). Applied by the GPU video
+// processor; ignored on the shader fallback path.
+void player_set_picture(Player* p, int brightness, int contrast,
+                        int saturation, int hue);
+void player_get_picture(Player* p, int* brightness, int* contrast,
+                        int* saturation, int* hue);
+// Aspect override: 0 auto, 1 force 16:9, 2 force 4:3, 3 stretch, 4 crop-fill.
+void player_set_aspect(Player* p, int mode);
+int player_aspect(Player* p);
+// Debug HUD (fps, drops, decode path, queue depths); returns the new state.
+bool player_toggle_hud(Player* p);
+
 // Saves the currently displayed frame as a PNG (synchronous, WIC encoder;
 // call from a COM-initialized thread). Applies aspect ratio and rotation.
 bool player_snapshot(Player* p, const wchar_t* png_path);

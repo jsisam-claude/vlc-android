@@ -58,6 +58,9 @@ void audio_decode_thread(Player* p) {
 
 void video_render_thread(Player* p) {
     bool first_frame = true;
+    int fps_count = 0;
+    double fps = 0;
+    int64_t fps_t0 = av_gettime_relative();
 
     while (!p->abort) {
         if (p->paused) {
@@ -141,6 +144,7 @@ void video_render_thread(Player* p) {
                     remaining = std::isnan(clock) ? 0 : pts - clock;
                 }
             } else if (delay < -0.060 && p->vfq.count() > 0 && !first_frame) {
+                p->stat_drops++;
                 av_frame_free(&fr.f);  // hopelessly late and a newer frame waits
                 continue;
             }
@@ -150,8 +154,28 @@ void video_render_thread(Player* p) {
             continue;
         }
 
+        fps_count++;
+        int64_t now = av_gettime_relative();
+        if (now - fps_t0 >= 1000000) {
+            fps = fps_count * 1e6 / (now - fps_t0);
+            fps_count = 0;
+            fps_t0 = now;
+        }
+
         SubRender ov;
         ov.osd = p->osd_now();
+        if (p->hud && ov.osd.empty()) {
+            wchar_t h[192];
+            swprintf(h, 192,
+                     L"%.0f fps · dropped %d · %ls decode · %dx%d %ls · "
+                     L"vq %zu aq %zu · ×%.2f",
+                     fps, p->stat_drops.load(),
+                     p->hw_active.load() ? L"D3D11VA" : L"software",
+                     fr.f->width, fr.f->height,
+                     fr.f->format == AV_PIX_FMT_D3D11 ? L"gpu" : L"cpu",
+                     p->vfq.count(), p->afq.count(), p->speed.load());
+            ov.osd = h;
+        }
         if (!std::isnan(pts)) {
             ov.text = p->subs.active_at(pts - p->sub_delay);
             p->subs.active_bitmaps_at(pts - p->sub_delay, ov.bitmaps);

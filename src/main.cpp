@@ -36,6 +36,9 @@ enum {
     IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
     IDM_SNAPSHOT, IDM_PL_SAVE, IDM_REP_OFF, IDM_REP_ALL, IDM_REP_ONE,
     IDM_SHUFFLE, IDM_OPENURL,
+    IDM_PIC_BR_UP, IDM_PIC_BR_DN, IDM_PIC_CO_UP, IDM_PIC_CO_DN,
+    IDM_PIC_SA_UP, IDM_PIC_SA_DN, IDM_PIC_HU_UP, IDM_PIC_HU_DN,
+    IDM_PIC_RESET,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
     IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
@@ -911,6 +914,20 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     }
     AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_SNAPSHOT,
                 L"Save Snapshot\tF12");
+    if (media) {
+        HMENU pic = CreatePopupMenu();
+        AppendMenuW(pic, MF_STRING, IDM_PIC_BR_UP, L"Brightness +");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_BR_DN, L"Brightness −");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_CO_UP, L"Contrast +");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_CO_DN, L"Contrast −");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_SA_UP, L"Saturation +");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_SA_DN, L"Saturation −");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_HU_UP, L"Hue +");
+        AppendMenuW(pic, MF_STRING, IDM_PIC_HU_DN, L"Hue −");
+        AppendMenuW(pic, MF_SEPARATOR, 0, nullptr);
+        AppendMenuW(pic, MF_STRING, IDM_PIC_RESET, L"Reset");
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)pic, L"Picture");
+    }
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     int ac = media ? player_audio_track_count(g_player) : 0;
     if (ac > 0) {
@@ -1034,6 +1051,19 @@ static void on_key(HWND hwnd, WPARAM key) {
         case 'P': media_next(hwnd, -1, false); break;
         case VK_F12: do_snapshot(hwnd); break;
         case 'F': toggle_fullscreen(hwnd); break;
+        case 'V': {
+            static const wchar_t* names[] = {L"Aspect: Auto", L"Aspect: 16:9",
+                                             L"Aspect: 4:3", L"Aspect: Stretch",
+                                             L"Aspect: Crop-fill"};
+            int mode = (player_aspect(g_player) + 1) % 5;
+            player_set_aspect(g_player, mode);
+            osd(names[mode]);
+            break;
+        }
+        case 'D':
+            if (GetKeyState(VK_CONTROL) & 0x8000)
+                player_toggle_hud(g_player);
+            break;
         case 'O': open_dialog(hwnd); break;
         case 'U':
             if (GetKeyState(VK_CONTROL) & 0x8000) {
@@ -1150,6 +1180,50 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDT_PLAY: play_pause(); break;
                 case IDM_AUTONEXT: g_autonext = !g_autonext; break;
                 case IDM_SNAPSHOT: do_snapshot(hwnd); break;
+                case IDM_PIC_BR_UP:
+                case IDM_PIC_BR_DN:
+                case IDM_PIC_CO_UP:
+                case IDM_PIC_CO_DN:
+                case IDM_PIC_SA_UP:
+                case IDM_PIC_SA_DN:
+                case IDM_PIC_HU_UP:
+                case IDM_PIC_HU_DN:
+                case IDM_PIC_RESET:
+                    if (g_player) {
+                        int b, c, s, h;
+                        player_get_picture(g_player, &b, &c, &s, &h);
+                        int id = LOWORD(wp);
+                        const wchar_t* what = L"Picture";
+                        int val = 0;
+                        if (id == IDM_PIC_RESET) {
+                            b = c = s = h = 0;
+                        } else if (id == IDM_PIC_BR_UP || id == IDM_PIC_BR_DN) {
+                            b += id == IDM_PIC_BR_UP ? 10 : -10;
+                            what = L"Brightness";
+                            val = b;
+                        } else if (id == IDM_PIC_CO_UP || id == IDM_PIC_CO_DN) {
+                            c += id == IDM_PIC_CO_UP ? 10 : -10;
+                            what = L"Contrast";
+                            val = c;
+                        } else if (id == IDM_PIC_SA_UP || id == IDM_PIC_SA_DN) {
+                            s += id == IDM_PIC_SA_UP ? 10 : -10;
+                            what = L"Saturation";
+                            val = s;
+                        } else {
+                            h += id == IDM_PIC_HU_UP ? 10 : -10;
+                            what = L"Hue";
+                            val = h;
+                        }
+                        player_set_picture(g_player, b, c, s, h);
+                        player_get_picture(g_player, &b, &c, &s, &h);  // clamped
+                        wchar_t ob[48];
+                        if (id == IDM_PIC_RESET)
+                            wcscpy(ob, L"Picture reset");
+                        else
+                            swprintf(ob, 48, L"%s %+d", what, val);
+                        osd(ob);
+                    }
+                    break;
                 case IDM_PL_SAVE: playlist_save_dialog(hwnd); break;
                 case IDM_REP_OFF: g_repeat = 0; break;
                 case IDM_REP_ALL: g_repeat = 1; break;

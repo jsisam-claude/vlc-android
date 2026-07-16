@@ -205,6 +205,12 @@ public:
     // feeds the video processor with zero copies). Null when the device has
     // no video API (shader fallback) - callers then decode in software.
     ID3D11Device* decode_device();
+    // ProcAmp picture controls (-100..100; VideoProcessor path only) and
+    // aspect override (0 auto, 1 16:9, 2 4:3, 3 stretch, 4 crop-fill).
+    void set_picture(int b, int c, int s, int h);
+    void get_picture(int* b, int* c, int* s, int* h);
+    void set_aspect(int mode);
+    int aspect();
     ~VideoOut() { shutdown(); }
 
 private:
@@ -288,6 +294,11 @@ struct Player {
     std::atomic<double> speed{1.0};       // 0.25..4
     std::atomic<double> audio_delay{0};   // s; + = audio heard later
     std::atomic<double> sub_delay{0};     // s; + = subtitles shown later
+
+    // debug HUD + counters (render thread computes fps itself)
+    std::atomic<bool> hud{false};
+    std::atomic<int> stat_drops{0};
+    std::atomic<bool> hw_active{false};   // D3D11VA negotiated by get_format
 
     // external clock fallback when there is no audio stream
     std::mutex extclk_m;

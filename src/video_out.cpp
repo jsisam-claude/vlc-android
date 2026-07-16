@@ -40,6 +40,11 @@ struct D3DState {
     ID3D11VideoProcessorEnumerator* vpe = nullptr;
     ID3D11VideoProcessor* vp = nullptr;
     bool vp_can_rotate = false;
+    // ProcAmp: user values -100..100 and the driver's ranges (b, c, h, s)
+    int pic[4] = {0, 0, 0, 0};
+    bool pic_ok[4] = {};
+    D3D11_VIDEO_PROCESSOR_FILTER_RANGE pic_range[4] = {};
+    int aspect_mode = 0;  // 0 auto, 1 16:9, 2 4:3, 3 stretch, 4 crop-fill
     ID3D11Texture2D* in_tex = nullptr;
     ID3D11VideoProcessorInputView* in_view = nullptr;
     bool staging_p010 = false;   // staging texture format (P010 vs NV12)
@@ -223,6 +228,24 @@ static bool ensure_video_processor(D3DState* d, int w, int h) {
     d->vp_can_rotate = SUCCEEDED(d->vpe->GetVideoProcessorCaps(&caps)) &&
                        (caps.FeatureCaps & D3D11_VIDEO_PROCESSOR_FEATURE_CAPS_ROTATION);
 
+    // ProcAmp filter ranges (b, c, h, s - matching pic[] order below)
+    static const D3D11_VIDEO_PROCESSOR_FILTER fids[4] = {
+        D3D11_VIDEO_PROCESSOR_FILTER_BRIGHTNESS,
+        D3D11_VIDEO_PROCESSOR_FILTER_CONTRAST,
+        D3D11_VIDEO_PROCESSOR_FILTER_HUE,
+        D3D11_VIDEO_PROCESSOR_FILTER_SATURATION,
+    };
+    static const UINT fcaps[4] = {
+        D3D11_VIDEO_PROCESSOR_FILTER_CAPS_BRIGHTNESS,
+        D3D11_VIDEO_PROCESSOR_FILTER_CAPS_CONTRAST,
+        D3D11_VIDEO_PROCESSOR_FILTER_CAPS_HUE,
+        D3D11_VIDEO_PROCESSOR_FILTER_CAPS_SATURATION,
+    };
+    for (int i = 0; i < 4; i++)
+        d->pic_ok[i] =
+            (caps.FilterCaps & fcaps[i]) &&
+            SUCCEEDED(d->vpe->GetVideoProcessorFilterRange(fids[i], &d->pic_range[i]));
+
     d->in_w = w;
     d->in_h = h;
     return true;
@@ -296,10 +319,11 @@ static void set_colorspace(D3DState* d, const AVFrame* f) {
     d->vctx->VideoProcessorSetOutputColorSpace(d->vp, &out_cs);
 }
 
-static RECT letterbox(int vw, int vh, int ww, int wh) {
+static RECT letterbox(int vw, int vh, int ww, int wh, bool cover = false) {
     RECT r;
     if (vw <= 0 || vh <= 0 || ww <= 0 || wh <= 0) { SetRect(&r, 0, 0, ww, wh); return r; }
-    double scale = std::fmin((double)ww / vw, (double)wh / vh);
+    double scale = cover ? std::fmax((double)ww / vw, (double)wh / vh)
+                         : std::fmin((double)ww / vw, (double)wh / vh);
     int dw = (int)(vw * scale + 0.5), dh = (int)(vh * scale + 0.5);
     int x = (ww - dw) / 2, y = (wh - dh) / 2;
     SetRect(&r, x, y, x + dw, y + dh);
@@ -423,6 +447,34 @@ ID3D11Device* VideoOut::decode_device() {
     return (d && d->use_vp) ? d->dev : nullptr;
 }
 
+void VideoOut::set_picture(int b, int c, int s, int h) {
+    auto clamp = [](int v) { return v < -100 ? -100 : v > 100 ? 100 : v; };
+    std::lock_guard<std::mutex> lk(m_);
+    if (!d) return;
+    d->pic[0] = clamp(b);
+    d->pic[1] = clamp(c);
+    d->pic[2] = clamp(h);  // pic[] order is b, c, hue, sat (filter ids)
+    d->pic[3] = clamp(s);
+}
+
+void VideoOut::get_picture(int* b, int* c, int* s, int* h) {
+    std::lock_guard<std::mutex> lk(m_);
+    if (b) *b = d ? d->pic[0] : 0;
+    if (c) *c = d ? d->pic[1] : 0;
+    if (h) *h = d ? d->pic[2] : 0;
+    if (s) *s = d ? d->pic[3] : 0;
+}
+
+void VideoOut::set_aspect(int mode) {
+    std::lock_guard<std::mutex> lk(m_);
+    if (d) d->aspect_mode = mode < 0 ? 0 : mode > 4 ? 0 : mode;
+}
+
+int VideoOut::aspect() {
+    std::lock_guard<std::mutex> lk(m_);
+    return d ? d->aspect_mode : 0;
+}
+
 void VideoOut::resize() {
     std::lock_guard<std::mutex> lk(m_);
     if (!d || !d->swap) return;
@@ -442,6 +494,37 @@ void VideoOut::resize() {
 static bool vp_blt(D3DState* d, ID3D11VideoProcessorInputView* in_view,
                    AVFrame* f, ID3D11Texture2D* back, const RECT& dst_rc, int rot) {
     set_colorspace(d, f);
+
+    // Interlaced content: tell the processor the field order and the
+    // driver deinterlaces during the blt (no combing on TV rips).
+    D3D11_VIDEO_FRAME_FORMAT ff = D3D11_VIDEO_FRAME_FORMAT_PROGRESSIVE;
+    if (f->flags & AV_FRAME_FLAG_INTERLACED)
+        ff = (f->flags & AV_FRAME_FLAG_TOP_FIELD_FIRST)
+                 ? D3D11_VIDEO_FRAME_FORMAT_INTERLACED_TOP_FIELD_FIRST
+                 : D3D11_VIDEO_FRAME_FORMAT_INTERLACED_BOTTOM_FIELD_FIRST;
+    d->vctx->VideoProcessorSetStreamFrameFormat(d->vp, 0, ff);
+
+    // ProcAmp (brightness/contrast/hue/saturation), -100..100 mapped into
+    // the driver's range on each side of its default.
+    static const D3D11_VIDEO_PROCESSOR_FILTER fids[4] = {
+        D3D11_VIDEO_PROCESSOR_FILTER_BRIGHTNESS,
+        D3D11_VIDEO_PROCESSOR_FILTER_CONTRAST,
+        D3D11_VIDEO_PROCESSOR_FILTER_HUE,
+        D3D11_VIDEO_PROCESSOR_FILTER_SATURATION,
+    };
+    for (int i = 0; i < 4; i++) {
+        if (!d->pic_ok[i]) continue;
+        const D3D11_VIDEO_PROCESSOR_FILTER_RANGE& r = d->pic_range[i];
+        int v = d->pic[i];
+        if (v == 0) {
+            d->vctx->VideoProcessorSetStreamFilter(d->vp, 0, fids[i], FALSE,
+                                                   r.Default);
+        } else {
+            int span = v > 0 ? r.Maximum - r.Default : r.Default - r.Minimum;
+            d->vctx->VideoProcessorSetStreamFilter(d->vp, 0, fids[i], TRUE,
+                                                   r.Default + v * span / 100);
+        }
+    }
 
     if (d->vp_can_rotate) {
         D3D11_VIDEO_PROCESSOR_ROTATION r =
@@ -632,15 +715,22 @@ bool VideoOut::render(AVFrame* f, const SubRender& overlays, int rotation_deg) {
     if (w <= 0 || h <= 0) return false;
     int rot = ((rotation_deg % 360) + 360) % 360 / 90 * 90;
 
+    int am = d->aspect_mode;
     int disp_w = w, disp_h = h;
     if (f->sample_aspect_ratio.num > 0 && f->sample_aspect_ratio.den > 0)
         disp_w = (int)av_rescale(w, f->sample_aspect_ratio.num, f->sample_aspect_ratio.den);
+    if (am == 1) { disp_w = 16; disp_h = 9; }  // forced ratios
+    if (am == 2) { disp_w = 4; disp_h = 3; }
     if (rot == 90 || rot == 270) {
         int t = disp_w;
         disp_w = disp_h;
         disp_h = t;
     }
-    RECT dst_rc = letterbox(disp_w, disp_h, d->out_w, d->out_h);
+    RECT dst_rc;
+    if (am == 3)
+        SetRect(&dst_rc, 0, 0, d->out_w, d->out_h);  // stretch to window
+    else
+        dst_rc = letterbox(disp_w, disp_h, d->out_w, d->out_h, am == 4);
 
     ID3D11Texture2D* back = nullptr;
     if (FAILED(d->swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back)))
