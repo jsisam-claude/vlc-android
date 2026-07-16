@@ -51,6 +51,14 @@ int player_sub_track_current(Player* p);  // -1 = off
 void player_sub_track_name(Player* p, int i, wchar_t* buf, size_t buflen);
 void player_select_sub_track(Player* p, int i);  // -1 = off
 
+// Chapters (mkv/mp4). Count is 0 when the media has none.
+int player_chapter_count(Player* p);
+double player_chapter_start(Player* p, int i);  // seconds from media start
+void player_chapter_name(Player* p, int i, wchar_t* buf, size_t buflen);
+int player_chapter_current(Player* p);          // index, -1 when none
+void player_chapter_go(Player* p, int i);       // seek to chapter i
+int player_chapter_seek(Player* p, int delta);  // jump +-N; returns target or -1
+
 // Transient on-screen text (volume, seek feedback...), auto-expires.
 void player_show_osd(Player* p, const wchar_t* text, double seconds);
 
@@ -73,3 +81,12 @@ typedef struct PlayerMediaInfo {
     wchar_t audio_codec[32];
 } PlayerMediaInfo;
 bool player_probe(const wchar_t* path, PlayerMediaInfo* info);
+
+// Decodes one representative video frame (seeks a little way in, so
+// thumbnails aren't all black lead-ins), scaled to fit (max_w, max_h)
+// preserving aspect ratio, written to buf as tightly packed 32-bit BGRA
+// rows (*out_w * 4 bytes per row). buf must hold max_w*max_h*4 bytes.
+// Standalone and synchronous with an internal ~5s time budget; no player
+// instance needed - safe to call from a host's thumbnail worker thread.
+bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
+                          uint8_t* buf, int* out_w, int* out_h);

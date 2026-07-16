@@ -50,10 +50,11 @@ CI builds run on every push (`.github/workflows/build.yml`) and upload
 
 Controls: bottom bar (Play/Pause, ±10s, seek slider, volume slider) and
 a right-click context menu (Open File, tracks, fullscreen). Keys: Space
-pause · `.` frame step · ←/→ ±10s · PgUp/PgDn ±60s · ↑/↓ volume ·
-M mute · A audio track · S subtitle track · N/P next/prev in folder ·
-F or double-click fullscreen · O open · Q quit. Volume, mute, window
-placement and per-file resume positions persist across runs.
+pause · `.` frame step · ←/→ ±10s · PgUp/PgDn ±60s · Ctrl+PgUp/PgDn
+chapters · ↑/↓ volume · M mute · A audio track · S subtitle track ·
+N/P next/prev in folder · F or double-click fullscreen · O open ·
+Q quit. Volume, mute, window placement and per-file resume positions
+persist across runs.
 Drop a video file onto the window to play it; a same-name `.srt`/`.ass`
 next to the file loads automatically.
 

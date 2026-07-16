@@ -210,9 +210,10 @@ struct Player {
     int vst = -1, ast = -1, sst = -1; // active stream indices (-1 = none)
     std::vector<int> audio_streams;
     std::vector<int> sub_streams;     // internal subtitle stream indices
-    std::mutex tracks_m;              // guards the two name vectors
+    std::mutex tracks_m;              // guards the name vectors + chapters
     std::vector<std::wstring> audio_names;
     std::vector<std::wstring> sub_names;  // [external?, internals...]
+    std::vector<std::pair<double, std::wstring>> chapters;  // start sec, title
     bool has_external_subs = false;
     int sub_choice = 0;               // index into effective sub track list; 0 = default
     AVCodecContext* vctx = nullptr;

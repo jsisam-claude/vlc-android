@@ -31,6 +31,7 @@ enum {
     IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE,
     IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
+    IDM_CHAP_BASE = 500,  // ..563
 };
 #define MSG_PLAYER_EVENT (WM_APP + 1)
 
@@ -364,7 +365,22 @@ static void show_context_menu(HWND hwnd, int x, int y) {
         }
         AppendMenuW(m, MF_POPUP, (UINT_PTR)sm, L"Subtitles\tS");
     }
-    if (ac > 0 || sc > 0) AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
+    int cc = media ? player_chapter_count(g_player) : 0;
+    if (cc > 0) {
+        HMENU cm = CreatePopupMenu();
+        int cur = player_chapter_current(g_player);
+        for (int i = 0; i < cc && i < 64; i++) {
+            wchar_t nm[128], item[176];
+            player_chapter_name(g_player, i, nm, 128);
+            double st = player_chapter_start(g_player, i);
+            swprintf(item, 176, L"%s\t%02d:%02d:%02d", nm,
+                     (int)st / 3600, ((int)st / 60) % 60, (int)st % 60);
+            AppendMenuW(cm, MF_STRING | (i == cur ? MF_CHECKED : 0),
+                        IDM_CHAP_BASE + i, item);
+        }
+        AppendMenuW(m, MF_POPUP, (UINT_PTR)cm, L"Chapters\tCtrl+PgUp/PgDn");
+    }
+    if (ac > 0 || sc > 0 || cc > 0) AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
     AppendMenuW(m, MF_STRING | (g_fullscreen ? MF_CHECKED : 0), IDM_FULL, L"Fullscreen\tF");
     AppendMenuW(m, MF_STRING | (g_player && player_is_muted(g_player) ? MF_CHECKED : 0),
                 IDM_MUTE, L"Mute\tM");
@@ -385,8 +401,24 @@ static void on_key(HWND hwnd, WPARAM key) {
         case VK_OEM_PERIOD: player_frame_step(g_player); osd(L"Frame step"); break;
         case VK_LEFT: player_seek_rel(g_player, -10); osd(L"-10s"); break;
         case VK_RIGHT: player_seek_rel(g_player, 10); osd(L"+10s"); break;
-        case VK_PRIOR: player_seek_rel(g_player, -60); osd(L"-60s"); break;
-        case VK_NEXT: player_seek_rel(g_player, 60); osd(L"+60s"); break;
+        case VK_PRIOR:
+        case VK_NEXT: {
+            int dir = (key == VK_NEXT) ? 1 : -1;
+            if (GetKeyState(VK_CONTROL) & 0x8000) {
+                int i = player_chapter_seek(g_player, dir);
+                if (i >= 0) {
+                    wchar_t nm[128];
+                    player_chapter_name(g_player, i, nm, 128);
+                    osd(nm);
+                } else {
+                    osd(L"No chapters");
+                }
+            } else {
+                player_seek_rel(g_player, 60.0 * dir);
+                osd(dir > 0 ? L"+60s" : L"-60s");
+            }
+            break;
+        }
         case VK_UP: player_volume_step(g_player, 1); osd_volume(); break;
         case VK_DOWN: player_volume_step(g_player, -1); osd_volume(); break;
         case 'A': player_cycle_audio(g_player); break;
@@ -469,6 +501,9 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                     else if (g_player && LOWORD(wp) >= IDM_STRACK_BASE &&
                              LOWORD(wp) < IDM_STRACK_BASE + 32)
                         player_select_sub_track(g_player, LOWORD(wp) - IDM_STRACK_BASE);
+                    else if (g_player && LOWORD(wp) >= IDM_CHAP_BASE &&
+                             LOWORD(wp) < IDM_CHAP_BASE + 64)
+                        player_chapter_go(g_player, LOWORD(wp) - IDM_CHAP_BASE);
                     break;
                 case IDM_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_EXIT: PostMessageW(hwnd, WM_CLOSE, 0, 0); break;

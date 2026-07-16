@@ -84,6 +84,7 @@ static void stop_pipeline(Player* p) {
         std::lock_guard<std::mutex> lk(p->tracks_m);
         p->audio_names.clear();
         p->sub_names.clear();
+        p->chapters.clear();
     }
     p->vst = p->ast = p->sst = -1;
     p->running = false;
@@ -246,6 +247,62 @@ void player_select_sub_track(Player* p, int i) {
     reopen(p, p->want_audio_rel, choice);
 }
 
+int player_chapter_count(Player* p) {
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    return (int)p->chapters.size();
+}
+
+double player_chapter_start(Player* p, int i) {
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    if (i < 0 || i >= (int)p->chapters.size()) return 0;
+    return p->chapters[i].first;
+}
+
+void player_chapter_name(Player* p, int i, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    if (i < 0 || i >= (int)p->chapters.size()) return;
+    wcsncpy(buf, p->chapters[i].second.c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
+int player_chapter_current(Player* p) {
+    double pos = player_position(p) + 0.5;  // bias: right after a jump we
+    std::lock_guard<std::mutex> lk(p->tracks_m);  // are "in" that chapter
+    int cur = -1;
+    for (int i = 0; i < (int)p->chapters.size(); i++)
+        if (p->chapters[i].first <= pos) cur = i;
+    return cur;
+}
+
+void player_chapter_go(Player* p, int i) {
+    double start;
+    {
+        std::lock_guard<std::mutex> lk(p->tracks_m);
+        if (i < 0 || i >= (int)p->chapters.size()) return;
+        start = p->chapters[i].first;
+    }
+    player_seek_to(p, start);
+}
+
+int player_chapter_seek(Player* p, int delta) {
+    int n = player_chapter_count(p);
+    if (n == 0) return -1;
+    int cur = player_chapter_current(p);
+    int next = cur + delta;
+    if (delta < 0 && cur >= 0) {
+        // Going "back" from mid-chapter returns to its start first, like
+        // every disc player; only jump further if already near the start.
+        double pos = player_position(p);
+        if (pos - player_chapter_start(p, cur) > 3.0) next = cur;
+    }
+    if (next < 0) next = 0;
+    if (next >= n) next = n - 1;
+    player_chapter_go(p, next);
+    return next;
+}
+
 void player_show_osd(Player* p, const wchar_t* text, double seconds) {
     {
         std::lock_guard<std::mutex> lk(p->osd_m);
@@ -330,4 +387,90 @@ bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
     }
     avformat_close_input(&fc);
     return true;
+}
+
+bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
+                          uint8_t* buf, int* out_w, int* out_h) {
+    if (!buf || !out_w || !out_h || max_w < 8 || max_h < 8) return false;
+    engine_global_init();
+    std::string u8 = wide_to_utf8(path);
+    int64_t deadline = av_gettime_relative() + 5 * INT64_C(1000000);
+
+    AVFormatContext* fc = avformat_alloc_context();
+    if (!fc) return false;
+    fc->interrupt_callback.callback = deadline_interrupt;
+    fc->interrupt_callback.opaque = &deadline;
+    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return false;
+
+    AVCodecContext* ctx = nullptr;
+    AVFrame* frame = nullptr;
+    AVPacket* pkt = nullptr;
+    SwsContext* sws = nullptr;
+    bool ok = false;
+    do {
+        if (avformat_find_stream_info(fc, nullptr) < 0) break;
+        int vst = av_find_best_stream(fc, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        if (vst < 0) break;
+
+        const AVCodec* dec = avcodec_find_decoder(fc->streams[vst]->codecpar->codec_id);
+        if (!dec) break;
+        ctx = avcodec_alloc_context3(dec);
+        if (!ctx || avcodec_parameters_to_context(ctx, fc->streams[vst]->codecpar) < 0)
+            break;
+        ctx->thread_count = 1;
+        if (avcodec_open2(ctx, dec, nullptr) < 0) break;
+
+        // A few seconds in beats the (often black/logo) very first frame.
+        double dur = fc->duration > 0 ? fc->duration / (double)AV_TIME_BASE : 0;
+        double at = dur > 3 ? std::fmin(dur * 0.10, 60.0) : 0;
+        if (at > 0) {
+            int64_t ts = fc->start_time != AV_NOPTS_VALUE
+                             ? fc->start_time + (int64_t)(at * AV_TIME_BASE)
+                             : (int64_t)(at * AV_TIME_BASE);
+            av_seek_frame(fc, -1, ts, AVSEEK_FLAG_BACKWARD);
+        }
+
+        frame = av_frame_alloc();
+        pkt = av_packet_alloc();
+        if (!frame || !pkt) break;
+        bool got = false;
+        for (int packets = 0; !got && packets < 512; ) {
+            if (av_read_frame(fc, pkt) < 0) break;
+            if (pkt->stream_index == vst) {
+                packets++;
+                if (avcodec_send_packet(ctx, pkt) >= 0)
+                    while (avcodec_receive_frame(ctx, frame) >= 0) got = true;
+            }
+            av_packet_unref(pkt);
+        }
+        if (!got || frame->width <= 0 || frame->height <= 0) break;
+
+        int sw = frame->width, sh = frame->height;
+        if (frame->sample_aspect_ratio.num > 0 && frame->sample_aspect_ratio.den > 0)
+            sw = (int)av_rescale(sw, frame->sample_aspect_ratio.num,
+                                 frame->sample_aspect_ratio.den);
+        double scale = std::fmin((double)max_w / sw, (double)max_h / sh);
+        if (scale > 1.0) scale = 1.0;
+        int tw = (int)(sw * scale + 0.5), th = (int)(sh * scale + 0.5);
+        if (tw < 1) tw = 1;
+        if (th < 1) th = 1;
+
+        sws = sws_getContext(frame->width, frame->height, (AVPixelFormat)frame->format,
+                             tw, th, AV_PIX_FMT_BGRA, SWS_BILINEAR,
+                             nullptr, nullptr, nullptr);
+        if (!sws) break;
+        uint8_t* dst[1] = {buf};
+        int dst_stride[1] = {tw * 4};
+        sws_scale(sws, frame->data, frame->linesize, 0, frame->height, dst, dst_stride);
+        *out_w = tw;
+        *out_h = th;
+        ok = true;
+    } while (false);
+
+    sws_freeContext(sws);
+    av_packet_free(&pkt);
+    av_frame_free(&frame);
+    avcodec_free_context(&ctx);
+    avformat_close_input(&fc);
+    return ok;
 }
