@@ -4,7 +4,7 @@ A lightweight win64-only video player for local files (.mp4, .mkv, .webm,
 .avi) with subtitle support. Fully self-contained source-only repo built
 entirely with the Visual Studio toolchain — no mingw, no MSYS, no vcpkg,
 no package manager, no submodules, no downloads, no prebuilt binaries of
-any kind: the needed FFmpeg source subset (940 files) is committed under
+any kind: the needed FFmpeg source subset (950 files) is committed under
 `third_party/ffmpeg-src/` and compiled by cl.exe using committed config
 headers (FFmpeg's configure never runs). Player structure follows ffplay;
 WASAPI output adapted from mpv; rendering uses Windows' own D3D11 +
@@ -13,7 +13,9 @@ D3D11VA when the GPU supports it (zero-copy into the video processor),
 falling back to software decode transparently. Phone-rotation metadata
 is applied, 10-bit content stays 10-bit through the video processor
 (P010), and BT.2020/PQ/HLG colorspaces are signalled to the driver so
-HDR files don't wash out. Ships as a single statically-linked exe.
+HDR files don't wash out. http/https URLs play too (Ctrl+U), with TLS
+via Windows' own Schannel - still zero third-party binaries. Ships as
+a single statically-linked exe.
 
 See [PLAN.md](PLAN.md) for the full design: reuse strategy and licensing,
 the FFmpeg-under-MSVC build solution, renderer decision (staged D3D11, no

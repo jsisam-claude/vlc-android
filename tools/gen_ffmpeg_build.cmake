@@ -29,7 +29,7 @@ set(PARSERS h264 hevc mpegvideo mpeg4video mpegaudio aac ac3 flac vorbis opus vp
 set(DEMUXERS mov matroska avi srt ass)
 set(MUXERS "")
 set(ENCODERS "")
-set(PROTOCOLS file)
+set(PROTOCOLS file http https tcp tls)
 set(BSFS null)
 # Both D3D11 hwaccel families per codec: the engine negotiates AV_PIX_FMT_D3D11
 # (the *_d3d11va2 hwaccels), but libavcodec/Makefile gates the shared
@@ -37,9 +37,12 @@ set(BSFS null)
 # CONFIG_*_D3D11VA_HWACCEL flags only, so both must be on.
 set(HWACCELS h264_d3d11va h264_d3d11va2 hevc_d3d11va hevc_d3d11va2
     mpeg2_d3d11va mpeg2_d3d11va2 vp9_d3d11va vp9_d3d11va2)
+# schannel: the Windows-native TLS backend for the tls protocol (an
+# external-lib flag in configure's eyes, but it is pure OS API - secur32/
+# crypt32 - so it keeps the source-only guarantee).
 set(EXTRA_CONFIG avcodec avformat avutil swresample swscale
     static decoders demuxers parsers protocols bsfs
-    safe_bitstream_reader swscale_alpha)
+    safe_bitstream_reader swscale_alpha schannel)
 set(HAVE_FLAGS W32THREADS THREADS)
 
 set(KINDS decoder encoder parser demuxer muxer protocol bsf hwaccel)
@@ -241,13 +244,15 @@ foreach(lib ${LIBS})
     string(REGEX REPLACE "\\\\\n" " " t "${t}")
     string(REPLACE "\n" ";" lines "${t}")
     foreach(line ${lines})
-      if(NOT line MATCHES "^(OBJS|STLIBOBJS)(-\\$\\((!?)(CONFIG|HAVE)_([A-Z0-9_]+)\\))?[ \t]*[+:]?=[ \t]*(.*)$")
+      # Accepts plain OBJS/STLIBOBJS lines and aggregation variables like
+      # TLS-OBJS-$(CONFIG_SCHANNEL) whose -yes result feeds an OBJS line.
+      if(NOT line MATCHES "^([A-Z0-9]+-)?(OBJS|STLIBOBJS)(-\\$\\((!?)(CONFIG|HAVE)_([A-Z0-9_]+)\\))?[ \t]*[+:]?=[ \t]*(.*)$")
         continue()
       endif()
-      set(negate "${CMAKE_MATCH_3}")
-      set(fkind "${CMAKE_MATCH_4}")
-      set(flag "${CMAKE_MATCH_5}")
-      set(rhs "${CMAKE_MATCH_6}")
+      set(negate "${CMAKE_MATCH_4}")
+      set(fkind "${CMAKE_MATCH_5}")
+      set(flag "${CMAKE_MATCH_6}")
+      set(rhs "${CMAKE_MATCH_7}")
       if(NOT flag STREQUAL "")
         flag_on("${negate}" "${fkind}" "${flag}" res)
         if(NOT res)
@@ -257,8 +262,8 @@ foreach(lib ${LIBS})
       # expand $(if $(!CONFIG_X), a b) / $(if $(CONFIG_X), a b)
       while(rhs MATCHES "\\$\\(if \\$\\((!?)(CONFIG|HAVE)_([A-Z0-9_]+)\\),([^)]*)\\)")
         set(whole "${CMAKE_MATCH_0}")
-        flag_on("${CMAKE_MATCH_1}" "${CMAKE_MATCH_2}" "${CMAKE_MATCH_3}" on)
-        if(res)
+        flag_on("${CMAKE_MATCH_1}" "${CMAKE_MATCH_2}" "${CMAKE_MATCH_3}" cond)
+        if(cond)
           set(repl "${CMAKE_MATCH_4}")
         else()
           set(repl "")

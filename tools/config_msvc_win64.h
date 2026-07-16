@@ -61,6 +61,19 @@
 #define HAVE_DXVA_H 1
 #define HAVE_DXGIDEBUG_H 1
 
+/* networking: winsock2 + ws2tcpip (http/https protocols, schannel TLS) */
+#define HAVE_WINSOCK2_H 1
+#define HAVE_CLOSESOCKET 1
+#define HAVE_GETADDRINFO 1
+#define HAVE_SOCKLEN_T 1
+#define HAVE_STRUCT_ADDRINFO 1
+#define HAVE_STRUCT_SOCKADDR_IN6 1
+#define HAVE_STRUCT_SOCKADDR_STORAGE 1
+#define HAVE_STRUCT_IPV6_MREQ 1
+#define HAVE_STRUCT_IP_MREQ_SOURCE 1
+#define HAVE_STRUCT_GROUP_SOURCE_REQ 1
+#define HAVE_STRUCT_POLLFD 1  /* winsock2.h defines it (WSAPoll era) */
+
 /* win32 API functions used by the libraries */
 #define HAVE_ALIGNED_MALLOC 1
 #define HAVE_COMMANDLINETOARGVW 1
@@ -145,7 +158,7 @@
 #define CONFIG_MEMORY_POISONING 0
 #define CONFIG_RUNTIME_CPUDETECT 0
 #define CONFIG_AUTODETECT 0
-#define CONFIG_NETWORK 0
+/* CONFIG_NETWORK is driven by the protocol selection in the generator. */
 #define CONFIG_AVDEVICE 0
 #define CONFIG_AVFILTER 0
 #define CONFIG_POSTPROC 0
@@ -166,7 +179,7 @@
 #define CONFIG_GNUTLS 0
 #define CONFIG_LIBXML2 0
 #define CONFIG_SECURETRANSPORT 0
-#define CONFIG_SCHANNEL 0
+/* CONFIG_SCHANNEL comes from the generator (Windows TLS - pure OS API). */
 #define CONFIG_MEDIAFOUNDATION 0
 /* CONFIG_D3D11VA / CONFIG_DXVA2 are driven by the hwaccel selection in
  * the generator (closure of the configure dependency graph). */

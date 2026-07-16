@@ -35,7 +35,7 @@ enum {
     IDM_OPEN = 201, IDM_PAUSE, IDM_AUDIO, IDM_SUBS, IDM_FULL, IDM_MUTE,
     IDM_NEXTFILE, IDM_PREVFILE, IDM_AUTONEXT, IDM_EXIT,
     IDM_SNAPSHOT, IDM_PL_SAVE, IDM_REP_OFF, IDM_REP_ALL, IDM_REP_ONE,
-    IDM_SHUFFLE,
+    IDM_SHUFFLE, IDM_OPENURL,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
     IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
@@ -57,6 +57,9 @@ static std::map<std::wstring, double> g_resume;
 static std::map<std::wstring, std::pair<int, int>> g_track_mem;  // audio, sub
 static std::vector<std::wstring> g_adev_ids;  // context-menu endpoint ids
 static double g_loop_a = -1, g_loop_b = -1;  // A-B loop (seconds; <0 unset)
+static bool g_cur_is_url = false;
+static double g_stall_pos = -1;               // buffering detection (URLs)
+static ULONGLONG g_stall_t = 0;
 static std::vector<std::wstring> g_playlist;  // explicit queue (multi-drop/m3u)
 static int g_pl_cur = -1;
 static int g_repeat = 0;                      // 0 off, 1 all, 2 one
@@ -313,6 +316,7 @@ static LRESULT CALLBACK preview_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) 
 
 static void preview_hover(HWND bar, int x) {
     if (!g_player || !player_has_media(g_player) || g_cur_path.empty()) return;
+    if (g_cur_is_url) return;  // one decode per hover is too dear over http
     double dur = player_duration(g_player);
     if (dur <= 0) return;
 
@@ -510,6 +514,10 @@ static void do_snapshot(HWND) {
                                                     : g_cur_path.substr(slash + 1);
     size_t dot = name.find_last_of(L'.');
     if (dot != std::wstring::npos) name.resize(dot);
+    for (auto& c : name)  // URLs: strip filename-invalid characters
+        if (wcschr(L"\\/:*?\"<>|", c)) c = L'_';
+    if (name.empty()) name = L"snapshot";
+    if (name.size() > 80) name.resize(80);
     int s = (int)player_position(g_player);
     wchar_t file[MAX_PATH * 2];
     swprintf(file, MAX_PATH * 2, L"%s\\%s-%02d.%02d.%02d.png", d.c_str(),
@@ -642,10 +650,17 @@ static void open_path(HWND hwnd, const wchar_t* path) {
     if (!g_player) return;
     remember_position();
     g_cur_path = path;
-    build_siblings(path);
+    g_cur_is_url = wcsstr(path, L"://") != nullptr;
+    if (g_cur_is_url) {
+        g_siblings.clear();
+        g_sib_cur = -1;
+    } else {
+        build_siblings(path);
+    }
     preview_hide();
     preview_clear_cache();
     g_loop_a = g_loop_b = -1;
+    g_stall_pos = -1;
     player_open(g_player, path);
     update_ui(hwnd);
 }
@@ -766,6 +781,79 @@ static void media_next(HWND hwnd, int dir, bool from_ended) {
     playlist_play(hwnd, next);
 }
 
+// ------------------------------------------------------------ Open URL
+// Modal dialog built from an in-memory DLGTEMPLATE (no resource file).
+
+static std::wstring g_url_result;
+
+static INT_PTR CALLBACK url_dlg_proc(HWND dlg, UINT msg, WPARAM wp, LPARAM) {
+    switch (msg) {
+        case WM_INITDIALOG:
+            return TRUE;  // let the system focus the first tabstop (edit)
+        case WM_COMMAND:
+            if (LOWORD(wp) == IDOK) {
+                wchar_t buf[2048];
+                GetDlgItemTextW(dlg, 1001, buf, 2048);
+                g_url_result = buf;
+                EndDialog(dlg, IDOK);
+                return TRUE;
+            }
+            if (LOWORD(wp) == IDCANCEL) {
+                EndDialog(dlg, IDCANCEL);
+                return TRUE;
+            }
+            break;
+    }
+    return FALSE;
+}
+
+static bool open_url_dialog(HWND owner, std::wstring& out) {
+    std::vector<WORD> t;
+    auto dw = [&](DWORD v) {
+        t.push_back(LOWORD(v));
+        t.push_back(HIWORD(v));
+    };
+    auto align = [&] {
+        if (t.size() & 1) t.push_back(0);
+    };
+    auto str = [&](const wchar_t* s) {
+        do t.push_back(*s); while (*s++);
+    };
+    auto item = [&](DWORD style, short x, short y, short cx, short cy,
+                    WORD id, WORD cls, const wchar_t* text) {
+        align();
+        dw(style | WS_CHILD | WS_VISIBLE);
+        dw(0);
+        t.push_back(x); t.push_back(y); t.push_back(cx); t.push_back(cy);
+        t.push_back(id);
+        t.push_back(0xFFFF); t.push_back(cls);  // 0x80 button, 0x81 edit
+        str(text);
+        t.push_back(0);  // no creation data
+    };
+
+    dw(DS_MODALFRAME | DS_SETFONT | WS_POPUP | WS_CAPTION | WS_SYSMENU);
+    dw(0);
+    t.push_back(3);  // item count
+    t.push_back(0); t.push_back(0); t.push_back(284); t.push_back(50);
+    t.push_back(0);  // no menu
+    t.push_back(0);  // default class
+    str(L"Open URL");
+    t.push_back(9);
+    str(L"Segoe UI");
+
+    item(WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL, 7, 7, 270, 13, 1001, 0x0081, L"");
+    item(WS_TABSTOP | BS_DEFPUSHBUTTON, 170, 28, 50, 14, IDOK, 0x0080, L"Open");
+    item(WS_TABSTOP, 227, 28, 50, 14, IDCANCEL, 0x0080, L"Cancel");
+
+    g_url_result.clear();
+    INT_PTR r = DialogBoxIndirectParamW(GetModuleHandleW(nullptr),
+                                        (LPCDLGTEMPLATEW)t.data(), owner,
+                                        url_dlg_proc, 0);
+    if (r != IDOK || g_url_result.empty()) return false;
+    out = g_url_result;
+    return true;
+}
+
 // Route any path the user hands us: playlists load, media plays directly.
 static void open_any(HWND hwnd, const wchar_t* path) {
     if (is_m3u(path)) {
@@ -794,6 +882,7 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     bool media = g_player && player_has_media(g_player);
     HMENU m = CreatePopupMenu();
     AppendMenuW(m, MF_STRING, IDM_OPEN, L"Open File...");
+    AppendMenuW(m, MF_STRING, IDM_OPENURL, L"Open URL...\tCtrl+U");
     AppendMenuW(m, MF_STRING | (media ? 0 : MF_GRAYED), IDM_PAUSE,
                 g_player && player_is_paused(g_player) ? L"Play\tSpace" : L"Pause\tSpace");
     bool can_nav = g_playlist.size() > 1 || g_siblings.size() > 1;
@@ -946,6 +1035,12 @@ static void on_key(HWND hwnd, WPARAM key) {
         case VK_F12: do_snapshot(hwnd); break;
         case 'F': toggle_fullscreen(hwnd); break;
         case 'O': open_dialog(hwnd); break;
+        case 'U':
+            if (GetKeyState(VK_CONTROL) & 0x8000) {
+                std::wstring url;
+                if (open_url_dialog(hwnd, url)) open_any(hwnd, url.c_str());
+            }
+            break;
         case VK_OEM_4:   // '[' slower
         case VK_OEM_6: { // ']' faster
             double s = player_speed(g_player) + (key == VK_OEM_6 ? 0.25 : -0.25);
@@ -1043,6 +1138,11 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_OPEN: open_dialog(hwnd); break;
+                case IDM_OPENURL: {
+                    std::wstring url;
+                    if (open_url_dialog(hwnd, url)) open_any(hwnd, url.c_str());
+                    break;
+                }
                 case IDM_NEXTFILE:
                 case IDT_NEXT: media_next(hwnd, 1, false); break;
                 case IDM_PREVFILE:
@@ -1154,6 +1254,17 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             fs_autohide_tick(hwnd);
             if (g_player && g_loop_b > 0 && player_position(g_player) > g_loop_b)
                 player_seek_to(g_player, g_loop_a > 0 ? g_loop_a : 0);
+            if (g_cur_is_url && g_player && player_has_media(g_player) &&
+                !player_is_paused(g_player) && !player_media_ended(g_player)) {
+                double pos = player_position(g_player);
+                ULONGLONG now = GetTickCount64();
+                if (pos != g_stall_pos) {
+                    g_stall_pos = pos;
+                    g_stall_t = now;
+                } else if (now - g_stall_t > 700) {
+                    osd(L"Buffering…");  // network stall; renews while stuck
+                }
+            }
             update_ui(hwnd);
             taskbar_update(hwnd);
             return 0;

@@ -236,6 +236,8 @@ libavformat/dvdclut.c
 libavformat/file.c
 libavformat/flac_picture.c
 libavformat/format.c
+libavformat/http.c
+libavformat/httpauth.c
 libavformat/id3v1.c
 libavformat/id3v2.c
 libavformat/isom.c
@@ -249,6 +251,7 @@ libavformat/mov_esds.c
 libavformat/mux.c
 libavformat/mux_utils.c
 libavformat/nal.c
+libavformat/network.c
 libavformat/oggparsevorbis.c
 libavformat/options.c
 libavformat/os_support.c
@@ -262,6 +265,9 @@ libavformat/sdp.c
 libavformat/seek.c
 libavformat/srtdec.c
 libavformat/subtitles.c
+libavformat/tcp.c
+libavformat/tls.c
+libavformat/tls_schannel.c
 libavformat/url.c
 libavformat/urldecode.c
 libavformat/utils.c
