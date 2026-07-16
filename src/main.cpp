@@ -8,6 +8,7 @@
 #include <shlwapi.h>
 #include <commctrl.h>
 #include <commdlg.h>
+#include <dwmapi.h>
 #include <cstdio>
 #include <algorithm>
 #include <condition_variable>
@@ -38,7 +39,7 @@ enum {
     IDM_SHUFFLE, IDM_OPENURL,
     IDM_PIC_BR_UP, IDM_PIC_BR_DN, IDM_PIC_CO_UP, IDM_PIC_CO_DN,
     IDM_PIC_SA_UP, IDM_PIC_SA_DN, IDM_PIC_HU_UP, IDM_PIC_HU_DN,
-    IDM_PIC_RESET,
+    IDM_PIC_RESET, IDM_ASSOC,
     IDM_STRACK_OFF = 299, IDM_ATRACK_BASE = 300, IDM_STRACK_BASE = 400,
     IDM_CHAP_BASE = 500,  // ..563
     IDM_ADEV_DEFAULT = 599, IDM_ADEV_BASE = 600,  // ..631
@@ -74,8 +75,9 @@ static HICON g_ic_prev = nullptr, g_ic_play = nullptr, g_ic_pause = nullptr,
 static bool g_autonext = false;
 static bool g_have_placement = false;
 static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
-static int g_loaded_vol = -1;   // 0..100, -1 = not in state file
+static int g_loaded_vol = -1;   // 0..200, -1 = not in state file
 static int g_loaded_mute = 0;
+static bool g_loaded_fs = false;
 
 static bool is_video_ext(const wchar_t* path) {
     const wchar_t* dot = wcsrchr(path, L'.');
@@ -100,6 +102,7 @@ static void save_state(HWND hwnd) {
     if (!f) return;
     fwprintf(f, L"A|%d\n", g_autonext ? 1 : 0);
     fwprintf(f, L"P|%d|%d\n", g_repeat, g_shuffle ? 1 : 0);
+    fwprintf(f, L"F|%d\n", g_fullscreen ? 1 : 0);
     if (g_player)
         fwprintf(f, L"V|%d|%d\n", (int)(player_volume(g_player) * 100 + 0.5f),
                  player_is_muted(g_player) ? 1 : 0);
@@ -140,6 +143,8 @@ static void load_state() {
                 g_repeat = r;
                 g_shuffle = s == 1;
             }
+        } else if (line[0] == L'F' && line[1] == L'|') {
+            g_loaded_fs = line[2] == L'1';
         } else if (line[0] == L'W' && line[1] == L'|') {
             WINDOWPLACEMENT& wp = g_loaded_placement;
             unsigned cmd = SW_SHOWNORMAL;
@@ -504,6 +509,64 @@ static void update_ui(HWND hwnd) {
     SetWindowTextW(g_play, paused || ended || !media ? L"Play" : L"Pause");
 }
 
+// ------------------------------------- desktop integration helpers
+
+// Per-user (HKCU, no elevation) ProgID + OpenWithProgids entries so the
+// player appears in Explorer's "Open with" for the supported types.
+static void register_associations(HWND hwnd) {
+    wchar_t exe[MAX_PATH];
+    GetModuleFileNameW(nullptr, exe, MAX_PATH);
+    wchar_t cmd[MAX_PATH + 16], icon[MAX_PATH + 8];
+    swprintf(cmd, MAX_PATH + 16, L"\"%s\" \"%%1\"", exe);
+    swprintf(icon, MAX_PATH + 8, L"%s,0", exe);
+
+    auto setkey = [](const std::wstring& sub, const wchar_t* name,
+                     const wchar_t* val) {
+        HKEY k;
+        if (RegCreateKeyExW(HKEY_CURRENT_USER, sub.c_str(), 0, nullptr, 0,
+                            KEY_WRITE, nullptr, &k, nullptr) != ERROR_SUCCESS)
+            return false;
+        LONG r = RegSetValueExW(k, name, 0, REG_SZ, (const BYTE*)val,
+                                (DWORD)((wcslen(val) + 1) * sizeof(wchar_t)));
+        RegCloseKey(k);
+        return r == ERROR_SUCCESS;
+    };
+
+    const wchar_t* progid = L"Software\\Classes\\minimal-player.video";
+    bool ok = setkey(progid, nullptr, L"Video file (minimal-player)");
+    ok = setkey(std::wstring(progid) + L"\\DefaultIcon", nullptr, icon) && ok;
+    ok = setkey(std::wstring(progid) + L"\\shell\\open\\command", nullptr, cmd) && ok;
+    for (const wchar_t* ext : {L".mp4", L".m4v", L".mov", L".mkv", L".webm",
+                               L".avi", L".m3u", L".m3u8"})
+        ok = setkey(std::wstring(L"Software\\Classes\\") + ext +
+                        L"\\OpenWithProgids",
+                    L"minimal-player.video", L"") &&
+             ok;
+    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
+    MessageBoxW(hwnd,
+                ok ? L"Registered for the current user. Pick minimal-player "
+                     L"under \"Open with\" in Explorer (no admin needed)."
+                   : L"Could not write the registration keys.",
+                APP_TITLE, MB_OK | (ok ? MB_ICONINFORMATION : MB_ICONERROR));
+}
+
+// Dark title bar when Windows apps are in dark mode (best effort).
+static void apply_dark_titlebar(HWND hwnd) {
+    HKEY k;
+    DWORD light = 1, sz = sizeof(light);
+    if (RegOpenKeyExW(HKEY_CURRENT_USER,
+                      L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes"
+                      L"\\Personalize",
+                      0, KEY_READ, &k) == ERROR_SUCCESS) {
+        RegQueryValueExW(k, L"AppsUseLightTheme", nullptr, nullptr,
+                         (BYTE*)&light, &sz);
+        RegCloseKey(k);
+    }
+    BOOL dark = light == 0;
+    DwmSetWindowAttribute(hwnd, 20 /*DWMWA_USE_IMMERSIVE_DARK_MODE*/, &dark,
+                          sizeof(dark));
+}
+
 // ------------------------------------------------ snapshot + taskbar
 
 static void do_snapshot(HWND) {
@@ -664,6 +727,8 @@ static void open_path(HWND hwnd, const wchar_t* path) {
     preview_clear_cache();
     g_loop_a = g_loop_b = -1;
     g_stall_pos = -1;
+    if (!g_cur_is_url)
+        SHAddToRecentDocs(SHARD_PATHW, path);  // taskbar "Recent" jump list
     player_open(g_player, path);
     update_ui(hwnd);
 }
@@ -992,6 +1057,7 @@ static void show_context_menu(HWND hwnd, int x, int y) {
     AppendMenuW(m, MF_STRING | (g_player && player_is_muted(g_player) ? MF_CHECKED : 0),
                 IDM_MUTE, L"Mute\tM");
     AppendMenuW(m, MF_SEPARATOR, 0, nullptr);
+    AppendMenuW(m, MF_STRING, IDM_ASSOC, L"Register File Types (per user)...");
     AppendMenuW(m, MF_STRING, IDM_EXIT, L"Exit\tQ");
     TrackPopupMenu(m, TPM_RIGHTBUTTON, x, y, 0, hwnd, nullptr);
     DestroyMenu(m);
@@ -1168,6 +1234,7 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDC_FWD: if (g_player) player_seek_rel(g_player, 10); break;
                 case IDC_FULL: toggle_fullscreen(hwnd); break;
                 case IDM_OPEN: open_dialog(hwnd); break;
+                case IDM_ASSOC: register_associations(hwnd); break;
                 case IDM_OPENURL: {
                     std::wstring url;
                     if (open_url_dialog(hwnd, url)) open_any(hwnd, url.c_str());
@@ -1378,6 +1445,25 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             delete r;
             return 0;
         }
+        case WM_COPYDATA: {
+            // A second launch hands its file(s) over and exits (dwData 1 =
+            // open, 2 = enqueue into the playlist).
+            COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lp;
+            if (cds && cds->lpData && cds->cbData >= sizeof(wchar_t)) {
+                std::wstring path((const wchar_t*)cds->lpData,
+                                  cds->cbData / sizeof(wchar_t));
+                while (!path.empty() && path.back() == 0) path.pop_back();
+                if (!path.empty()) {
+                    if (cds->dwData == 2)
+                        g_playlist.push_back(path);
+                    else
+                        open_any(hwnd, path.c_str());
+                    if (IsIconic(hwnd)) ShowWindow(hwnd, SW_RESTORE);
+                    SetForegroundWindow(hwnd);
+                }
+            }
+            return TRUE;
+        }
         case MSG_PLAYER_EVENT:
             if ((PlayerEvent)wp == PLAYER_EVT_ERROR && g_player) {
                 wchar_t err[512];
@@ -1418,6 +1504,29 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         FILE* f = nullptr;
         freopen_s(&f, "CONOUT$", "w", stderr);
     }
+    // Single instance: hand the command line to the running player instead
+    // of opening a second window.
+    HANDLE single = CreateMutexW(nullptr, TRUE, L"minimal-player-single-instance");
+    if (single && GetLastError() == ERROR_ALREADY_EXISTS) {
+        HWND other = FindWindowW(L"minimal_player_wnd", nullptr);
+        if (other) {
+            int argc = 0;
+            wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+            if (argv) {
+                for (int i = 1; i < argc; i++) {
+                    COPYDATASTRUCT cds = {};
+                    cds.dwData = i == 1 ? 1 : 2;  // open first, enqueue rest
+                    cds.cbData = (DWORD)((wcslen(argv[i]) + 1) * sizeof(wchar_t));
+                    cds.lpData = argv[i];
+                    SendMessageW(other, WM_COPYDATA, 0, (LPARAM)&cds);
+                }
+                LocalFree(argv);
+            }
+            SetForegroundWindow(other);
+            return 0;
+        }
+    }
+
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
     srand(GetTickCount());
     g_msg_tbcreated = RegisterWindowMessageW(L"TaskbarButtonCreated");
@@ -1502,8 +1611,10 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         g_loaded_placement.length = sizeof(WINDOWPLACEMENT);
         SetWindowPlacement(g_main, &g_loaded_placement);
     }
+    apply_dark_titlebar(g_main);
     layout(g_main);
     ShowWindow(g_main, g_have_placement ? (int)g_loaded_placement.showCmd : show);
+    if (g_loaded_fs) toggle_fullscreen(g_main);
     SetTimer(g_main, 1, 250, nullptr);
     update_ui(g_main);
 

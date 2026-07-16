@@ -70,7 +70,11 @@ and the taskbar button shows progress. Volume, mute, repeat/shuffle,
 window placement, per-file resume positions and per-file track choices
 persist across runs.
 Drop a video file onto the window to play it; a same-name `.srt`/`.ass`
-next to the file loads automatically.
+next to the file loads automatically. The player is single-instance
+(opening another file reuses the running window; extra files enqueue),
+follows Windows dark mode for its title bar, feeds the taskbar Recent
+jump list, remembers fullscreen, and can register per-user "Open with"
+file associations from the context menu (no admin).
 
 Generate test files with `tests\gen-samples.ps1` (needs any ffmpeg CLI on
 PATH, used only to create inputs).

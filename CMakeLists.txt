@@ -44,7 +44,7 @@ add_executable(minimal-player WIN32
 )
 target_link_libraries(minimal-player PRIVATE
   player_engine
-  shell32 gdi32 comctl32 comdlg32 shlwapi
+  shell32 gdi32 comctl32 comdlg32 shlwapi dwmapi
 )
 
 if(MSVC)
