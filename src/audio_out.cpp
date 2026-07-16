@@ -38,6 +38,98 @@ static void mmdevice_free(MMDevice* d) {
     delete d;
 }
 
+// Waveform-similarity overlap-add (WSOLA) time stretcher: changes tempo
+// while preserving pitch. Fixed synthesis hop of half a window; each step
+// picks the analysis window (within a small search range around the
+// nominal speed-scaled position) that best correlates with the previous
+// output tail, then crossfades. Interleaved float, any channel count.
+class TimeStretch {
+public:
+    void init(int channels, int rate) {
+        ch_ = channels > 0 ? channels : 2;
+        win_ = rate / 25;  // 40ms window
+        if (win_ < 256) win_ = 256;
+        win_ &= ~1;
+        half_ = win_ / 2;  // synthesis hop == overlap
+        seek_ = rate / 100;  // +-10ms similarity search
+        reset();
+    }
+    void reset() {
+        in_.clear();
+        tail_.assign((size_t)half_ * ch_, 0.0f);
+        primed_ = false;
+        src_ = 0;
+    }
+    // Consumes nsamples interleaved floats, appends stretched audio to out.
+    void process(const float* in, int nsamples, double speed,
+                 std::vector<float>& out) {
+        if (speed > 0.99 && speed < 1.01) {  // unity: bypass
+            if (primed_) reset();
+            out.insert(out.end(), in, in + (size_t)nsamples * ch_);
+            return;
+        }
+        in_.insert(in_.end(), in, in + (size_t)nsamples * ch_);
+        if (!primed_) {
+            if ((int)(in_.size() / ch_) < half_) return;
+            memcpy(tail_.data(), in_.data(), (size_t)half_ * ch_ * sizeof(float));
+            src_ = half_;
+            primed_ = true;
+        }
+        for (;;) {
+            int base = (int)(src_ + 0.5) - seek_;
+            if (base < 0) base = 0;
+            int have = (int)(in_.size() / ch_);
+            if (base + 2 * seek_ + win_ > have) break;
+
+            int best = best_offset(base, have);
+            const float* seg = in_.data() + (size_t)best * ch_;
+            for (int i = 0; i < half_; i++) {
+                float wf = (float)i / half_;
+                for (int c = 0; c < ch_; c++)
+                    out.push_back(tail_[(size_t)i * ch_ + c] * (1.0f - wf) +
+                                  seg[(size_t)i * ch_ + c] * wf);
+            }
+            memcpy(tail_.data(), seg + (size_t)half_ * ch_,
+                   (size_t)half_ * ch_ * sizeof(float));
+            src_ += half_ * speed;
+
+            int drop = (int)src_ - seek_ - 1;  // keep the search slack behind
+            if (drop > 0) {
+                if (drop > have) drop = have;
+                in_.erase(in_.begin(), in_.begin() + (size_t)drop * ch_);
+                src_ -= drop;
+            }
+        }
+    }
+
+private:
+    int best_offset(int base, int have) {
+        int bestoff = base;
+        float bestscore = -1e30f;
+        for (int off = base; off <= base + 2 * seek_; off += 2) {
+            if (off + win_ > have) break;
+            float score = 0;
+            for (int i = 0; i < half_; i += 4) {  // mono sum, coarse stride
+                float a = 0, b = 0;
+                for (int c = 0; c < ch_; c++) {
+                    a += tail_[(size_t)i * ch_ + c];
+                    b += in_[(size_t)(off + i) * ch_ + c];
+                }
+                score += a * b;
+            }
+            if (score > bestscore) {
+                bestscore = score;
+                bestoff = off;
+            }
+        }
+        return bestoff;
+    }
+    int ch_ = 2, win_ = 0, half_ = 0, seek_ = 0;
+    bool primed_ = false;
+    double src_ = 0;
+    std::vector<float> in_, tail_;
+};
+
 static bool wf_is_float(const WAVEFORMATEX* wf) {
     if (wf->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) return true;
     if (wf->wFormatTag == WAVE_FORMAT_EXTENSIBLE) {
@@ -108,20 +200,18 @@ double AudioOut::clock() {
 }
 
 void AudioOut::volume_step(int steps) {
-    std::lock_guard<std::mutex> lk(dev_m_);
-    if (!dev_ || !dev_->volume) return;
-    float v = 1.0f;
-    dev_->volume->GetMasterVolume(&v);
-    v = std::fmax(0.0f, std::fmin(1.0f, v + 0.05f * steps));
-    dev_->volume->SetMasterVolume(v, nullptr);
-    want_vol_ = v;
+    volume_set(volume() + 0.05f * steps);
 }
 
+// 0..1 maps to the WASAPI session volume; 1..2 pins the session at 1 and
+// applies software gain (with a soft clipper) - a VLC-style loudness boost.
 void AudioOut::volume_set(float v) {
-    v = std::fmax(0.0f, std::fmin(1.0f, v));
-    want_vol_ = v;
+    v = std::fmax(0.0f, std::fmin(2.0f, v));
+    float session = v <= 1.0f ? v : 1.0f;
+    gain_ = v <= 1.0f ? 1.0f : v;
+    want_vol_ = session;
     std::lock_guard<std::mutex> lk(dev_m_);
-    if (dev_ && dev_->volume) dev_->volume->SetMasterVolume(v, nullptr);
+    if (dev_ && dev_->volume) dev_->volume->SetMasterVolume(session, nullptr);
 }
 
 void AudioOut::set_mute(bool m) {
@@ -141,6 +231,8 @@ bool AudioOut::muted() {
 }
 
 float AudioOut::volume() {
+    float g = gain_;
+    if (g > 1.0f) return g;  // boosted: session is pinned at 1
     std::lock_guard<std::mutex> lk(dev_m_);
     if (dev_ && dev_->volume) {
         float v = 1.0f;
@@ -299,12 +391,16 @@ bool AudioOut::run_device() {
     bool lost = false;
     HRESULT hr;
 
+    TimeStretch stretch;
+    stretch.init(out_ch, out_rate);
+    std::vector<float> stretched;
     double spd_used = 1.0;
     while (!abort_ && !lost) {
         if (dev_change_) { lost = true; continue; }  // reopen on new endpoint
         if (flush_req_) {
             flush_req_ = false;
             av_audio_fifo_reset(fifo_);
+            stretch.reset();
             queued_pts = NAN;
             std::lock_guard<std::mutex> lk(clock_m_);
             fifo_end_pts_ = NAN;
@@ -339,21 +435,15 @@ bool AudioOut::run_device() {
             if (spd < 0.25) spd = 0.25;
             if (spd > 4.0) spd = 4.0;
             if (!swr_ || in_rate_ != f->sample_rate || in_fmt_ != f->format ||
-                spd != spd_used ||
                 av_channel_layout_compare(&in_layout_, &f->ch_layout)) {
                 swr_free(&swr_);
                 av_channel_layout_uninit(&in_layout_);
                 av_channel_layout_copy(&in_layout_, &f->ch_layout);
                 in_rate_ = f->sample_rate;
                 in_fmt_ = f->format;
-                spd_used = spd;
-                // Playback speed: claim a scaled input rate so the resampler
-                // emits 1/speed as many samples (pitch shifts with rate).
-                int claimed = (int)(f->sample_rate * spd + 0.5);
                 swr_alloc_set_opts2(&swr_, &out_layout, AV_SAMPLE_FMT_FLT, out_rate,
                                     &f->ch_layout, (AVSampleFormat)f->format,
-                                    claimed > 0 ? claimed : f->sample_rate,
-                                    0, nullptr);
+                                    f->sample_rate, 0, nullptr);
                 if (!swr_ || swr_init(swr_) < 0) {
                     log_line("audio: swr_init failed");
                     swr_free(&swr_);
@@ -369,11 +459,29 @@ bool AudioOut::run_device() {
             int got = swr_convert(swr_, &outbuf, max_out,
                                   (const uint8_t**)f->extended_data, f->nb_samples);
             if (got > 0) {
-                av_audio_fifo_write(fifo_, (void**)&outbuf, got);
+                spd_used = spd;
+                stretched.clear();
+                stretch.process((const float*)outbuf, got, spd, stretched);
+                float g = gain_.load();
+                if (g != 1.0f) {
+                    for (auto& x : stretched) {
+                        x *= g;
+                        if (g > 1.0f) {  // cubic soft clip: +-1.5 maps to +-1
+                            if (x > 1.5f) x = 1.0f;
+                            else if (x < -1.5f) x = -1.0f;
+                            else x = x - 0.14815f * x * x * x;
+                        }
+                    }
+                }
+                int wrote = (int)(stretched.size() / out_ch);
+                if (wrote > 0) {
+                    void* p = stretched.data();
+                    av_audio_fifo_write(fifo_, (void**)&p, wrote);
+                }
                 if (!std::isnan(fr.pts))
                     queued_pts = fr.pts + (double)f->nb_samples / f->sample_rate;
                 else if (!std::isnan(queued_pts))
-                    queued_pts += (double)got / out_rate * spd_used;
+                    queued_pts += (double)got / out_rate;  // 1:1 media seconds
             }
             av_freep(&outbuf);
             av_frame_free(&fr.f);

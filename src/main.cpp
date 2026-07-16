@@ -149,7 +149,7 @@ static void load_state() {
             }
         } else if (line[0] == L'V' && line[1] == L'|') {
             int v = -1, m = 0;
-            if (swscanf(line + 2, L"%d|%d", &v, &m) >= 1 && v >= 0 && v <= 100) {
+            if (swscanf(line + 2, L"%d|%d", &v, &m) >= 1 && v >= 0 && v <= 200) {
                 g_loaded_vol = v;
                 g_loaded_mute = m;
             }
@@ -1399,7 +1399,7 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     g_full = CreateWindowExW(0, L"BUTTON", L"Full", WS_CHILD | WS_VISIBLE,
                              0, 0, 0, 0, g_main, (HMENU)IDC_FULL, hinst, nullptr);
     SendMessageW(g_seek, TBM_SETRANGE, TRUE, MAKELPARAM(0, SEEK_RANGE));
-    SendMessageW(g_vol, TBM_SETRANGE, TRUE, MAKELPARAM(0, 100));
+    SendMessageW(g_vol, TBM_SETRANGE, TRUE, MAKELPARAM(0, 200));  // >100% boosts
     SendMessageW(g_vol, TBM_SETPOS, TRUE, 100);
 
     g_preview = CreateWindowExW(

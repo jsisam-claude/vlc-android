@@ -149,7 +149,7 @@ public:
     void flush();                 // seek: clear FIFO, clock invalid until next frame
     double clock();               // playback pts in seconds; NAN when unknown
     void volume_step(int steps);  // +-5% per step
-    void volume_set(float v);     // 0..1
+    void volume_set(float v);     // 0..2; >1 = session max + software gain
     float volume();
     void set_mute(bool m);
     bool muted();
@@ -168,6 +168,7 @@ private:
     std::wstring want_dev_;       // endpoint id; empty = system default
     std::atomic<bool> dev_change_{false};
     std::atomic<double> speed_{1.0};
+    std::atomic<float> gain_{1.0f};       // software gain (volume above 100%)
     std::atomic<float> want_vol_{-1.0f};  // last requested; reapplied on reopen
     std::atomic<int> want_mute_{-1};
     FrameQueue* fq_ = nullptr;

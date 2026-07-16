@@ -31,13 +31,13 @@ void player_frame_step(Player* p);  // pauses if playing, then advances one fram
 void player_seek_rel(Player* p, double seconds);
 void player_seek_to(Player* p, double seconds);
 void player_volume_step(Player* p, int steps);
-void player_volume_set(Player* p, float v);  // 0..1
+void player_volume_set(Player* p, float v);  // 0..2; >1 boosts in software
 float player_volume(Player* p);
 void player_set_mute(Player* p, bool mute);
 bool player_is_muted(Player* p);
 
-// Playback speed 0.25..4 (audio pitch shifts with rate). Persists across
-// files within the session.
+// Playback speed 0.25..4, pitch-preserving (WSOLA time stretch). Persists
+// across files within the session.
 void player_set_speed(Player* p, double s);
 double player_speed(Player* p);
 // Sync corrections in seconds, reset on every open. Positive audio delay
