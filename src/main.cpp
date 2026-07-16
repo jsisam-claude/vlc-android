@@ -9,8 +9,11 @@
 #include <commdlg.h>
 #include <cstdio>
 #include <algorithm>
+#include <condition_variable>
 #include <map>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <vector>
 
 static Player* g_player = nullptr;
@@ -34,6 +37,7 @@ enum {
     IDM_CHAP_BASE = 500,  // ..563
 };
 #define MSG_PLAYER_EVENT (WM_APP + 1)
+#define MSG_PREVIEW_READY (WM_APP + 2)
 
 // Engine events arrive on engine threads; bounce them to the UI thread.
 static void on_player_event(void* user, PlayerEvent evt) {
@@ -45,6 +49,8 @@ static std::wstring g_cur_path;
 static std::vector<std::wstring> g_siblings;   // video files in current folder
 static int g_sib_cur = -1;
 static std::map<std::wstring, double> g_resume;
+static std::map<std::wstring, std::pair<int, int>> g_track_mem;  // audio, sub
+static double g_loop_a = -1, g_loop_b = -1;  // A-B loop (seconds; <0 unset)
 static bool g_autonext = false;
 static bool g_have_placement = false;
 static WINDOWPLACEMENT g_loaded_placement = {sizeof(WINDOWPLACEMENT)};
@@ -76,6 +82,12 @@ static void save_state(HWND hwnd) {
     if (g_player)
         fwprintf(f, L"V|%d|%d\n", (int)(player_volume(g_player) * 100 + 0.5f),
                  player_is_muted(g_player) ? 1 : 0);
+    int nk = 0;
+    for (auto& kv : g_track_mem) {
+        if (++nk > 500) break;
+        fwprintf(f, L"K|%d,%d|%s\n", kv.second.first, kv.second.second,
+                 kv.first.c_str());
+    }
     WINDOWPLACEMENT wp = {sizeof(WINDOWPLACEMENT)};
     if (hwnd && GetWindowPlacement(hwnd, &wp))
         fwprintf(f, L"W|%ld,%ld,%ld,%ld,%u\n",
@@ -123,6 +135,13 @@ static void load_state() {
                 *bar = 0;
                 g_resume[bar + 1] = _wtof(line + 2);
             }
+        } else if (line[0] == L'K' && line[1] == L'|') {
+            wchar_t* bar = wcschr(line + 2, L'|');
+            int a = 0, s = 0;
+            if (bar && swscanf(line + 2, L"%d,%d", &a, &s) == 2) {
+                *bar = 0;
+                g_track_mem[bar + 1] = {a, s};
+            }
         }
     }
     fclose(f);
@@ -135,6 +154,13 @@ static void remember_position() {
         g_resume[g_cur_path] = pos;
     else
         g_resume.erase(g_cur_path);
+}
+
+// Called after any explicit track change so the choice sticks per file.
+static void remember_tracks() {
+    if (g_cur_path.empty() || !g_player || !player_has_media(g_player)) return;
+    g_track_mem[g_cur_path] = {player_audio_track_current(g_player),
+                               player_sub_track_current(g_player)};
 }
 
 static void build_siblings(const wchar_t* path) {
@@ -158,6 +184,157 @@ static void build_siblings(const wchar_t* path) {
               });
     for (size_t i = 0; i < g_siblings.size(); i++)
         if (!_wcsicmp(g_siblings[i].c_str(), path)) { g_sib_cur = (int)i; break; }
+}
+
+// ----------------------------------------------- seek-bar hover preview
+// A worker thread decodes one frame per hovered position (48 buckets per
+// file, cached as HBITMAPs); a no-activate popup above the bar shows it.
+static HWND g_preview = nullptr;
+static const int PV_W = 200, PV_H = 120, PV_TEXT = 18;
+static std::map<int, HBITMAP> g_pv_cache;   // bucket -> bitmap, current file
+static int g_pv_bucket = -1;                // bucket the popup is showing
+static double g_pv_time = 0;
+static std::thread g_thumb_thread;
+static std::mutex g_thumb_m;
+static std::condition_variable g_thumb_cv;
+static bool g_thumb_quit = false;
+static std::wstring g_thumb_path;
+static double g_thumb_at = -1;              // <0 = no pending request
+static int g_thumb_bucket = 0, g_thumb_gen = 0;
+
+struct PvResult {
+    HBITMAP bmp;
+    int w, h, bucket, gen;
+};
+
+static void thumb_worker() {
+    for (;;) {
+        std::wstring path;
+        double at;
+        int gen, bucket;
+        {
+            std::unique_lock<std::mutex> lk(g_thumb_m);
+            g_thumb_cv.wait(lk, [] { return g_thumb_quit || g_thumb_at >= 0; });
+            if (g_thumb_quit) return;
+            path = g_thumb_path;
+            at = g_thumb_at;
+            gen = g_thumb_gen;
+            bucket = g_thumb_bucket;
+            g_thumb_at = -1;
+        }
+        std::vector<uint8_t> buf((size_t)PV_W * PV_H * 4);
+        int w = 0, h = 0;
+        if (!player_extract_thumb_at(path.c_str(), at, PV_W, PV_H,
+                                     buf.data(), &w, &h))
+            continue;
+        BITMAPINFO bi = {};
+        bi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        bi.bmiHeader.biWidth = w;
+        bi.bmiHeader.biHeight = -h;  // top-down
+        bi.bmiHeader.biPlanes = 1;
+        bi.bmiHeader.biBitCount = 32;
+        void* bits = nullptr;
+        HBITMAP bmp = CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, &bits, nullptr, 0);
+        if (!bmp) continue;
+        memcpy(bits, buf.data(), (size_t)w * h * 4);
+        PvResult* r = new PvResult{bmp, w, h, bucket, gen};
+        if (!PostMessageW(g_main, MSG_PREVIEW_READY, 0, (LPARAM)r)) {
+            DeleteObject(bmp);
+            delete r;
+        }
+    }
+}
+
+static void preview_clear_cache() {
+    for (auto& kv : g_pv_cache) DeleteObject(kv.second);
+    g_pv_cache.clear();
+    std::lock_guard<std::mutex> lk(g_thumb_m);
+    g_thumb_gen++;
+    g_thumb_at = -1;
+}
+
+static void preview_hide() {
+    if (g_preview) ShowWindow(g_preview, SW_HIDE);
+    g_pv_bucket = -1;
+}
+
+static LRESULT CALLBACK preview_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
+    if (msg == WM_PAINT) {
+        PAINTSTRUCT ps;
+        HDC dc = BeginPaint(hwnd, &ps);
+        RECT rc;
+        GetClientRect(hwnd, &rc);
+        FillRect(dc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
+        auto it = g_pv_cache.find(g_pv_bucket);
+        if (it != g_pv_cache.end()) {
+            BITMAP bm;
+            GetObjectW(it->second, sizeof(bm), &bm);
+            HDC mem = CreateCompatibleDC(dc);
+            HGDIOBJ old = SelectObject(mem, it->second);
+            int x = (PV_W - bm.bmWidth) / 2 + 1;
+            int y = (PV_H - bm.bmHeight) / 2 + 1;
+            BitBlt(dc, x, y, bm.bmWidth, bm.bmHeight, mem, 0, 0, SRCCOPY);
+            SelectObject(mem, old);
+            DeleteDC(mem);
+        }
+        wchar_t t[32];
+        int s = (int)g_pv_time;
+        swprintf(t, 32, L"%02d:%02d:%02d", s / 3600, (s / 60) % 60, s % 60);
+        SetBkMode(dc, TRANSPARENT);
+        SetTextColor(dc, RGB(255, 255, 255));
+        RECT tr = {0, PV_H + 2, PV_W + 2, PV_H + PV_TEXT};
+        DrawTextW(dc, t, -1, &tr, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        EndPaint(hwnd, &ps);
+        return 0;
+    }
+    return DefWindowProcW(hwnd, msg, wp, lp);
+}
+
+static void preview_hover(HWND bar, int x) {
+    if (!g_player || !player_has_media(g_player) || g_cur_path.empty()) return;
+    double dur = player_duration(g_player);
+    if (dur <= 0) return;
+
+    RECT ch = {};
+    SendMessageW(bar, TBM_GETCHANNELRECT, 0, (LPARAM)&ch);
+    int cw = ch.right - ch.left;
+    if (cw <= 0) return;
+    double frac = (double)(x - ch.left) / cw;
+    frac = frac < 0 ? 0 : frac > 1 ? 1 : frac;
+    int bucket = (int)(frac * 47.999);
+    g_pv_time = dur * (bucket + 0.5) / 48.0;
+
+    if (g_pv_cache.find(bucket) == g_pv_cache.end()) {
+        std::lock_guard<std::mutex> lk(g_thumb_m);
+        g_thumb_path = g_cur_path;
+        g_thumb_at = g_pv_time;
+        g_thumb_bucket = bucket;
+        g_thumb_cv.notify_one();
+    }
+    g_pv_bucket = bucket;
+
+    POINT pt = {x, 0};
+    ClientToScreen(bar, &pt);
+    RECT brc;
+    GetWindowRect(bar, &brc);
+    int w = PV_W + 2, h = PV_H + PV_TEXT + 2;
+    int px = pt.x - w / 2;
+    int py = brc.top - h - 8;
+    SetWindowPos(g_preview, HWND_TOPMOST, px, py, w, h,
+                 SWP_NOACTIVATE | SWP_SHOWWINDOW);
+    InvalidateRect(g_preview, nullptr, FALSE);
+}
+
+static LRESULT CALLBACK seek_subclass(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
+                                      UINT_PTR, DWORD_PTR) {
+    if (msg == WM_MOUSEMOVE) {
+        TRACKMOUSEEVENT tme = {sizeof(tme), TME_LEAVE, hwnd, 0};
+        TrackMouseEvent(&tme);
+        preview_hover(hwnd, (short)LOWORD(lp));
+    } else if (msg == WM_MOUSELEAVE) {
+        preview_hide();
+    }
+    return DefSubclassProc(hwnd, msg, wp, lp);
 }
 
 static void osd(const wchar_t* s) {
@@ -304,6 +481,9 @@ static void open_path(HWND hwnd, const wchar_t* path) {
     remember_position();
     g_cur_path = path;
     build_siblings(path);
+    preview_hide();
+    preview_clear_cache();
+    g_loop_a = g_loop_b = -1;
     player_open(g_player, path);
     update_ui(hwnd);
 }
@@ -421,8 +601,25 @@ static void on_key(HWND hwnd, WPARAM key) {
         }
         case VK_UP: player_volume_step(g_player, 1); osd_volume(); break;
         case VK_DOWN: player_volume_step(g_player, -1); osd_volume(); break;
-        case 'A': player_cycle_audio(g_player); break;
-        case 'S': player_cycle_subtitle(g_player); break;
+        case 'A': player_cycle_audio(g_player); remember_tracks(); break;
+        case 'S': player_cycle_subtitle(g_player); remember_tracks(); break;
+        case 'L':
+            if (g_loop_a < 0) {
+                g_loop_a = player_position(g_player);
+                osd(L"Loop: A set");
+            } else if (g_loop_b < 0) {
+                g_loop_b = player_position(g_player);
+                if (g_loop_b <= g_loop_a + 0.2) {
+                    g_loop_a = g_loop_b = -1;
+                    osd(L"Loop: off");
+                } else {
+                    osd(L"Loop: A–B on");
+                }
+            } else {
+                g_loop_a = g_loop_b = -1;
+                osd(L"Loop: off");
+            }
+            break;
         case 'N': nav_folder(hwnd, 1); break;
         case 'P': nav_folder(hwnd, -1); break;
         case 'F': toggle_fullscreen(hwnd); break;
@@ -492,15 +689,21 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 case IDM_PREVFILE: nav_folder(hwnd, -1); break;
                 case IDM_AUTONEXT: g_autonext = !g_autonext; break;
                 case IDM_STRACK_OFF:
-                    if (g_player) player_select_sub_track(g_player, -1);
+                    if (g_player) {
+                        player_select_sub_track(g_player, -1);
+                        remember_tracks();
+                    }
                     break;
                 default:
                     if (g_player && LOWORD(wp) >= IDM_ATRACK_BASE &&
-                        LOWORD(wp) < IDM_ATRACK_BASE + 32)
+                        LOWORD(wp) < IDM_ATRACK_BASE + 32) {
                         player_select_audio_track(g_player, LOWORD(wp) - IDM_ATRACK_BASE);
-                    else if (g_player && LOWORD(wp) >= IDM_STRACK_BASE &&
-                             LOWORD(wp) < IDM_STRACK_BASE + 32)
+                        remember_tracks();
+                    } else if (g_player && LOWORD(wp) >= IDM_STRACK_BASE &&
+                               LOWORD(wp) < IDM_STRACK_BASE + 32) {
                         player_select_sub_track(g_player, LOWORD(wp) - IDM_STRACK_BASE);
+                        remember_tracks();
+                    }
                     else if (g_player && LOWORD(wp) >= IDM_CHAP_BASE &&
                              LOWORD(wp) < IDM_CHAP_BASE + 64)
                         player_chapter_go(g_player, LOWORD(wp) - IDM_CHAP_BASE);
@@ -553,8 +756,30 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         }
         case WM_TIMER:
             fs_autohide_tick(hwnd);
+            if (g_player && g_loop_b > 0 && player_position(g_player) > g_loop_b)
+                player_seek_to(g_player, g_loop_a > 0 ? g_loop_a : 0);
             update_ui(hwnd);
             return 0;
+        case MSG_PREVIEW_READY: {
+            PvResult* r = (PvResult*)lp;
+            bool current;
+            {
+                std::lock_guard<std::mutex> lk(g_thumb_m);
+                current = r->gen == g_thumb_gen;
+            }
+            if (current) {
+                auto it = g_pv_cache.find(r->bucket);
+                if (it != g_pv_cache.end()) DeleteObject(it->second);
+                g_pv_cache[r->bucket] = r->bmp;
+                if (g_pv_bucket == r->bucket && g_preview &&
+                    IsWindowVisible(g_preview))
+                    InvalidateRect(g_preview, nullptr, FALSE);
+            } else {
+                DeleteObject(r->bmp);
+            }
+            delete r;
+            return 0;
+        }
         case MSG_PLAYER_EVENT:
             if ((PlayerEvent)wp == PLAYER_EVT_ERROR && g_player) {
                 wchar_t err[512];
@@ -564,6 +789,10 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 auto it = g_resume.find(g_cur_path);
                 if (it != g_resume.end() && it->second > 15)
                     player_seek_to(g_player, it->second);
+                auto tm = g_track_mem.find(g_cur_path);
+                if (tm != g_track_mem.end())  // no-op when already matching
+                    player_select_tracks(g_player, tm->second.first,
+                                         tm->second.second);
             } else if ((PlayerEvent)wp == PLAYER_EVT_ENDED) {
                 g_resume.erase(g_cur_path);
                 if (g_autonext && g_siblings.size() > 1) nav_folder(hwnd, 1);
@@ -611,6 +840,13 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     vc.lpszClassName = L"minimal_player_video";
     RegisterClassW(&vc);
 
+    WNDCLASSW pc = {};
+    pc.lpfnWndProc = preview_proc;
+    pc.hInstance = hinst;
+    pc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    pc.lpszClassName = L"minimal_player_preview";
+    RegisterClassW(&pc);
+
     g_main = CreateWindowExW(WS_EX_ACCEPTFILES, wc.lpszClassName, APP_TITLE,
                              WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
                              1280, 720 + BAR_H, nullptr, nullptr, hinst, nullptr);
@@ -636,6 +872,13 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     SendMessageW(g_seek, TBM_SETRANGE, TRUE, MAKELPARAM(0, SEEK_RANGE));
     SendMessageW(g_vol, TBM_SETRANGE, TRUE, MAKELPARAM(0, 100));
     SendMessageW(g_vol, TBM_SETPOS, TRUE, 100);
+
+    g_preview = CreateWindowExW(
+        WS_EX_TOPMOST | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
+        pc.lpszClassName, nullptr, WS_POPUP, 0, 0,
+        PV_W + 2, PV_H + PV_TEXT + 2, g_main, nullptr, hinst, nullptr);
+    SetWindowSubclass(g_seek, seek_subclass, 1, 0);
+    g_thumb_thread = std::thread(thumb_worker);
 
     g_player = player_create(g_video);
     if (!g_player) {
@@ -671,6 +914,14 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         TranslateMessage(&msg);
         DispatchMessageW(&msg);
     }
+
+    {
+        std::lock_guard<std::mutex> lk(g_thumb_m);
+        g_thumb_quit = true;
+    }
+    g_thumb_cv.notify_one();
+    if (g_thumb_thread.joinable()) g_thumb_thread.join();
+    preview_clear_cache();
 
     player_destroy(g_player);
     g_player = nullptr;

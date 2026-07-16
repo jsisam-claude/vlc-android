@@ -110,6 +110,18 @@ void video_render_thread(Player* p) {
             continue;
         }
 
+        // Exact seek: drop decoded frames between the keyframe we landed on
+        // and the requested position.
+        double pv = p->precise_v.load();
+        if (!std::isnan(pv)) {
+            if (!std::isnan(fr.pts) &&
+                fr.pts + (fr.dur > 0 ? fr.dur : 0.040) <= pv) {
+                av_frame_free(&fr.f);
+                continue;
+            }
+            p->precise_v = NAN;
+        }
+
         double pts = fr.pts;
         if (std::isnan(pts)) pts = p->vclock.load();
 

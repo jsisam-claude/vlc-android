@@ -76,9 +76,11 @@ static MMDevice* mmdevice_open() {
     return d;
 }
 
-bool AudioOut::start(FrameQueue* fq, const std::atomic<int>* pq_serial) {
+bool AudioOut::start(FrameQueue* fq, const std::atomic<int>* pq_serial,
+                     std::atomic<double>* drop_until) {
     fq_ = fq;
     pq_serial_ = pq_serial;
+    drop_until_ = drop_until;
     abort_ = false;
     flush_req_ = false;
     th_ = std::thread(&AudioOut::thread_main, this);
@@ -205,6 +207,17 @@ bool AudioOut::run_device() {
             FQFrame fr;
             if (!fq_->pop(fr, 10)) break;
             if (fr.serial != pq_serial_->load()) { av_frame_free(&fr.f); continue; }
+
+            if (drop_until_) {  // exact seek: skip audio before the target
+                double pa = drop_until_->load();
+                if (!std::isnan(pa)) {
+                    double end = !std::isnan(fr.pts) && fr.f->sample_rate > 0
+                                     ? fr.pts + (double)fr.f->nb_samples / fr.f->sample_rate
+                                     : NAN;
+                    if (!std::isnan(end) && end <= pa) { av_frame_free(&fr.f); continue; }
+                    drop_until_->store(NAN);
+                }
+            }
 
             AVFrame* f = fr.f;
             if (!swr_ || in_rate_ != f->sample_rate || in_fmt_ != f->format ||

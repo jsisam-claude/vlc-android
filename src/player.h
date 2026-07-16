@@ -51,6 +51,8 @@ int player_sub_track_count(Player* p);
 int player_sub_track_current(Player* p);  // -1 = off
 void player_sub_track_name(Player* p, int i, wchar_t* buf, size_t buflen);
 void player_select_sub_track(Player* p, int i);  // -1 = off
+// Select both at once (one reopen); pass current values to leave unchanged.
+void player_select_tracks(Player* p, int audio, int sub);
 
 // Chapters (mkv/mp4). Count is 0 when the media has none.
 int player_chapter_count(Player* p);
@@ -91,3 +93,8 @@ bool player_probe(const wchar_t* path, PlayerMediaInfo* info);
 // instance needed - safe to call from a host's thumbnail worker thread.
 bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
                           uint8_t* buf, int* out_w, int* out_h);
+// Same, at an explicit position (seconds, clamped to the duration).
+// at_seconds < 0 picks the representative default.
+bool player_extract_thumb_at(const wchar_t* path, double at_seconds,
+                             int max_w, int max_h,
+                             uint8_t* buf, int* out_w, int* out_h);

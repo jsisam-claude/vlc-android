@@ -140,7 +140,10 @@ struct MMDevice;  // COM bits hidden in audio_out.cpp
 class AudioOut {
 public:
     // Pulls decoded frames from fq; compares frame serials against pq_serial.
-    bool start(FrameQueue* fq, const std::atomic<int>* pq_serial);
+    // drop_until (optional): frames wholly before this pts are discarded and
+    // the value reset to NAN once reached (exact-seek support).
+    bool start(FrameQueue* fq, const std::atomic<int>* pq_serial,
+               std::atomic<double>* drop_until = nullptr);
     void stop();
     void pause(bool paused);
     void flush();                 // seek: clear FIFO, clock invalid until next frame
@@ -161,6 +164,7 @@ private:
     std::atomic<int> want_mute_{-1};
     FrameQueue* fq_ = nullptr;
     const std::atomic<int>* pq_serial_ = nullptr;
+    std::atomic<double>* drop_until_ = nullptr;
     std::thread th_;
     std::atomic<bool> abort_{false}, paused_{false}, flush_req_{false};
     std::mutex clock_m_;
@@ -240,6 +244,9 @@ struct Player {
     std::mutex seek_m;
     bool seek_req = false;
     double seek_to = 0;
+    // Exact seek: av_seek_frame lands on the prior keyframe; frames and
+    // audio before this pts (stream time) are decoded but dropped.
+    std::atomic<double> precise_v{NAN}, precise_a{NAN};
 
     // host event callback (fires on engine threads)
     PlayerEventFn evt_fn = nullptr;

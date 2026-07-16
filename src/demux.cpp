@@ -240,6 +240,8 @@ static void do_seek(Player* p, double target) {
     p->eof = false;
     p->ended = false;
     p->ended_fired = false;
+    p->precise_v = ts / (double)AV_TIME_BASE;  // consumers drop up to here
+    p->precise_a = ts / (double)AV_TIME_BASE;
 }
 
 void demux_thread(Player* p) {
@@ -254,7 +256,7 @@ void demux_thread(Player* p) {
     if (p->vst >= 0) p->th_vdec = std::thread(video_decode_thread, p);
     if (p->ast >= 0) {
         p->th_adec = std::thread(audio_decode_thread, p);
-        p->ao.start(&p->afq, &p->aq_serial);
+        p->ao.start(&p->afq, &p->aq_serial, &p->precise_a);
         p->ao.pause(p->paused);
     }
     if (p->vst >= 0) p->th_vrender = std::thread(video_render_thread, p);

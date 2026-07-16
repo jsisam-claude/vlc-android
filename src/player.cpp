@@ -103,6 +103,8 @@ static void stop_pipeline(Player* p) {
     }
     p->vclock = NAN;
     p->duration = 0;
+    p->precise_v = NAN;
+    p->precise_a = NAN;
     {
         std::lock_guard<std::mutex> lk(p->extclk_m);
         p->extclk_pts = NAN;
@@ -252,6 +254,17 @@ void player_select_sub_track(Player* p, int i) {
     reopen(p, p->want_audio_rel, choice);
 }
 
+void player_select_tracks(Player* p, int audio, int sub) {
+    if (!p->running) return;
+    int na = player_audio_track_count(p);
+    int ns = player_sub_track_count(p);
+    if (audio < 0 || audio >= na) audio = p->want_audio_rel;
+    int choice = (sub < 0) ? ns : sub;  // ns = the "off" slot
+    if (choice > ns) choice = p->sub_choice;
+    if (audio == p->want_audio_rel && choice == p->sub_choice) return;
+    reopen(p, audio, choice);
+}
+
 int player_chapter_count(Player* p) {
     std::lock_guard<std::mutex> lk(p->tracks_m);
     return (int)p->chapters.size();
@@ -396,6 +409,12 @@ bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
 
 bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
                           uint8_t* buf, int* out_w, int* out_h) {
+    return player_extract_thumb_at(path, -1, max_w, max_h, buf, out_w, out_h);
+}
+
+bool player_extract_thumb_at(const wchar_t* path, double at_seconds,
+                             int max_w, int max_h,
+                             uint8_t* buf, int* out_w, int* out_h) {
     if (!buf || !out_w || !out_h || max_w < 8 || max_h < 8) return false;
     engine_global_init();
     std::string u8 = wide_to_utf8(path);
@@ -439,7 +458,10 @@ bool player_extract_thumb(const wchar_t* path, int max_w, int max_h,
 
         // A few seconds in beats the (often black/logo) very first frame.
         double dur = fc->duration > 0 ? fc->duration / (double)AV_TIME_BASE : 0;
-        double at = dur > 3 ? std::fmin(dur * 0.10, 60.0) : 0;
+        double at = at_seconds;
+        if (at < 0) at = dur > 3 ? std::fmin(dur * 0.10, 60.0) : 0;
+        if (dur > 0.5 && at > dur - 0.5) at = dur - 0.5;
+        if (at < 0) at = 0;
         if (at > 0) {
             int64_t ts = fc->start_time != AV_NOPTS_VALUE
                              ? fc->start_time + (int64_t)(at * AV_TIME_BASE)
