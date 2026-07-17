@@ -14,7 +14,11 @@ mingw, no MSYS, no vcpkg, no package manager, no submodules, no
 downloads, no prebuilt binaries of any kind: the needed FFmpeg source
 subset (1117 files) is committed under `third_party/ffmpeg-src/` and
 compiled by cl.exe using committed config headers (FFmpeg's configure
-never runs). Player structure follows ffplay; WASAPI output adapted from
+never runs). Styled ASS/SSA subtitles (positioning, karaoke, embedded
+fonts) render through libass + FreeType + FriBidi + HarfBuzz, vendored
+the same way under `third_party/libass-src/` and built by the same
+toolchain — DirectWrite supplies system fonts, no fontconfig, no nasm.
+Player structure follows ffplay; WASAPI output adapted from
 mpv; rendering uses Windows' own D3D11 + ID3D11VideoProcessor.
 H.264/HEVC/MPEG-2/VP9/VC-1/AV1 decode in hardware via
 D3D11VA when the GPU supports it (zero-copy into the video processor),

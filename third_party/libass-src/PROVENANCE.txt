@@ -1,0 +1,85 @@
+libass kit - upstream provenance
+================================
+All four libraries are vendored as unmodified upstream source text, pinned
+at release tags, shallow-cloned into kit/upstream/ and subsetted into
+kit/vendor/ by a transitive include-closure walk from the compiled-TU list
+(quoted includes always; angle includes resolved against each tree's own
+include roots; plus macro-indirected quoted names on #define lines, which
+HarfBuzz uses). FreeType's full public include/ tree is carried because its
+config headers are reached through FT_* macro indirection that a textual
+walk cannot see. No upstream build system was executed anywhere; the only
+tools run at vendoring time were git, a file-copy walk, and host gcc for
+the FriBidi table generators (see below).
+
+libass
+  Origin: https://github.com/libass/libass.git
+  Tag:    0.17.5 (latest release)
+  Commit: 4a05d8127f525943ebf45fdc6497c9e665947f0d
+  Files:  59 (meson libass_src list + ass_directwrite.c + transitive
+          includes + COPYING, RELEASEVERSION, meson.build build description)
+  Excluded: ass_fontconfig.c, ass_coretext.c (providers not built; their
+          headers remain as harmless closure members), x86/ and aarch64/
+          asm (contract forbids an assembler binary; CONFIG_ASM=0)
+  License: ISC (COPYING)
+
+FreeType
+  Origin: https://github.com/freetype/freetype.git
+  Tag:    VER-2-14-3 (latest release, newer than VER-2-13-x)
+  Commit: 0a0221a1347e2f1e07c395263540026e9a0aa7c7
+  Files:  320 (20 module TUs of the documented modular build + closure +
+          full include/ tree minus ftoption.h/ftmodule.h, which are
+          hand-authored in kit/config/freetype/; + LICENSE.TXT, FTL.TXT,
+          INSTALL.ANY, modules.cfg)
+  License: FTL (LICENSE.TXT / docs/FTL.TXT; FTL chosen over GPLv2)
+
+FriBidi
+  Origin: https://github.com/fribidi/fribidi.git
+  Tag:    v1.0.16 (latest release)
+  Commit: 68162babff4f39c4e2dc164a5e825af93bda9983
+  Files:  75 total; 50 from the include walk of the 18 meson
+          fribidi_sources TUs, plus:
+          - GENERATED TEXT placed in lib/: bidi-type.tab.i,
+            joining-type.tab.i, arabic-shaping.tab.i, mirroring.tab.i,
+            brackets.tab.i, brackets-type.tab.i, fribidi-unicode-version.h
+            (Unicode 16.0.0). Generated at vendoring time (2026-07-17) by
+            compiling the upstream generators in gen.tab/ with host gcc
+            using exactly the recipe in gen.tab/meson.build
+            (-DHAVE_STRINGIZE -DDONT_HAVE_FRIBIDI_CONFIG_H -DHAVE_STDLIB_H
+            -DHAVE_STRING_H -DHAVE_STRINGS_H -DSTDC_HEADERS=1, packing
+            level 2) and capturing stdout. They are committed as text; no
+            generator ever runs on a user machine.
+          - gen/: the generator sources (gen-*.c, packtab.c/h,
+            meson.build, Makefile.am) and gen/unidata/ (UnicodeData.txt,
+            ArabicShaping.txt, BidiMirroring.txt, BidiBrackets.txt,
+            ReadMe.txt), all unmodified upstream text, so the generated
+            tables are reproducible from the vendored tree alone.
+  License: LGPL-2.1-or-later (COPYING)
+
+HarfBuzz
+  Origin: https://github.com/harfbuzz/harfbuzz.git
+  Tag:    11.5.1 (latest release)
+  Commit: 7497c4147469fd4102a7229222586ad5c743c5a1
+  Files:  347 (src/harfbuzz.cc single-TU amalgamation + its transitive
+          quoted-include closure, incl. macro-indirected table headers;
+          + COPYING). Closure verified: every quoted include in the
+          vendored tree resolves inside it except hb-config.hh -> config.h,
+          which is guarded by HAVE_CONFIG_H (never defined here).
+  License: MIT-style ("Old MIT", COPYING)
+
+Hand-authored configuration (kit/config/, no configure/meson executed):
+  libass/config.h            - full referenced-macro set for MSVC win64
+  freetype/freetype/config/ftoption.h - upstream VER-2-14-3 text with 3
+                               marked deltas (LZW, ZLIB, SVG disabled)
+  freetype/freetype/config/ftmodule.h - hand list of the 10 built modules
+  fribidi/config.h           - MSVC/gcc-safe feature macros
+  fribidi/fribidi-config.h   - hand-instantiated from fribidi-config.h.in
+  harfbuzz/DEFINES.txt       - compile-definition list (no header needed)
+
+Validation: all vendored C/C++ TUs except ass_directwrite.c (requires
+Windows SDK headers) were compiled to object files on Linux x86-64 with
+gcc/g++ against these exact configs; combined objects have no unresolved
+internal symbols (remaining undefineds: libc/libm, POSIX dirent/pthread
+used only on non-Windows code paths, and ass_directwrite_add_provider
+from the intentionally skipped Windows-only TU).
+
+Copied into this repo by vendor_libass.cmake on 2026-07-17: 801 source files under third_party/libass-src/ (unmodified upstream text except the FriBidi generated tables, see above).

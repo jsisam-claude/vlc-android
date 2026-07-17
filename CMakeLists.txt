@@ -20,6 +20,10 @@ endif()
 # see cmake/ffmpeg.cmake. No package manager, no shell, no prebuilts.
 include(cmake/ffmpeg.cmake)
 
+# Vendored libass + FreeType + FriBidi + HarfBuzz, same source-only rules —
+# see cmake/libass.cmake. Styled ASS/SSA subtitle rendering.
+include(cmake/libass.cmake)
+
 # Embeddable engine: hosts (the bundled shell, or another app such as a
 # gallery) link this and include only src/player.h.
 add_library(player_engine STATIC
@@ -30,10 +34,11 @@ add_library(player_engine STATIC
   src/audio_out.cpp
   src/video_out.cpp
   src/subs.cpp
+  src/ass_render.cpp
 )
 target_include_directories(player_engine PUBLIC src)
 target_link_libraries(player_engine
-  PRIVATE ffmpeg
+  PRIVATE ffmpeg libass
   PUBLIC d3d11 dxgi d3dcompiler d2d1 dwrite windowscodecs ole32 avrt winmm user32
 )
 

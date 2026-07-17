@@ -93,6 +93,10 @@ static void stop_pipeline(Player* p) {
     avcodec_free_context(&p->vctx);
     avcodec_free_context(&p->actx);
     avcodec_free_context(&p->sctx);
+    {
+        std::lock_guard<std::mutex> lk(p->ass_m);
+        if (p->ass) { ass_destroy(p->ass); p->ass = nullptr; }
+    }
     if (p->fmt) avformat_close_input(&p->fmt);
 
     p->vq.set_abort(false);

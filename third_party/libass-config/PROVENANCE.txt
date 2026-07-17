@@ -1,0 +1,6 @@
+Hand-authored configuration for the vendored libass stack (MSVC win64).
+6 files, written for the pinned versions recorded in
+../libass-src/PROVENANCE.txt; no upstream configure/meson was executed.
+ftoption.h is upstream FreeType VER-2-14-3 text with three marked
+deltas; everything else is authored from the upstream build
+descriptions read as text. Copied by vendor_libass.cmake on 2026-07-17.

@@ -79,7 +79,8 @@ static std::wstring ass_event_text(const char* ass) {
     return clean_markup(utf8_to_wide(s));
 }
 
-void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb, SubtitleList* out) {
+void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb,
+                        SubtitleList* out, AssRenderer* ass) {
     AVSubtitle sub;
     int got = 0;
     if (avcodec_decode_subtitle2(ctx, &sub, &got, pkt) < 0 || !got) return;
@@ -99,7 +100,12 @@ void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb, Subti
     for (unsigned i = 0; i < sub.num_rects; i++) {
         AVSubtitleRect* r = sub.rects[i];
         std::wstring piece;
-        if (r->type == SUBTITLE_ASS && r->ass)
+        if (r->type == SUBTITLE_ASS && r->ass && ass) {
+            // Styled path: hand the raw event line to libass; it renders
+            // positioning/karaoke/fonts the flat-text path can't.
+            ass_feed(ass, r->ass, (int)strlen(r->ass), start, end - start);
+            continue;
+        } else if (r->type == SUBTITLE_ASS && r->ass)
             piece = ass_event_text(r->ass);
         else if (r->type == SUBTITLE_TEXT && r->text)
             piece = clean_markup(utf8_to_wide(r->text));

@@ -126,8 +126,29 @@ private:
     std::vector<std::shared_ptr<SubBitmap>> bitmaps_;
 };
 
+// ---- libass renderer for styled ASS/SSA subtitle streams (opaque) ------
+// All calls on one instance must be serialized (libass has no internal
+// locking); the engine confines feeding + rendering behind ass_mutex.
+struct AssRenderer;
+AssRenderer* ass_create();
+void ass_destroy(AssRenderer*);
+void ass_set_header(AssRenderer*, const char* hdr, int len);   // codec_private
+void ass_add_attachment(AssRenderer*, const char* name,
+                        const char* data, int len);            // before render
+void ass_feed(AssRenderer*, const char* event, int len,
+              double start_s, double dur_s);                   // rect->ass line
+void ass_reset(AssRenderer*);                                  // seek/close flush
+// Renders subtitles active at now_s into a full-frame premultiplied BGRA
+// buffer of size w*h; true when non-empty. bounds is set to the tight
+// dirty rect (for a smaller upload) or the full frame.
+bool ass_render(AssRenderer*, double now_s, int w, int h,
+                std::vector<uint32_t>& out);
+
 // Decode one subtitle packet with ctx and append results (handles srt/ass/mov_text).
-void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb, SubtitleList* out);
+// When ass != null and the rects are SUBTITLE_ASS, events are fed to libass
+// instead of being flattened to plain text.
+void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb,
+                        SubtitleList* out, AssRenderer* ass = nullptr);
 // Load an external .srt/.ass sidecar entirely. Returns entry count, 0 on failure.
 int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out);
 // Returns sidecar path if one exists next to the media file, else empty.
@@ -253,6 +274,8 @@ struct Player {
     AVCodecContext* actx = nullptr;
     AVCodecContext* sctx = nullptr;
     std::atomic<int> rotation{0};     // display-matrix rotation, CW degrees
+    AssRenderer* ass = nullptr;       // non-null for styled ASS/SSA streams
+    std::mutex ass_m;                 // serializes all libass calls
 
     PacketQueue vq, aq;
     std::atomic<int> vq_serial{0}, aq_serial{0}; // mirrors queue serials for consumers

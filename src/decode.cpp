@@ -58,6 +58,28 @@ void audio_decode_thread(Player* p) {
                 p->fmt->streams[p->ast]->time_base, "audio");
 }
 
+// Composite libass output for `pts` (sub-delay applied) as a full-frame
+// overlay bitmap the D3D path scales into the letterbox. No-op when the
+// media has no styled ASS stream.
+static void add_ass_overlay(Player* p, double pts, int w, int h, SubRender& ov) {
+    if (!p->ass || w <= 0 || h <= 0 || std::isnan(pts)) return;
+    auto b = std::make_shared<SubBitmap>();
+    {
+        std::lock_guard<std::mutex> lk(p->ass_m);
+        if (!p->ass) return;
+        if (!ass_render(p->ass, pts - p->sub_delay, w, h, b->pixels)) return;
+    }
+    b->x = 0;
+    b->y = 0;
+    b->w = w;
+    b->h = h;
+    b->src_w = w;
+    b->src_h = h;
+    b->start = pts;
+    b->end = pts;
+    ov.bitmaps.push_back(std::move(b));
+}
+
 // ------------------------------------------------------------ video render
 
 // Audio-only media: ~30fps spectrum bars from the audio tap (FFmpeg's own
@@ -151,6 +173,7 @@ void video_render_thread(Player* p) {
                         if (!std::isnan(pts)) {
                             ov.text = p->subs.active_at(pts - p->sub_delay);
                             p->subs.active_bitmaps_at(pts - p->sub_delay, ov.bitmaps);
+                            add_ass_overlay(p, pts, fr.f->width, fr.f->height, ov);
                         }
                         p->vo->render(fr.f, ov, p->rotation);
                         if (!std::isnan(pts)) {
@@ -174,6 +197,8 @@ void video_render_thread(Player* p) {
                     if (!std::isnan(lp)) {
                         ov.text = p->subs.active_at(lp - p->sub_delay);
                         p->subs.active_bitmaps_at(lp - p->sub_delay, ov.bitmaps);
+                        add_ass_overlay(p, lp, p->last_frame->width,
+                                        p->last_frame->height, ov);
                     }
                     p->vo->render(p->last_frame, ov, p->rotation);
                 }
@@ -256,6 +281,7 @@ void video_render_thread(Player* p) {
         if (!std::isnan(pts)) {
             ov.text = p->subs.active_at(pts - p->sub_delay);
             p->subs.active_bitmaps_at(pts - p->sub_delay, ov.bitmaps);
+            add_ass_overlay(p, pts, fr.f->width, fr.f->height, ov);
         }
         p->vo->render(fr.f, ov, p->rotation);
         if (!std::isnan(pts)) p->vclock.store(pts);

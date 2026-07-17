@@ -205,6 +205,31 @@ static bool open_input(Player* p) {
     if (p->vst >= 0 && !p->vctx) p->vst = -1;
     if (p->ast >= 0 && !p->actx) p->ast = -1;
     if (p->sst >= 0 && !p->sctx) p->sst = -1;
+
+    // Styled subtitles: for an internal ASS/SSA stream, drive libass with
+    // the script header + any embedded font attachments. srt/mov_text/PGS
+    // keep the existing text/bitmap paths.
+    if (p->sctx && (p->sctx->codec_id == AV_CODEC_ID_ASS ||
+                    p->sctx->codec_id == AV_CODEC_ID_SSA)) {
+        std::lock_guard<std::mutex> lk(p->ass_m);
+        p->ass = ass_create();
+        if (p->ass) {
+            if (p->sctx->subtitle_header && p->sctx->subtitle_header_size > 0)
+                ass_set_header(p->ass, (const char*)p->sctx->subtitle_header,
+                               p->sctx->subtitle_header_size);
+            for (unsigned i = 0; i < p->fmt->nb_streams; i++) {
+                AVStream* st = p->fmt->streams[i];
+                if (st->codecpar->codec_type != AVMEDIA_TYPE_ATTACHMENT) continue;
+                AVDictionaryEntry* fn = av_dict_get(st->metadata, "filename",
+                                                    nullptr, 0);
+                if (fn && st->codecpar->extradata &&
+                    st->codecpar->extradata_size > 0)
+                    ass_add_attachment(p->ass, fn->value,
+                                       (const char*)st->codecpar->extradata,
+                                       st->codecpar->extradata_size);
+            }
+        }
+    }
     if (p->vst < 0 && p->ast < 0) {
         std::lock_guard<std::mutex> lk(p->err_m);
         p->error = L"No decodable streams in:\n" + p->path;
@@ -266,6 +291,10 @@ static void do_seek(Player* p, double target) {
     p->afq.flush();
     p->ao.flush();
     if (p->sst >= 0) p->subs.clear();  // internal subs re-fill; sidecar list stays
+    if (p->ass) {
+        std::lock_guard<std::mutex> lk(p->ass_m);
+        ass_reset(p->ass);
+    }
     p->extclk_set(NAN);
     {
         std::lock_guard<std::mutex> lk(p->extclk_m);
@@ -339,7 +368,10 @@ void demux_thread(Player* p) {
         } else if (pkt->stream_index == p->ast) {
             p->aq.push(pkt);
         } else if (pkt->stream_index == p->sst && p->sctx) {
-            subs_decode_packet(p->sctx, pkt, p->fmt->streams[p->sst]->time_base, &p->subs);
+            std::unique_lock<std::mutex> lk(p->ass_m, std::defer_lock);
+            if (p->ass) lk.lock();  // serialize libass feed vs. render
+            subs_decode_packet(p->sctx, pkt, p->fmt->streams[p->sst]->time_base,
+                               &p->subs, p->ass);
             av_packet_unref(pkt);
         } else {
             av_packet_unref(pkt);

@@ -26,6 +26,18 @@ attacks (a file crafted to decode slowly plays slowly).
 
 ## Mitigations
 
+### Styled subtitles (libass stack)
+- Styled ASS/SSA rendering vendors libass + FreeType + FriBidi + HarfBuzz
+  as pinned-release source (tags in
+  `third_party/libass-src/PROVENANCE.txt`); patch story is re-vendoring,
+  same as FFmpeg. Font glyph parsing (FreeType) and subtitle script
+  parsing (libass) are untrusted-input parsers and compile with the same
+  `/guard:cf` hardening.
+- No fontconfig, no iconv: subtitle input is UTF-8 only (FFmpeg's decoder
+  output already is), and system fonts come from DirectWrite. Embedded
+  fonts from a container are handed to FreeType — a font-parser exposure
+  that CFG/DEP/ASLR and the release-tracking patch story cover.
+
 ### Parsing surface (FFmpeg)
 - The subset is vendored from a current upstream release (n8.1.2) as
   unmodified source; the patch story is re-vendoring a newer tree

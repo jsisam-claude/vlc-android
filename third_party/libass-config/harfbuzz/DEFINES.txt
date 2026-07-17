@@ -1,0 +1,27 @@
+# HarfBuzz 11.5.1 compile-definition list for the vendored single-TU build
+# (src/harfbuzz.cc). HarfBuzz needs no config header: with HAVE_CONFIG_H
+# undefined, hb-config.hh applies safe defaults and every optional backend
+# is opt-in via HAVE_* macros, so absence disables it.
+#
+# Definitions to set (MSVC and the Linux gcc smoke build alike):
+#   HB_NO_PRAGMA_GCC_DIAGNOSTIC   # keep gcc-targeted pragma machinery out of
+#                                 # the TU; harmless but noisy under MSVC /W0
+#   NDEBUG                        # release semantics for hb asserts (optional,
+#                                 # matches upstream release builds)
+#
+# Deliberately NOT defined:
+#   HAVE_FREETYPE   - libass 0.17.5 does not use hb-ft (verified: no hb_ft_*
+#                     reference in libass/); hb-ft.cc then compiles empty,
+#                     so hb has no dependency on the vendored FreeType.
+#   HAVE_GLIB / HAVE_ICU / HAVE_GRAPHITE2 / HAVE_CORETEXT / HAVE_UNISCRIBE /
+#   HAVE_GDI / HAVE_DIRECTWRITE - external/system shaper+font backends; the
+#                     corresponding .cc files self-guard and compile empty.
+#   HB_NO_MT        - NOT set: keep HarfBuzz thread-safe (MSVC Interlocked /
+#                     C++ atomics are picked automatically).
+#   HB_TINY/HB_LEAN/HB_MINI - full shaper set retained (Indic, USE, Arabic,
+#                     etc. are exactly what ASS subtitle shaping needs).
+#
+# Language: C++17 (harfbuzz >= 11 requires C++17; MSVC: /std:c++17 via
+# CMAKE CXX_STANDARD 17), exceptions/RTTI not required by hb.
+HB_NO_PRAGMA_GCC_DIAGNOSTIC
+NDEBUG
