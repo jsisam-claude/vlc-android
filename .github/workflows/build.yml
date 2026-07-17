@@ -21,6 +21,9 @@ jobs:
       - name: Build
         run: cmake --build --preset x64-release
 
+      - name: Unit tests (pure helpers)
+        run: ctest --preset x64-release --output-on-failure
+
       - name: Smoke test (run the binary, check probe exit codes)
         shell: pwsh
         run: |

@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 3.24)
-project(vlc_light_win64 C CXX)
+
+# Single source of truth for the version, stamped into both exes' resources.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" APP_VERSION)
+string(STRIP "${APP_VERSION}" APP_VERSION)
+project(vlc_light_win64 VERSION ${APP_VERSION} LANGUAGES C CXX)
+string(REPLACE "." "," VER_COMMA "${APP_VERSION}")
+set(VER_DOT "${APP_VERSION}")
+configure_file(src/version.rc.in "${CMAKE_BINARY_DIR}/version.rc" @ONLY)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+enable_testing()
 
 if(MSVC)
   set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -44,7 +52,7 @@ target_link_libraries(player_engine
 
 add_executable(minimal-player WIN32
   src/main.cpp
-  src/version.rc
+  "${CMAKE_BINARY_DIR}/version.rc"
   src/app.manifest
 )
 target_link_libraries(minimal-player PRIVATE
@@ -59,3 +67,8 @@ if(MSVC)
   target_compile_options(minimal-player PRIVATE /W4 /utf-8 /sdl /guard:cf)
   target_link_options(minimal-player PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
 endif()
+
+# Unit tests for the pure engine helpers (platform-free; run in CI).
+add_executable(unit-tests tests/unit_tests.cpp)
+set_target_properties(unit-tests PROPERTIES CXX_STANDARD 17)
+add_test(NAME unit-tests COMMAND unit-tests)

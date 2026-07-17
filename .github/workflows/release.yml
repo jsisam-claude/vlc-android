@@ -1,0 +1,47 @@
+name: release
+
+# Tag-triggered: pushing a v* tag builds both exes and publishes a Release
+# with them attached. The build is the same source-only MSVC route CI uses.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Configure
+        run: cmake --preset x64-release
+
+      - name: Build
+        run: cmake --build --preset x64-release
+
+      - name: Unit tests
+        run: ctest --preset x64-release --output-on-failure
+
+      - name: Stage artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory dist | Out-Null
+          Copy-Item build\x64-release\minimal-player.exe dist\
+          Copy-Item LICENSE, README.md, CHANGELOG.md, SECURITY.md dist\
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/x64-release/minimal-player.exe
+          body_path: CHANGELOG.md
+          generate_release_notes: true
+          fail_on_unmatched_files: true
