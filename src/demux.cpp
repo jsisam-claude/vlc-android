@@ -30,6 +30,7 @@ static AVPixelFormat get_d3d11_format(AVCodecContext* ctx, const AVPixelFormat* 
 // Wraps the renderer's D3D11 device for libavcodec. Sharing one device
 // keeps decoder output textures directly usable by the video processor.
 static AVBufferRef* create_hw_device(Player* p) {
+    if (!p->want_hw) return nullptr;  // user disabled hardware decode
     ID3D11Device* dev = p->vo ? p->vo->decode_device() : nullptr;
     if (!dev) return nullptr;
     AVBufferRef* ref = av_hwdevice_ctx_alloc(AV_HWDEVICE_TYPE_D3D11VA);

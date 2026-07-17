@@ -28,6 +28,10 @@ bool player_media_ended(Player* p);
 void player_toggle_pause(Player* p);
 bool player_is_paused(Player* p);
 void player_frame_step(Player* p);  // pauses if playing, then advances one frame
+void player_frame_back(Player* p);  // pauses, then steps one frame backward
+// Hardware (D3D11VA) decode preference; applies from the next open.
+void player_set_hw_decode(Player* p, bool on);
+bool player_hw_decode(Player* p);
 void player_seek_rel(Player* p, double seconds);
 void player_seek_to(Player* p, double seconds);
 void player_volume_step(Player* p, int steps);

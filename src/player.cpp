@@ -198,6 +198,18 @@ void player_frame_step(Player* p) {
     p->step_req = true;
 }
 
+void player_frame_back(Player* p) {
+    if (!p->running) return;
+    if (!p->paused) player_toggle_pause(p);
+    // Exact-seek slightly behind the shown frame, then step to display it.
+    double pos = player_position(p);
+    player_seek_to(p, pos > 0.07 ? pos - 0.07 : 0);
+    p->step_req = true;
+}
+
+void player_set_hw_decode(Player* p, bool on) { p->want_hw = on; }
+bool player_hw_decode(Player* p) { return p->want_hw; }
+
 void player_seek_to(Player* p, double seconds) {
     if (!p->running) return;
     double target = seconds;

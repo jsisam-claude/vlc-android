@@ -130,7 +130,20 @@ void video_render_thread(Player* p) {
         if (p->paused) {
             if (p->step_req.exchange(false)) {
                 FQFrame fr;
-                if (p->vfq.pop(fr, 200)) {
+                bool got = p->vfq.pop(fr, 200);
+                // Exact seek while paused (frame-back): discard decoded
+                // frames before the target, like the playing path does.
+                for (int guard = 0; got && guard < 400; guard++) {
+                    double pv = p->precise_v.load();
+                    if (std::isnan(pv) || std::isnan(fr.pts) ||
+                        fr.pts + (fr.dur > 0 ? fr.dur : 0.040) > pv) {
+                        p->precise_v = NAN;
+                        break;
+                    }
+                    av_frame_free(&fr.f);
+                    got = p->vfq.pop(fr, 200);
+                }
+                if (got) {
                     if (fr.serial == p->vq.serial()) {
                         double pts = fr.pts;
                         SubRender ov;

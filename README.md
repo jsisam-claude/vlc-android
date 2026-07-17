@@ -65,8 +65,9 @@ CI builds run on every push (`.github/workflows/build.yml`) and upload
 
 Controls: bottom bar (Play/Pause, ±10s, seek slider, volume slider) and
 a right-click context menu (Open File, tracks, fullscreen). Keys: Space
-pause · `.` frame step · ←/→ ±10s · PgUp/PgDn ±60s · Ctrl+PgUp/PgDn
-chapters · L set A-B loop points · `[`/`]` speed ±0.25× pitch-corrected
+pause · `.`/`,` frame step fwd/back · J/K/L shuttle (rewind / 1× /
+fast-forward) · ←/→ ±10s · PgUp/PgDn ±60s · Ctrl+PgUp/PgDn chapters ·
+B set A-B loop points · `[`/`]` speed ±0.25× pitch-corrected
 (Backspace resets) · Z/X audio delay ∓50ms · G/H subtitle delay ∓50ms ·
 ↑/↓ volume (to 200%, boosted in software) · M mute · V aspect
 (auto/16:9/4:3/stretch/crop) · Ctrl+D debug HUD · A audio track · S subtitle track · N/P next/prev in

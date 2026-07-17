@@ -288,6 +288,7 @@ struct Player {
     AVFrame* last_frame = nullptr;
     std::atomic<bool> redraw_req{false};
     std::atomic<bool> step_req{false};  // advance one frame while paused
+    std::atomic<bool> want_hw{true};    // D3D11VA on next (re)open
 
     // transient OSD text (guarded by osd_m)
     std::mutex osd_m;
