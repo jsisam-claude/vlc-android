@@ -492,6 +492,23 @@ double VideoOut::sub_scale() {
     return d ? d->sub_scale : 1.0;
 }
 
+void VideoOut::clear() {
+    std::lock_guard<std::mutex> lk(m_);
+    if (!d || !d->swap || !d->dev) return;
+    ID3D11Texture2D* back = nullptr;
+    if (FAILED(d->swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back)))
+        return;
+    ID3D11RenderTargetView* rtv = nullptr;
+    if (SUCCEEDED(d->dev->CreateRenderTargetView(back, nullptr, &rtv))) {
+        float black[4] = {0, 0, 0, 1};
+        d->ctx->ClearRenderTargetView(rtv, black);
+        rtv->Release();
+    }
+    back->Release();
+    safe_release(d->d2drt);  // was bound to the old back buffer
+    d->swap->Present(0, 0);
+}
+
 void VideoOut::resize() {
     std::lock_guard<std::mutex> lk(m_);
     if (!d || !d->swap) return;

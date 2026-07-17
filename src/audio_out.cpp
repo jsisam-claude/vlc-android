@@ -27,7 +27,11 @@ struct MMDevice {
 
 static void mmdevice_free(MMDevice* d) {
     if (!d) return;
-    if (d->client && d->started) d->client->Stop();
+    if (d->client && d->started) {
+        d->client->Stop();
+        d->client->Reset();  // discard the ~200ms still buffered so the tail
+                             // of this file can't play over the next one
+    }
     if (d->volume) d->volume->Release();
     if (d->render) d->render->Release();
     if (d->client) d->client->Release();

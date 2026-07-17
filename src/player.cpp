@@ -138,6 +138,7 @@ static bool start_pipeline(Player* p) {
 
 bool player_open(Player* p, const wchar_t* path) {
     stop_pipeline(p);
+    if (p->vo) p->vo->clear();  // no lingering frame from the previous file
     p->path = path;
     p->want_audio_rel = 0;
     p->sub_choice = 0;
@@ -161,6 +162,7 @@ static void reopen(Player* p, int want_audio_rel, int sub_choice) {
 
 void player_close(Player* p) {
     stop_pipeline(p);
+    if (p->vo) p->vo->clear();  // blank the window instead of a frozen frame
     p->path.clear();
 }
 

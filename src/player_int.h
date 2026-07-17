@@ -230,6 +230,7 @@ public:
     // Audio-only media: spectrum bars (0..1 each) + the same overlays.
     bool render_viz(const float* bars, int n, const SubRender& overlays);
     void resize();
+    void clear();  // black out the surface so no stale frame lingers
     void shutdown();
     // Device for D3D11VA decoding (shared with rendering so decoder output
     // feeds the video processor with zero copies). Null when the device has
