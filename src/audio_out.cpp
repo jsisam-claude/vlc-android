@@ -185,6 +185,15 @@ bool AudioOut::start(FrameQueue* fq, const std::atomic<int>* pq_serial,
     drop_until_ = drop_until;
     abort_ = false;
     flush_req_ = false;
+    {
+        // Drop any clock left over from the previous file. Until this file's
+        // audio thread produces a real timestamp, master_clock() must report
+        // NAN so the video render thread paces against its own pts instead of
+        // the old file's clock (which would free-run or mis-drop the opening
+        // frames of the new file — a visible desync right after a switch).
+        std::lock_guard<std::mutex> lk(clock_m_);
+        fifo_end_pts_ = NAN;
+    }
     th_ = std::thread(&AudioOut::thread_main, this);
     return true;
 }
@@ -192,6 +201,8 @@ bool AudioOut::start(FrameQueue* fq, const std::atomic<int>* pq_serial,
 void AudioOut::stop() {
     abort_ = true;
     if (th_.joinable()) th_.join();
+    std::lock_guard<std::mutex> lk(clock_m_);
+    fifo_end_pts_ = NAN;  // no lingering clock between files
 }
 
 void AudioOut::pause(bool paused) { paused_ = paused; }
