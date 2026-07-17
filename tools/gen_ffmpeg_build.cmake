@@ -21,13 +21,18 @@ set(LIBS libavutil libavcodec libavformat libswresample libswscale)
 set(ARCH_DIRS x86 aarch64 arm riscv loongarch ppc mips wasm neon e2k avr32 bfin sh4 sparc)
 
 # ---------------------------------------------------------------- selection
-set(DECODERS h264 hevc mpeg2video mpeg4 msmpeg4v3 vp8 vp9
-    aac mp3 ac3 eac3 flac vorbis opus
-    pcm_s16le pcm_s24le pcm_s32le pcm_f32le
+set(DECODERS h264 hevc mpeg2video mpeg4 msmpeg4v1 msmpeg4v2 msmpeg4v3
+    vp8 vp9 av1 vc1 wmv1 wmv2 wmv3 mjpeg prores theora h263 flv vp6 vp6f
+    aac mp3 mp2 ac3 eac3 dca truehd mlp alac wmav1 wmav2 wmapro
+    flac vorbis opus
+    pcm_s16le pcm_s24le pcm_s32le pcm_f32le pcm_u8 pcm_alaw pcm_mulaw
+    adpcm_ms adpcm_ima_wav
     subrip srt ass ssa movtext pgssub dvdsub)
-set(PARSERS h264 hevc mpegvideo mpeg4video mpegaudio aac ac3 flac vorbis opus vp8 vp9)
+set(PARSERS h264 hevc mpegvideo mpeg4video mpegaudio aac ac3 flac vorbis
+    opus vp8 vp9 av1 vc1 dca mjpeg mlp)
 # hls pulls aac/ac3/eac3/mov/mpegts demuxers through its select chain.
-set(DEMUXERS mov matroska avi srt ass hls)
+set(DEMUXERS mov matroska avi srt ass hls
+    flv asf ogg wav mpegps mp3 flac)
 set(MUXERS "")
 set(ENCODERS "")
 # udp is needed at link time regardless of use: tls_schannel's DTLS path
@@ -40,7 +45,9 @@ set(BSFS null)
 # implementation objects (dxva2_h264.o, ...) under the old-API
 # CONFIG_*_D3D11VA_HWACCEL flags only, so both must be on.
 set(HWACCELS h264_d3d11va h264_d3d11va2 hevc_d3d11va hevc_d3d11va2
-    mpeg2_d3d11va mpeg2_d3d11va2 vp9_d3d11va vp9_d3d11va2)
+    mpeg2_d3d11va mpeg2_d3d11va2 vp9_d3d11va vp9_d3d11va2
+    av1_d3d11va av1_d3d11va2 vc1_d3d11va vc1_d3d11va2
+    wmv3_d3d11va wmv3_d3d11va2)
 # schannel: the Windows-native TLS backend for the tls protocol (an
 # external-lib flag in configure's eyes, but it is pure OS API - secur32/
 # crypt32 - so it keeps the source-only guarantee).

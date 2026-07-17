@@ -80,10 +80,18 @@ static int g_loaded_mute = 0;
 static bool g_loaded_fs = false;
 static int g_loaded_subscale = 100;
 
+// One list drives folder scanning, the open dialog and Explorer
+// registration; keep the dialog filter string below in sync.
+static const wchar_t* kVideoExts[] = {
+    L".mp4", L".m4v", L".mov", L".mkv", L".webm", L".avi",
+    L".ts", L".m2ts", L".mts", L".flv", L".wmv", L".asf",
+    L".ogv", L".mpg", L".mpeg", L".vob", L".3gp",
+};
+
 static bool is_video_ext(const wchar_t* path) {
     const wchar_t* dot = wcsrchr(path, L'.');
     if (!dot) return false;
-    for (const wchar_t* e : {L".mp4", L".m4v", L".mov", L".mkv", L".webm", L".avi"})
+    for (const wchar_t* e : kVideoExts)
         if (!_wcsicmp(dot, e)) return true;
     return false;
 }
@@ -542,8 +550,12 @@ static void register_associations(HWND hwnd) {
     bool ok = setkey(progid, nullptr, L"Video file (minimal-player)");
     ok = setkey(std::wstring(progid) + L"\\DefaultIcon", nullptr, icon) && ok;
     ok = setkey(std::wstring(progid) + L"\\shell\\open\\command", nullptr, cmd) && ok;
-    for (const wchar_t* ext : {L".mp4", L".m4v", L".mov", L".mkv", L".webm",
-                               L".avi", L".m3u", L".m3u8"})
+    for (const wchar_t* ext : kVideoExts)
+        ok = setkey(std::wstring(L"Software\\Classes\\") + ext +
+                        L"\\OpenWithProgids",
+                    L"minimal-player.video", L"") &&
+             ok;
+    for (const wchar_t* ext : {L".m3u", L".m3u8"})
         ok = setkey(std::wstring(L"Software\\Classes\\") + ext +
                         L"\\OpenWithProgids",
                     L"minimal-player.video", L"") &&
@@ -944,7 +956,9 @@ static void open_dialog(HWND hwnd) {
     OPENFILENAMEW ofn = {sizeof(OPENFILENAMEW)};
     ofn.hwndOwner = hwnd;
     ofn.lpstrFilter = L"Video and playlists\0"
-                      L"*.mp4;*.m4v;*.mov;*.mkv;*.webm;*.avi;*.m3u;*.m3u8\0"
+                      L"*.mp4;*.m4v;*.mov;*.mkv;*.webm;*.avi;*.ts;*.m2ts;"
+                      L"*.mts;*.flv;*.wmv;*.asf;*.ogv;*.mpg;*.mpeg;*.vob;"
+                      L"*.3gp;*.m3u;*.m3u8\0"
                       L"All files\0*.*\0";
     ofn.lpstrFile = path;
     ofn.nMaxFile = MAX_PATH;

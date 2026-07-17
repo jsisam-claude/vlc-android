@@ -1,14 +1,19 @@
 # vlc-light-win64
 
-A lightweight win64-only video player for local files (.mp4, .mkv, .webm,
-.avi) with subtitle support. Fully self-contained source-only repo built
-entirely with the Visual Studio toolchain — no mingw, no MSYS, no vcpkg,
-no package manager, no submodules, no downloads, no prebuilt binaries of
-any kind: the needed FFmpeg source subset (965 files) is committed under
-`third_party/ffmpeg-src/` and compiled by cl.exe using committed config
-headers (FFmpeg's configure never runs). Player structure follows ffplay;
-WASAPI output adapted from mpv; rendering uses Windows' own D3D11 +
-ID3D11VideoProcessor. H.264/HEVC/MPEG-2/VP9 decode in hardware via
+A lightweight win64-only video player for local files (mp4/mkv/webm/avi
+plus ts/m2ts, flv, wmv/asf, ogv, mpg/vob and 3gp) with subtitle support.
+Codecs cover H.264, HEVC, MPEG-1/2/4 (DivX/Xvid), VC-1/WMV, VP6/8/9,
+Theora, MJPEG, ProRes and AV1 (AV1 needs a GPU with AV1 decode — FFmpeg
+has no in-tree software AV1 decoder), with AAC/AC-3/E-AC-3/DTS/TrueHD/
+MP2/MP3/FLAC/Vorbis/Opus/ALAC/WMA audio. Fully self-contained
+source-only repo built entirely with the Visual Studio toolchain — no
+mingw, no MSYS, no vcpkg, no package manager, no submodules, no
+downloads, no prebuilt binaries of any kind: the needed FFmpeg source
+subset (1117 files) is committed under `third_party/ffmpeg-src/` and
+compiled by cl.exe using committed config headers (FFmpeg's configure
+never runs). Player structure follows ffplay; WASAPI output adapted from
+mpv; rendering uses Windows' own D3D11 + ID3D11VideoProcessor.
+H.264/HEVC/MPEG-2/VP9/VC-1/AV1 decode in hardware via
 D3D11VA when the GPU supports it (zero-copy into the video processor),
 falling back to software decode transparently. Phone-rotation metadata
 is applied, 10-bit content stays 10-bit through the video processor
