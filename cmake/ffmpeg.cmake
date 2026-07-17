@@ -49,8 +49,10 @@ foreach(lib IN LISTS FF_LIBS)
     # network code (WSAAsyncSelect/ip_mreq redefinitions).
     WIN32_LEAN_AND_MEAN)
   if(MSVC)
-    # third-party code: silence warnings; C11 atomics needed by ffmpeg>=6
-    target_compile_options(ff_${lib} PRIVATE /W0 /experimental:c11atomics)
+    # third-party code: silence warnings; C11 atomics needed by ffmpeg>=6.
+    # /guard:cf: this tree parses untrusted input through large indirect-
+    # call tables - Control Flow Guard is worth the small dispatch cost.
+    target_compile_options(ff_${lib} PRIVATE /W0 /experimental:c11atomics /guard:cf)
   endif()
 endforeach()
 

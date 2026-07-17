@@ -1470,7 +1470,8 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             // A second launch hands its file(s) over and exits (dwData 1 =
             // open, 2 = enqueue into the playlist).
             COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lp;
-            if (cds && cds->lpData && cds->cbData >= sizeof(wchar_t)) {
+            if (cds && cds->lpData && cds->cbData >= sizeof(wchar_t) &&
+                cds->cbData <= 8192) {  // a path; anything bigger is hostile
                 std::wstring path((const wchar_t*)cds->lpData,
                                   cds->cbData / sizeof(wchar_t));
                 while (!path.empty() && path.back() == 0) path.pop_back();
@@ -1576,6 +1577,7 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
         }
     }
 
+    HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0);
     CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
     srand(GetTickCount());
     g_msg_tbcreated = RegisterWindowMessageW(L"TaskbarButtonCreated");

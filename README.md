@@ -21,7 +21,9 @@ Ships as a single statically-linked exe.
 See [PLAN.md](PLAN.md) for the full design: reuse strategy and licensing,
 the FFmpeg-under-MSVC build solution, renderer decision (staged D3D11, no
 GDI/OpenGL), UI decision (raw Win32 v1, WinForms later if needed), and
-gaps vs real VLC.
+gaps vs real VLC. [SECURITY.md](SECURITY.md) documents the threat model
+and mitigations (CFG/DEP/ASLR builds, per-open protocol whitelists,
+forced TLS verification).
 
 ## Building (Windows, VS 2022+)
 

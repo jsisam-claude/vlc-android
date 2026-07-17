@@ -448,6 +448,19 @@ static int deadline_interrupt(void* op) {
     return av_gettime_relative() > *(int64_t*)op ? 1 : 0;
 }
 
+// Least-privilege protocol set + forced TLS verification for avformat
+// opens (see demux.cpp open_input for the rationale). Caller frees.
+static AVDictionary* safe_open_opts(const std::string& u8) {
+    AVDictionary* opts = nullptr;
+    if (u8.find("://") != std::string::npos) {
+        av_dict_set(&opts, "protocol_whitelist", "http,https,tcp,tls,udp,crypto,data", 0);
+        av_dict_set(&opts, "tls_verify", "1", 0);
+    } else {
+        av_dict_set(&opts, "protocol_whitelist", "file,crypto,data", 0);
+    }
+    return opts;
+}
+
 bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
     if (!info) return false;
     memset(info, 0, sizeof(*info));
@@ -457,7 +470,10 @@ bool player_probe(const wchar_t* path, PlayerMediaInfo* info) {
     if (!fc) return false;
     fc->interrupt_callback.callback = deadline_interrupt;
     fc->interrupt_callback.opaque = &deadline;
-    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return false;
+    AVDictionary* opts = safe_open_opts(u8);
+    int oret = avformat_open_input(&fc, u8.c_str(), nullptr, &opts);
+    av_dict_free(&opts);
+    if (oret < 0) return false;
     if (avformat_find_stream_info(fc, nullptr) < 0) {
         avformat_close_input(&fc);
         return false;
@@ -501,7 +517,10 @@ bool player_extract_thumb_at(const wchar_t* path, double at_seconds,
     if (!fc) return false;
     fc->interrupt_callback.callback = deadline_interrupt;
     fc->interrupt_callback.opaque = &deadline;
-    if (avformat_open_input(&fc, u8.c_str(), nullptr, nullptr) < 0) return false;
+    AVDictionary* opts = safe_open_opts(u8);
+    int oret = avformat_open_input(&fc, u8.c_str(), nullptr, &opts);
+    av_dict_free(&opts);
+    if (oret < 0) return false;
 
     AVCodecContext* ctx = nullptr;
     AVFrame* frame = nullptr;

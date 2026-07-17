@@ -87,7 +87,19 @@ static bool open_input(Player* p) {
         return ((Player*)op)->abort ? 1 : 0;
     };
     p->fmt->interrupt_callback.opaque = p;
-    int ret = avformat_open_input(&p->fmt, u8.c_str(), nullptr, nullptr);
+    // Least-privilege protocol set per open: local files must never reach
+    // the network, URLs must never read local files (a hostile playlist
+    // could otherwise reference either). tls_verify is forced on - lavf 62
+    // still defaults to NOT verifying certificates (FF_API_NO_DEFAULT_TLS_VERIFY).
+    AVDictionary* opts = nullptr;
+    if (u8.find("://") != std::string::npos) {
+        av_dict_set(&opts, "protocol_whitelist", "http,https,tcp,tls,udp,crypto,data", 0);
+        av_dict_set(&opts, "tls_verify", "1", 0);
+    } else {
+        av_dict_set(&opts, "protocol_whitelist", "file,crypto,data", 0);
+    }
+    int ret = avformat_open_input(&p->fmt, u8.c_str(), nullptr, &opts);
+    av_dict_free(&opts);
     if (ret < 0) {
         char err[256];
         av_strerror(ret, err, sizeof(err));

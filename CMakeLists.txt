@@ -48,6 +48,9 @@ target_link_libraries(minimal-player PRIVATE
 )
 
 if(MSVC)
-  target_compile_options(player_engine PRIVATE /W4 /utf-8)
-  target_compile_options(minimal-player PRIVATE /W4 /utf-8)
+  # /sdl + /guard:cf on our own code; hardened link flags on the exe (the
+  # ff_* libs get /guard:cf inside cmake/ffmpeg.cmake).
+  target_compile_options(player_engine PRIVATE /W4 /utf-8 /sdl /guard:cf)
+  target_compile_options(minimal-player PRIVATE /W4 /utf-8 /sdl /guard:cf)
+  target_link_options(minimal-player PRIVATE /DYNAMICBASE /NXCOMPAT /guard:cf)
 endif()
