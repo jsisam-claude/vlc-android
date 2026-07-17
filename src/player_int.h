@@ -158,6 +158,9 @@ public:
     void set_device(const wchar_t* id);
     std::wstring device();
     void set_speed(double s);     // resample ratio (pitch shifts with rate)
+    // Copies the most recent n mixed-down mono samples (post-resample) for
+    // visualization; false until enough audio has flowed.
+    bool tap(float* out, int n);
     ~AudioOut() { stop(); }
 
 private:
@@ -178,6 +181,10 @@ private:
     std::atomic<bool> abort_{false}, paused_{false}, flush_req_{false};
     std::mutex clock_m_;
     double fifo_end_pts_ = NAN;   // pts at the end of what we queued so far
+    std::mutex tap_m_;            // visualization ring of recent mono samples
+    std::vector<float> tap_ring_ = std::vector<float>(4096, 0.0f);
+    size_t tap_pos_ = 0;
+    bool tap_filled_ = false;
     SwrContext* swr_ = nullptr;
     AVAudioFifo* fifo_ = nullptr;
     int in_rate_ = 0, in_fmt_ = -1;
@@ -199,6 +206,8 @@ public:
     // texture, plus subtitle/OSD overlays. rotation_deg (0/90/180/270,
     // clockwise) comes from the stream's display matrix.
     bool render(AVFrame* f, const SubRender& overlays, int rotation_deg = 0);
+    // Audio-only media: spectrum bars (0..1 each) + the same overlays.
+    bool render_viz(const float* bars, int n, const SubRender& overlays);
     void resize();
     void shutdown();
     // Device for D3D11VA decoding (shared with rendering so decoder output
@@ -236,6 +245,8 @@ struct Player {
     std::vector<std::wstring> audio_names;
     std::vector<std::wstring> sub_names;  // [external?, internals...]
     std::vector<std::pair<double, std::wstring>> chapters;  // start sec, title
+    std::wstring meta_title, meta_artist, meta_album;  // also under tracks_m
+    bool cover_only = false;          // "video" is just attached cover art
     bool has_external_subs = false;
     int sub_choice = 0;               // index into effective sub track list; 0 = default
     AVCodecContext* vctx = nullptr;

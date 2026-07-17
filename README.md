@@ -5,7 +5,10 @@ plus ts/m2ts, flv, wmv/asf, ogv, mpg/vob and 3gp) with subtitle support.
 Codecs cover H.264, HEVC, MPEG-1/2/4 (DivX/Xvid), VC-1/WMV, VP6/8/9,
 Theora, MJPEG, ProRes and AV1 (AV1 needs a GPU with AV1 decode — FFmpeg
 has no in-tree software AV1 decoder), with AAC/AC-3/E-AC-3/DTS/TrueHD/
-MP2/MP3/FLAC/Vorbis/Opus/ALAC/WMA audio. Fully self-contained
+MP2/MP3/FLAC/Vorbis/Opus/ALAC/WMA audio. Music files (mp3, flac, m4a,
+ogg, wav, wma, opus...) play too: embedded cover art is shown when
+present, otherwise a live spectrum visualization, with title/artist from
+the tags. Fully self-contained
 source-only repo built entirely with the Visual Studio toolchain — no
 mingw, no MSYS, no vcpkg, no package manager, no submodules, no
 downloads, no prebuilt binaries of any kind: the needed FFmpeg source

@@ -88,10 +88,24 @@ static const wchar_t* kVideoExts[] = {
     L".ogv", L".mpg", L".mpeg", L".vob", L".3gp",
 };
 
+static const wchar_t* kAudioExts[] = {
+    L".mp3", L".flac", L".m4a", L".ogg", L".oga", L".wav",
+    L".wma", L".opus", L".aac", L".ac3", L".mka",
+};
+
 static bool is_video_ext(const wchar_t* path) {
     const wchar_t* dot = wcsrchr(path, L'.');
     if (!dot) return false;
     for (const wchar_t* e : kVideoExts)
+        if (!_wcsicmp(dot, e)) return true;
+    return false;
+}
+
+static bool is_media_ext(const wchar_t* path) {
+    if (is_video_ext(path)) return true;
+    const wchar_t* dot = wcsrchr(path, L'.');
+    if (!dot) return false;
+    for (const wchar_t* e : kAudioExts)
         if (!_wcsicmp(dot, e)) return true;
     return false;
 }
@@ -220,7 +234,7 @@ static void build_siblings(const wchar_t* path) {
     HANDLE h = FindFirstFileW((dir + L"\\*").c_str(), &fd);
     if (h == INVALID_HANDLE_VALUE) return;
     do {
-        if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && is_video_ext(fd.cFileName))
+        if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && is_media_ext(fd.cFileName))
             g_siblings.push_back(dir + L"\\" + fd.cFileName);
     } while (FindNextFileW(h, &fd));
     FindClose(h);
@@ -551,6 +565,11 @@ static void register_associations(HWND hwnd) {
     ok = setkey(std::wstring(progid) + L"\\DefaultIcon", nullptr, icon) && ok;
     ok = setkey(std::wstring(progid) + L"\\shell\\open\\command", nullptr, cmd) && ok;
     for (const wchar_t* ext : kVideoExts)
+        ok = setkey(std::wstring(L"Software\\Classes\\") + ext +
+                        L"\\OpenWithProgids",
+                    L"minimal-player.video", L"") &&
+             ok;
+    for (const wchar_t* ext : kAudioExts)
         ok = setkey(std::wstring(L"Software\\Classes\\") + ext +
                         L"\\OpenWithProgids",
                     L"minimal-player.video", L"") &&
@@ -955,10 +974,11 @@ static void open_dialog(HWND hwnd) {
     wchar_t path[MAX_PATH] = L"";
     OPENFILENAMEW ofn = {sizeof(OPENFILENAMEW)};
     ofn.hwndOwner = hwnd;
-    ofn.lpstrFilter = L"Video and playlists\0"
+    ofn.lpstrFilter = L"Media and playlists\0"
                       L"*.mp4;*.m4v;*.mov;*.mkv;*.webm;*.avi;*.ts;*.m2ts;"
                       L"*.mts;*.flv;*.wmv;*.asf;*.ogv;*.mpg;*.mpeg;*.vob;"
-                      L"*.3gp;*.m3u;*.m3u8\0"
+                      L"*.3gp;*.mp3;*.flac;*.m4a;*.ogg;*.oga;*.wav;*.wma;"
+                      L"*.opus;*.aac;*.ac3;*.mka;*.m3u;*.m3u8\0"
                       L"All files\0*.*\0";
     ofn.lpstrFile = path;
     ofn.nMaxFile = MAX_PATH;
@@ -1412,7 +1432,7 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 g_pl_cur = -1;
                 for (UINT i = 0; i < n; i++)
                     if (DragQueryFileW((HDROP)wp, i, path, MAX_PATH) &&
-                        is_video_ext(path))
+                        is_media_ext(path))
                         g_playlist.push_back(path);
                 if (!g_playlist.empty()) {
                     playlist_play(hwnd, 0);
@@ -1513,6 +1533,15 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 if (tm != g_track_mem.end())  // no-op when already matching
                     player_select_tracks(g_player, tm->second.first,
                                          tm->second.second);
+                if (player_is_audio_only(g_player)) {
+                    wchar_t ti[128], ar[128], np[280];
+                    player_meta(g_player, 0, ti, 128);
+                    player_meta(g_player, 1, ar, 128);
+                    if (ti[0]) {
+                        swprintf(np, 280, ar[0] ? L"%s — %s" : L"%s", ti, ar);
+                        player_show_osd(g_player, np, 4.0);
+                    }
+                }
             } else if ((PlayerEvent)wp == PLAYER_EVT_ENDED) {
                 g_resume.erase(g_cur_path);
                 if (g_repeat == 2 && g_player)
@@ -1689,7 +1718,7 @@ int WINAPI wWinMain(HINSTANCE hinst, HINSTANCE, PWSTR, int show) {
     wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
     if (argv && argc > 2) {  // several files on the command line = a queue
         for (int i = 1; i < argc; i++)
-            if (is_video_ext(argv[i])) g_playlist.push_back(argv[i]);
+            if (is_media_ext(argv[i])) g_playlist.push_back(argv[i]);
         if (!g_playlist.empty()) playlist_play(g_main, 0);
         else open_any(g_main, argv[1]);
     } else if (argv && argc > 1) {

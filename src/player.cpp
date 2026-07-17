@@ -109,6 +109,10 @@ static void stop_pipeline(Player* p) {
         p->audio_names.clear();
         p->sub_names.clear();
         p->chapters.clear();
+        p->meta_title.clear();
+        p->meta_artist.clear();
+        p->meta_album.clear();
+        p->cover_only = false;
     }
     p->vst = p->ast = p->sst = -1;
     p->rotation = 0;
@@ -373,6 +377,22 @@ int player_chapter_seek(Player* p, int delta) {
     if (next >= n) next = n - 1;
     player_chapter_go(p, next);
     return next;
+}
+
+void player_meta(Player* p, int which, wchar_t* buf, size_t buflen) {
+    if (!buf || !buflen) return;
+    buf[0] = 0;
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    const std::wstring& s = which == 1   ? p->meta_artist
+                            : which == 2 ? p->meta_album
+                                         : p->meta_title;
+    wcsncpy(buf, s.c_str(), buflen - 1);
+    buf[buflen - 1] = 0;
+}
+
+bool player_is_audio_only(Player* p) {
+    std::lock_guard<std::mutex> lk(p->tracks_m);
+    return p->running && (p->vst < 0 || p->cover_only);
 }
 
 void player_show_osd(Player* p, const wchar_t* text, double seconds) {

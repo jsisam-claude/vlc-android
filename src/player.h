@@ -96,6 +96,12 @@ int player_aspect(Player* p);
 // Debug HUD (fps, drops, decode path, queue depths); returns the new state.
 bool player_toggle_hud(Player* p);
 
+// Music metadata: which = 0 title, 1 artist, 2 album (empty when absent).
+void player_meta(Player* p, int which, wchar_t* buf, size_t buflen);
+// True when the media has no real video track (pure audio, or audio with
+// attached cover art) - hosts may want a music-style UI.
+bool player_is_audio_only(Player* p);
+
 // Saves the currently displayed frame as a PNG (synchronous, WIC encoder;
 // call from a COM-initialized thread). Applies aspect ratio and rotation.
 bool player_snapshot(Player* p, const wchar_t* png_path);

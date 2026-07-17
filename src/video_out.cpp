@@ -331,22 +331,28 @@ static RECT letterbox(int vw, int vh, int ww, int wh, bool cover = false) {
     return r;
 }
 
+static bool ensure_d2drt(D3DState* d, ID3D11Texture2D* backbuffer) {
+    if (d->d2drt) return true;
+    if (!d->d2df) return false;
+    IDXGISurface* surf = nullptr;
+    if (FAILED(backbuffer->QueryInterface(__uuidof(IDXGISurface), (void**)&surf)))
+        return false;
+    D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
+        D2D1_RENDER_TARGET_TYPE_DEFAULT,
+        D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE));
+    HRESULT hr = d->d2df->CreateDxgiSurfaceRenderTarget(surf, &props, &d->d2drt);
+    surf->Release();
+    if (FAILED(hr)) d->d2drt = nullptr;
+    return d->d2drt != nullptr;
+}
+
 static void draw_overlays(D3DState* d, ID3D11Texture2D* backbuffer,
                           const SubRender& ov, const RECT& dst_rc) {
     if (!d->d2df || !d->dwf) return;
     if (ov.text.empty() && ov.osd.empty() && ov.bitmaps.empty()) return;
     const std::wstring& text = ov.text;
 
-    if (!d->d2drt) {
-        IDXGISurface* surf = nullptr;
-        if (FAILED(backbuffer->QueryInterface(__uuidof(IDXGISurface), (void**)&surf))) return;
-        D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
-            D2D1_RENDER_TARGET_TYPE_DEFAULT,
-            D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_IGNORE));
-        HRESULT hr = d->d2df->CreateDxgiSurfaceRenderTarget(surf, &props, &d->d2drt);
-        surf->Release();
-        if (FAILED(hr)) { d->d2drt = nullptr; return; }
-    }
+    if (!ensure_d2drt(d, backbuffer)) return;
 
     // bitmap subtitles: map from their source coordinate space onto the
     // letterboxed video rect
@@ -756,6 +762,52 @@ bool VideoOut::render(AVFrame* f, const SubRender& overlays, int rotation_deg) {
     if (ok) draw_overlays(d, back, overlays, dst_rc);
     back->Release();
     if (!ok) return false;
+    d->swap->Present(1, 0);
+    return true;
+}
+
+bool VideoOut::render_viz(const float* bars, int n, const SubRender& overlays) {
+    std::lock_guard<std::mutex> lk(m_);
+    if (!d || !d->swap || !bars || n <= 0) return false;
+
+    ID3D11Texture2D* back = nullptr;
+    if (FAILED(d->swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back)))
+        return false;
+
+    ID3D11RenderTargetView* rtv = nullptr;
+    if (FAILED(d->dev->CreateRenderTargetView(back, nullptr, &rtv))) {
+        back->Release();
+        return false;
+    }
+    float bg[4] = {0.05f, 0.05f, 0.08f, 1.0f};
+    d->ctx->ClearRenderTargetView(rtv, bg);
+    rtv->Release();
+
+    if (ensure_d2drt(d, back)) {
+        d->d2drt->BeginDraw();
+        ID2D1SolidColorBrush* br = nullptr;
+        d->d2drt->CreateSolidColorBrush(D2D1::ColorF(0.35f, 0.62f, 1.0f, 0.9f), &br);
+        if (br) {
+            float W = (float)d->out_w, H = (float)d->out_h;
+            float span = W * 0.8f, x0 = W * 0.1f;
+            float bw = span / n;
+            float maxh = H * 0.55f, base = H * 0.78f;
+            for (int i = 0; i < n; i++) {
+                float v = bars[i] < 0 ? 0 : bars[i] > 1 ? 1.0f : bars[i];
+                float h = 2.0f + v * maxh;
+                d->d2drt->FillRectangle(
+                    D2D1::RectF(x0 + i * bw + bw * 0.15f, base - h,
+                                x0 + (i + 1) * bw - bw * 0.15f, base),
+                    br);
+            }
+            br->Release();
+        }
+        d->d2drt->EndDraw();
+    }
+
+    RECT full = {0, 0, d->out_w, d->out_h};
+    draw_overlays(d, back, overlays, full);
+    back->Release();
     d->swap->Present(1, 0);
     return true;
 }

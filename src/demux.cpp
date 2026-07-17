@@ -214,6 +214,22 @@ static bool open_input(Player* p) {
     p->start_time = p->fmt->start_time != AV_NOPTS_VALUE
                         ? p->fmt->start_time / (double)AV_TIME_BASE : 0;
 
+    // Music metadata + cover-art detection (an attached_pic stream is a
+    // still image, not a real video track; it plays as a static frame).
+    {
+        auto metaval = [&](const char* key) -> std::wstring {
+            AVDictionaryEntry* e = av_dict_get(p->fmt->metadata, key, nullptr, 0);
+            return e && e->value[0] ? utf8_to_wide(e->value) : L"";
+        };
+        std::lock_guard<std::mutex> lk(p->tracks_m);
+        p->meta_title = metaval("title");
+        p->meta_artist = metaval("artist");
+        p->meta_album = metaval("album");
+        p->cover_only =
+            p->vst >= 0 && (p->fmt->streams[p->vst]->disposition &
+                            AV_DISPOSITION_ATTACHED_PIC) != 0;
+    }
+
     // Chapter list for host menus; start times shifted to position space.
     {
         std::lock_guard<std::mutex> lk(p->tracks_m);
@@ -276,7 +292,9 @@ void demux_thread(Player* p) {
         p->ao.start(&p->afq, &p->aq_serial, &p->precise_a);
         p->ao.pause(p->paused);
     }
-    if (p->vst >= 0) p->th_vrender = std::thread(video_render_thread, p);
+    // Audio-only media still gets the render thread: it draws the spectrum
+    // visualization (no cover art) via the same VideoOut.
+    if (p->vst >= 0 || p->ast >= 0) p->th_vrender = std::thread(video_render_thread, p);
     p->running = true;
     p->fire(PLAYER_EVT_OPENED);
 

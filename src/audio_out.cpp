@@ -361,6 +361,15 @@ std::wstring AudioOut::device() {
 
 void AudioOut::set_speed(double s) { speed_ = s; }
 
+bool AudioOut::tap(float* out, int n) {
+    std::lock_guard<std::mutex> lk(tap_m_);
+    if (!tap_filled_ || n <= 0 || (size_t)n > tap_ring_.size()) return false;
+    size_t sz = tap_ring_.size();
+    size_t start = (tap_pos_ + sz - (size_t)n) % sz;
+    for (int i = 0; i < n; i++) out[i] = tap_ring_[(start + i) % sz];
+    return true;
+}
+
 bool AudioOut::run_device() {
     std::wstring want;
     {
@@ -510,6 +519,17 @@ bool AudioOut::run_device() {
         int have = av_audio_fifo_size(fifo_);
         int take = (int)((UINT32)have < want ? (UINT32)have : want);
         if (take > 0) av_audio_fifo_read(fifo_, (void**)&buf, take);
+        if (take > 0) {  // feed the visualization tap (mono mixdown)
+            std::lock_guard<std::mutex> lk(tap_m_);
+            const float* s = (const float*)buf;
+            for (int i = 0; i < take; i++) {
+                float m = 0;
+                for (int c = 0; c < out_ch; c++) m += s[(size_t)i * out_ch + c];
+                tap_ring_[tap_pos_] = m / out_ch;
+                tap_pos_ = (tap_pos_ + 1) % tap_ring_.size();
+            }
+            tap_filled_ = true;
+        }
         if ((UINT32)take < want)
             memset(buf + (size_t)take * out_ch * 4, 0, ((size_t)want - take) * out_ch * 4);
         dev_->render->ReleaseBuffer(want, 0);
