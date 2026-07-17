@@ -230,7 +230,12 @@ void video_render_thread(Player* p) {
         double pts = fr.pts;
         if (std::isnan(pts)) pts = p->vclock.load();
 
-        if (p->ast < 0) p->extclk_set(first_frame ? pts : NAN);  // anchor once
+        // Anchor the external wall clock from video pts when there is no
+        // audio stream, OR the audio output isn't producing a clock (dead
+        // endpoint / audio codec not decoding). master_clock() then paces
+        // video to its own timestamps instead of it free-running.
+        if (p->ast < 0 || std::isnan(p->ao.clock()))
+            p->extclk_set(first_frame ? pts : NAN);  // anchor once
         double clock = p->master_clock();
 
         if (!std::isnan(clock) && !std::isnan(pts)) {

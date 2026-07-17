@@ -32,7 +32,10 @@ double Player::master_clock() {
     if (ast >= 0) {
         double c = ao.clock();
         if (!std::isnan(c)) return c + audio_delay;  // + = audio heard later
-        return NAN;
+        // Audio stream present but its output produced no clock (e.g. the
+        // audio codec isn't decoding, or no usable endpoint). Fall through
+        // to the external wall clock so video still paces to its own
+        // timestamps instead of free-running as fast as it decodes.
     }
     std::lock_guard<std::mutex> lk(extclk_m);
     if (std::isnan(extclk_pts)) return NAN;
