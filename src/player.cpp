@@ -89,6 +89,14 @@ static void stop_pipeline(Player* p) {
     p->aq.set_abort(false);
     p->vfq.set_abort(false);
     p->afq.set_abort(false);
+    // Flush the PACKET queues too, not just the frame queues. Abort makes the
+    // decoders return from pop() without draining, so undecoded packets from
+    // this media stay queued; the next file reuses these queues, and because
+    // their serial is unchanged its decoder would accept and decode the stale
+    // packets — playing the previous clip's audio/video over the new one.
+    // flush() frees them and bumps the serial so any straggler is dropped.
+    p->vq.flush();
+    p->aq.flush();
     p->vfq.flush();
     p->afq.flush();
     p->subs.clear();

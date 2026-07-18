@@ -12,6 +12,20 @@ static void run_decoder(Player* p, AVCodecContext* ctx, PacketQueue* pq,
                         AVRational tb, const char* tag) {
     int cur_serial = pq->serial();
     AVFrame* frame = av_frame_alloc();
+    if (!frame) { log_line("%s decoder: frame alloc failed", tag); return; }
+
+    // Pull every buffered frame the codec will emit into the frame queue.
+    auto drain_frames = [&]() {
+        while (!p->abort) {
+            int ret = avcodec_receive_frame(ctx, frame);
+            if (ret < 0) break;
+            double pts = NAN;
+            if (frame->best_effort_timestamp != AV_NOPTS_VALUE)
+                pts = frame->best_effort_timestamp * av_q2d(tb);
+            double dur = frame->duration > 0 ? frame->duration * av_q2d(tb) : 0;
+            if (!fq->push(frame, cur_serial, pts, dur)) break;
+        }
+    };
 
     while (!p->abort) {
         Pkt pk;
@@ -23,6 +37,17 @@ static void run_decoder(Player* p, AVCodecContext* ctx, PacketQueue* pq,
             serial_mirror->store(pk.serial);
             continue;
         }
+        if (pk.drain) {
+            // EOF: send NULL so the codec emits its delayed/reordered (B-)frames,
+            // which would otherwise be lost — the clip would end a few frames
+            // short. Flush afterwards so a later seek/replay starts clean.
+            if (pk.serial == pq->serial()) {
+                avcodec_send_packet(ctx, nullptr);
+                drain_frames();
+                avcodec_flush_buffers(ctx);
+            }
+            continue;
+        }
         if (pk.serial != pq->serial()) {  // stale packet from before a flush
             av_packet_free(&pk.p);
             continue;
@@ -32,15 +57,7 @@ static void run_decoder(Player* p, AVCodecContext* ctx, PacketQueue* pq,
         av_packet_free(&pk.p);
         if (ret < 0 && ret != AVERROR(EAGAIN)) continue;
 
-        while (!p->abort) {
-            ret = avcodec_receive_frame(ctx, frame);
-            if (ret < 0) break;
-            double pts = NAN;
-            if (frame->best_effort_timestamp != AV_NOPTS_VALUE)
-                pts = frame->best_effort_timestamp * av_q2d(tb);
-            double dur = frame->duration > 0 ? frame->duration * av_q2d(tb) : 0;
-            if (!fq->push(frame, cur_serial, pts, dur)) break;
-        }
+        drain_frames();
     }
     av_frame_free(&frame);
     log_line("%s decoder thread exit", tag);

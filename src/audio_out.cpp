@@ -389,9 +389,12 @@ bool AudioOut::run_device() {
     std::wstring want;
     {
         std::lock_guard<std::mutex> lk(dev_m_);
+        // Clear the flag under the same lock that reads want_dev_. Otherwise a
+        // set_device() landing between the read and the clear would set a new
+        // endpoint and we'd immediately clear its flag — losing the switch.
+        dev_change_ = false;
         want = want_dev_;
     }
-    dev_change_ = false;
     MMDevice* d = mmdevice_open(want);
     {
         std::lock_guard<std::mutex> lk(dev_m_);
@@ -479,9 +482,12 @@ bool AudioOut::run_device() {
             uint8_t* outbuf = nullptr;
             int max_out = (int)av_rescale_rnd(f->nb_samples + 256, out_rate,
                                               f->sample_rate, AV_ROUND_UP);
-            av_samples_alloc(&outbuf, nullptr, out_ch, max_out, AV_SAMPLE_FMT_FLT, 0);
-            int got = swr_convert(swr_, &outbuf, max_out,
-                                  (const uint8_t**)f->extended_data, f->nb_samples);
+            int got = av_samples_alloc(&outbuf, nullptr, out_ch, max_out,
+                                       AV_SAMPLE_FMT_FLT, 0) < 0
+                          ? -1  // allocation failed: skip resampling this frame
+                          : swr_convert(swr_, &outbuf, max_out,
+                                        (const uint8_t**)f->extended_data,
+                                        f->nb_samples);
             if (got > 0) {
                 spd_used = spd;
                 stretched.clear();

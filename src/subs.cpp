@@ -80,12 +80,13 @@ static std::wstring ass_event_text(const char* ass) {
 }
 
 void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb,
-                        SubtitleList* out, AssRenderer* ass) {
+                        SubtitleList* out, AssRenderer* ass, double time_offset) {
     AVSubtitle sub;
     int got = 0;
     if (avcodec_decode_subtitle2(ctx, &sub, &got, pkt) < 0 || !got) return;
 
-    double base = (pkt->pts != AV_NOPTS_VALUE) ? pkt->pts * av_q2d(tb) : 0;
+    double base = ((pkt->pts != AV_NOPTS_VALUE) ? pkt->pts * av_q2d(tb) : 0) +
+                  time_offset;
     double start = base + sub.start_display_time / 1000.0;
     double end = base + (sub.end_display_time ? sub.end_display_time / 1000.0 : 0);
     if (end <= start) {
@@ -253,7 +254,8 @@ static int64_t mem_seek(void* op, int64_t off, int whence) {
     return p;
 }
 
-int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out) {
+int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out,
+                      double media_start_time) {
     std::wstring side = subs_find_sidecar(media_path);
     if (side.empty()) return 0;
 
@@ -303,7 +305,8 @@ int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out) {
         if (!pkt) break;
         while (av_read_frame(fc, pkt) >= 0) {
             if (pkt->stream_index == si) {
-                subs_decode_packet(ctx, pkt, fc->streams[si]->time_base, out);
+                subs_decode_packet(ctx, pkt, fc->streams[si]->time_base, out,
+                                   nullptr, media_start_time);
                 n++;
             }
             av_packet_unref(pkt);

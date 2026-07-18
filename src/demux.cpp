@@ -132,9 +132,15 @@ static bool open_input(Player* p) {
         p->ast = p->audio_streams[p->want_audio_rel];
     }
 
+    // The media timeline may not start at 0 (MPEG-TS, edit lists); a sidecar's
+    // cues do, so it needs this offset to line up with the video PTS.
+    p->start_time = p->fmt->start_time != AV_NOPTS_VALUE
+                        ? p->fmt->start_time / (double)AV_TIME_BASE : 0;
+
     // Effective subtitle track list: [off?, external?, internal streams...]
     // sub_choice: 0 = default (external if present, else first internal, else off)
-    p->has_external_subs = subs_load_sidecar(p->path.c_str(), &p->subs) > 0;
+    p->has_external_subs =
+        subs_load_sidecar(p->path.c_str(), &p->subs, p->start_time) > 0;
     int n_subs = (p->has_external_subs ? 1 : 0) + (int)p->sub_streams.size();
     if (n_subs == 0) {
         p->sst = -1;
@@ -237,8 +243,7 @@ static bool open_input(Player* p) {
     }
 
     p->duration = p->fmt->duration > 0 ? p->fmt->duration / (double)AV_TIME_BASE : 0;
-    p->start_time = p->fmt->start_time != AV_NOPTS_VALUE
-                        ? p->fmt->start_time / (double)AV_TIME_BASE : 0;
+    // p->start_time was computed above (before the sidecar load).
 
     // Music metadata + cover-art detection (an attached_pic stream is a
     // still image, not a real video track; it plays as a static frame).
@@ -330,6 +335,7 @@ void demux_thread(Player* p) {
 
     AVPacket* pkt = av_packet_alloc();
     const size_t MAX_QUEUE_BYTES = 16 * 1024 * 1024;
+    bool eof_drained = false;  // drain markers pushed once per EOF
 
     while (!p->abort) {
         {
@@ -337,6 +343,7 @@ void demux_thread(Player* p) {
             if (p->seek_req) {
                 do_seek(p, p->seek_to);
                 p->seek_req = false;
+                eof_drained = false;  // more data may follow the seek target
             }
         }
 
@@ -349,6 +356,13 @@ void demux_thread(Player* p) {
         int ret = av_read_frame(p->fmt, pkt);
         if (ret == AVERROR_EOF || ret == AVERROR(EIO)) {
             p->eof = true;
+            if (!eof_drained) {
+                // Tell the decoders to emit their buffered frames before we
+                // declare the queues empty; otherwise the tail frames are lost.
+                if (p->vst >= 0) p->vq.push_drain();
+                if (p->ast >= 0) p->aq.push_drain();
+                eof_drained = true;
+            }
             if (!p->ended_fired && p->vq.count() == 0 && p->aq.count() == 0 &&
                 p->vfq.count() == 0 && p->afq.count() == 0) {
                 p->ended = true;

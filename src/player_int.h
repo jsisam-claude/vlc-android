@@ -42,6 +42,7 @@ struct Pkt {
     AVPacket* p = nullptr;
     int serial = 0;
     bool flush = false;   // marker: decoder must flush, adopt this serial
+    bool drain = false;   // marker: EOF — send NULL to emit buffered frames
 };
 
 class PacketQueue {
@@ -49,6 +50,7 @@ public:
     void push(AVPacket* src);            // takes ownership of the ref
     bool pop(Pkt& out, int timeout_ms);  // false on timeout/abort
     void flush();                        // clears, bumps serial, queues marker
+    void push_drain();                   // queues an EOF drain marker
     void set_abort(bool a);
     int serial() const { return serial_.load(); }
     size_t bytes() const { return bytes_.load(); }
@@ -147,10 +149,16 @@ bool ass_render(AssRenderer*, double now_s, int w, int h,
 // Decode one subtitle packet with ctx and append results (handles srt/ass/mov_text).
 // When ass != null and the rects are SUBTITLE_ASS, events are fed to libass
 // instead of being flattened to plain text.
+// time_offset is added to every cue's timeline — 0 for internal streams (whose
+// PTS already share the media timeline), the media start_time for a sidecar
+// file (whose PTS start at 0, unlike the video PTS the render thread looks up).
 void subs_decode_packet(AVCodecContext* ctx, AVPacket* pkt, AVRational tb,
-                        SubtitleList* out, AssRenderer* ass = nullptr);
+                        SubtitleList* out, AssRenderer* ass = nullptr,
+                        double time_offset = 0);
 // Load an external .srt/.ass sidecar entirely. Returns entry count, 0 on failure.
-int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out);
+// media_start_time aligns the 0-based sidecar cues with the media timeline.
+int subs_load_sidecar(const wchar_t* media_path, SubtitleList* out,
+                      double media_start_time = 0);
 // Returns sidecar path if one exists next to the media file, else empty.
 std::wstring subs_find_sidecar(const wchar_t* media_path);
 

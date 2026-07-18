@@ -69,6 +69,14 @@ void PacketQueue::flush() {
     cv_.notify_all();
 }
 
+void PacketQueue::push_drain() {
+    std::lock_guard<std::mutex> lk(m_);
+    // Same serial as the real packets before it, so the decoder drains the
+    // frames it buffered for THIS media (not a stale serial that gets dropped).
+    q_.push_back({nullptr, serial_.load(), false, true});
+    cv_.notify_all();
+}
+
 void PacketQueue::set_abort(bool a) {
     std::lock_guard<std::mutex> lk(m_);
     abort_ = a;
