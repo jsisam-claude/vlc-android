@@ -121,11 +121,6 @@
                 android:icon="@drawable/ic_pref_parental_control"
                 android:title="@string/parental_control"/>
         <Preference
-                android:title="@string/remote_access"
-                android:key="remote_access_category"
-                android:icon="@drawable/ic_pref_remote_access"
-                android:fragment="org.videolan.television.ui.preferences.PreferencesRemoteAccess"/>
-        <Preference
             android:title="@string/android_auto"
             android:key="android_auto_category"
                 android:icon="@drawable/ic_pref_android_auto"

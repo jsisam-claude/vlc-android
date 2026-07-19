@@ -67,12 +67,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as? PreferencesActivity)?.extraEndPoint?.let {
-            if (it == "remote_access_category") findPreference<Preference>("remote_access_category")?.let {
-                onPreferenceTreeClick(it)
-                (activity as? PreferencesActivity)?.extraEndPoint = null
-            }
-        }
     }
 
     override fun onStart() {

@@ -32,7 +32,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.resources.REMOTE_ACCESS_ONBOARDING
 import org.videolan.tools.KEY_ANDROID_AUTO_QUEUE_INFO_POS_VAL
 import org.videolan.tools.Settings
 import org.videolan.vlc.PlaybackService

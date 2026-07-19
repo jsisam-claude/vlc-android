@@ -66,7 +66,20 @@ that preference **defaults to off** (code defaults and `preferences_casting.xml`
 Until casting is explicitly enabled in Settings → Casting, the app emits no
 discovery traffic; enabling it restores the full feature.
 
-## 5. Audited and deliberately kept (user-initiated only)
+## 5. Remote access web server — removed
+
+**What it was.** An opt-in Ktor/Netty HTTP(S) server embedded in the app
+(`:application:remote-access-server` plus the bundled Vue web client) letting
+a LAN browser control playback and browse/transfer media, secured by
+on-device TLS and OTP pairing. It never ran unless enabled, but it shipped a
+complete inbound web stack in every APK.
+
+**Removed.** Both modules, the settings screen, the TV home card, the OTP
+display activities and notification channels, the `vlc.remoteaccess.share`
+deep link, the web-client build script and the npm build-time dependency.
+The app no longer contains an HTTP server of any kind.
+
+## 6. Audited and deliberately kept (user-initiated only)
 
 | Feature | Why it stays |
 |---|---|
@@ -74,29 +87,31 @@ discovery traffic; enabling it restores the full feature.
 | Network browsing (SMB/UPnP/NSD discovery) | Runs when the user opens the Browse → network views |
 | Subtitle download (opensubtitles.com) | Only from the user-opened "Download subtitles" dialog |
 | `HttpImageLoader` artwork loading | Renders artwork URLs of media the user is browsing/playing; never crawls on its own |
-| Remote Access server + bundled web client | Off by default; explicit opt-in setting; serves locally, no external assets |
 | Crash/feedback reporting | Composes an email via the user's own mail app after the user agrees in a dialog; nothing is auto-submitted |
 | Chromecast casting | Fully functional again once `enable_casting` is turned on |
+
+Vestigial wording: the rarely-shown feedback fallback screen still mentions
+remote access in its help text; it is text only, nothing behind it runs.
 
 Also verified: `VLCOptions` passes no phone-home libvlc flags (the keystore
 options are local credential storage); the medialibrary Java API contains no
 HTTP client; TV's Play-Services check for the search affordance is a local
 capability query.
 
-## 6. Verified absent in this base (nothing to remove)
+## 7. Verified absent in this base (nothing to remove)
 
 Sentry or any crash-reporting SDK, Firebase/Google analytics, Matomo,
 Crashlytics, and ad SDKs — audited for and not present in this upstream
 revision.
 
-## 7. Intentional leftovers
+## 8. Intentional leftovers
 
 - Translated strings, drawables and colors that belonged to removed features
   are kept to avoid churn in ~60 locale files; they are inert resources.
 - The `INTERNET` permission remains — it is required for user-initiated
   streaming and network browsing.
 
-## 8. Verification
+## 9. Verification
 
 The environment used for this work has no Android SDK and no access to
 `maven.videolan.org` (libvlc artifacts), so the fork was **not compiled

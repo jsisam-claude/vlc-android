@@ -34,13 +34,6 @@
             vlc:showAsAction="always|collapseActionView" />
 
     <item
-            android:id="@+id/menu_remote_access_onboarding"
-            android:icon="@drawable/ic_information"
-            android:orderInCategory="2"
-            android:title="@string/ra_remote_access"
-            android:visible="false"
-            vlc:showAsAction="always|collapseActionView" />
-    <item
             android:id="@+id/menu_android_auto_info"
             android:icon="@drawable/ic_information"
             android:orderInCategory="2"

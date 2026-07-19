@@ -238,21 +238,6 @@ fun PackageManager.getPackageInfoCompat(packageName: String, vararg flagArgs: In
     }
 }
 
-fun Context.startRemoteAccess() {
-    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
-    launchForeground(intent)
-}
-
-fun Context.stopRemoteAccess() {
-    sendBroadcast(Intent(ACTION_STOP_SERVER).apply { `package` = packageName })
-    val intent = Intent(ACTION_INIT).setClassName(applicationContext, REMOTE_ACCESS_SERVICE)
-    stopService(intent)
-}
-
-fun Context.restartRemoteAccess() {
-    sendBroadcast(Intent(ACTION_RESTART_SERVER).apply { `package` = packageName })
-}
-
 /**
  * Awaits for the first update of a [LiveData]
  *

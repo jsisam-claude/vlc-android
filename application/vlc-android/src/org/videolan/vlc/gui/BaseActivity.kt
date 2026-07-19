@@ -44,7 +44,6 @@ import org.videolan.vlc.gui.helpers.hf.checkPIN
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.RemoteAccessUtils
 import org.videolan.vlc.viewmodels.DisplaySettingsViewModel
 
 
@@ -52,13 +51,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var startColor: Int = 0
     lateinit var settings: SharedPreferences
-    private var lastDisplayedOTPCode = ""
     var windowLayoutInfo: WindowLayoutInfo? = null
     private val displaySettingsViewModel: DisplaySettingsViewModel by viewModels()
 
     open val displayTitle = false
     open fun forcedTheme():Int? = null
-    open var isOTPActivity:Boolean = false
 
     /**
      * Enables edge-to-edge mode for this activity.
@@ -117,18 +114,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         PinCodeDelegate.pinUnlocked.observe(this) {
             invalidateOptionsMenu()
-        }
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                RemoteAccessUtils.otpFlow.collect {
-                    if (!isOTPActivity && it != null && lastDisplayedOTPCode != it) {
-                        lastDisplayedOTPCode = it
-                        val i = Intent(this@BaseActivity, OTPCodeActivity::class.java)
-                        i.flags = i.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
-                        startActivity(i)
-                    }
-                }
-            }
         }
         lifecycleScope.launch {
             //listen to display settings changes

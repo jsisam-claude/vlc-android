@@ -683,20 +683,6 @@
         <item>4</item>
     </string-array>
 
-    <string-array name="remote_access_content_entries" translatable="false">
-        <item>@string/video</item>
-        <item>@string/audio</item>
-        <item>@string/playlists</item>
-        <item>@string/search</item>
-    </string-array>
-
-    <string-array name="remote_access_content_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
     <string-array name="android_auto_queue_position" translatable="false">
         <item>@string/queue_info_none</item>
         <item>@string/queue_info_before_title</item>

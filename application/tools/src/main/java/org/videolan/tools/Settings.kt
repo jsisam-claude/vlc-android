@@ -34,7 +34,6 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var tvFoldersFirst = true
     var incognitoMode = false
     var safeMode = false
-    var remoteAccessEnabled = MutableLiveData(false)
     var fastplaySpeed = 2f
     private var audioControlsChangeListener: (() -> Unit)? = null
     lateinit var device : DeviceInfo
@@ -61,7 +60,6 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
-        remoteAccessEnabled.postValue(prefs.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
         return prefs
     }
 
@@ -185,20 +183,11 @@ const val ML_SCAN_ON = 0
 const val ML_SCAN_OFF = 1
 
 //Remote access
-const val KEY_ENABLE_REMOTE_ACCESS = "enable_remote_access"
-const val KEY_REMOTE_ACCESS_LAST_STATE_STOPPED = "remote_access_last_state_stopped"
-const val KEY_REMOTE_ACCESS_ML_CONTENT = "remote_access_medialibrary_content"
-const val REMOTE_ACCESS_FILE_BROWSER_CONTENT = "remote_access_file_browser_content"
-const val REMOTE_ACCESS_NETWORK_BROWSER_CONTENT = "remote_access_network_browser_content"
-const val REMOTE_ACCESS_HISTORY_CONTENT = "remote_access_history_content"
-const val REMOTE_ACCESS_PLAYBACK_CONTROL = "remote_access_playback_control"
-const val REMOTE_ACCESS_LOGS = "remote_access_logs"
 const val KEYSTORE_PASSWORD = "keystore_encrypted_password"
 const val KEYSTORE_PASSWORD_IV = "keystore_encrypted_password_iv"
 const val ENCRYPTED_KEY_NAME = "encryption_key"
 const val KEY_COOKIE_ENCRYPT_KEY = "cookie_encrypt_key"
 const val KEY_COOKIE_SIGN_KEY = "cookie_sign_key"
-const val KEY_REMOTE_ACCESS_INFO = "remote_access_info"
 
 //Equalizer
 const val KEY_CURRENT_EQUALIZER_ID = "current_equalizer_id"

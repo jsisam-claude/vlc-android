@@ -44,7 +44,6 @@ import org.videolan.tools.KEY_ENABLE_PLAY_ON_HEADSET_INSERTION
 import org.videolan.tools.KEY_IGNORE_HEADSET_MEDIA_BUTTON_PRESSES
 import org.videolan.tools.KEY_QUICK_PLAY
 import org.videolan.tools.KEY_QUICK_PLAY_DEFAULT
-import org.videolan.tools.KEY_REMOTE_ACCESS_INFO
 import org.videolan.tools.KEY_VIDEO_APP_SWITCH
 import org.videolan.tools.LIST_TITLE_ELLIPSIZE
 import org.videolan.tools.LOCKSCREEN_COVER
@@ -77,7 +76,7 @@ object PreferenceVisibilityManager {
         "headset_prefs_category", KEY_AUDIO_RESUME_CARD, LOCKSCREEN_COVER, SHOW_SEEK_IN_COMPACT_NOTIFICATION,
         KEY_AUDIO_TASK_REMOVED, "casting_category", "android_auto_category", SCREEN_ORIENTATION, -> !forTv
         //only on TV
-        TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO, KEY_REMOTE_ACCESS_INFO -> forTv
+        TV_FOLDERS_FIRST, BROWSER_SHOW_HIDDEN_FILES, PLAYLIST_MODE_VIDEO, PLAYLIST_MODE_AUDIO -> forTv
         KEY_VIDEO_APP_SWITCH -> !forTv || AndroidDevices.hasPiP
         AUDIO_DUCKING -> !AndroidUtil.isOOrLater
         POPUP_FORCE_LEGACY -> AndroidDevices.pipAllowed
@@ -85,7 +84,6 @@ object PreferenceVisibilityManager {
         KEY_AOUT -> VlcMigrationHelper.getAudioOutputFromDevice() == VlcMigrationHelper.AudioOutput.ALL
         KEY_AUDIO_DIGITAL_OUTPUT -> sharedPreferences.getString(KEY_AOUT, "0") != "2"
         "optional_features" -> FeatureFlag.entries.isNotEmpty()
-        "remote_access_category" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         "permissions_title" -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
         else -> true
     }

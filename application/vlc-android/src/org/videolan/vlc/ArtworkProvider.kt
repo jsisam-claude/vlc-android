@@ -122,22 +122,18 @@ class ArtworkProvider : ContentProvider() {
                         "Thread: ${Thread.currentThread().name} Caller: $callingPackage")
             }
             val bigVariant = uri.getQueryParameter(BIG_VARIANT)  == "1"
-            val remoteAccess = uri.getQueryParameter(REMOTE_ACCESS)  == "1"
             //retrieve thumbnails.
             when (uriSegments[0]) {
                 HISTORY -> getPFDFromByteArray(getHistory(ctx))
                 LAST_ADDED -> getPFDFromByteArray(getLastAdded(ctx))
                 SHUFFLE_ALL -> getPFDFromByteArray(getShuffleAll(ctx))
-                VIDEO -> if (remoteAccess)
-                    getMediaImage(ctx, ContentUris.parseId(uri), false, fallbackIcon =  if (bigVariant) R.drawable.ic_remote_video_unknown_big else R.drawable.ic_remote_video_unknown, isLarge = true)
-                else
-                    getMediaImage(ctx, ContentUris.parseId(uri), false)
-                MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (remoteAccess) if (bigVariant) R.drawable.ic_remote_song_unknown_big else R.drawable.ic_remote_song_unknown else null)
-                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri), remoteAccess, bigVariant)
-                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri), remoteAccess, bigVariant)
+                VIDEO -> getMediaImage(ctx, ContentUris.parseId(uri), false)
+                MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
+                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri), false, bigVariant)
+                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri), false, bigVariant)
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
-                GENRE -> if (remoteAccess) getGenreImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (bigVariant) R.drawable.ic_remote_genre_unknown_big else R.drawable.ic_remote_genre_unknown) else getGenreImage(ctx, ContentUris.parseId(uri))
-                PLAYLIST -> if (remoteAccess) getPlaylistImage(ctx, ContentUris.parseId(uri), fallbackIcon = if (bigVariant) R.drawable.ic_remote_playlist_unknown_big else R.drawable.ic_remote_playlist_unknown) else getPlaylistImage(ctx, ContentUris.parseId(uri))
+                GENRE -> getGenreImage(ctx, ContentUris.parseId(uri))
+                PLAYLIST -> getPlaylistImage(ctx, ContentUris.parseId(uri))
                 PLAY_ALL -> getPlayAllImage(ctx, uriSegments[1], ContentUris.parseId(uri),
                         uri.getBooleanQueryParameter(SHUFFLE, false))
                 else -> throw FileNotFoundException("Uri is not supported: $uri")
@@ -536,7 +532,6 @@ class ArtworkProvider : ContentProvider() {
 
         const val PATH = "path"
         const val BIG_VARIANT = "big_variant"
-        const val REMOTE_ACCESS = "remote_access"
         const val ALBUM = "album"
         const val GENRE = "genre"
         const val VIDEO = "video"

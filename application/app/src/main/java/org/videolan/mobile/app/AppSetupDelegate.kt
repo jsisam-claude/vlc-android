@@ -41,9 +41,7 @@ import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
-import org.videolan.resources.util.startRemoteAccess
 import org.videolan.tools.AppScope
-import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
 import org.videolan.tools.KEY_SET_LOCALE
@@ -86,8 +84,6 @@ class AppSetupDelegate : AppDelegate {
 
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         backgroundInit()
-        if (settings.getBoolean(KEY_ENABLE_REMOTE_ACCESS, false))
-            startRemoteAccess()
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityResumed(activity: Activity) {

@@ -11,7 +11,6 @@
 
 LIBVLCJNI_HASH=81bb02ba48dcad32550e0626139a387b3c30af04
 MEDIALIBRARY_HASH=8c56e26c625d757994cffeea84d2a0a2e6033dee
-REMOTEACCESS_HASH=2dcf214a1b215416767a057ab7bc3913ecc1b57b
 SQLITE_RELEASE=sqlite-autoconf-3460100
 SQLITE_SHA512SUM=a5ba5af9c8d6440d39ba67e3d5903c165df3f1d111e299efbe7c1cca4876d4d5aecd722e0133670daa6eb5cbf8a85c6a3d9852ab507a393615fb5245a3e1a743
 
@@ -66,10 +65,6 @@ else
     echo "$MEDIALIBRARY_HASH" > "$ML_DEST/.vendored"
     note "vendored $ML_DEST @ $MEDIALIBRARY_HASH (libvlcpp patched)"
 fi
-
-# --- remote access web client source (optional feature; building it needs npm) ---
-fetch_tree https://code.videolan.org/videolan/remoteaccess.git \
-    "$REMOTEACCESS_HASH" "$ROOT/application/remote-access-client/remoteaccess"
 
 # --- sqlite source archive (SHA-512 pinned, extracted at build time) ---
 SQLITE_TGZ="$ROOT/medialibrary/$SQLITE_RELEASE.tar.gz"

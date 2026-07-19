@@ -36,11 +36,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.media.session.MediaButtonReceiver
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.resources.ACTION_DISABLE_SERVER
 import org.videolan.resources.ACTION_PAUSE_SCAN
 import org.videolan.resources.ACTION_RESUME_SCAN
-import org.videolan.resources.ACTION_START_SERVER
-import org.videolan.resources.ACTION_STOP_SERVER
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CUSTOM_ACTION
@@ -60,8 +57,6 @@ import kotlin.math.absoluteValue
 
 private const val MEDIALIBRRARY_CHANNEL_ID = "vlc_medialibrary"
 private const val PLAYBACK_SERVICE_CHANNEL_ID = "vlc_playback"
-private const val REMOTE_ACCESS_CHANNEL_ID = "vlc_remote_access"
-private const val REMOTE_ACCESS_OTP_CHANNEL_ID = "vlc_remote_access_otp"
 const val MISC_CHANNEL_ID = "misc"
 private const val RECOMMENDATION_CHANNEL_ID = "vlc_recommendations"
 
@@ -186,48 +181,6 @@ object NotificationHelper {
         return scanCompatBuilder.build()
     }
 
-    fun createRemoteAccessNotification(ctx: Context, connectionTip: String, started: Boolean): Notification {
-        val intent = Intent(ctx, StartActivity::class.java).apply { action = "vlc.remoteaccess.share" }
-        val remoteAccessCompatBuilder = NotificationCompat.Builder(ctx, REMOTE_ACCESS_CHANNEL_ID)
-                .setContentIntent(PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE))
-                .setSmallIcon(R.drawable.ic_notif_remote_access)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(ctx.getString(R.string.ra_server_running))
-                .setAutoCancel(false)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .setOngoing(true)
-        remoteAccessCompatBuilder.setContentText(connectionTip)
-
-        //disable
-        val disableIntent = Intent()
-        disableIntent.action = ACTION_DISABLE_SERVER
-        disableIntent.`package` = ctx.packageName
-        val piDisable = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, disableIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val disableAction =    NotificationCompat.Action(R.drawable.ic_popup_close_w,ctx.getString(R.string.ra_disable), piDisable)
-        remoteAccessCompatBuilder.addAction(disableAction)
-
-        //Start / Stop
-        val notificationIntent = Intent()
-        notificationIntent.action = if (started) ACTION_STOP_SERVER else ACTION_START_SERVER
-        notificationIntent.`package` = ctx.packageName
-        val pi = PendingIntent.getBroadcast(ctx.applicationContext.getContextWithLocale(AppContextProvider.locale), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val action = NotificationCompat.Action(if (started) R.drawable.ic_pause_notif else R.drawable.ic_play_notif, if (started) ctx.getString(R.string.stop) else ctx.getString(R.string.start), pi)
-        remoteAccessCompatBuilder.addAction(action)
-        return remoteAccessCompatBuilder.build()
-    }
-
-    fun createRemoteAccessOtpNotification(ctx: Context, code:String): Notification {
-        val remoteAccessCompatBuilder = NotificationCompat.Builder(ctx, REMOTE_ACCESS_OTP_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notif_remote_access)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentTitle(ctx.getString(R.string.ra_otp_title))
-                .setAutoCancel(true)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-        remoteAccessCompatBuilder.setContentText(ctx.getString(R.string.ra_code, code))
-
-        return remoteAccessCompatBuilder.build()
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createNotificationChannels(appCtx: Context) {
         if (!AndroidUtil.isOOrLater) return
@@ -249,29 +202,6 @@ object NotificationHelper {
             val channel = NotificationChannel(MEDIALIBRRARY_CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW)
             channel.description = description
             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            channels.add(channel)
-        }
-
-        // Web server channel
-        if (notificationManager.getNotificationChannel(REMOTE_ACCESS_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ra_remote_access)
-            val description = appCtx.getString(R.string.ra_remote_access_description)
-            val channel = NotificationChannel(REMOTE_ACCESS_CHANNEL_ID, name, NotificationManager.IMPORTANCE_MIN)
-            channel.description = description
-            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            channels.add(channel)
-        }
-
-        // Web server OTP channel
-        if (notificationManager.getNotificationChannel(REMOTE_ACCESS_OTP_CHANNEL_ID) == null ) {
-            val name = appCtx.getString(R.string.ra_otp)
-            val description = appCtx.getString(R.string.ra_otp_description)
-            val channel = NotificationChannel(REMOTE_ACCESS_OTP_CHANNEL_ID, name, NotificationManager.IMPORTANCE_HIGH)
-            channel.description = description
-            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                channel.setAllowBubbles(true)
-            }
             channels.add(channel)
         }
 

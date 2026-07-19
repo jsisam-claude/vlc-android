@@ -32,7 +32,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.launch
-import org.videolan.tools.KEY_ENABLE_REMOTE_ACCESS
 import org.videolan.tools.KEY_EQUALIZER_ENABLED
 import org.videolan.tools.KEY_SHOW_WHATS_NEW
 import org.videolan.tools.Settings

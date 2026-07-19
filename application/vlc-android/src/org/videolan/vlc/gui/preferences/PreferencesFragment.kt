@@ -115,9 +115,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 R.xml.preferences_casting -> loadFragment(PreferencesCasting().apply {
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
-                R.xml.preferences_remote_access -> loadFragment(PreferencesRemoteAccess().apply {
-                    arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
-                })
                 R.xml.preferences_android_auto -> loadFragment(PreferencesAndroidAuto().apply {
                     arguments = bundleOf(EXTRA_PREF_END_POINT to endPoint)
                 })
@@ -179,7 +176,6 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                 PermissionListDialog.newInstance().show(requireActivity().supportFragmentManager, "PermissionListDialog")
 
             }
-            "remote_access_category" -> loadFragment(PreferencesRemoteAccess())
             "android_auto_category" -> loadFragment(PreferencesAndroidAuto())
             PLAYBACK_HISTORY -> {
                 val activity = activity

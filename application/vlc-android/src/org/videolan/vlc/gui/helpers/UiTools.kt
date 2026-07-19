@@ -126,7 +126,6 @@ import org.videolan.resources.HEADER_STREAM
 import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ID_ABOUT_TV
-import org.videolan.resources.ID_REMOTE_ACCESS
 import org.videolan.resources.ID_SETTINGS
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.TV_CONFIRMATION_ACTIVITY
@@ -1126,7 +1125,6 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             HEADER_TV_SHOW -> R.drawable.ic_browser_tvshow_big
             ID_SETTINGS -> R.drawable.ic_settings_big
             ID_ABOUT_TV -> R.drawable.ic_default_cone
-            ID_REMOTE_ACCESS -> R.drawable.ic_remote_access_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big
             CATEGORY_GENRES -> R.drawable.ic_genre_big

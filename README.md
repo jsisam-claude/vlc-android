@@ -4,16 +4,16 @@ This is a fork of the official [VLC for Android](https://code.videolan.org/video
 with **all telemetry and all non-user-initiated network communication removed**:
 the nightly auto-updater, the moviepedia online metadata scraper, the Google
 Play billing module and always-on Chromecast discovery (casting is now
-opt-in, default off). The app only touches the network for actions the user
-explicitly takes — playing a stream, browsing a share, downloading a
-subtitle, or enabling the remote access server.
+opt-in, default off), and the embedded remote-access web server was removed
+entirely. The app only touches the network for actions the user explicitly
+takes — playing a stream, browsing a share, or downloading a subtitle.
 
 See [REMOVED.md](REMOVED.md) for the complete inventory of what was removed,
 what was kept and why. Base: upstream `master` @ `c3b20bc9a107`.
 
-The fork also builds **without prebuilt binaries**: libvlc, medialibrary and
-the remote-access client are compiled from vendored source (shared tree in
-the sibling [`vlc-libs`](https://github.com/jsisam-claude/vlc-libs) repo).
+The fork also builds **without prebuilt binaries**: libvlc and medialibrary
+are compiled from vendored source (shared tree in the sibling
+[`vlc-libs`](https://github.com/jsisam-claude/vlc-libs) repo).
 See [BUILDING.md](BUILDING.md) for the one-time bootstrap and the exact
 toolchain boundary.
 
