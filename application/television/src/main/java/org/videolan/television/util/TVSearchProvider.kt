@@ -35,13 +35,6 @@ import android.util.Log
 import androidx.core.net.toUri
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
-import org.videolan.moviepedia.database.models.MediaMetadataType
-import org.videolan.moviepedia.database.models.getYear
-import org.videolan.moviepedia.database.models.subtitle
-import org.videolan.moviepedia.database.models.tvEpisodeSubtitle
-import org.videolan.moviepedia.repository.MediaMetadataRepository
-import org.videolan.resources.CONTENT_EPISODE
-import org.videolan.resources.CONTENT_RESUME
 import org.videolan.tools.Settings
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -64,47 +57,6 @@ class TVSearchProvider : ContentProvider() {
 
                 val sanitizedQuery = query.replace(Regex("[^A-Za-z0-9 ]"), "").lowercase(Locale.getDefault())
 
-                val mlIds = ArrayList<Long>()
-                //Moviepedia
-                context?.let { context ->
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Looking for '${"%$sanitizedQuery%".replace(" ", "%")}' in moviepedia")
-                    val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
-                    val mediaMetadatas = mediaMetadataRepository.searchMedia("%$sanitizedQuery%".replace(" ", "%"))
-                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Found ${mediaMetadatas.size} entries in moviepedia")
-                    mediaMetadatas.forEach { mediaMetadataWithImages ->
-                        mediaMetadataWithImages.metadata.mlId?.let { mlId ->
-                            mlIds.add(mlId)
-                            val media = medialibrary.getMedia(mlId)
-                            val thumbnail = mediaMetadataWithImages.metadata.currentBackdrop
-                            matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", mediaMetadataWithImages.metadata.title, mediaMetadataWithImages.subtitle(), thumbnail, mediaMetadataWithImages.metadata.getYear(), media.length))
-                        }
-                                ?: if (mediaMetadataWithImages.metadata.type == MediaMetadataType.TV_SHOW) {
-                                    val provider = org.videolan.moviepedia.provider.MediaScrapingTvshowProvider(context)
-                                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Looking for episodes for ${mediaMetadataWithImages.metadata.title}")
-                                    val mediaMetadataEpisodes = mediaMetadataRepository.getTvShowEpisodes(mediaMetadataWithImages.metadata.moviepediaId)
-
-                                    provider.getFirstResumableEpisode(medialibrary, mediaMetadataEpisodes)?.let { firstResumableEpisode ->
-                                        val media = medialibrary.getMedia(firstResumableEpisode.metadata.mlId!!)
-                                        val thumbnail = mediaMetadataWithImages.metadata.currentBackdrop
-                                        matrixCursor.addRow(arrayOf(media.id, "${CONTENT_RESUME}${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, context.getString(R.string.resume_episode, firstResumableEpisode.tvEpisodeSubtitle()), thumbnail, firstResumableEpisode.metadata.getYear(), media.length))
-                                    }
-
-
-
-                                    if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Found ${mediaMetadatas.size} entries in moviepedia")
-                                    mediaMetadataEpisodes.forEach { mediaMetadataWithImages ->
-                                        mediaMetadataWithImages.metadata.mlId?.let { mlId ->
-                                            mlIds.add(mlId)
-                                            val media = medialibrary.getMedia(mlId)
-                                            val thumbnail = mediaMetadataWithImages.metadata.currentBackdrop
-                                            matrixCursor.addRow(arrayOf(media.id, "${CONTENT_EPISODE}${mediaMetadataWithImages.metadata.moviepediaId}", mediaMetadataWithImages.metadata.title, mediaMetadataWithImages.subtitle(), thumbnail, mediaMetadataWithImages.metadata.getYear(), media.length))
-                                        }
-                                    }
-                                }
-                        else { }
-                    }
-                }
-
                 val searchAggregate = medialibrary.search(sanitizedQuery, Settings.includeMissing, false)
                         ?: return null
                 searchAggregate.artists?.filterNotNull()?.let {
@@ -125,7 +77,6 @@ class TVSearchProvider : ContentProvider() {
                 }
                 searchAggregate.videos?.filterNotNull()?.let {
                     it.forEach { media ->
-                        if (mlIds.contains(media.id)) return@forEach
                         val thumbnail = if (media.artworkURL != null) getFileUri(media.artworkURL) else media.getThumb()
                         if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "Adding video ${media.title}")
                         matrixCursor.addRow(arrayOf(media.id, "media_${media.id}", media.title, media.description, thumbnail, media.date, media.length))

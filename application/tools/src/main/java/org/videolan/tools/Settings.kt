@@ -134,8 +134,6 @@ const val KEY_TV_ONBOARDING_DONE = "key_tv_onboarding_done"
 const val KEY_INCOGNITO = "incognito_mode"
 const val KEY_LAST_WHATS_NEW = "last_whats_new"
 const val KEY_SHOW_WHATS_NEW = "show_whats_new"
-const val KEY_LAST_UPDATE_TIME = "last_update_time"
-const val KEY_SHOW_UPDATE = "show_update"
 
 // Playback settings category
 const val KEY_AUDIO_LAST_PLAYLIST = "audio_list"

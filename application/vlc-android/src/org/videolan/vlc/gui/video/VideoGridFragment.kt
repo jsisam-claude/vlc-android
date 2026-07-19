@@ -59,8 +59,6 @@ import org.videolan.resources.GROUP_VIDEOS_NONE
 import org.videolan.resources.KEY_FOLDER
 import org.videolan.resources.KEY_GROUP
 import org.videolan.resources.KEY_GROUPING
-import org.videolan.resources.MOVIEPEDIA_ACTIVITY
-import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.PLAYLIST_TYPE_VIDEO
 import org.videolan.resources.UPDATE_SEEN
 import org.videolan.resources.util.parcelable
@@ -129,7 +127,6 @@ import org.videolan.vlc.util.ContextOption.CTX_DELETE
 import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
 import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
 import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
-import org.videolan.vlc.util.ContextOption.CTX_FIND_METADATA
 import org.videolan.vlc.util.ContextOption.CTX_GO_TO_FOLDER
 import org.videolan.vlc.util.ContextOption.CTX_GROUP_SIMILAR
 import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
@@ -626,13 +623,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                 CTX_PLAY_NEXT -> MediaUtils.insertNext(requireActivity(), media.tracks)
                 CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
                 CTX_ADD_TO_PLAYLIST -> requireActivity().addToPlaylist(media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-                CTX_FIND_METADATA -> {
-                    val intent = Intent().apply {
-                        setClassName(requireContext().applicationContext, MOVIEPEDIA_ACTIVITY)
-                        apply { putExtra(MOVIEPEDIA_MEDIA, media) }
-                    }
-                    startActivity(intent)
-                }
                 CTX_SHARE -> lifecycleScope.launch { (requireActivity() as AppCompatActivity).share(media) }
                 CTX_REMOVE_GROUP -> viewModel.removeFromGroup(media)
                 CTX_ADD_GROUP -> requireActivity().addToGroup(listOf(media), true)

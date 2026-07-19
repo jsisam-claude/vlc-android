@@ -21,5 +21,4 @@ android {
 include ':libvlcjni:libvlc', ':medialibrary'
 include ':application:tools', ':application:resources', ':application:mediadb', ':application:app', ':application:live-plot-graph', ':application:television', ':application:donations', ':application:remote-access-server'
 include ':application:vlc-android'
-include ':application:moviepedia'
 include ':application:remote-access-client'

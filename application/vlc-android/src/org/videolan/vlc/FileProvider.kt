@@ -34,10 +34,7 @@ class FileProvider : ContentProvider() {
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
         val path = uri.path ?: throw SecurityException("Illegal access")
         if (path.contains("..")) throw SecurityException("Illegal access")
-        if (!path.startsWith(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME) && path != "/app_update") throw SecurityException("Illegal access")
-        if (path == "/app_update") {
-            return ParcelFileDescriptor.open(File(AppContextProvider.appContext.cacheDir, "update.apk"), ParcelFileDescriptor.MODE_READ_ONLY)
-        }
+        if (!path.startsWith(AppContextProvider.appContext.getExternalFilesDir(null)!!.absolutePath + Medialibrary.MEDIALIB_FOLDER_NAME)) throw SecurityException("Illegal access")
         val file = File(path)
         if (!AndroidDevices.mountBL.any { file.canonicalPath.startsWith(it) }) throw SecurityException("Illegal access")
         if (file.exists()) {
@@ -51,12 +48,6 @@ fun getFileUri(path: String) = Uri.Builder()
         .scheme("content")
         .authority(THUMB_PROVIDER_AUTHORITY)
         .path(path)
-        .build()!!
-
-fun getUpdateUri() = Uri.Builder()
-        .scheme("content")
-        .authority(THUMB_PROVIDER_AUTHORITY)
-        .path("app_update")
         .build()!!
 
 fun isPathValid(path: String): Boolean {

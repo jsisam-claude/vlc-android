@@ -39,10 +39,7 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.interfaces.media.VideoGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.resources.ACTION_OPEN_CONTENT
 import org.videolan.resources.AppContextProvider
-import org.videolan.resources.CONTENT_PREFIX
-import org.videolan.resources.EXTRA_CONTENT_ID
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.VLCOptions
 import org.videolan.resources.interfaces.IMediaContentResolver
@@ -479,10 +476,6 @@ object MediaUtils {
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) = AppScope.launch {
         val id = data?.lastPathSegment ?: return@launch
         when {
-            id.startsWith(CONTENT_PREFIX) -> {
-                val intent = Intent(ACTION_OPEN_CONTENT).putExtra(EXTRA_CONTENT_ID, id)
-                context.localBroadcastManager.sendBroadcast(intent)
-            }
             else -> { //Media from medialib
                 val mw = context.getFromMl {
                     val longId = id.substringAfter("_").toLong()

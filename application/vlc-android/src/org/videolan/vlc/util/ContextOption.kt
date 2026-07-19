@@ -37,7 +37,6 @@ enum class ContextOption : Flag {
     CTX_FAV_ADD,
     CTX_FAV_EDIT,
     CTX_FAV_REMOVE,
-    CTX_FIND_METADATA,
     CTX_GO_TO_FOLDER,
     CTX_GROUP_SIMILAR,
     CTX_INFORMATION,

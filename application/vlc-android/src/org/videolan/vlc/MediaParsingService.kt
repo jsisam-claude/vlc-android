@@ -63,7 +63,6 @@ import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.medialibrary.stubs.StubMedialibrary
 import org.videolan.resources.ACTION_CHECK_STORAGES
-import org.videolan.resources.ACTION_CONTENT_INDEXING
 import org.videolan.resources.ACTION_DISCOVER
 import org.videolan.resources.ACTION_DISCOVER_DEVICE
 import org.videolan.resources.ACTION_FORCE_RELOAD
@@ -496,7 +495,6 @@ class MediaParsingService : LifecycleService(), DevicesDiscoveryCb {
             } catch (t: Throwable) {
                 //catching here as isHeld is not thread safe
             }
-            localBroadcastManager.sendBroadcast(Intent(ACTION_CONTENT_INDEXING))
             //todo reenable entry point when ready
             if (::notificationActor.isInitialized) notificationActor.trySend(Hide)
             //Delay service stop to ensure service goes foreground.

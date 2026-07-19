@@ -22,12 +22,8 @@ package org.videolan.television.ui
 
 import android.net.Uri
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
-import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.moviepedia.database.models.subtitle
 
 class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
-
-    var metadata: MediaMetadataWithImages? = null
 
     override fun onBindDescription(viewHolder: ViewHolder, itemData: Any) {
         val details = itemData as MediaItemDetails
@@ -37,12 +33,11 @@ class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
 
         // Here we provide static data for testing purposes:
         val body = when {
-            metadata != null -> metadata!!.metadata.summary
             details.body == null -> Uri.decode(details.location)
             else -> details.body + "\n" + Uri.decode(details.location)
         }
-        viewHolder.title.text = metadata?.metadata?.title ?: details.title
-        viewHolder.subtitle.text = metadata?.subtitle() ?: details.subTitle
+        viewHolder.title.text = details.title
+        viewHolder.subtitle.text = details.subTitle
         viewHolder.body.text = body
     }
 

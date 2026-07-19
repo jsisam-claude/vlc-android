@@ -35,7 +35,6 @@ import androidx.activity.addCallback
 import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -54,7 +53,6 @@ import org.videolan.tools.KEY_INCOGNITO
 import org.videolan.tools.KEY_LAST_SESSION_CRASHED
 import org.videolan.tools.KEY_MEDIALIBRARY_AUTO_RESCAN
 import org.videolan.tools.KEY_OBSOLETE_RESTORE_FILE_WARNED
-import org.videolan.tools.KEY_SHOW_UPDATE
 import org.videolan.tools.PERMISSION_NEVER_ASK
 import org.videolan.tools.PERMISSION_NEXT_ASK
 import org.videolan.tools.RESULT_RESCAN
@@ -70,9 +68,6 @@ import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.dialogs.NotificationPermissionManager
 import org.videolan.vlc.gui.dialogs.PermissionListDialog
-import org.videolan.vlc.gui.dialogs.UPDATE_DATE
-import org.videolan.vlc.gui.dialogs.UPDATE_URL
-import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.INavigator
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
@@ -84,7 +79,6 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.WhatsNewManager
@@ -130,30 +124,6 @@ class MainActivity : ContentActivity(),
             }
         }
 
-        lifecycleScope.launch {
-            if (!BuildConfig.DEBUG) return@launch
-            AutoUpdate.clean(this@MainActivity.application)
-            if (!settings.getBoolean(KEY_SHOW_UPDATE, true)) return@launch
-            if (!settings.contains(KEY_SHOW_UPDATE)) {
-                AlertDialog.Builder(this@MainActivity)
-                    .setTitle(resources.getString(R.string.update_nightly))
-                    .setMessage(resources.getString(R.string.update_nightly_alert))
-                    .setPositiveButton(R.string.yes){ _, _ ->
-                        settings.putSingle(KEY_SHOW_UPDATE, true)
-                    }
-                    .setNegativeButton(R.string.no){ _, _ ->
-                        settings.putSingle(KEY_SHOW_UPDATE, false)
-                    }
-                    .show()
-                return@launch
-            }
-            AutoUpdate.checkUpdate(this@MainActivity.application) {url, date ->
-                val updateDialog = UpdateDialog().apply {
-                    arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time)
-                }
-                updateDialog.show(supportFragmentManager, "fragment_update")
-            }
-        }
         if (settings.getBoolean(KEY_LAST_SESSION_CRASHED, false)) {
             settings.putSingle(KEY_LAST_SESSION_CRASHED, false)
             if (BuildConfig.BETA) {

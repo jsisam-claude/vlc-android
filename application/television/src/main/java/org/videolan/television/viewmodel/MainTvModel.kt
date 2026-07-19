@@ -50,8 +50,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.interfaces.media.Playlist
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.moviepedia.database.models.MediaMetadataWithImages
-import org.videolan.moviepedia.repository.MediaMetadataRepository
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.CATEGORY_ALBUMS
@@ -64,13 +62,11 @@ import org.videolan.resources.CATEGORY_NOW_PLAYING_PIP_PAUSED
 import org.videolan.resources.CATEGORY_SONGS
 import org.videolan.resources.FAVORITE_TITLE
 import org.videolan.resources.HEADER_DIRECTORIES
-import org.videolan.resources.HEADER_MOVIES
 import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_PERMISSION
 import org.videolan.resources.HEADER_PLAYLISTS
 import org.videolan.resources.HEADER_SERVER
 import org.videolan.resources.HEADER_STREAM
-import org.videolan.resources.HEADER_TV_SHOW
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.util.getFromMl
 import org.videolan.television.ui.FAVORITE_FLAG
@@ -109,7 +105,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
-    private val mediaMetadataRepository = MediaMetadataRepository.getInstance(context)
     private var updatedFavoriteList: List<MediaWrapper> = listOf()
     var showHistory = false
         private set
@@ -122,8 +117,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history: LiveData<List<MediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val recentlyPlayed: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
-    val recentlyAdded: MediatorLiveData<List<MediaMetadataWithImages>> = MediatorLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
@@ -145,8 +138,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val playerObserver = Observer<Boolean> { updateAudioCategories() }
 
-    private val videoObserver = Observer<Any> { updateVideos() }
-
     init {
         medialibrary.addOnMedialibraryReadyListener(this)
         medialibrary.addOnDeviceChangeListener(this)
@@ -154,14 +145,11 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         networkMonitor.connectionFlow.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
         ExternalMonitor.storageEvents.onEach { updateActor.trySend(Unit) }.launchIn(viewModelScope)
         PlaylistManager.showAudioPlayer.observeForever(playerObserver)
-        mediaMetadataRepository.getAllLive().observeForever(videoObserver)
     }
 
     fun refresh() = viewModelScope.launch {
         updateNowPlaying()
         updateVideos()
-        updateRecentlyPlayed()
-        updateRecentlyAdded()
         updateAudioCategories()
         historyActor.trySend(Unit)
         updateActor.trySend(Unit)
@@ -187,38 +175,15 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                 listOf(DummyItem(HEADER_PERMISSION, context.getString(R.string.permission_media), context.getString(R.string.permission_ask_again)))
             return@launch
         }
-        val allMovies = withContext(Dispatchers.IO) { mediaMetadataRepository.getMovieCount() }
-        val allTvshows = withContext(Dispatchers.IO) { mediaMetadataRepository.getTvshowsCount() }
         val videoNb = context.getFromMl { videoCount }
         context.getFromMl {
             getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, true, false, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, videoNb, videoNb)))
-                if (allMovies > 0) {
-                    add(DummyItem(HEADER_MOVIES, context.getString(R.string.header_movies), context.resources.getQuantityString(R.plurals.movies_quantity, allMovies, allMovies)))
-                }
-                if (allTvshows > 0) {
-                    add(DummyItem(HEADER_TV_SHOW, context.getString(R.string.header_tvshows), context.resources.getQuantityString(R.plurals.tvshow_quantity, allTvshows, allTvshows)))
-                }
                 addAll(it)
             }
         }
-    }
-
-    private fun updateRecentlyPlayed() = viewModelScope.launch {
-        val history = context.getFromMl { history(Medialibrary.HISTORY_TYPE_LOCAL).toMutableList() }
-        recentlyPlayed.addSource(withContext(Dispatchers.IO) { mediaMetadataRepository.getByIds(history.map { it.id }) }) {
-            recentlyPlayed.value = it.sortedBy { history.indexOf(history.find { media -> media.id == it.metadata.mlId }) }
-        }
-
-    }
-
-    private fun updateRecentlyAdded() = viewModelScope.launch {
-        recentlyAdded.addSource(withContext(Dispatchers.IO) { mediaMetadataRepository.getRecentlyAdded() }) {
-            recentlyAdded.value = it
-        }
-
     }
 
     fun updateNowPlaying() = viewModelScope.launch {
@@ -341,21 +306,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                     activity.startActivity(intent)
-                }
-            }
-            is MediaMetadataWithImages -> {
-                item.metadata.mlId?.let {
-                    viewModelScope.launch {
-                        context.getFromMl {
-                            getMedia(it)
-                        }.let {
-                            val intent = Intent(activity, org.videolan.television.ui.DetailsActivity::class.java)
-                            // pass the item information
-                            intent.putExtra("media", it)
-                            intent.putExtra("item", org.videolan.television.ui.MediaItemDetails(it.title, it.artistName, it.albumName, it.location, it.artworkURL))
-                            activity.startActivity(intent)
-                        }
-                    }
                 }
             }
             is MediaLibraryItem -> org.videolan.television.ui.TvUtil.openAudioCategory(activity, item)

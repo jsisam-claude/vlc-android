@@ -72,8 +72,6 @@ import org.videolan.medialibrary.interfaces.media.MediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AndroidDevices
 import org.videolan.resources.KEY_MRL
-import org.videolan.resources.MOVIEPEDIA_ACTIVITY
-import org.videolan.resources.MOVIEPEDIA_MEDIA
 import org.videolan.resources.util.getFromMl
 import org.videolan.resources.util.parcelable
 import org.videolan.tools.BROWSER_DISPLAY_IN_CARDS
@@ -135,7 +133,6 @@ import org.videolan.vlc.util.ContextOption.CTX_DELETE
 import org.videolan.vlc.util.ContextOption.CTX_DOWNLOAD_SUBTITLES
 import org.videolan.vlc.util.ContextOption.CTX_FAV_ADD
 import org.videolan.vlc.util.ContextOption.CTX_FAV_REMOVE
-import org.videolan.vlc.util.ContextOption.CTX_FIND_METADATA
 import org.videolan.vlc.util.ContextOption.CTX_INFORMATION
 import org.videolan.vlc.util.ContextOption.CTX_PLAY
 import org.videolan.vlc.util.ContextOption.CTX_PLAY_ALL
@@ -886,14 +883,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
             CTX_FAV_REMOVE -> lifecycleScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
             CTX_ADD_SCANNED -> addToScannedFolders(mw)
-            CTX_FIND_METADATA -> {
-                val intent = Intent().apply {
-                    setClassName(requireContext().applicationContext, MOVIEPEDIA_ACTIVITY)
-                    putExtra(MOVIEPEDIA_MEDIA, mw)
-                }
-                startActivity(intent)
-            }
-
             CTX_ADD_FOLDER_PLAYLIST -> {
                 requireActivity().addToPlaylistAsync(mw.uri.toString(), false, mw.title)
             }

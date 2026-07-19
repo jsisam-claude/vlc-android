@@ -105,7 +105,6 @@ const val ACTION_STOP_SERVER = "action_stop_server"
 const val ACTION_START_SERVER = "action_start_server"
 const val ACTION_DISABLE_SERVER = "action_disable_server"
 const val ACTION_RESTART_SERVER = "action_restart_server"
-const val ACTION_CONTENT_INDEXING = "action_content_indexing"
 
 // VideoPlayerActivity
 @JvmField val PLAY_FROM_VIDEOGRID = "gui.video.PLAY_FROM_VIDEOGRID".buildPkgString()
@@ -137,8 +136,6 @@ const val HEADER_SERVER = 7L
 const val HEADER_PLAYLISTS = 8L
 const val HEADER_MOVIES = 30L
 const val HEADER_TV_SHOW = 31L
-const val HEADER_RECENTLY_PLAYED = 32L
-const val HEADER_RECENTLY_ADDED = 33L
 const val HEADER_NOW_PLAYING = 34L
 const val HEADER_PERMISSION = 35L
 const val HEADER_FAVORITES = 36L
@@ -193,9 +190,6 @@ const val CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP"
 //Dummy items
 const val DUMMY_NEW_GROUP = 0L
 
-//Moviepedia
-const val MOVIEPEDIA_MEDIA: String = "moviepedia_media"
-
 // Database
 const val TYPE_NETWORK_FAV = 0
 const val TYPE_LOCAL_FAV = 1
@@ -210,11 +204,6 @@ fun String.buildPkgString() = "${BuildConfig.APP_ID}.$this"
 const val ACTION_VIEW_ARC = "org.chromium.arc.intent.action.VIEW"
 const val ACTION_SEARCH_GMS = "com.google.android.gms.actions.SEARCH_ACTION"
 
-const val CONTENT_PREFIX = "content_"
-const val CONTENT_RESUME = "${CONTENT_PREFIX}resume_"
-const val CONTENT_EPISODE = "${CONTENT_PREFIX}episode_"
-const val ACTION_OPEN_CONTENT = "action_open_content"
-const val EXTRA_CONTENT_ID = "extra_content_id"
 const val SCHEME_PACKAGE = "package"
 
 // Class names
@@ -226,7 +215,6 @@ const val TV_MAIN_ACTIVITY = "org.videolan.television.ui.MainTvActivity"
 const val TV_CONFIRMATION_ACTIVITY = "org.videolan.television.ui.dialogs.ConfirmationTvActivity"
 const val TV_PREFERENCE_ACTIVITY = "org.videolan.television.ui.preferences.PreferencesActivity"
 const val MOBILE_MAIN_ACTIVITY = "org.videolan.vlc.gui.MainActivity"
-const val MOVIEPEDIA_ACTIVITY = "org.videolan.moviepedia.ui.MoviepediaActivity"
 const val TV_AUDIOPLAYER_ACTIVITY = "org.videolan.television.ui.audioplayer.AudioPlayerActivity"
 const val MEDIAPARSING_SERVICE = "org.videolan.vlc.MediaParsingService"
 const val TV_ONBOARDING_ACTIVITY = "org.videolan.television.ui.OnboardingActivity"

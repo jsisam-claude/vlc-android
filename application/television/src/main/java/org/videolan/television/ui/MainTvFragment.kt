@@ -63,8 +63,6 @@ import org.videolan.resources.HEADER_NETWORK
 import org.videolan.resources.HEADER_NOW_PLAYING
 import org.videolan.resources.HEADER_PERMISSION
 import org.videolan.resources.HEADER_PLAYLISTS
-import org.videolan.resources.HEADER_RECENTLY_ADDED
-import org.videolan.resources.HEADER_RECENTLY_PLAYED
 import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ID_ABOUT_TV
 import org.videolan.resources.ID_PIN_LOCK
@@ -73,7 +71,6 @@ import org.videolan.resources.ID_REMOTE_ACCESS
 import org.videolan.resources.ID_SETTINGS
 import org.videolan.resources.ID_SPONSOR
 import org.videolan.television.ui.TvUtil.diffCallback
-import org.videolan.television.ui.TvUtil.metadataDiffCallback
 import org.videolan.television.ui.audioplayer.AudioPlayerActivity
 import org.videolan.television.ui.browser.VerticalGridActivity
 import org.videolan.television.ui.preferences.PreferencesActivity
@@ -101,8 +98,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var rowsAdapter: ArrayObjectAdapter
 
     private lateinit var nowPlayingAdapter: ArrayObjectAdapter
-    private lateinit var recentlyPlayedAdapter: ArrayObjectAdapter
-    private lateinit var recentlyAddedAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
@@ -112,8 +107,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var otherAdapter: ArrayObjectAdapter
 
     private lateinit var nowPlayingRow: ListRow
-    private lateinit var recentlyPlayedRow: ListRow
-    private lateinit var recentlyAdddedRow: ListRow
     private lateinit var videoRow: ListRow
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
@@ -125,12 +118,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var displayHistory = false
     private var displayPlaylist = false
     private var displayNowPlaying = false
-    private var displayRecentlyPlayed = false
-    private var displayRecentlyAdded = false
     private var displayFavorites = false
     private var selectedItem: Any? = null
 
-    private var lines: Int = 7
+    private var lines: Int = 5
     private var loadedLines = ArrayList<Long>()
 
     internal lateinit var model: MainTvModel
@@ -184,16 +175,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val nowPlayingHeader = HeaderItem(HEADER_NOW_PLAYING, getString(R.string.music_now_playing))
         nowPlayingRow = ListRow(nowPlayingHeader, nowPlayingAdapter)
         rowsAdapter.add(nowPlayingRow)
-        //Recently played
-        recentlyPlayedAdapter = ArrayObjectAdapter(MetadataCardPresenter(ctx))
-        val recentlyPlayedHeader = HeaderItem(HEADER_RECENTLY_PLAYED, getString(R.string.recently_played))
-        recentlyPlayedRow = ListRow(recentlyPlayedHeader, recentlyPlayedAdapter)
-        rowsAdapter.add(recentlyPlayedRow)
-        //Recently added
-        recentlyAddedAdapter = ArrayObjectAdapter(MetadataCardPresenter(ctx))
-        val recentlyAddedHeader = HeaderItem(HEADER_RECENTLY_ADDED, getString(R.string.recently_added))
-        recentlyAdddedRow = ListRow(recentlyAddedHeader, recentlyAddedAdapter)
-        rowsAdapter.add(recentlyAdddedRow)
         // Video
         videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val videoHeader = HeaderItem(0, getString(R.string.video))
@@ -303,18 +284,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             nowPlayingAdapter.setItems(it, diffCallback)
             addAndCheckLoadedLines(HEADER_NOW_PLAYING)
         }
-        model.recentlyPlayed.observe(requireActivity()) {
-            displayRecentlyPlayed = it.isNotEmpty()
-            recentlyPlayedAdapter.setItems(it, metadataDiffCallback)
-            resetLines()
-            addAndCheckLoadedLines(HEADER_RECENTLY_PLAYED)
-        }
-        model.recentlyAdded.observe(requireActivity()) {
-            displayRecentlyAdded = it.isNotEmpty()
-            recentlyAddedAdapter.setItems(it, metadataDiffCallback)
-            resetLines()
-            addAndCheckLoadedLines(HEADER_RECENTLY_ADDED)
-        }
         model.history.observe(requireActivity()) {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
@@ -346,10 +315,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private fun resetLines() {
-        val adapters = listOf(nowPlayingRow, recentlyPlayedRow, recentlyAdddedRow, videoRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, videoRow, audioRow, playlistRow, historyRow, favoritesRow, browsersRow, miscRow).filter {
             when {
-                !displayRecentlyPlayed && it == recentlyPlayedRow -> false
-                !displayRecentlyAdded && it == recentlyAdddedRow -> false
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
                 !displayNowPlaying && it == nowPlayingRow -> false

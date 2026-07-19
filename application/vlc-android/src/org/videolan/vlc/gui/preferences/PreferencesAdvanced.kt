@@ -38,7 +38,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -90,11 +89,7 @@ import org.videolan.vlc.gui.browser.KEY_PICKER_TYPE
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT
 import org.videolan.vlc.gui.dialogs.CONFIRM_DELETE_DIALOG_RESULT_TYPE
 import org.videolan.vlc.gui.dialogs.ConfirmDeleteDialog
-import org.videolan.vlc.gui.dialogs.NEW_INSTALL
 import org.videolan.vlc.gui.dialogs.RenameDialog
-import org.videolan.vlc.gui.dialogs.UPDATE_DATE
-import org.videolan.vlc.gui.dialogs.UPDATE_URL
-import org.videolan.vlc.gui.dialogs.UpdateDialog
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
@@ -102,7 +97,6 @@ import org.videolan.vlc.gui.helpers.restartMediaPlayer
 import org.videolan.vlc.gui.preferences.search.PreferenceParser
 import org.videolan.vlc.isVLC4
 import org.videolan.vlc.providers.PickerType
-import org.videolan.vlc.util.AutoUpdate
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.share
@@ -230,25 +224,6 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
             "debug_logs" -> {
                 val intent = Intent(requireContext(), DebugLogActivity::class.java)
                 startActivity(intent)
-                return true
-            }
-            "nightly_install" -> {
-
-                android.app.AlertDialog.Builder(requireActivity())
-                        .setTitle(resources.getString(R.string.install_nightly))
-                        .setMessage(resources.getString(R.string.install_nightly_alert))
-                        .setPositiveButton(R.string.ok){ _, _ ->
-                            requireActivity().lifecycleScope.launch {
-                                AutoUpdate.checkUpdate(requireActivity().application, true) {url, date ->
-                                    val updateDialog = UpdateDialog().apply {
-                                        arguments = bundleOf(UPDATE_URL to url, UPDATE_DATE to date.time, NEW_INSTALL to true)
-                                    }
-                                    updateDialog.show(requireActivity().supportFragmentManager, "fragment_update")
-                                }
-                            }
-                        }
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
                 return true
             }
             "clear_history" -> {

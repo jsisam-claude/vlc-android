@@ -26,12 +26,6 @@
             android:theme="@style/Theme.Leanback.Details"
             tools:ignore="LockedOrientationActivity" />
         <activity
-                android:name="org.videolan.television.ui.MediaScrapingTvshowDetailsActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Leanback.Details"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
             android:name="org.videolan.television.ui.browser.VerticalGridActivity"
             android:exported="true"
             android:screenOrientation="landscape"
@@ -48,12 +42,6 @@
             android:exported="true"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.Black"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-                android:name="org.videolan.television.ui.MediaScrapingTvActivity"
-            android:exported="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.VLC.TV"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="org.videolan.television.ui.SearchActivity"
