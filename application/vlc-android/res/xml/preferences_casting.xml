@@ -8,7 +8,7 @@
         <CheckBoxPreference
                 app:singleLineTitle="false"
                 android:key="enable_casting"
-                android:defaultValue="true"
+                android:defaultValue="false"
                 android:switchTextOff="Disabled"
                 android:switchTextOn="Enabled"
                 android:title="@string/casting_switch_title"/>

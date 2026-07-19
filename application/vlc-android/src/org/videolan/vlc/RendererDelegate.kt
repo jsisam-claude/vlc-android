@@ -27,7 +27,9 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.VLCInstance
 import org.videolan.tools.AppScope
+import org.videolan.tools.KEY_ENABLE_CASTING
 import org.videolan.tools.NetworkMonitor
+import org.videolan.tools.Settings
 import org.videolan.tools.isAppStarted
 import org.videolan.tools.livedata.LiveDataset
 import org.videolan.tools.retry
@@ -47,6 +49,8 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     suspend fun start() {
         if (started) return
+        // Renderer discovery multicasts on the local network: keep it off unless casting was enabled explicitly
+        if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_ENABLE_CASTING, false)) return
         val libVlc = withContext(Dispatchers.IO) { VLCInstance.getInstance(AppContextProvider.appContext) }
         started = true
         for (discoverer in RendererDiscoverer.list(libVlc)) {
