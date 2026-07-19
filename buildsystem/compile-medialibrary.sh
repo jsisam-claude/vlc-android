@@ -69,13 +69,12 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
   rm -rf ${MEDIALIBRARY_BUILD_DIR}/build-android*
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
-  wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz 2>/dev/null || curl -L -O https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
+  [ -f ${SQLITE_RELEASE}.tar.gz ] || wget https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz 2>/dev/null || curl -L -O https://download.videolan.org/pub/contrib/sqlite/${SQLITE_RELEASE}.tar.gz
   if [ ! "$(sha512sum ${SQLITE_RELEASE}.tar.gz)" = "${SQLITE_SHA512SUM}  ${SQLITE_RELEASE}.tar.gz" ]; then
     echo "Wrong sha1 for ${SQLITE_RELEASE}.tar.gz"
     exit 1
   fi
   tar -xozf ${SQLITE_RELEASE}.tar.gz
-  rm -f ${SQLITE_RELEASE}.tar.gz
 fi
 cd ${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}
 if [ ! -d "build-$ANDROID_ABI" ]; then
@@ -119,7 +118,7 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
   # TODO: remove when switching to VLC 4.0
   cd libvlcpp
   git am ${SRC_DIR}/buildsystem/patches/libvlcpp/*
-elif [ "$RESET" = "1" ]; then
+elif [ "$RESET" = "1" ] && [ ! -f "${MEDIALIBRARY_BUILD_DIR}/.vendored" ]; then
     cd ${SRC_DIR}/medialibrary/medialibrary
     git fetch --all --tags
     git reset --hard ${MEDIALIBRARY_HASH}

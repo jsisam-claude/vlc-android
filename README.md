@@ -11,6 +11,12 @@ subtitle, or enabling the remote access server.
 See [REMOVED.md](REMOVED.md) for the complete inventory of what was removed,
 what was kept and why. Base: upstream `master` @ `c3b20bc9a107`.
 
+The fork also builds **without prebuilt binaries**: libvlc, medialibrary and
+the remote-access client are compiled from vendored source (shared tree in
+the sibling [`vlc-libs`](https://github.com/jsisam-claude/vlc-libs) repo).
+See [BUILDING.md](BUILDING.md) for the one-time bootstrap and the exact
+toolchain boundary.
+
 ---
 
 This is the official **Android** port of [VLC](https://videolan.org/vlc/).

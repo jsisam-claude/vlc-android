@@ -1,13 +1,17 @@
 # VLC
 
-/libvlcjni
+/libvlcjni/vlc
+/libvlcjni/local.properties
+/libvlcjni/libvlc/jni/libs/
+/libvlcjni/libvlc/jni/obj/
+/libvlcjni/**/.cxx/
 /vlc/
 /toolchains/
 application/app/src/main/assets/
 
 #medialibrary
-medialibrary/medialibrary
 medialibrary/sqlite*
+!medialibrary/sqlite-autoconf-3460100.tar.gz
 medialibrary/libvlcpp
 medialibrary/build
 medialibrary/jni/obj
@@ -16,7 +20,8 @@ medialibrary/.libs
 medialibrary/prefix
 
 # Remote access
-application/remote-access-client/remoteaccess/**
+application/remote-access-client/remoteaccess/node_modules/
+application/remote-access-client/remoteaccess/dist/
 application/remote-access-client/assets/**
 
 # Android .so

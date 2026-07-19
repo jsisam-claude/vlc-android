@@ -290,7 +290,10 @@ LIBVLCJNI_REPOSITORY=https://code.videolan.org/videolan/libvlcjni.git
 
 : ${VLC_LIBJNI_PATH:="$(pwd -P)/libvlcjni"}
 
-if [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
+if [ -f "$VLC_LIBJNI_PATH/.vendored" ]; then
+    diagnostic "libvlcjni sources: vendored at $(cat "$VLC_LIBJNI_PATH/.vendored")"
+    (cd "$VLC_LIBJNI_PATH" && init_local_props local.properties) || { echo "Error initializing local.properties"; exit $?; }
+elif [ ! -d "$VLC_LIBJNI_PATH" ] || [ ! -d "$VLC_LIBJNI_PATH/.git" ]; then
     diagnostic "libvlcjni sources: not found, cloning"
     if [ ! -d "$VLC_LIBJNI_PATH" ]; then
         git clone --single-branch --branch ${LIBVLCJNI_BRANCH} "${LIBVLCJNI_REPOSITORY}"
@@ -309,6 +312,13 @@ fi
 ##########
 # GRADLE #
 ##########
+
+# Prefer the vendored contrib source-archive cache from a sibling vlc-libs
+# checkout so contrib builds run without downloads.
+if [ -z "$TARBALLS" ] && [ -d "$(pwd -P)/../vlc-libs/contrib-tarballs" ]; then
+    export TARBALLS="$(pwd -P)/../vlc-libs/contrib-tarballs"
+    diagnostic "contrib tarballs: using vendored cache $TARBALLS"
+fi
 
 GRADLE_VERSION=9.3.1
 # the SHA256 is found in https://gradle.org/release-checksums/

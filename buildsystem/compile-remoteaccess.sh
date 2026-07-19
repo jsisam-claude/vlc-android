@@ -63,7 +63,9 @@ REMOTE_ACCESS_REPOSITORY=https://code.videolan.org/videolan/remoteaccess
 : ${VLC_REMOTE_ACCESS_PATH:="$(pwd -P)/application/remote-access-client/remoteaccess"}
 diagnostic "VLC_REMOTE_ACCESS_PATH is $VLC_REMOTE_ACCESS_PATH"
 
-if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
+if [ -f "$VLC_REMOTE_ACCESS_PATH/.vendored" ]; then
+    diagnostic "Remote access sources: vendored at $(cat "$VLC_REMOTE_ACCESS_PATH/.vendored")"
+elif [ ! -d "$VLC_REMOTE_ACCESS_PATH" ] || [ ! -d "$VLC_REMOTE_ACCESS_PATH/.git" ]; then
     diagnostic "Remote access sources: not found, cloning"
     branch="main"
     if [ ! -d "$VLC_REMOTE_ACCESS_PATH" ]; then
