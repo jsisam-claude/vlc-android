@@ -18,8 +18,10 @@ git clone https://github.com/jsisam-claude/vlc-libs ../vlc-libs
 ./tools/vendor-videolan.sh
 git add -A && git commit -m "Vendor VideoLAN sources"
 
-# 3. cache the contrib source archives (ffmpeg, dav1d, …; SHA-512 verified)
-( cd ../vlc-libs && ./fetch-contribs.sh && git add contrib-tarballs && git commit -m "Vendor contrib tarballs" )
+# 3. generate the contrib archives from the official-source trees vendored in
+#    vlc-libs/contrib-src (needs autotools + xz), then fetch the supplement set
+#    (gnutls/nettle/gmp/libiconv/libdvbpsi; SHA-512 verified)
+( cd ../vlc-libs && ./make-contrib-tarballs.sh && ./fetch-contribs.sh && git add -A && git commit -m "Vendor contrib archives" )
 ```
 
 `vendor-videolan.sh` is idempotent (`.vendored` markers record the pinned
@@ -42,6 +44,19 @@ The buildsystem was patched to respect vendored trees:
   build from the committed archives.
 - `compile-medialibrary.sh` uses the committed sqlite source archive instead
   of downloading, and `--reset` won't touch vendored trees.
+
+## Pruned contrib set
+
+The third-party set is cut to the minimal-player list in
+`../vlc-libs/contrib-pruned.list`: eight packages vendored as **source
+trees from their official repositories** at the exact pinned production
+versions (ffmpeg 8.1.2, libass, freetype, fribidi, harfbuzz, libogg,
+libebml, libmatroska) plus five supplemented as official release archives
+(gnutls, nettle, gmp, libiconv, libdvbpsi — no official GitHub exists).
+Everything else in the default android contrib set (dav1d, libvpx, live555,
+smb2, upnp, dvd/bluray, …) is dropped; pass the matching `--disable-*`
+flags to libvlcjni's contrib bootstrap once it is vendored, per the notes
+in that list.
 
 ## What still comes from outside (toolchain boundary)
 
