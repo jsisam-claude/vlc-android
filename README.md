@@ -1,4 +1,17 @@
-# VLC for Android
+# VLC for Android — privacy fork
+
+This is a fork of the official [VLC for Android](https://code.videolan.org/videolan/vlc-android)
+with **all telemetry and all non-user-initiated network communication removed**:
+the nightly auto-updater, the moviepedia online metadata scraper, the Google
+Play billing module and always-on Chromecast discovery (casting is now
+opt-in, default off). The app only touches the network for actions the user
+explicitly takes — playing a stream, browsing a share, downloading a
+subtitle, or enabling the remote access server.
+
+See [REMOVED.md](REMOVED.md) for the complete inventory of what was removed,
+what was kept and why. Base: upstream `master` @ `c3b20bc9a107`.
+
+---
 
 This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 
