@@ -144,7 +144,6 @@ const val ID_ABOUT_TV = 11L
 const val ID_REFRESH = 13L
 const val ID_ALL_MOVIES = 14L
 const val ID_ALL_TVSHOWS = 15L
-const val ID_SPONSOR = 16L
 const val ID_PIN_LOCK = 17L
 const val ID_REMOTE_ACCESS = 18L
 const val CATEGORY_NOW_PLAYING = 20L

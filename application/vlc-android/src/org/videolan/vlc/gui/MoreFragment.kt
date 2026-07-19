@@ -29,7 +29,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.appcompat.view.ActionMode
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
@@ -49,7 +48,6 @@ import org.videolan.vlc.gui.helpers.Click
 import org.videolan.vlc.gui.helpers.ImageClick
 import org.videolan.vlc.gui.helpers.LongClick
 import org.videolan.vlc.gui.helpers.SimpleClick
-import org.videolan.vlc.gui.helpers.UiTools.showDonations
 import org.videolan.vlc.gui.network.IStreamsFragmentDelegate
 import org.videolan.vlc.gui.network.KeyboardListener
 import org.videolan.vlc.gui.network.MRLAdapter
@@ -78,7 +76,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
     private lateinit var streamsEntry: TitleListView
     private lateinit var settingsButton: Button
     private lateinit var aboutButton: Button
-    private lateinit var donationsButton: CardView
     private lateinit var viewModel: HistoryModel
     private lateinit var streamsViewModel: StreamsModel
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
@@ -108,7 +105,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
         historyEntry = view.findViewById(R.id.history_entry)
         settingsButton = view.findViewById(R.id.settingsButton)
         aboutButton = view.findViewById(R.id.aboutButton)
-        donationsButton = view.findViewById(R.id.donationsButton)
         if (!Settings.getInstance(requireActivity()).getBoolean(PLAYBACK_HISTORY, true)) historyEntry.setGone()
         viewModel.dataset.observe(viewLifecycleOwner) { list ->
             list?.let {
@@ -169,14 +165,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             i.putExtra("fragment", SecondaryActivity.ABOUT)
             requireActivity().startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
         }
-//        VLCBilling.getInstance(requireActivity().application).addStatusListener {
-//            manageDonationVisibility()
-//        }
-        manageDonationVisibility()
-        donationsButton.setOnClickListener {
-            requireActivity().showDonations()
-        }
-
         historyEntry.list.adapter = historyAdapter
         historyEntry.list.nextFocusUpId = R.id.ml_menu_search
         historyEntry.list.nextFocusLeftId = android.R.id.list
@@ -198,11 +186,6 @@ class MoreFragment : BaseFragment(), IRefreshable, IHistory, IDialogManager,
             val name = bundle.getString(RENAME_DIALOG_NEW_NAME) ?: return@setFragmentResultListener
             renameStream(media, name)
         }
-    }
-
-    private fun manageDonationVisibility() {
-        if (activity == null) return
-//         if (VLCBilling.getInstance(requireActivity().application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(requireActivity().application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
     }
 
     override fun onStart() {

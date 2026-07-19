@@ -307,7 +307,6 @@ class MainActivity : ContentActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (VLCBilling.getInstance(this.application).iabHelper.handleActivityResult(requestCode, resultCode, data)) return
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             when (resultCode) {
                 RESULT_RESCAN -> this.reloadLibrary()

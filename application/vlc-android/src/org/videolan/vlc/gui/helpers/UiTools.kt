@@ -128,7 +128,6 @@ import org.videolan.resources.HEADER_VIDEO
 import org.videolan.resources.ID_ABOUT_TV
 import org.videolan.resources.ID_REMOTE_ACCESS
 import org.videolan.resources.ID_SETTINGS
-import org.videolan.resources.ID_SPONSOR
 import org.videolan.resources.TAG_ITEM
 import org.videolan.resources.TV_CONFIRMATION_ACTIVITY
 import org.videolan.resources.util.launchForeground
@@ -558,21 +557,7 @@ object UiTools {
             LicenseDialog.newInstance(LibraryWithLicense(activity.getString(R.string.app_name),activity.getString(R.string.about_copyright) , activity.getString(R.string.about_license), licenseText, "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")).show(activity.supportFragmentManager, "LicenseDialog")
         }
 
-        val donationsButton = v.findViewById<CardView>(R.id.donationsButton)
-//        VLCBilling.getInstance(activity.application).addStatusListener {
-//            manageDonationVisibility(activity,donationsButton)
-//        }
-//        manageDonationVisibility(activity,donationsButton)
-
-
-        donationsButton.setOnClickListener {
-            activity.showDonations()
-        }
     }
-
-//    private fun manageDonationVisibility(activity: FragmentActivity, donationsButton:View) {
-//        if (VLCBilling.getInstance(activity.application).status == BillingStatus.FAILURE ||  VLCBilling.getInstance(activity.application).skuDetails.isEmpty()) donationsButton.setGone() else donationsButton.setVisible()
-//    }
 
 
     /**
@@ -702,12 +687,6 @@ object UiTools {
         videoTracksDialog.show(supportFragmentManager, "fragment_video_tracks")
         videoTracksDialog.menuItemListener = menuListener
         videoTracksDialog.trackSelectionListener = trackSelectionListener
-    }
-
-    fun FragmentActivity.showDonations() {
-        if (!isStarted()) return
-//        val videoTracksDialog = VLCBillingDialog()
-//        videoTracksDialog.show(supportFragmentManager, "fragment_donations")
     }
 
     fun FragmentActivity.showMediaInfo(mediaWrapper: MediaWrapper) {
@@ -1148,7 +1127,6 @@ fun getTvIconRes(mediaLibraryItem: MediaLibraryItem) = when (mediaLibraryItem.it
             ID_SETTINGS -> R.drawable.ic_settings_big
             ID_ABOUT_TV -> R.drawable.ic_default_cone
             ID_REMOTE_ACCESS -> R.drawable.ic_remote_access_big
-            ID_SPONSOR -> R.drawable.ic_donate_big
             CATEGORY_ARTISTS -> R.drawable.ic_artist_big
             CATEGORY_ALBUMS -> R.drawable.ic_album_big
             CATEGORY_GENRES -> R.drawable.ic_genre_big
