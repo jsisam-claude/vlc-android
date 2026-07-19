@@ -1,95 +1,150 @@
-# vlc-light-win64
+# VLC for Android
 
-A lightweight win64-only video player for local files (mp4/mkv/webm/avi
-plus ts/m2ts, flv, wmv/asf, ogv, mpg/vob and 3gp) with subtitle support.
-Codecs cover H.264, HEVC, MPEG-1/2/4 (DivX/Xvid), VC-1/WMV, VP6/8/9,
-Theora, MJPEG, ProRes and AV1 (AV1 needs a GPU with AV1 decode — FFmpeg
-has no in-tree software AV1 decoder), with AAC/AC-3/E-AC-3/DTS/TrueHD/
-MP2/MP3/FLAC/Vorbis/Opus/ALAC/WMA audio. Music files (mp3, flac, m4a,
-ogg, wav, wma, opus...) play too: embedded cover art is shown when
-present, otherwise a live spectrum visualization, with title/artist from
-the tags. Fully self-contained
-source-only repo built entirely with the Visual Studio toolchain — no
-mingw, no MSYS, no vcpkg, no package manager, no submodules, no
-downloads, no prebuilt binaries of any kind: the needed FFmpeg source
-subset (1117 files) is committed under `third_party/ffmpeg-src/` and
-compiled by cl.exe using committed config headers (FFmpeg's configure
-never runs). Styled ASS/SSA subtitles (positioning, karaoke, embedded
-fonts) render through libass + FreeType + FriBidi + HarfBuzz, vendored
-the same way under `third_party/libass-src/` and built by the same
-toolchain — DirectWrite supplies system fonts, no fontconfig, no nasm.
-Player structure follows ffplay; WASAPI output adapted from
-mpv; rendering uses Windows' own D3D11 + ID3D11VideoProcessor.
-H.264/HEVC/MPEG-2/VP9/VC-1/AV1 decode in hardware via
-D3D11VA when the GPU supports it (zero-copy into the video processor),
-falling back to software decode transparently. Phone-rotation metadata
-is applied, 10-bit content stays 10-bit through the video processor
-(P010), and BT.2020/PQ/HLG colorspaces are signalled to the driver so
-HDR files don't wash out. http/https URLs play too (Ctrl+U), with TLS
-via Windows' own Schannel - still zero third-party binaries - and HLS
-streams (.m3u8, live and VOD, including AES-128-encrypted segments).
-Ships as a single statically-linked exe.
+This is the official **Android** port of [VLC](https://videolan.org/vlc/).
 
-See [PLAN.md](PLAN.md) for the full design: reuse strategy and licensing,
-the FFmpeg-under-MSVC build solution, renderer decision (staged D3D11, no
-GDI/OpenGL), UI decision (raw Win32 v1, WinForms later if needed), and
-gaps vs real VLC. [SECURITY.md](SECURITY.md) documents the threat model
-and mitigations (CFG/DEP/ASLR builds, per-open protocol whitelists,
-forced TLS verification).
+VLC on Android plays all the same files as the classical version of VLC, and features a media database
+for Audio and Video files and stream.
 
-## Building (Windows, VS 2022+)
+- [Project Structure](#project-structure)
+- [LibVLC](#libvlc)
+- [License](#license)
+- [Build](#build)
+  - [Build Application](#build-application)
+  - [Build LibVLC](#build-libvlc)
+- [Contribute](#contribute)
+  - [Pull requests](#pull-requests)
+  - [Translations](#translations)
+- [Issues and feature requests](#issues-and-feature-requests)
+- [Support](#support)
 
-Requirements: Visual Studio 2022 or later with the **Desktop development
-with C++** workload (includes CMake and Ninja). No other installs, no
-downloads at build time.
+## Project Structure
 
-From an **x64 Native Tools Command Prompt for VS** (important: the plain
-"Developer Command Prompt/PowerShell" targets x86 and the link will fail
-with LNK4272 machine-type conflicts):
+Here are the current folders of vlc-android project:
 
+- extension-api : Application extensions SDK (not released yet)
+- application : Android application source code, organized by modules.
+- buildsystem : Build scripts, CI and maven publication configuration
+- libvlc : LibVLC gradle module, VLC source code will be cloned in `vlc/` at root level.
+- medialibrary : Medialibrary gradle module
+
+## LibVLC
+
+LibVLC is the Android library embedding VLC engine, which provides a lot of multimedia features, like:
+
+- Play every media file formats, every codec and every streaming protocols
+- Hardware and efficient decoding on every platform, up to 8K
+- Network browsing for distant filesystems (SMB, FTP, SFTP, NFS...) and servers (UPnP, DLNA)
+- Playback of Audio CD, DVD and Bluray with menu navigation
+- Support for HDR, including tonemapping for SDR streams
+- Audio passthrough with SPDIF and HDMI, including for Audio HD codecs, like DD+, TrueHD or DTS-HD
+- Support for video and audio filters
+- Support for 360 video and 3D audio playback, including Ambisonics
+- Ability to cast and stream to distant renderers, like Chromecast and UPnP renderers.
+
+And more.
+
+![LibVLC stack](https://images.videolan.org/images/libvlc_stack.png)
+
+You can use our LibVLC module to power your own Android media player.
+Download the `.aar` directly from [Maven](https://search.maven.org/artifact/org.videolan.android/libvlc-all) or build from source.
+
+Have a look at our [sample codes](https://code.videolan.org/videolan/libvlc-android-samples).
+
+## License
+
+VLC for Android is licensed under [GPLv2 (or later)](COPYING). Android libraries make this, de facto, a GPLv3 application.
+
+VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB).
+
+## Build
+
+Native libraries are published on bintray. So you can:
+
+- Build the application and get libraries via gradle dependencies (JVM build only)
+- Build the whole app (LibVLC + Medialibrary + Application)
+- Build LibVLC only, and get an .aar package
+
+### Build Application
+
+VLC-Android build relies on gradle build modes :
+
+- `Release` & `Debug` will get LibVLC and Medialibrary from Bintray, and build application source code only.
+- `SignedRelease` also, but it will allow you to sign application apk with a local keystore.
+- `Dev` will build build LibVLC, Medialibrary, and then build the application with these binaries. (via build scripts only)
+
+### Build LibVLC
+
+You will need a recent Linux distribution to build VLC.
+It should work with Windows 10, and macOS, but there is no official support for this.
+
+#### Setup
+
+Check our [AndroidCompile wiki page](https://wiki.videolan.org/AndroidCompile/), especially for build dependencies.
+
+Here are the essential points:
+
+On Debian/Ubuntu, install the required dependencies:
+```bash
+sudo apt install automake ant autopoint cmake build-essential libtool-bin \
+    patch pkg-config protobuf-compiler ragel subversion unzip git \
+    openjdk-8-jre openjdk-8-jdk flex python wget
 ```
-git clone <this repo> && cd vlc-light-win64
-cmake --preset x64-release
-cmake --build --preset x64-release
-build\x64-release\minimal-player.exe somefile.mkv
-```
 
-Or open the folder in the VS IDE — it picks up `CMakePresets.json`
-automatically. The first build compiles the vendored FFmpeg sources
-(~5–15 min once); incremental builds take seconds. FFmpeg's configure
-never runs: `tools/gen_ffmpeg_build.cmake` derives the config headers and
-source list from the source text (committed under
-`third_party/ffmpeg-config/` and `cmake/ffmpeg_sources.txt`), and
-`tools/config_msvc_win64.h` is the hand-authored platform config. SIMD
-asm is disabled (pure C decode). To upgrade FFmpeg: fetch a new tree
-anywhere, run `tools/vendor_ffmpeg.cmake <tree>` + the generator, commit.
+Setup the build environment:
+Set `$ANDROID_SDK` to point to your Android SDK directory
+`export ANDROID_SDK=/path/to/android-sdk`
 
-CI builds run on every push (`.github/workflows/build.yml`) and upload
-`minimal-player.exe` as an artifact.
+Set `$ANDROID_NDK` to point to your Android NDK directory
+`export ANDROID_NDK=/path/to/android-ndk`
 
-Controls: bottom bar (Play/Pause, ±10s, seek slider, volume slider) and
-a right-click context menu (Open File, tracks, fullscreen). Keys: Space
-pause · `.`/`,` frame step fwd/back · J/K/L shuttle (rewind / 1× /
-fast-forward) · ←/→ ±10s · PgUp/PgDn ±60s · Ctrl+PgUp/PgDn chapters ·
-B set A-B loop points · `[`/`]` speed ±0.25× pitch-corrected
-(Backspace resets) · Z/X audio delay ∓50ms · G/H subtitle delay ∓50ms ·
-↑/↓ volume (to 200%, boosted in software) · M mute · V aspect
-(auto/16:9/4:3/stretch/crop) · Ctrl+D debug HUD · A audio track · S subtitle track · N/P next/prev in
-folder/queue · F12 snapshot to Pictures · F or double-click fullscreen ·
-O open · Q quit. Seeks are frame-exact; hovering the seek slider
-previews the frame at that position; the context menu picks the audio
-output device and repeat/shuffle modes. Dropping several files (or an
-.m3u/.m3u8 playlist, also openable and saveable) builds a queue;
-keyboard media keys and the taskbar thumbnail buttons control playback,
-and the taskbar button shows progress. Volume, mute, repeat/shuffle,
-window placement, per-file resume positions and per-file track choices
-persist across runs.
-Drop a video file onto the window to play it; a same-name `.srt`/`.ass`
-next to the file loads automatically. The player is single-instance
-(opening another file reuses the running window; extra files enqueue),
-follows Windows dark mode for its title bar, feeds the taskbar Recent
-jump list, remembers fullscreen, and can register per-user "Open with"
-file associations from the context menu (no admin).
+Then, you are ready to build!
 
-Generate test files with `tests\gen-samples.ps1` (needs any ffmpeg CLI on
-PATH, used only to create inputs).
+#### Build
+
+`buildsystem/compile.sh -l -a <ABI>`
+
+ABI can be `arm`, `arm64`, `x86`, `x86_64` or `all` for a multi-abis build
+
+You can do a library release build with `-r` argument
+
+#### Medialibrary
+
+Build Medialibrary with `-ml` instead of `-l`
+
+## Contribute
+
+VLC is a libre and open source project, we welcome all contributions.
+
+Just respect our [Code of Conduct](https://wiki.videolan.org/CoC/), and if you want do contribute to the UI or add a new feature, please open an issue first so there can be a discussion about it.
+
+
+### Pull requests
+
+Pull requests must be proposed on our [gitlab server](https://code.videolan.org/videolan/vlc-android/).
+
+So you must create an account, fork vlc-android project, and propose your merge requests from it.
+
+**Except for translations**, see the section below.
+
+### Translations
+
+You can help improving translations too by joining the [transifex vlc project](https://app.transifex.com/yaron/vlc-trans/dashboard/)
+
+Translations merge requests are then generated from transifex work.
+
+## Issues and feature requests
+
+VLC for Android bugtracker is hosted on [VideoLAN gitlab](https://code.videolan.org/videolan/vlc-android/issues)  
+Please look for existing issues and provide as much useful details as you can (e.g. vlc app version, device and Android version).
+
+A template is provided, please use it!
+
+Issues without relevant information will be ignored, we cannot help in this case.
+
+## Support
+
+- For usage support, use the in-app feedback option in the `About` screen
+- Android mailing list: android@videolan.org
+- bugtracker: https://code.videolan.org/videolan/vlc-android/issues
+- IRC: *#videolan* channel on [libera](https://libera.chat/)
+- VideoLAN forum: https://forum.videolan.org/viewforum.php?f=35
