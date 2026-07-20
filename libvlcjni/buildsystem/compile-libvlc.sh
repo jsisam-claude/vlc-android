@@ -302,7 +302,7 @@ VLC_CONTRIB_ARGS="\
     --disable-caca \
     --disable-mpcdec \
     --enable-upnp \
-    --enable-gme \
+    --disable-gme \
     --disable-tremor \
     --enable-vorbis \
     --disable-sidplay2 \
@@ -312,7 +312,7 @@ VLC_CONTRIB_ARGS="\
     --enable-iconv \
     --disable-aribb24 \
     --disable-aribb25 \
-    --enable-mpg123 \
+    --disable-mpg123 \
     --enable-libdsm \
     --enable-smb2 \
     --enable-libarchive \
@@ -320,16 +320,24 @@ VLC_CONTRIB_ARGS="\
     --enable-soxr \
     --enable-nfs \
     --enable-microdns \
-    --enable-fluidlite \
+    --disable-fluidlite \
     --disable-mad \
     --disable-vncclient \
     --disable-vnc \
     --enable-jpeg \
-    --enable-libplacebo \
+    --disable-libplacebo \
     --enable-ad-clauses \
     --disable-srt \
-    --enable-vpx \
+    --disable-vpx \
     --disable-x265 \
+    --disable-flac \
+    --disable-theora \
+    --disable-speex \
+    --disable-dav1d \
+    --disable-modplug \
+    --disable-live555 \
+    --disable-dvdread \
+    --disable-dvdnav \
     --disable-medialibrary \
 "
 
@@ -356,22 +364,22 @@ VLC_CONFIGURE_ARGS="\
     --enable-lua \
     --disable-vcd \
     --disable-v4l2 \
-    --enable-bluray \
+    --disable-bluray \
     --disable-linsys \
     --disable-decklink \
     --disable-libva \
     --disable-dv1394 \
-    --enable-mod \
+    --disable-mod \
     --disable-sid \
-    --enable-gme \
+    --disable-gme \
     --disable-tremor \
     --disable-mad \
-    --enable-mpg123 \
+    --disable-mpg123 \
     --disable-dca \
     --disable-sdl-image \
     --enable-zvbi \
     --disable-fluidsynth \
-    --enable-fluidlite \
+    --disable-fluidlite \
     --disable-jack \
     --disable-pulse \
     --disable-alsa \
@@ -396,6 +404,10 @@ VLC_CONFIGURE_ARGS="\
     --disable-vnc \
     --enable-jpeg \
     --enable-smb2 \
+    --disable-dav1d \
+    --disable-flac \
+    --disable-theora \
+    --disable-speex \
 "
 
 ########################
@@ -508,7 +520,7 @@ case $AVLC_CONTRIB_LICENSE in
     l)
         # LGPL v3 + ad-clauses
         VLC_CONTRIB_ARGS="$VLC_CONTRIB_ARGS --disable-gpl --enable-ad-clauses"
-        VLC_CONFIGURE_ARGS="$VLC_CONFIGURE_ARGS --enable-live555"
+        : # pruned: live555 removed
     ;;
     a)
         # LGPL v2.1 + ad-clauses
@@ -516,7 +528,7 @@ case $AVLC_CONTRIB_LICENSE in
     ;;
     g|*)
         # GPL v3
-        VLC_CONFIGURE_ARGS="$VLC_CONFIGURE_ARGS --enable-live555 --enable-dvdread"
+        : # pruned: live555/dvdread removed
     ;;
 esac
 
