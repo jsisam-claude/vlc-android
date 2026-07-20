@@ -21,10 +21,9 @@ git clone https://github.com/jsisam-claude/vlc-libs ../vlc-libs
 ./tools/vendor-videolan.sh
 git add -A && git commit -m "Vendor VideoLAN sources"
 
-# 3. generate the contrib archives from the official-source trees vendored in
-#    vlc-libs/contrib-src (needs autotools + xz), then fetch the supplement set
-#    (gnutls/nettle/gmp/libiconv/libdvbpsi; SHA-512 verified)
-( cd ../vlc-libs && ./make-contrib-tarballs.sh && ./fetch-contribs.sh && git add -A && git commit -m "Vendor contrib archives" )
+# 3. stage the committed contrib + host-tool source archives into the vlc tree
+#    (they are already vendored in vlc-libs; this only copies them into place)
+( cd ../vlc-libs && ./place-build-inputs.sh )
 ```
 
 `vendor-videolan.sh` is idempotent (`.vendored` markers record the pinned
@@ -42,30 +41,36 @@ way the scripts in `buildsystem/` were.
 
 The buildsystem was patched to respect vendored trees:
 
-- `compile.sh` skips the libvlcjni clone when `libvlcjni/.vendored` exists and
-  exports `TARBALLS=../vlc-libs/contrib-tarballs` automatically so contribs
-  build from the committed archives.
+- `compile.sh` skips the libvlcjni clone when `libvlcjni/.vendored` exists.
+  The contrib source archives must be staged into the vlc tree first — the
+  VLC contrib/tools makefiles hard-assign their tarball dirs (`:=`), so an
+  environment override is not enough; run `../vlc-libs/place-build-inputs.sh`
+  (bootstrap step 3) to copy the committed archives into place.
 - `compile-medialibrary.sh` uses the committed sqlite source archive instead
   of downloading, and `--reset` won't touch vendored trees.
 
 ## Pruned contrib set
 
-The third-party set is cut to the minimal-player list in
-`../vlc-libs/contrib-pruned.list`: eight packages vendored as **source
-trees from their official repositories** at the exact pinned production
-versions (ffmpeg 8.1.2, libass, freetype, fribidi, harfbuzz, libogg,
-libebml, libmatroska) plus five supplemented as official release archives
-(gnutls, nettle, gmp, libiconv, libdvbpsi — no official GitHub exists).
-Everything else in the default android contrib set (dav1d, libvpx, live555,
-smb2, upnp, dvd/bluray, …) is dropped; pass the matching `--disable-*`
-flags to libvlcjni's contrib bootstrap once it is vendored, per the notes
-in that list.
+The contrib set is the **dependency-correct** closure for the fork's kept
+features — VLC's contrib graph, not a hand-picked minimum, so it lands at
+~49 source archives (all committed in `vlc-libs/contrib-tarballs/`,
+SHA-512-verified against the upstream sums in `vlc/contrib/src/*/SHA512SUMS`).
+
+The pruning is applied at the contrib bootstrap in
+`libvlcjni/buildsystem/compile-libvlc.sh` via `--disable-*` flags: the heavy
+and out-of-scope libraries are gone — **dav1d, libvpx, x264/x265,
+dvdnav/dvdread, live555, bluray, cddb, mad, aom, lame, openapv, mysofa** and
+the other encoders / disc / streaming / spatial-audio libraries. What is
+**kept** (and therefore in the vendored set): the ffmpeg decoders, the
+libass subtitle stack, the gnutls TLS stack, and — deliberately, because the
+fork keeps user-initiated network browsing and casting — **smb2, nfs,
+libdsm, upnp and microdns**.
 
 ## What still comes from outside (toolchain boundary)
 
 | External | Why |
 |---|---|
-| Android SDK (platform 36, build-tools 36) + **NDK 21.4.7075529** | platform toolchain; Google's terms don't allow republishing it |
+| Android SDK (platform 36, build-tools 36) + **NDK** (21.4.7075529 for 32-bit ABIs; **27–29 for 64-bit ABIs** per `compile-libvlc.sh`) | platform toolchain; Google's terms don't allow republishing it |
 | Gradle 9.3.1 | used from `PATH` if present; otherwise `compile.sh` downloads it SHA-256-pinned |
 | Google Maven / Maven Central jars (AGP, Kotlin, androidx, …) | the Kotlin/Java app layer; see the supply-chain section — mirrorable into your own repo, not practically source-buildable |
 | host build tools (autoconf, cmake, protoc via contribs, …) | from your distro |
@@ -100,8 +105,9 @@ Three layers, three treatments:
    okhttp/retrofit/moshi trio — which exists **only** for the OpenSubtitles
    download dialog. Removing that feature would leave Google + JetBrains as
    the only binary vendors (see REMOVED.md for what that costs).
-3. **The platform toolchain (SDK, NDK 21.4.7075529, JDK, Gradle 9.3.1):
-   pinned installs.** Gradle is SHA-256-pinned in `compile.sh`; SDK/NDK
+3. **The platform toolchain (SDK, NDK — see the table above for the
+   32-bit/64-bit version split — JDK, Gradle 9.3.1): pinned installs.**
+   Gradle is SHA-256-pinned in `compile.sh`; SDK/NDK
    packages are checksummed by `sdkmanager` against Google's signed
    repository manifest. Google's terms do not allow republishing the
    SDK/NDK, so self-contain these as a **private** archive of your SDK
@@ -113,8 +119,8 @@ Verified so far:
 
 - The bootstrap has been **executed and committed**: libvlcjni, medialibrary
   (+libvlcpp, patched), the VLC tree at libvlcjni's `VLC_TESTED_HASH` with
-  the 20-patch android stack applied, sqlite, and all 13 contrib archives
-  (SHA-512-verified) are vendored.
+  the 20-patch android stack applied, sqlite, and the full dependency-correct
+  contrib set (~49 archives, SHA-512-verified) are vendored in vlc-libs.
 - `:application:app:compileDebugKotlin` **builds successfully** against the
   vendored sources as project dependencies — every module's Kotlin/Java,
   data binding, KSP/Room and resource/manifest merging pass. (Validation ran
