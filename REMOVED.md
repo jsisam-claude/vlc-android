@@ -113,9 +113,10 @@ revision.
 
 ## 9. Verification
 
-The environment used for this work has no Android SDK and no access to
-`maven.videolan.org` (libvlc artifacts), so the fork was **not compiled
-here**. All edits were applied as exact-match replacements; repository-wide
-symbol sweeps for every removed identifier come back clean, and all edited
-Kotlin files pass brace/paren balance checks and all edited XML parses.
-Please run a normal `assembleDebug` before shipping.
+All edits were applied as exact-match replacements, and repository-wide
+symbol sweeps for every removed identifier come back clean. After the
+network policy was opened, `:application:app:compileDebugKotlin` was run in
+this environment and **builds successfully** — every module's Kotlin/Java
+compiles against the vendored source trees, covering all removals above.
+The native NDK stage has not been exercised here; run
+`./buildsystem/compile.sh -l -a <abi>` locally for the full build.

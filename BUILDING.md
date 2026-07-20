@@ -6,7 +6,10 @@ downloads at build time. Every Gradle variant now uses
 `project(':libvlcjni:libvlc')` and `project(':medialibrary')` instead of
 prebuilt artifacts.
 
-## One-time bootstrap (needs network once)
+## One-time bootstrap
+
+**Already executed and committed** — the trees and archives below are in the
+repositories. Re-run these steps only to re-pin versions.
 
 ```sh
 # 1. sibling checkout of the shared source repo
@@ -106,9 +109,19 @@ Three layers, three treatments:
 
 ## Status
 
-The Gradle/buildsystem rewiring was done in a sandbox without an Android SDK
-or access to code.videolan.org, so the vendor script and a full
-`compile.sh` run have not been executed end-to-end here. All hashes are
-pinned from upstream's own buildsystem; if libvlcjni's internal scripts still
-try to fetch VLC despite the symlinked tree, patch their guard exactly like
-`buildsystem/compile.sh` (a `.vendored` marker check) and please report back.
+Verified so far:
+
+- The bootstrap has been **executed and committed**: libvlcjni, medialibrary
+  (+libvlcpp, patched), the VLC tree at libvlcjni's `VLC_TESTED_HASH` with
+  the 20-patch android stack applied, sqlite, and all 13 contrib archives
+  (SHA-512-verified) are vendored.
+- `:application:app:compileDebugKotlin` **builds successfully** against the
+  vendored sources as project dependencies — every module's Kotlin/Java,
+  data binding, KSP/Room and resource/manifest merging pass. (Validation ran
+  on Gradle 8.14.3 / AGP 8.13.2 because the pinned Gradle 9.3.1
+  distribution is hosted as a GitHub release asset the sandbox proxy blocks;
+  the repo's 9.x pins are untouched — exercise them on first local build.)
+- Not yet exercised: the native stage (`compile.sh` NDK build of
+  libvlc/medialibrary from the vendored trees) — the sandbox lacks NDK 21
+  and autotools. All of its inputs are now committed and its network paths
+  are marker-guarded; report anything it still tries to fetch.
