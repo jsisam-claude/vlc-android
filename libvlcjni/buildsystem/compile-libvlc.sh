@@ -340,6 +340,8 @@ VLC_CONTRIB_ARGS="\
     --disable-openapv \
     --disable-shout \
     --disable-librist \
+    --disable-mysofa \
+    --disable-spatialaudio \
     --disable-flac \
     --disable-theora \
     --disable-speex \

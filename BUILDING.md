@@ -121,7 +121,16 @@ Verified so far:
   on Gradle 8.14.3 / AGP 8.13.2 because the pinned Gradle 9.3.1
   distribution is hosted as a GitHub release asset the sandbox proxy blocks;
   the repo's 9.x pins are untouched — exercise them on first local build.)
-- Not yet exercised: the native stage (`compile.sh` NDK build of
-  libvlc/medialibrary from the vendored trees) — the sandbox lacks NDK 21
-  and autotools. All of its inputs are now committed and its network paths
-  are marker-guarded; report anything it still tries to fetch.
+- Native stage (`compile.sh` NDK build) — driven far in-sandbox (NDK 27,
+  arm64): the vendored VLC source + 20-patch stack configure, every
+  clone/download is marker-guarded (zero network fetches for VLC sources),
+  the host-tool bootstrap builds libtool/protobuf/ant/help2man from the
+  vendored `host-tools/` sources, and the CMake-based contribs build after a
+  one-line compat patch (`CMAKE_POLICY_DEFAULT_CMP0057=NEW`, for NDK 27 +
+  CMake 3.28). The remaining contrib failures (gnutls "cannot compile and
+  link", harfbuzz depfile races) are incompatibilities between VLC 3.0.x-era
+  contribs and this newer NDK/host-tool combination — the reason VLC's own
+  buildbot pins an exact toolchain. Build on the VLC-tested toolchain
+  versions to close these; the vendored sources themselves are intact.
+  All ~48 contrib tarballs + host-tool sources are committed in vlc-libs;
+  run `../vlc-libs/place-build-inputs.sh` before building to stage them.
