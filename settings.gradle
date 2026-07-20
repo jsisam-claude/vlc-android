@@ -1,7 +1,13 @@
 pluginManagement {
     repositories {
-        google()
-        mavenCentral()
+        def localMirror = new File(settingsDir, "../vlc-mirror/m2")
+        if (localMirror.isDirectory()) {
+            // self-contained mode: resolve ONLY from the committed mirror
+            maven { url = localMirror.toURI() }
+        } else {
+            google()
+            mavenCentral()
+        }
     }
 }
 

@@ -64,12 +64,45 @@ in that list.
 |---|---|
 | Android SDK (platform 36, build-tools 36) + **NDK 21.4.7075529** | platform toolchain; Google's terms don't allow republishing it |
 | Gradle 9.3.1 | used from `PATH` if present; otherwise `compile.sh` downloads it SHA-256-pinned |
-| Google Maven / Maven Central jars (AGP, Kotlin, androidx, ktor, …) | the Kotlin/Java app layer; building androidx from source is not practical |
+| Google Maven / Maven Central jars (AGP, Kotlin, androidx, …) | the Kotlin/Java app layer; see the supply-chain section — mirrorable into your own repo, not practically source-buildable |
 | host build tools (autoconf, cmake, protoc via contribs, …) | from your distro |
 
 Nothing VideoLAN-hosted is needed after bootstrap, and no prebuilt VLC
 binaries exist anywhere in the tree. `local.properties` must exist at the
 repo root (`sdk.dir=...`).
+
+## Full supply chain, self-contained
+
+Three layers, three treatments:
+
+1. **Everything VLC / media (what touches your files and the network):
+   vendored source.** vlc, libvlcjni, medialibrary(+libvlcpp), the pruned
+   contribs from official repos, sqlite as a pinned source archive. No
+   binaries anywhere.
+2. **The JVM app layer (androidx, material, Kotlin stdlib/coroutines, AGP,
+   Room/KSP, desugar): a mirror you own.** These cannot practically be built
+   from source outside Google's infrastructure, so the control is possession
+   plus pinning: after the first connected build run
+   `./tools/mirror-maven.sh` — it harvests every artifact the build resolved
+   into `../vlc-mirror/m2` (maven layout). Commit that repo. From then on
+   `settings.gradle`/`build.gradle` detect the mirror and resolve
+   **exclusively** from it; external repositories are never contacted and
+   anything missing fails loudly. Additionally run
+   `gradle --write-verification-metadata sha256 help` once and commit
+   `gradle/verification-metadata.xml` so every artifact is SHA-256-pinned
+   even when building without the mirror.
+   Remaining third-party binaries in the APK after the remote-access
+   removal: androidx/material/desugar (Google, Apache-2.0/GPL+CE),
+   kotlin-stdlib + kotlinx-coroutines (JetBrains, Apache-2.0), and the
+   okhttp/retrofit/moshi trio — which exists **only** for the OpenSubtitles
+   download dialog. Removing that feature would leave Google + JetBrains as
+   the only binary vendors (see REMOVED.md for what that costs).
+3. **The platform toolchain (SDK, NDK 21.4.7075529, JDK, Gradle 9.3.1):
+   pinned installs.** Gradle is SHA-256-pinned in `compile.sh`; SDK/NDK
+   packages are checksummed by `sdkmanager` against Google's signed
+   repository manifest. Google's terms do not allow republishing the
+   SDK/NDK, so self-contain these as a **private** archive of your SDK
+   directory, not in a public repo.
 
 ## Status
 

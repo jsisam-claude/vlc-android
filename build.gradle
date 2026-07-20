@@ -5,9 +5,15 @@ buildscript {
     ext.kotlinx_version = '1.7.1'
     repositories {
         flatDir dirs: "gradle/plugins"
-        google()
-        mavenCentral()
-        mavenLocal()
+        def localMirror = new File(rootDir, "../vlc-mirror/m2")
+        if (localMirror.isDirectory()) {
+            // self-contained mode: resolve ONLY from the committed mirror
+            maven { url = localMirror.toURI() }
+        } else {
+            google()
+            mavenCentral()
+            mavenLocal()
+        }
    }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
@@ -22,9 +28,15 @@ plugins {
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
-        mavenLocal()
+        def localMirror = new File(rootDir, "../vlc-mirror/m2")
+        if (localMirror.isDirectory()) {
+            // self-contained mode: resolve ONLY from the committed mirror
+            maven { url = localMirror.toURI() }
+        } else {
+            google()
+            mavenCentral()
+            mavenLocal()
+        }
     }
     tasks.withType(Javadoc) {
         // Ignores errors from mavenAndroidJavadocs task
