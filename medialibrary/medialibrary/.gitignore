@@ -1,0 +1,16 @@
+*~
+*.user
+#*#
+.*.swp
+
+config.h
+*.cache
+*.lo
+.dirstamp
+stamp-h1
+.deps
+
+build*
+
+.libs
+.DS_Store

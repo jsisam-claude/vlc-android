@@ -1,0 +1,37 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.android_plugin_version = '9.1.1'
+    ext.kotlin_version = '1.6.10'
+    ext.kotlinx_version = '1.6.0'
+    repositories {
+        flatDir dirs: "gradle/plugins"
+        google()
+        mavenCentral()
+        mavenLocal()
+   }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$android_plugin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.2'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    tasks.withType(Javadoc) {
+        // Ignores errors from mavenAndroidJavadocs task
+        // (reference: github.com/novoda/bintray-release/issues/71#issuecomment-164324255)
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
+}
+
+ext {
+    libvlcVersion = '3.7.5'
+    androidxLegacyVersion = '1.0.0'
+    androidxAnnotationVersion = '1.7.1'
+}

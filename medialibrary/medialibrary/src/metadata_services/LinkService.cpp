@@ -1,0 +1,253 @@
+/*****************************************************************************
+ * Media Library
+ *****************************************************************************
+ * Copyright (C) 2015 Hugo Beauzée-Luyssen, Videolabs
+ *
+ * Authors: Hugo Beauzée-Luyssen<hugo@beauzee.fr>
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#include "LinkService.h"
+#include "logging/Logger.h"
+#include "MediaLibrary.h"
+#include "Playlist.h"
+#include "Media.h"
+#include "File.h"
+#include "Subscription.h"
+#include "utils/ModificationsNotifier.h"
+
+namespace medialibrary
+{
+namespace parser
+{
+
+Status LinkService::run( IItem& item )
+{
+    switch ( item.linkType() )
+    {
+        case IItem::LinkType::NoLink:
+            LOG_ERROR( "Processing a task which is not a linking task from a "
+                       "linking service" );
+            return Status::Fatal;
+        case IItem::LinkType::Media:
+            return linkToMedia( item );
+        case IItem::LinkType::Playlist:
+            return linkToPlaylist( item );
+        case IItem::LinkType::Subscription:
+            return linkToSubscription( item );
+    }
+    assert( false );
+    return Status::Fatal;
+}
+
+const char* LinkService::name() const
+{
+    return "linking";
+}
+
+Step LinkService::targetedStep() const
+{
+    return Step::Linking;
+}
+
+bool LinkService::initialize( IMediaLibrary* ml )
+{
+    m_ml = static_cast<MediaLibrary*>( ml );
+    return true;
+}
+
+void LinkService::onFlushing()
+{
+}
+
+void LinkService::onRestarted()
+{
+}
+
+void LinkService::stop()
+{
+}
+
+Status LinkService::linkToPlaylist( IItem& item )
+{
+    const auto& mrl = item.mrl();
+    auto file = File::fromExternalMrl( m_ml, mrl );
+    // If the file isn't present yet, we assume it wasn't created yet. Let's
+    // try to link it later
+    if ( file == nullptr )
+    {
+        file = File::fromMrl( m_ml, mrl );
+        if ( file == nullptr )
+        {
+            /*
+             * We expect an external media to be created before the link task
+             * gets created. If we can't find a media associated to the mrl
+             * we can give up.
+             * If the media gets analyzed later on, it will be converted to an
+             * internal one.
+             */
+            return Status::Fatal;
+        }
+    }
+    if ( file->isMain() == false )
+        return Status::Fatal;
+    auto media = file->media();
+    if ( media == nullptr )
+        return Status::Requeue;
+    auto playlist = Playlist::fetch( m_ml, item.linkToId() );
+    if ( playlist == nullptr )
+        return Status::Fatal;
+    try
+    {
+        if ( playlist->add( *media, item.linkExtra() ) == false )
+            return Status::Fatal;
+    }
+    catch ( const sqlite::errors::ConstraintForeignKey& )
+    {
+        // In the unlikely case the playlist or media gets deleted while we're
+        // linking the playlist & media, just report an error.
+        // If the playlist was deleted, the task will be deleted through a
+        // trigger and we won't retry it anyway.
+        return Status::Fatal;
+    }
+    // Explicitly mark the task as completed, as there is nothing more to run.
+    // This shouldn't be needed, but requires a better handling of multiple pipeline.
+    return Status::Completed;
+}
+
+Status LinkService::linkToMedia( IItem &item )
+{
+    auto media = std::static_pointer_cast<Media>( m_ml->media( item.linkToMrl() ) );
+    if ( media == nullptr )
+        return Status::Requeue;
+
+    /*
+     * When linking a subtitle file, it's quite easier since we don't
+     * automatically import those, so we can safely assume the file isn't present
+     * in DB, add it and be done with it.
+     * For audio files though, it might be already imported, in which case we
+     * will need to link it with the media associated with it, and effectively
+     * delete the media that was created from that file
+     */
+    if ( item.fileType() == IFile::Type::Subtitles )
+    {
+        try
+        {
+            auto t = m_ml->getConn()->newTransaction();
+            int64_t fileId = item.fileId();
+            /*
+             * In case a rescan was forced, or the item gets refreshed, we already
+             * inserted the file in database, and we just need to link that file
+             * with a subtitle track for this media
+             */
+            if ( item.fileId() == 0 )
+            {
+                auto file = media->addFile( item.mrl(), item.fileType() );
+                if ( file == nullptr )
+                    return Status::Fatal;
+                fileId = file->id();
+                item.setFile( std::move( file ) );
+            }
+            /* We have no way of knowing the attached subtitle track info for now */
+            media->addSubtitleTrack( "", "", "", "", fileId );
+            t->commit();
+        }
+        catch ( const sqlite::errors::ConstraintUnique& )
+        {
+            /*
+             * Assume that the task was already executed, and the file already linked
+             * but the task bookkeeping failed afterward.
+             * Just ignore the error & mark the task as completed.
+             */
+        }
+    }
+    else if ( item.fileType() == IFile::Type::Soundtrack )
+    {
+        auto mrl = item.mrl();
+        auto t = m_ml->getConn()->newTransaction();
+        if ( item.fileId() == 0 )
+        {
+            auto file = File::fromMrl( m_ml, mrl );
+            if ( file == nullptr )
+            {
+                file = File::fromExternalMrl( m_ml, mrl );
+                if ( file == nullptr )
+                {
+                    file = std::static_pointer_cast<File>(
+                                media->addFile( mrl, item.fileType() ) );
+                    if ( file == nullptr )
+                        return Status::Fatal;
+                }
+            }
+            if ( file->setMediaId( media->id() ) == false )
+                return Status::Fatal;
+            item.setFile( std::move( file ) );
+        }
+        auto tracks = item.tracks();
+        for ( const auto& tr : tracks )
+        {
+            media->addAudioTrack( tr.codec, tr.bitrate, tr.u.a.rate, tr.u.a.nbChannels,
+                                  tr.language, tr.description, item.fileId() );
+        }
+        t->commit();
+    }
+    return Status::Completed;
+}
+
+Status LinkService::linkToSubscription(IItem& item)
+{
+    auto media = std::static_pointer_cast<Media>( m_ml->media( item.mrl() ) );
+    if ( media == nullptr )
+        return Status::Requeue;
+
+    auto sub = Subscription::fetch( m_ml, item.linkToId() );
+    if ( sub == nullptr )
+        return Status::Fatal;
+    try
+    {
+        if ( sub->addMedia( *media ) == false )
+            return Status::Fatal;
+    }
+    catch ( const sqlite::errors::ConstraintUnique& )
+    {
+        /*
+         * We're trying to reinsert the same media to the same subscription, just
+         * ignore it and do not notify the application of a new media
+         */
+        return Status::Completed;
+    }
+    auto notifySub = sub->newMediaNotification();
+    if ( notifySub == 0 )
+        return Status::Completed;
+    if ( notifySub < 0 )
+    {
+        auto service = m_ml->service( sub->service() );
+        if ( service == nullptr || service->isNewMediaNotificationEnabled() == false )
+            return Status::Completed;
+    }
+
+    auto notifier = m_ml->getNotifier();
+    if ( notifier != nullptr )
+        notifier->notifySubscriptionNewMedia( item.linkToId() );
+    return Status::Completed;
+}
+
+}
+}

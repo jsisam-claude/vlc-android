@@ -1,0 +1,43 @@
+From 61a0ad9e6a69ba912f9e59e1d4c451f671623da4 Mon Sep 17 00:00:00 2001
+Message-ID: <61a0ad9e6a69ba912f9e59e1d4c451f671623da4.1783491438.git.robux4@ycbcr.xyz>
+In-Reply-To: <1e4ed1d4abbcfbf02ef80e000ce8ebd841dcf667.1783491438.git.robux4@ycbcr.xyz>
+References: <1e4ed1d4abbcfbf02ef80e000ce8ebd841dcf667.1783491438.git.robux4@ycbcr.xyz>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Thu, 2 Jul 2020 15:05:01 +0200
+Subject: [PATCH 06/20] input: es_out: set video exclusive
+
+Since there can be only one video at a time for now (only one Surface is
+supported).
+Message-Id: <30a515f551c3531931ab624f8c1b5ffa9b4e4c36.1593695247.git.thomas@gllm.fr>
+Message-Id: <d767224cec28af8642d9fca53c4aef459979d6d3.1599040437.git.nicolas@videolabs.io>
+Message-Id: <1decddc1682a0923b619a0d1e4ada808134aaf8b.1601374253.git.nicolas@videolabs.io>
+Message-Id: <cbc704bb25d4bf51aba336d4664fe4099a1e52ef.1602659942.git.nicolas@videolabs.io>
+Message-Id: <c7f3bb5f7cdd593fbb07c2413ea66fe400d33bcf.1605192544.git.nicolas@videolabs.io>
+Message-Id: <964b4ca71858fbb42a56bbee00fd4c5920144a8e.1605701951.git.nicolas@videolabs.io>
+Message-Id: <b0108674d37312b6dcff0ed6ae1b2ec5fe381e7c.1607001652.git.nicolas@videolabs.io>
+Message-Id: <160914569d8a4b3ae27b931a2028ec58a37b4be0.1628587500.git.thomas@gllm.fr>
+Message-Id: <0a94a6c9aba2dbd2d164a2374ff85375983714d1.1657539375.git.thomas@gllm.fr>
+Message-Id: <1e721b29dcfa8e1248b3aca61ff468c574deac30.1662737834.git.dev.asenat@posteo.net>
+Message-Id: <2387d215d9f8989d26859a398ee1fdc028426589.1664884159.git.dev.asenat@posteo.net>
+Message-Id: <fb92a08623d7fd3241b314822c33d0abd2e7eb32.1664886557.git.dev.asenat@posteo.net>
+Message-Id: <f2fafa0d357fe830f6a280a37adaed81b0189d48.1738244316.git.dcn.mcnamara@gmail.com>
+---
+ src/input/es_out.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/input/es_out.c b/src/input/es_out.c
+index d64ce58ec2..4be24ba849 100644
+--- a/src/input/es_out.c
++++ b/src/input/es_out.c
+@@ -323,7 +323,7 @@ es_out_t *input_EsOutNew( input_thread_t *p_input, int i_rate )
+     TAB_INIT( p_sys->i_es, p_sys->es );
+ 
+     /* */
+-    EsOutPropsInit( &p_sys->video, true, p_input, ES_OUT_ES_POLICY_SIMULTANEOUS,
++    EsOutPropsInit( &p_sys->video, true, p_input, ES_OUT_ES_POLICY_EXCLUSIVE,
+                     NULL, NULL, NULL, NULL );
+     EsOutPropsInit( &p_sys->audio, true, p_input, ES_OUT_ES_POLICY_EXCLUSIVE,
+                     "audio-track-id", "audio-track", "audio-language", "audio" );
+-- 
+2.51.0
+

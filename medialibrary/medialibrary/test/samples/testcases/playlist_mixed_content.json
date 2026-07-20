@@ -1,0 +1,31 @@
+{
+    "input": [
+        "playlist/mixed_content"
+    ],
+    "expected": {
+        "nbPlaylists": 1,
+        "playlists": [{
+            "name": "Playlist",
+            "nbItems": 4,
+            "nbDurationUnknown": 4,
+            "items": [
+                {
+                    "title": "sc2_Terran_theme.ogg",
+                    "index": 0
+                },
+                {
+                    "title": "master.flac",
+                    "index": 1
+                },
+                {
+                    "title": "track.mp3",
+                    "index": 2
+                },
+                {
+                    "title": "track2.mp3",
+                    "index": 3
+                }
+            ]
+        }]
+    }
+}

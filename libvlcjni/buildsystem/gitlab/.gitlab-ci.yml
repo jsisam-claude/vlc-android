@@ -1,0 +1,85 @@
+cache:
+    paths:
+        - .gradle/
+
+default:
+  interruptible: true
+  image: registry.videolan.org/vlc-debian-android-3.0:20260701183656
+  before_script:
+    - set -x
+  tags:
+    - amd64
+    - docker
+
+stages:
+  - build
+
+variables:
+    VLC_ANDROID4_IMAGE: registry.videolan.org/vlc-debian-android:20260611225331
+
+# Rebuilds libvlc JNI
+.build-libvlc-base:
+    stage: build
+    script: |
+        rm -rf vlc
+        ./buildsystem/get-vlc.sh
+        if ./buildsystem/get-contrib-rebuild.sh "origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"; then
+          export VLC_CONTRIB_SHA="$(cd vlc && extras/ci/get-contrib-sha.sh android-${ARCH})"
+          export VLC_PREBUILT_CONTRIBS_URL="https://artifacts.videolan.org/vlc-3.0/android-${ARCH}/vlc-contrib-${TRIPLET}-${VLC_CONTRIB_SHA}.tar.bz2"
+          if vlc/extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"; then CONTRIB_FLAGS="--with-prebuilt-contribs"; fi
+        fi
+        ./buildsystem/compile-libvlc.sh -a ${ARCH} $CONTRIB_FLAGS $CONFIG_ARGS
+
+        gradle assembleDebug --configuration-cache
+
+    rules:
+      - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        when: always
+
+#################################
+# Template config instantiation #
+#################################
+
+build-libvlc-arm64:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID4_IMAGE
+    variables:
+        ARCH: arm64
+        TRIPLET: aarch64-linux-android
+
+build-libvlc-armv7:
+    extends: .build-libvlc-base
+    variables:
+        ARCH: arm
+        TRIPLET: arm-linux-androideabi
+
+build-libvlc-x86:
+    extends: .build-libvlc-base
+    variables:
+        ARCH: x86
+        TRIPLET: i686-linux-android
+
+build-libvlc-x86_64:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID4_IMAGE
+    variables:
+        ARCH: x86_64
+        TRIPLET: x86_64-linux-android
+
+build-libvlc-arm64-static:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID4_IMAGE
+    variables:
+        ARCH: arm64
+        CONFIG_ARGS: --static-cpp
+
+build-libvlc-x86_64-static:
+    extends: .build-libvlc-base
+    image:
+        name: $VLC_ANDROID4_IMAGE
+    variables:
+        ARCH: x86_64
+        CONFIG_ARGS: --static-cpp

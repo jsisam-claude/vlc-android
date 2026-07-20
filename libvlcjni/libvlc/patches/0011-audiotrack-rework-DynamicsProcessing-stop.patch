@@ -1,0 +1,58 @@
+From 6d3cbe01a86bc534ee674621adddcec16d6ed5d3 Mon Sep 17 00:00:00 2001
+Message-ID: <6d3cbe01a86bc534ee674621adddcec16d6ed5d3.1783491438.git.robux4@ycbcr.xyz>
+In-Reply-To: <1e4ed1d4abbcfbf02ef80e000ce8ebd841dcf667.1783491438.git.robux4@ycbcr.xyz>
+References: <1e4ed1d4abbcfbf02ef80e000ce8ebd841dcf667.1783491438.git.robux4@ycbcr.xyz>
+From: Thomas Guillem <thomas@gllm.fr>
+Date: Tue, 10 Aug 2021 11:06:25 +0200
+Subject: [PATCH 11/20] audiotrack: rework DynamicsProcessing stop
+
+Specifically disable it before unreferencing the jobject and destroy it
+before AudioTrack.
+
+This commit tries to fix a very rare crash with DP.
+Message-Id: <b0d5fa154e0fc27f6d368977886348269a527aa8.1628587500.git.thomas@gllm.fr>
+Message-Id: <e08bbc3b30a477931d1994246e6cdcf209477299.1657539375.git.thomas@gllm.fr>
+Message-Id: <d12394cb85de1d2d4a8c3fc69e987f236f8f87c4.1662737834.git.dev.asenat@posteo.net>
+Message-Id: <a09acfc7f18b028b19dbfafc1db5aa2119da2d04.1664884159.git.dev.asenat@posteo.net>
+Message-Id: <bfec4acce365513fd38e73a318715f74a42d348b.1664886558.git.dev.asenat@posteo.net>
+Message-Id: <9bcec60343c26b0f3ce7c6e85aba807caa9d87f7.1738244316.git.dcn.mcnamara@gmail.com>
+---
+ modules/audio_output/audiotrack.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
+index 1f70f00e46..cb290838ec 100644
+--- a/modules/audio_output/audiotrack.c
++++ b/modules/audio_output/audiotrack.c
+@@ -1460,6 +1460,15 @@ Stop( audio_output_t *p_aout )
+     else
+         vlc_mutex_unlock(  &p_sys->lock );
+ 
++    if( p_sys->p_dp )
++    {
++        JNI_CALL_INT( p_sys->p_dp, jfields.DynamicsProcessing.setEnabled, false );
++        CHECK_AT_EXCEPTION( "DynamicsProcessing.setEnabled" );
++
++        (*env)->DeleteGlobalRef( env, p_sys->p_dp );
++        p_sys->p_dp = NULL;
++    }
++
+     /* Release the AudioTrack object */
+     if( p_sys->p_audiotrack )
+     {
+@@ -1473,12 +1482,6 @@ Stop( audio_output_t *p_aout )
+         p_sys->p_audiotrack = NULL;
+     }
+ 
+-    if( p_sys->p_dp )
+-    {
+-        (*env)->DeleteGlobalRef( env, p_sys->p_dp );
+-        p_sys->p_dp = NULL;
+-    }
+-
+     /* Release the timestamp object */
+     if( p_sys->timestamp.p_obj )
+     {
+-- 
+2.51.0
+
