@@ -330,6 +330,16 @@ VLC_CONTRIB_ARGS="\
     --disable-srt \
     --disable-vpx \
     --disable-x265 \
+    --disable-x264 \
+    --disable-bluray \
+    --disable-cddb \
+    --disable-postproc \
+    --disable-aom \
+    --disable-lame \
+    --disable-twolame \
+    --disable-openapv \
+    --disable-shout \
+    --disable-librist \
     --disable-flac \
     --disable-theora \
     --disable-speex \
