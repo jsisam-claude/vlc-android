@@ -314,10 +314,13 @@ fi
 ##########
 
 # Prefer the vendored contrib source-archive cache from a sibling vlc-libs
-# checkout so contrib builds run without downloads.
-if [ -z "$TARBALLS" ] && [ -d "$(pwd -P)/../vlc-libs/contrib-tarballs" ]; then
-    export TARBALLS="$(pwd -P)/../vlc-libs/contrib-tarballs"
-    diagnostic "contrib tarballs: using vendored cache $TARBALLS"
+# checkout so contrib builds run without downloads. The variable the contrib
+# build actually consumes is VLC_TARBALLS (compile-libvlc.sh passes it to make
+# as TARBALLS=... on the command line — the makefile :=-assigns TARBALLS, so a
+# plain environment variable would be ignored).
+if [ -z "$VLC_TARBALLS" ] && [ -d "$(pwd -P)/../vlc-libs/contrib-tarballs" ]; then
+    export VLC_TARBALLS="$(pwd -P)/../vlc-libs/contrib-tarballs"
+    diagnostic "contrib tarballs: using vendored cache $VLC_TARBALLS"
 fi
 
 GRADLE_VERSION=9.3.1

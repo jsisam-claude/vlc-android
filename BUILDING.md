@@ -41,11 +41,13 @@ way the scripts in `buildsystem/` were.
 
 The buildsystem was patched to respect vendored trees:
 
-- `compile.sh` skips the libvlcjni clone when `libvlcjni/.vendored` exists.
-  The contrib source archives must be staged into the vlc tree first — the
-  VLC contrib/tools makefiles hard-assign their tarball dirs (`:=`), so an
-  environment override is not enough; run `../vlc-libs/place-build-inputs.sh`
-  (bootstrap step 3) to copy the committed archives into place.
+- `compile.sh` skips the libvlcjni clone when `libvlcjni/.vendored` exists,
+  and auto-exports `VLC_TARBALLS=../vlc-libs/contrib-tarballs` when that
+  sibling exists — `compile-libvlc.sh` passes it to make on the command line,
+  which is the only override the contrib makefile honors (`TARBALLS` is
+  `:=`-assigned). The `extras/tools` archives still need physical staging;
+  run `../vlc-libs/place-build-inputs.sh` (bootstrap step 3) to copy the
+  committed archives into place.
 - `compile-medialibrary.sh` uses the committed sqlite source archive instead
   of downloading, and `--reset` won't touch vendored trees.
 
