@@ -30,6 +30,7 @@ fetch_tree() { # url hash dest
         return 0
     fi
     tmp=$(mktemp -d)
+    trap 'rm -rf "$tmp"' EXIT
     $GIT -C "$tmp" init -q
     $GIT -C "$tmp" remote add origin "$url"
     $GIT -C "$tmp" fetch --depth 1 origin "$hash"
@@ -38,6 +39,7 @@ fetch_tree() { # url hash dest
     rm -rf "$dest"
     mkdir -p "$(dirname "$dest")"
     mv "$tmp" "$dest"
+    trap - EXIT
     echo "$hash" > "$dest/.vendored"
     note "vendored $dest @ $hash"
 }
@@ -52,6 +54,7 @@ if is_vendored "$MEDIALIBRARY_HASH" "$ML_DEST"; then
     note "$ML_DEST already vendored at $MEDIALIBRARY_HASH"
 else
     tmp=$(mktemp -d)
+    trap 'rm -rf "$tmp"' EXIT
     $GIT -C "$tmp" init -q
     $GIT -C "$tmp" remote add origin https://code.videolan.org/videolan/medialibrary.git
     $GIT -C "$tmp" fetch --depth 1 origin "$MEDIALIBRARY_HASH"
@@ -62,6 +65,7 @@ else
     rm -rf "$tmp/.git" "$tmp/libvlcpp/.git" "$tmp/.gitmodules"
     rm -rf "$ML_DEST"
     mv "$tmp" "$ML_DEST"
+    trap - EXIT
     echo "$MEDIALIBRARY_HASH" > "$ML_DEST/.vendored"
     note "vendored $ML_DEST @ $MEDIALIBRARY_HASH (libvlcpp patched)"
 fi
