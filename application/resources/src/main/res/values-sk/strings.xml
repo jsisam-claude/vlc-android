@@ -1450,7 +1450,6 @@
     <string name="remote_access_feedback_file_explanation">Práve ste si stiahli potrebný súbor. Prosím, nezabudnite ho priložiť k vášmu e-mailu.</string>
     <string name="generic_copied_to_clipboard">Skopírované do schránky</string>
     <string name="feedback_email_warning">Nie je nainštalovaný žiadny e-mailový klient</string>
-    <string name="feedback_email_warning_explanation">Najjednoduchším spôsobom zdieľania vašej spätnej odozvy je použitie funkcie %1$s.\nAk to chcete urobiť, povoľte vzdialený prístup v nastaveniach, postupujte podľa pokynov a vyberte %2$s položku v menu.</string>
     <string name="feedback_email_warning_remote_action">Otvoriť nastavenia</string>
     <string name="feedback_email_warning_try_anyway">Skúsiť aj tak</string>
     </resources>

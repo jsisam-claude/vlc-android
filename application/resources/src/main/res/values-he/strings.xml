@@ -1442,7 +1442,6 @@
     <string name="remote_access_feedback_file_explanation">הרגע הורדת את הקובץ הנחוץ. נא לזכור לצרף אותו להודעת הדוא״ל שלך.</string>
     <string name="generic_copied_to_clipboard">הועתק ללוח הגזירים</string>
     <string name="feedback_email_warning">לא מותקן לקוח דוא״ל</string>
-    <string name="feedback_email_warning_explanation">הדרך הקלה ביותר לשתף את המשוב שלך היא להשתמש ביכולת %1$s.\nכדי לעשות זאת, יש להפעיל את הגישה מרחוק בהגדרות, לעקוב אחר ההנחיות ולבחור ברשומה %2$s בתפריט.</string>
     <string name="feedback_email_warning_remote_action">פתיחת ההגדרות</string>
     <string name="feedback_email_warning_try_anyway">לנסות בכל זאת</string>
     </resources>

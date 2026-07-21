@@ -1445,7 +1445,6 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="remote_access_feedback_file_explanation">Latasit juuri tarvittavan tiedoston. Muista liittää se sähköpostiisi.</string>
     <string name="generic_copied_to_clipboard">Kopioitu leikepöydälle.</string>
     <string name="feedback_email_warning">Sähköpostia ei ole asennettu</string>
-    <string name="feedback_email_warning_explanation">Helpoin tapa antaa palautetta on käyttää %1$s ominaisuutta.\nEtäkäyttö käyttöön asetuksista, seuraa ohjeita ja valitse valikosta %2$s.</string>
     <string name="feedback_email_warning_remote_action">Avaa asetukset</string>
     <string name="feedback_email_warning_try_anyway">Kokeile kuitenkin</string>
     </resources>

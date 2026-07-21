@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">You just downloaded the needed file. Please remember to attach it to your email.</string>
     <string name="generic_copied_to_clipboard">Copied to clipboard</string>
     <string name="feedback_email_warning">No email client installed</string>
-    <string name="feedback_email_warning_explanation">The easiest way to share your feedback is to use the %1$s feature.\nTo do so, enable the remote access in the settings, follow the instructions and choose the %2$s entry in the menu.</string>
     <string name="feedback_email_warning_remote_action">Open the settings</string>
     <string name="feedback_email_warning_try_anyway">Try anyway</string>
     </resources>

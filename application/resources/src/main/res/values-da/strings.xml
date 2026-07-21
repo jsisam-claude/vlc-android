@@ -1379,7 +1379,6 @@
     <string name="remote_access_feedback_file_explanation">Du har hentet den nødvendige fil. Husk at vedhæfte den til din email.</string>
     <string name="generic_copied_to_clipboard">Kopieret til udklipsholder</string>
     <string name="feedback_email_warning">Ingen emailklient er installeret</string>
-    <string name="feedback_email_warning_explanation">Den mest enkle måde at dele din feedback er via %1$s muligheden.\nFor at gøre det slå fjernadgang til i indstillingerne, følg instrukserne og vælg %2$s fra menuen.</string>
     <string name="feedback_email_warning_remote_action">Åbn indstillingerne</string>
     <string name="feedback_email_warning_try_anyway">Prøv alligevel</string>
     </resources>

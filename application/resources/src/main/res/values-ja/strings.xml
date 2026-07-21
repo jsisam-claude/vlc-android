@@ -1405,7 +1405,6 @@
     <string name="remote_access_feedback_file_explanation">必要なファイルがダウンロードされました。メールにこれらのファイルを添付する様お願い致します。</string>
     <string name="generic_copied_to_clipboard">クリップボードにコピーされました</string>
     <string name="feedback_email_warning">メールクライアントがインストールされていません</string>
-    <string name="feedback_email_warning_explanation">フィードバックを簡単に共有する方法は %1$s 機能を利用することです。\nこれを行うためには、設定でリモートアクセスを有効化し、指示に従ってメニュににある %2$s エントリを選択してください。</string>
     <string name="feedback_email_warning_remote_action">設定を開く</string>
     <string name="feedback_email_warning_try_anyway">とにかく実施する</string>
     </resources>

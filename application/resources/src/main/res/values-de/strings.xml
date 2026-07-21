@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">Sie haben die benötigte Datei heruntergeladen. Bitte denken Sie daran, sie Ihrer E-Mail anzuhängen.</string>
     <string name="generic_copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="feedback_email_warning">Kein E-Mail-Client installiert</string>
-    <string name="feedback_email_warning_explanation">Am einfachsten können Sie Ihr Feedback über diese %1$s-Funktion teilen.\nAktivieren Sie dazu den Fernzugriff in den Einstellungen, folgen Sie den Anweisungen und wählen Sie den %2$s Eintrag im Menü.</string>
     <string name="feedback_email_warning_remote_action">Einstellungen öffnen</string>
     <string name="feedback_email_warning_try_anyway">Trotzdem versuchen</string>
     </resources>

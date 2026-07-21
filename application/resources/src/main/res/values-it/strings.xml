@@ -1435,7 +1435,6 @@
     <string name="remote_access_feedback_file_explanation">Hai appena scaricato il file che ti serve. Ricordati di allegarlo alla tua email.</string>
     <string name="generic_copied_to_clipboard">Copiato negli appunti</string>
     <string name="feedback_email_warning">Nessun client di posta installato</string>
-    <string name="feedback_email_warning_explanation">Il modo più semplice per condividere la tua segnalazione è utilizzare la funzionalità %1$s.\nPer farlo, abilita l\'accesso remoto nelle impostazioni, segui le istruzioni e scegli la voce %2$s nel menu.</string>
     <string name="feedback_email_warning_remote_action">Apri le impostazioni</string>
     <string name="feedback_email_warning_try_anyway">Prova comunque</string>
     </resources>

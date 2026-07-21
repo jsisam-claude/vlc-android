@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">Acabeu de descarregar el fitxer necessari. Recordeu adjuntar-lo al vostre correu electrònic.</string>
     <string name="generic_copied_to_clipboard">Copiat al porta-retalls</string>
     <string name="feedback_email_warning">No hi ha cap client de correu electrònic instal·lat</string>
-    <string name="feedback_email_warning_explanation">La manera més senzilla de compartir els vostres comentaris és utilitzar la funció %1$s.\nPer fer-ho, activeu l\'accés remot a la configuració, seguiu les instruccions i trieu l\'entrada %2$s al menú.</string>
     <string name="feedback_email_warning_remote_action">Obrir la configuració</string>
     <string name="feedback_email_warning_try_anyway">Prova-ho de totes maneres</string>
     </resources>

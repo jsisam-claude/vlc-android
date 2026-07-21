@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">Como as iscarrigadu su documentu chi ti bisòngiat. Ammenta·ti de l\'alligare a sa lìtera eletrònica tua.</string>
     <string name="generic_copied_to_clipboard">Copiadu in punta de billete</string>
     <string name="feedback_email_warning">Perunu cliente de posta installadu</string>
-    <string name="feedback_email_warning_explanation">Sa manera prus fàtzile de cumpartzire su parre tuo est sa de impreare sa funtzionalidade %1$s.\nPro lu fàghere, abìlita s\'atzessu remotu in sas impostatziones, sighi sos inditos e issèbera s\'elementu %2$sin su menù.</string>
     <string name="feedback_email_warning_remote_action">Aberi sas impostatziones</string>
     <string name="feedback_email_warning_try_anyway">Proa su matessi</string>
     </resources>

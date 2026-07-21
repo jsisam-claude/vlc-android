@@ -1410,8 +1410,6 @@
     <string name="remote_access_feedback_file_explanation">Έχετε πραγματοποιήσει λήψη του απαιτούμενου αρχείου. Παρακαλούμε, θυμηθείτε να το επισυνάψετε στο μήνυμά σας.</string>
     <string name="generic_copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
     <string name="feedback_email_warning">Δεν έχει εγκατασταθεί πρόγραμμα ηλεκτρονικής αλληλογραφίας</string>
-    <string name="feedback_email_warning_explanation">Ο ευκολότερος τρόπος να μοιραστείτε τα σχόλιά σας είναι να χρησιμοποιήσετε τη λειτουργία %1$s.
-Για να το κάνετε, ενεργοποιήστε την απομακρυσμένη πρόσβαση στις ρυθμίσεις, ακολουθήστε τις οδηγίες και επιλέξτε την εγγραφή %2$sστο μενού.</string>
     <string name="feedback_email_warning_remote_action">Άνοιγμα ρυθμίσεων</string>
     <string name="feedback_email_warning_try_anyway">Δοκιμή έτσι κι αλλιώς</string>
     </resources>

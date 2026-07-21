@@ -1413,7 +1413,6 @@
     <string name="remote_access_feedback_file_explanation">Az önce gerekli dosyayı indirdiniz. Lütfen e-postanıza eklemeyi unutmayın.</string>
     <string name="generic_copied_to_clipboard">Panoya kopyalandı</string>
     <string name="feedback_email_warning">Herhangi bir e-posta istemcisi kurulmamış</string>
-    <string name="feedback_email_warning_explanation">Geri bildiriminizi paylaşmanın en kolay yolu %1$s özelliğini kullanmaktır.\nBunu yapmak için ayarlardan uzaktan erişimi etkinleştirin, yönergeyi izleyin ve menüdeki %2$s kaydını seçin.</string>
     <string name="feedback_email_warning_remote_action">Ayarları aç</string>
     <string name="feedback_email_warning_try_anyway">Yine de dene</string>
     </resources>

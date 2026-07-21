@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">Most töltötte le a szükséges fájlt. Ne felejtse el mellékelni a leveléhez.</string>
     <string name="generic_copied_to_clipboard">A vágólapra másolva</string>
     <string name="feedback_email_warning">Nincs levelezőkliens telepítve</string>
-    <string name="feedback_email_warning_explanation">A visszajelzés legkönnyebb módja a %1$s funkció használata.\nEhhez engedélyezze a távoli elérést a beállításokban, kövesse az utasításokat és válassza a %2$s elemet a menüben.</string>
     <string name="feedback_email_warning_remote_action">A beállítások megnyitása</string>
     <string name="feedback_email_warning_try_anyway">Megpróbálás mindenképp</string>
     </resources>

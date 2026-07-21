@@ -1420,7 +1420,6 @@
     <string name="remote_access_feedback_file_explanation">Du laddade precis ned den nödvändiga filen. Kom ihåg att bifoga den i ditt e-postmeddelande.</string>
     <string name="generic_copied_to_clipboard">Kopierades till urklipp</string>
     <string name="feedback_email_warning">Ingen e-postklient är installerad</string>
-    <string name="feedback_email_warning_explanation">Det enklaste sättet att dela din återkoppling är att använda funktionen %1$s.\nAktivera fjärråtkomst i inställningarna, följ instruktionerna och välj alternativet %2$s i menyn.</string>
     <string name="feedback_email_warning_remote_action">Öppna inställningarna</string>
     <string name="feedback_email_warning_try_anyway">Försök igen</string>
     </resources>

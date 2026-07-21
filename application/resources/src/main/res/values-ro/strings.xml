@@ -1435,7 +1435,6 @@
     <string name="remote_access_feedback_file_explanation">Tocmai ai descărcat fișierul necesar. Te rugăm să nu uiți să îl atașezi la adresa ta de e-mail.</string>
     <string name="generic_copied_to_clipboard">Copiat(ă) în clipboard</string>
     <string name="feedback_email_warning">Nu e instalat niciun client email</string>
-    <string name="feedback_email_warning_explanation">Cea mai ușoară modalitate de a-ți oferi feedbac-ulk este să utilizați funcția %1$s.\nPentru a face acest lucru, activează accesul de la distanță în setări, urmează instrucțiunile și selectează intrarea %2$s din meniu.</string>
     <string name="feedback_email_warning_remote_action">Deschide setările</string>
     <string name="feedback_email_warning_try_anyway">Încearcă oricum</string>
     </resources>

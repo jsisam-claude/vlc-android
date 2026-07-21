@@ -1397,7 +1397,6 @@
     <string name="remote_access_feedback_file_explanation">您剛剛下載了所需的檔案。請記得將其做為您電子郵件的附件寄出。</string>
     <string name="generic_copied_to_clipboard">已複製到剪貼簿</string>
     <string name="feedback_email_warning">未安裝電子郵件客戶端</string>
-    <string name="feedback_email_warning_explanation">分享您的回饋最簡單的方式是使用 %1$s 功能。\n若要執行此操作，請在設定中啟用遠端存取，按照指示並在選單中選擇 %2$s。</string>
     <string name="feedback_email_warning_remote_action">開啟設定</string>
     <string name="feedback_email_warning_try_anyway">無論如何都要嘗試</string>
     </resources>

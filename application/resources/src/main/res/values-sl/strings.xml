@@ -1441,7 +1441,6 @@
     <string name="remote_access_feedback_file_explanation">Prenesli ste potrebne datoteke. Ne pozabite jih pripeti k sporočilu.</string>
     <string name="generic_copied_to_clipboard">Kopirano na odložišče</string>
     <string name="feedback_email_warning">Noben poštni odjemalec ni nameščen</string>
-    <string name="feedback_email_warning_explanation">Najlažji način za posredovanje vašega odziva je uporaba možnosti %1$s.-\nV ta namen v nastavitvah vklopite oddaljeni dostop, sledite navodilom in v meniju izberite vnos %2$s.</string>
     <string name="feedback_email_warning_remote_action">Odpri nastavitve</string>
     <string name="feedback_email_warning_try_anyway">Vseeno poskusi</string>
     </resources>

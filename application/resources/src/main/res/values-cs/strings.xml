@@ -1451,7 +1451,6 @@
     <string name="remote_access_feedback_file_explanation">Právě jste si stáhli potřebný soubor. Nezapomeňte jej prosím přiložit k e-mailu.</string>
     <string name="generic_copied_to_clipboard">Zkopírováno do schránky</string>
     <string name="feedback_email_warning">Není nainstalován žádný e-mailový klient</string>
-    <string name="feedback_email_warning_explanation">Nejjednodušší způsob, jak sdílet svou zpětnou vazbu, je použít funkci %1$s.\nChcete-li to provést, povolte vzdálený přístup v nastavení, postupujte podle pokynů a vyberte položku %2$s v nabídce.</string>
     <string name="feedback_email_warning_remote_action">Otevřít nastavení</string>
     <string name="feedback_email_warning_try_anyway">Zkusit i tak</string>
     </resources>

@@ -1409,7 +1409,6 @@
     <string name="remote_access_feedback_file_explanation">U hebt zojuist het benodigde bestand gedownload. Vergeet niet om het aan uw e-mail toe te voegen.</string>
     <string name="generic_copied_to_clipboard">Naar klembord gekopieerd</string>
     <string name="feedback_email_warning">Geen e-mail-client geïnstalleerd</string>
-    <string name="feedback_email_warning_explanation">De eenvoudigste manier om uw feedback te delen, is door gebruik te maken van de functie %1$s.\nSchakel hiervoor de externe toegang in via de instellingen, volg de instructies en kies de optie %2$s in het menu.</string>
     <string name="feedback_email_warning_remote_action">De instellingen openen</string>
     <string name="feedback_email_warning_try_anyway">Toch proberen</string>
     </resources>

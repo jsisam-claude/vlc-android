@@ -1409,7 +1409,6 @@
     <string name="remote_access_feedback_file_explanation">თქვენ ახლახან ჩამოტვირთეთ საჭირო ფაილი. გთხოვთ, არ დაგავიწყდეთ, დაურთოთ ელფოსტას.</string>
     <string name="generic_copied_to_clipboard">ასლი აღებულია</string>
     <string name="feedback_email_warning">ელფოსტის პროგრამა არ აყენია</string>
-    <string name="feedback_email_warning_explanation">გამოხმაურებისთვის უადვილესი გზაა, გამოიყენოთ შესაძლებლობა %1$s .\nამისთვის ჩართეთ დაშორებული წვდომა პარამეტრებიდან, მიჰყევით მითითებებს და აირჩიეთ %2$s მენიუდან.</string>
     <string name="feedback_email_warning_remote_action">პარამეტრების გახსნა</string>
     <string name="feedback_email_warning_try_anyway">მაინც მოსინჯვა</string>
     </resources>

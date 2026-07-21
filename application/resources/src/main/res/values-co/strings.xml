@@ -1412,7 +1412,6 @@
     <string name="remote_access_feedback_file_explanation">Avete ghjustu scaricatu u schedariu richiestu. Ùn vi scurdate di ghjunghjelu à u vostru messaghju elettronicu.</string>
     <string name="generic_copied_to_clipboard">Cupiatu in u preme’papei</string>
     <string name="feedback_email_warning">Niisuna messaghjeria installata</string>
-    <string name="feedback_email_warning_explanation">A manera a più faciule di sparte i vostri cummenti hè d’impiegà a funzione %1$s.\nPer fà què, attivate l’accessu alluntanatu in i parametri, seguitate l’istruzzioni è sciglite l’ozzione %2$s di u listinu.</string>
     <string name="feedback_email_warning_remote_action">Apre i parametri</string>
     <string name="feedback_email_warning_try_anyway">Pruvà quantunque</string>
     </resources>

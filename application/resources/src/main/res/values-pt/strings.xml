@@ -1424,7 +1424,6 @@
     <string name="remote_access_feedback_file_explanation">Acabou de transferir o ficheiro necessário. Por favor, não se esqueça de o anexar à sua mensagem.</string>
     <string name="generic_copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="feedback_email_warning">Nenhum cliente de correio eletrónico instalado</string>
-    <string name="feedback_email_warning_explanation">A forma mais fácil de partilhar os seus comentários é utilizar a funcionalidade %1$s. Para o fazer, ative o acesso remoto nas definições, siga as instruções e escolha a entrada no menu %2$s.</string>
     <string name="feedback_email_warning_remote_action">Abrir as definições</string>
     <string name="feedback_email_warning_try_anyway">Tentar na mesma</string>
     </resources>

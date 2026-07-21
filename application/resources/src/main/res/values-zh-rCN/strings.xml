@@ -1401,7 +1401,6 @@
     <string name="remote_access_feedback_file_explanation">您已下载所需的文件。请记得将它作为电子邮件的附件发出。</string>
     <string name="generic_copied_to_clipboard">已复制到剪贴板</string>
     <string name="feedback_email_warning">未安装电子邮件客户端</string>
-    <string name="feedback_email_warning_explanation">分享反馈的最简单方式是使用 %1$s 功能。为此，请在设置中启用远程访问，按照说明操作，然后在菜单中选择 %2$s 选项。</string>
     <string name="feedback_email_warning_remote_action">打开设置</string>
     <string name="feedback_email_warning_try_anyway">仍然尝试</string>
     </resources>

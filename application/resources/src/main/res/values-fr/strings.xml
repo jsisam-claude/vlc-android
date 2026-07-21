@@ -1435,7 +1435,6 @@
     <string name="remote_access_feedback_file_explanation">Vous venez de télécharger le fichier nécessaire. N’oubliez pas de le joindre à votre courriel.</string>
     <string name="generic_copied_to_clipboard">Copié dans le presse-papiers</string>
     <string name="feedback_email_warning">Aucun client de messagerie installé</string>
-    <string name="feedback_email_warning_explanation">Le moyen le plus simple de partager vos commentaires est d’utiliser la fonction %1$s.\nPour ce faire, activez l’accès à distance dans les paramètres, suivez les instructions et choisissez l’entrée %2$s dans le menu.</string>
     <string name="feedback_email_warning_remote_action">Ouvrir les paramètres</string>
     <string name="feedback_email_warning_try_anyway">Essayer tout de même</string>
     </resources>
