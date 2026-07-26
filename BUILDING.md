@@ -75,7 +75,7 @@ libdsm, upnp and microdns**.
 | Android SDK (platform 36, build-tools 36) + **NDK** (21.4.7075529 for 32-bit ABIs; **27–29 for 64-bit ABIs** per `compile-libvlc.sh`) | platform toolchain; Google's terms don't allow republishing it |
 | Gradle 9.3.1 | used from `PATH` if present; otherwise `compile.sh` downloads it SHA-256-pinned |
 | Google Maven / Maven Central jars (AGP, Kotlin, androidx, …) | the Kotlin/Java app layer; see the supply-chain section — mirrorable into your own repo, not practically source-buildable |
-| host build tools (autoconf, cmake, protoc via contribs, …) | from your distro |
+| host build tools (autoconf, cmake, **gperf**, protoc via contribs, …) | from your distro (fontconfig's header generation needs gperf) |
 
 Nothing VideoLAN-hosted is needed after bootstrap, and no prebuilt VLC
 binaries exist anywhere in the tree. `local.properties` must exist at the
@@ -97,10 +97,11 @@ Three layers, three treatments:
    into `../vlc-mirror/m2` (maven layout). Commit that repo. From then on
    `settings.gradle`/`build.gradle` detect the mirror and resolve
    **exclusively** from it; external repositories are never contacted and
-   anything missing fails loudly. Additionally run
-   `gradle --write-verification-metadata sha256 help` once and commit
-   `gradle/verification-metadata.xml` so every artifact is SHA-256-pinned
-   even when building without the mirror.
+   anything missing fails loudly. Additionally,
+   `gradle/verification-metadata.xml` is **committed** (759 components,
+   generated with `--write-verification-metadata sha256` against the full
+   `assembleDev` graph): Gradle verifies the SHA-256 of every resolved
+   artifact on every build, mirror or not.
    Remaining third-party binaries in the APK after the remote-access
    removal: androidx/material/desugar (Google, Apache-2.0/GPL+CE),
    kotlin-stdlib + kotlinx-coroutines (JetBrains, Apache-2.0), and the
@@ -117,28 +118,32 @@ Three layers, three treatments:
 
 ## Status
 
-Verified so far:
+**The full pipeline has been executed end-to-end from the vendored sources**
+(NDK 27.0.12077973, arm64-v8a, Gradle 9.3.1 + AGP 9.1.1 — the committed
+pins):
 
-- The bootstrap has been **executed and committed**: libvlcjni, medialibrary
-  (+libvlcpp, patched), the VLC tree at libvlcjni's `VLC_TESTED_HASH` with
-  the 20-patch android stack applied, sqlite, and the full dependency-correct
-  contrib set (~49 archives, SHA-512-verified) are vendored in vlc-libs.
-- `:application:app:compileDebugKotlin` **builds successfully** against the
-  vendored sources as project dependencies — every module's Kotlin/Java,
-  data binding, KSP/Room and resource/manifest merging pass. (Validation ran
-  on Gradle 8.14.3 / AGP 8.13.2 because the pinned Gradle 9.3.1
-  distribution is hosted as a GitHub release asset the sandbox proxy blocks;
-  the repo's 9.x pins are untouched — exercise them on first local build.)
-- Native stage (`compile.sh` NDK build) — driven far in-sandbox (NDK 27,
-  arm64): the vendored VLC source + 20-patch stack configure, every
-  clone/download is marker-guarded (zero network fetches for VLC sources),
-  the host-tool bootstrap builds libtool/protobuf/ant/help2man from the
-  vendored `host-tools/` sources, and the CMake-based contribs build after a
-  one-line compat patch (`CMAKE_POLICY_DEFAULT_CMP0057=NEW`, for NDK 27 +
-  CMake 3.28). The remaining contrib failures (gnutls "cannot compile and
-  link", harfbuzz depfile races) are incompatibilities between VLC 3.0.x-era
-  contribs and this newer NDK/host-tool combination — the reason VLC's own
-  buildbot pins an exact toolchain. Build on the VLC-tested toolchain
-  versions to close these; the vendored sources themselves are intact.
-  All ~48 contrib tarballs + host-tool sources are committed in vlc-libs;
-  run `../vlc-libs/place-build-inputs.sh` before building to stage them.
+- Bootstrap **executed and committed**: libvlcjni, medialibrary (+libvlcpp,
+  patched), the VLC tree at libvlcjni's `VLC_TESTED_HASH` with the 20-patch
+  android stack applied, sqlite, and the full dependency-correct contrib set
+  (~49 archives, SHA-512-verified) are vendored in vlc-libs.
+- **Native stage passes**: all contribs compile (zero network fetches — the
+  committed archives are verified and used), libvlc.so, libvlcjni.so and
+  libmla.so link, and both AARs assemble. The issues once blamed on
+  "toolchain-era friction" turned out to be three concrete, now-fixed
+  things: the one-line `CMAKE_POLICY_DEFAULT_CMP0057=NEW` contrib patch
+  (NDK 27 + CMake 3.28), `gperf` missing on the build host (fontconfig
+  needs it — install it from your distro), and the android patch stack
+  having been recorded-but-not-applied in the vendored VLC tree (fixed in
+  vlc-libs; `vendor-vlc.sh` now applies patches robustly).
+- **The app APK assembles** (`:application:app:assembleDev`) with the real
+  pins: `compile.sh` downloaded Gradle 9.3.1 itself and verified its
+  SHA-256, AGP 9.1.1 resolved from Google Maven, and the produced APK
+  packages the four freshly built native libs. A stripped, re-signed
+  arm64 test APK built this way runs ~65 MB.
+- **Dependency verification is enforced**: `gradle/verification-metadata.xml`
+  (759 components, SHA-256) is committed and the build passes with it
+  active.
+
+Remaining outside the sandbox: on-device testing, 32-bit ABIs (build with
+NDK 21 per the table above), and populating `../vlc-mirror/m2` if you want
+possession of the JVM-layer jars in addition to hash-pinning.

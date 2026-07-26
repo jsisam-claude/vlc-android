@@ -64,7 +64,7 @@ SQLITE_RELEASE="sqlite-autoconf-3460100"
 SQLITE_SHA512SUM="a5ba5af9c8d6440d39ba67e3d5903c165df3f1d111e299efbe7c1cca4876d4d5aecd722e0133670daa6eb5cbf8a85c6a3d9852ab507a393615fb5245a3e1a743"
 
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/${SQLITE_RELEASE}" ]; then
-  echo -e "\e[1m\e[32msqlite source not found, downloading\e[0m"
+  echo -e "\e[1m\e[32msqlite source dir not found, staging from the committed archive (downloading only if absent)\e[0m"
   cd ${MEDIALIBRARY_MODULE_DIR}
   rm -rf ${MEDIALIBRARY_BUILD_DIR}/build-android*
   rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
