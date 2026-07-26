@@ -291,7 +291,6 @@
     <string name="hold_to_stop">أبقِ للتوقيف</string>
 
     <!-- About -->
-    <string name="app_name_full"> VLC للأندرويد</string>
     <string name="revision">التّنقيح</string>
     <string name="about">حول</string>
     <string name="about_vlc_text">إن VLC لأجهزة أندرويد هو نقل عن VLC للحاسوب، وهو المُشغِّل الوسائط الذائع الصيت ومفتوح المصدر. إن هذا الإصدار لأندرويد يستطيع قراءة كل ملفات الوسائط وكذلك التدفقات عبر الشبكات.</string>

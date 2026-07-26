@@ -305,7 +305,6 @@
     <string name="hold_to_stop">Tartsa a leállításhoz</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android™</string>
     <string name="revision">Revízió</string>
     <string name="about">Névjegy</string>
     <string name="about_vlc_text">A VLC for Android™  a népszerű nyílt forráskódú médialejátszó, a VLC Media Player portja. Az androidos verzió minden fájlt és hálózati adatfolyamot képes olvasni.</string>

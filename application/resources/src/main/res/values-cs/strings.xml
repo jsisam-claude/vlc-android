@@ -323,7 +323,6 @@
     <string name="hold_to_stop">Dlouze stiskněte pro zastavení přehrávání</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC pro Android</string>
     <string name="revision">Revize</string>
     <string name="about">O aplikaci</string>
     <string name="about_vlc_text">VLC pro Android™ je port přehrávače médií VLC, oblíbeného přehrávače médií s otevřeným zdrojovým kódem. Verze pro Android™ dokáže číst všechny soubory a síťové streamy. </string>

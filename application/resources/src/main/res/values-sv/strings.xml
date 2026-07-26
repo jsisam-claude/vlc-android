@@ -305,7 +305,6 @@
     <string name="hold_to_stop">Håll ned för att stoppa</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android</string>
     <string name="revision">Version</string>
     <string name="about">Om</string>
     <string name="about_vlc_text">VLC for Android™ är en portering av VLC media player, den populära mediaspelaren med öppen källkod. Android™-versionen kan läsa alla filer och nätverksströmmar.</string>

@@ -303,7 +303,6 @@
     <string name="hold_to_stop">Παρατεταμένο πάτημα για σταμάτημα</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC για Android™</string>
     <string name="revision">Αναθεώρηση</string>
     <string name="about">Σχετικά</string>
     <string name="about_vlc_text">Το VLC για Android™ είναι ένα port του προγράμματος αναπαραγωγής πολυμέσων VLC, του δημοφιλούς προγράμματος αναπαραγωγής πολυμέσων ανοιχτού κώδικα. Η έκδοση Android™ μπορεί να διαβάσει όλα τα αρχεία και τις  μεταδόσεις δικτύου.</string>

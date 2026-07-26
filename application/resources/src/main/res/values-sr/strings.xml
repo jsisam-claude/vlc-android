@@ -192,7 +192,6 @@
     <string name="hold_to_stop">Држите да зауставите</string>
 
     <!-- About -->
-    <string name="app_name_full">ВЛЦ за Андроид</string>
     <string name="revision">Ревизија</string>
     <string name="about">О апликацији</string>
     <string name="vlc_authors">и аутори VLC-а.</string>

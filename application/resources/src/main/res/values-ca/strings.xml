@@ -305,7 +305,6 @@
     <string name="hold_to_stop">Mantingueu premut per aturar</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC per a l\'Android</string>
     <string name="revision">Revisió</string>
     <string name="about">En quant a</string>
     <string name="about_vlc_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC, el popular reproductor de codi obert. La versió per l\'Android™ permet llegir tota mena de fitxers i fluxos de xarxa.</string>

@@ -1,4 +1,9 @@
-# VLC for Android — privacy fork
+# VLC-NG — privacy fork of VLC for Android
+
+> **Naming note:** "VLC-NG" is an interim working title. "VLC" and the cone
+> logo are trademarks of VideoLAN; before any public distribution this fork
+> will ship under its own name and icon. Not affiliated with or endorsed by
+> VideoLAN.
 
 This is a fork of the official [VLC for Android](https://code.videolan.org/videolan/vlc-android)
 with **all telemetry and all non-user-initiated network communication removed**:

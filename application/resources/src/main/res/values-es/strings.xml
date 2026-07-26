@@ -209,7 +209,6 @@
     <string name="hold_to_stop">Mantener para parar</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC para Android</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
     <string name="vlc_authors">y autores VLC.</string>

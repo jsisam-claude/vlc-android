@@ -153,7 +153,6 @@
     <string name="hold_to_stop">ກົດຄ້າງໄວ້ເພື່ອຢຸດ</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC ສຳລັບ Android</string>
     <string name="revision">ປັບປຸງໃໝ່</string>
     <string name="about">ກ່ຽວກັບ</string>
     <!-- Preferences -->

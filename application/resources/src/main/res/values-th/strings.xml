@@ -185,7 +185,6 @@
     <string name="hold_to_stop">กดค้างเพื่อหยุด</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC สำหรับ Android</string>
     <string name="revision">การปรับปรุง</string>
     <string name="about">เกี่ยวกับ</string>
     <string name="vlc_authors">และผู้จัดทำ VLC</string>

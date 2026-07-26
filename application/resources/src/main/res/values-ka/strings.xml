@@ -303,7 +303,6 @@
     <string name="hold_to_stop">დააჭირეთ შესაწყვეტად</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC Android</string>
     <string name="revision">გამოცემა</string>
     <string name="about">შესახებ</string>
     <string name="about_vlc_text">VLC Android™ არის ამ სისტემისთვის მორგებული ცნობილი და ღია წყაროს მქონე მედიაფაილების დამკვრელი VLC media player. მოცემულ Android™-ვერსიას შეუძლია ყველა სახის ფაილისა და ქსელური ნაკადის გაშვება.</string>

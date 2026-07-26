@@ -202,7 +202,6 @@
     <string name="hold_to_stop">Drži za zasutavljanje</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC za Android</string>
     <string name="revision">Izdanje</string>
     <string name="about">O aplikaciji</string>
     <string name="vlc_authors">Autori VLC-a.</string>

@@ -285,7 +285,6 @@
     <string name="hold_to_stop">Hold nede for stop</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC til Android</string>
     <string name="revision">Revision</string>
     <string name="about">Om</string>
     <string name="about_vlc_text">VLC til Android™ er afledt af medieafspilleren VLC, den populære open source-medieafspiller. Versionen til Android™ kan læse alle filer og netværksstrømme.</string>

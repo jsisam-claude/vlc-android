@@ -297,7 +297,6 @@
     <string name="hold_to_stop">멈추려면 길게 누르기</string>
 
     <!-- About -->
-    <string name="app_name_full">Android용 VLC</string>
     <string name="revision">리비전</string>
     <string name="about">정보</string>
     <string name="about_vlc_text">Android™용 VLC는 인기 있는 오픈 소스 미디어 재생기인 VLC 미디어 재생기의 이식된 버전입니다. Android™ 버전은 모든 파일과 네트워크 스트림을 읽을 수 있습니다.</string>

@@ -318,7 +318,6 @@
     <string name="hold_to_stop">להחזיק לעצירה</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC ל־Android</string>
     <string name="revision">מהדורה</string>
     <string name="about">על אודות</string>
     <string name="about_vlc_text">VLC ל־Android™‎ הוא הסבה של נגן המדיה הפופולרית בקוד פתוחVLC. הגירסה ל־Android™‎ יכולה לקרוא את כל הקבצים ותזרימי הרשת.</string>

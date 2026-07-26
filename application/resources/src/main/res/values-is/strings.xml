@@ -242,7 +242,6 @@
     <string name="hold_to_stop">Halda til að stöðva</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC fyrir Android</string>
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
     <string name="about_vlc_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta opna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>

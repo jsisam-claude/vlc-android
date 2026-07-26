@@ -274,7 +274,6 @@
     <string name="hold_to_stop">Tahan untuk henti</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC untuk Android</string>
     <string name="revision">Semakan</string>
     <string name="about">Perihal</string>
     <string name="about_vlc_text">VLC untuk Android™ merupakan sebuah port pemain media VLC, pemain media sumber terbuka yang terkenal. Versi Android™ dapat membaca semua fail dan strim rangkaian.</string>

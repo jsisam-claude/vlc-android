@@ -182,7 +182,6 @@
     <string name="hold_to_stop">Mbaj për të ndaluar</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC për Android</string>
     <string name="revision">Rishikim</string>
     <string name="about">Rreth</string>
     <string name="vlc_authors">dhe Autoret e VLC.</string>

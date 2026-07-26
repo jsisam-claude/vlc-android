@@ -296,7 +296,6 @@
     <string name="hold_to_stop">停止を保持</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android™</string>
     <string name="revision">リビジョン</string>
     <string name="about">VLCについて</string>
     <string name="about_vlc_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>

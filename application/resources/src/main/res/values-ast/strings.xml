@@ -97,7 +97,6 @@
     <string name="subtitles">Sotítulos</string>
     <string name="lock">Bloquiar</string>
     <!-- About -->
-    <string name="app_name_full">VLC p\'Android</string>
     <string name="revision">Revisión</string>
     <string name="vlc_authors">y los autores de VLC.</string>
     <string name="feedback_forum">Foru de comentarios</string>

@@ -227,7 +227,6 @@
     <string name="hold_to_stop">Przytrzymaj, aby zatrzymać</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC dla Androida™</string>
     <string name="revision">Wydanie</string>
     <string name="about">O VLC</string>
     <string name="authors">Autorzy</string>

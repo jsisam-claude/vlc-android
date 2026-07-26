@@ -305,7 +305,6 @@
     <string name="hold_to_stop">Peatamiseks hoia</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC Androidile</string>
     <string name="revision">Revisjon</string>
     <string name="about">Rakenduse teave</string>
     <string name="about_vlc_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja üks arendusi. Androidi™ versioon suudab avada enamikke meediafaile ja voogedastusvorminguid.</string>

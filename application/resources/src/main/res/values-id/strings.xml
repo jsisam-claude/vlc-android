@@ -245,7 +245,6 @@
     <string name="hold_to_stop">Tahan untuk berhenti</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC untuk Android</string>
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
     <string name="about_vlc_text">VLC untuk Android™ merupakan bagian dari VLC media player, pemutar media terbuka yang populer. Versi Android™ dapat membuka semua jenis file dan salurang media langsung.</string>

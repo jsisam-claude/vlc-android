@@ -305,7 +305,6 @@
     <string name="hold_to_stop">Basılı tutarak durdurun</string>
 
     <!-- About -->
-    <string name="app_name_full">Android için VLC</string>
     <string name="revision">Değişiklik</string>
     <string name="about">Hakkında</string>
     <string name="about_vlc_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir parçasıdır. Android™ sürümü tüm dosya ve ağ akışlarını okuyabilir.</string>

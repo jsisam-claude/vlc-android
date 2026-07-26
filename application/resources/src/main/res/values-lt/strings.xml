@@ -286,7 +286,6 @@
     <string name="hold_to_stop">Norėdami sustabdyti, palaikykite nuspaudę</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC, skirta „Android“ sistemai</string>
     <string name="revision">Revizija</string>
     <string name="about">Apie</string>
     <string name="about_vlc_text">VLC, skirta „Android“™ sistemai, yra VLC medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>

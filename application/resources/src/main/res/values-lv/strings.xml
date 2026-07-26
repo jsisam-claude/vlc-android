@@ -190,7 +190,6 @@
     <string name="hold_to_stop">Turiet lai apturētu</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC priekš Android</string>
     <string name="revision">Revīzija</string>
     <string name="about">Par</string>
     <string name="vlc_authors">un VLC autori.</string>

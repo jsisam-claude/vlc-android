@@ -154,7 +154,7 @@ android {
             }
 
             output.versionCodeOverride = 10000000 + defaultConfig.versionCode + versionCode
-            def outputName = "VLC-Android-"
+            def outputName = "VLC-NG-"
             outputName += variant.versionName.replace(" ", "-")
             if (variant.buildType.name == "debug") outputName += "-debug"
             outputName += "-" + abiName + ".apk"

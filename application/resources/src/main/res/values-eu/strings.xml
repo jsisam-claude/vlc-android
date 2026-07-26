@@ -292,7 +292,6 @@
     <string name="hold_to_stop">Mantendu gelditzeko</string>
 
     <!-- About -->
-    <string name="app_name_full">Androiderako VLC</string>
     <string name="revision">Berrikuspena</string>
     <string name="about">Honi buruz</string>
     <string name="about_vlc_text">VLC Android™ VLC kode irekiko multimedia erreproduzitzaile ezagunaren ataka da, . Android™ bertsioak fitxategi eta sareko korronte guztiak irakur ditzake.</string>

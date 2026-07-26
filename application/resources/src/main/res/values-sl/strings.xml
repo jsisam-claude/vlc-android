@@ -323,7 +323,6 @@
     <string name="hold_to_stop">Zadržite pritisk za zaustavitev</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC za Android</string>
     <string name="revision">Predelava</string>
     <string name="about">O programu</string>
     <string name="about_vlc_text">VLC za Android™ je prilagojena različica VLC predvajalnika, priljubljenega odprto-kodnega predvajalnika vsebin. Različica za Android™ zna brati vse vrste datotek in omrežnih pretokov.</string>

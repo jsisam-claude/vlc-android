@@ -283,7 +283,6 @@
     <string name="hold_to_stop">Hald for å stoppe</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android</string>
     <string name="revision">Revisjon</string>
     <string name="about">Om</string>
     <string name="is_compiled_by">Sett saman av</string>

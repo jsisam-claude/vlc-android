@@ -239,7 +239,6 @@
     <string name="hold_to_stop">Manter para deter</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC para Android</string>
     <string name="revision">Revisión</string>
     <string name="about">Sobre</string>
     <string name="authors">Autores</string>

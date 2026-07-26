@@ -251,7 +251,6 @@
     <string name="hold_to_stop">Mantener para detener</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC para Android</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
     <string name="about_vlc_text">VLC para Android™ es un port de VLC reproductor multimedia, el popular reproductor de medios de código abierto. La versión de Android™ puede leer todos los archivos y trasmisiones de red.</string>

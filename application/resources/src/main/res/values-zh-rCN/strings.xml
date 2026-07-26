@@ -296,7 +296,6 @@
     <string name="hold_to_stop">按住可停止</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android</string>
     <string name="revision">修订版本</string>
     <string name="about">关于</string>
     <string name="about_vlc_text">VLC for Android™ 是广受欢迎的开源媒体播放器 ｢VLC media player｣ 的移植版本。Android™ 版本可以读取几乎所有文件以及网络流。</string>

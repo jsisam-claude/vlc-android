@@ -314,7 +314,6 @@
     <string name="hold_to_stop">Apăsați pentru a opri</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC pentru Android</string>
     <string name="revision">Revizie</string>
     <string name="about">Despre</string>
     <string name="about_vlc_text">VLC pentru Android™ este o portare a media player-ului VLC, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>

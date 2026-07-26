@@ -310,7 +310,6 @@ Kun olet poistanut sen käytöstä, et ehkä voi jatkaa toistoa:
     <string name="hold_to_stop">Pidä pysäyttääksesi</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC Android™</string>
     <string name="revision">Revisio</string>
     <string name="about">Tietoja</string>
     <string name="about_vlc_text">VLC Android™ on suositun avoimen lähdekoodin mediasoitin puhelimelle. Android™ versio osaa käyttää kaikkia tarvittavia tiedostoja ja suoratoistoa verkossa.</string>

@@ -303,7 +303,6 @@
     <string name="hold_to_stop">Inhouden om te stoppen</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC voor Android</string>
     <string name="revision">Revisie</string>
     <string name="about">Over</string>
     <string name="about_vlc_text">VLC voor Android™ is een port van VLC media player, de populaire open source mediaspeler. De Android™-versie kan alle bestanden en netwerkstreams lezen.</string>

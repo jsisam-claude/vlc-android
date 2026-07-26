@@ -251,7 +251,6 @@
     <string name="hold_to_stop">Удержание — останов</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC для Android</string>
     <string name="revision">Ревизия</string>
     <string name="about">О программе</string>
     <string name="about_vlc_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить любые файлы и сетевые потоки.</string>
