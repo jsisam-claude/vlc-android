@@ -77,7 +77,9 @@ VLC engine *(LibVLC)* for Android is licensed under [LGPLv2](libvlc/COPYING.LIB)
 
 ## Build
 
-Native libraries are published on bintray. So you can:
+**In this fork every variant builds LibVLC and Medialibrary from the vendored
+source trees** (see [BUILDING.md](BUILDING.md)) — no prebuilt artifacts are
+fetched. The upstream description of the build modes below otherwise applies:
 
 - Build the application and get libraries via gradle dependencies (JVM build only)
 - Build the whole app (LibVLC + Medialibrary + Application)

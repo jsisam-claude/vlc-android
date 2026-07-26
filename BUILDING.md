@@ -98,7 +98,7 @@ Three layers, three treatments:
    `settings.gradle`/`build.gradle` detect the mirror and resolve
    **exclusively** from it; external repositories are never contacted and
    anything missing fails loudly. Additionally,
-   `gradle/verification-metadata.xml` is **committed** (759 components,
+   `gradle/verification-metadata.xml` is **committed** (758 components,
    generated with `--write-verification-metadata sha256` against the full
    `assembleDev` graph): Gradle verifies the SHA-256 of every resolved
    artifact on every build, mirror or not.
@@ -141,7 +141,7 @@ pins):
   packages the four freshly built native libs. A stripped, re-signed
   arm64 test APK built this way runs ~65 MB.
 - **Dependency verification is enforced**: `gradle/verification-metadata.xml`
-  (759 components, SHA-256) is committed and the build passes with it
+  (758 components, SHA-256) is committed and the build passes with it
   active.
 
 Remaining outside the sandbox: on-device testing, 32-bit ABIs (build with

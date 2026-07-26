@@ -90,9 +90,6 @@ The app no longer contains an HTTP server of any kind.
 | Crash/feedback reporting | Composes an email via the user's own mail app after the user agrees in a dialog; nothing is auto-submitted |
 | Chromecast casting | Fully functional again once `enable_casting` is turned on |
 
-Vestigial wording: the rarely-shown feedback fallback screen still mentions
-remote access in its help text; it is text only, nothing behind it runs.
-
 Also verified: `VLCOptions` passes no phone-home libvlc flags (the keystore
 options are local credential storage); the medialibrary Java API contains no
 HTTP client; TV's Play-Services check for the search affordance is a local
@@ -118,5 +115,5 @@ symbol sweeps for every removed identifier come back clean. After the
 network policy was opened, `:application:app:compileDebugKotlin` was run in
 this environment and **builds successfully** — every module's Kotlin/Java
 compiles against the vendored source trees, covering all removals above.
-The native NDK stage has not been exercised here; run
-`./buildsystem/compile.sh -l -a <abi>` locally for the full build.
+The native stage has since been executed end-to-end as well — see the
+Status section of [BUILDING.md](BUILDING.md).
