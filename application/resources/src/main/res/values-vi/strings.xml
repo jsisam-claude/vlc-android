@@ -98,12 +98,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">Có %d bộ phim</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">Có %d chương trình truyền hình</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d bài hát</item>
     </plurals>
@@ -298,7 +292,6 @@
     <string name="screen_orientation_landscape_sensor">Hướng ngang (cảm biến)</string>
     <string name="screen_orientation_last_locked">Hướng xoay đã khoá lần cuối</string>
     <string name="enable_black_theme">Giao diện đen</string>
-    <string name="dark_theme">Giao diện tối</string>
     <string name="theme_auto">Giao diện tự động</string>
     <string name="subtitle_text_encoding">Mã hóa văn bản phụ đề</string>
     <string name="subtitle_preferred_language">Ngôn ngữ phụ đề được ưu tiên</string>
@@ -427,29 +420,6 @@
     <string name="audio_ducking_title">Giảm âm lượng của VLC khi có thông báo</string>
     <string name="audio_ducking_summary">Giúp bạn nghe các thông báo âm thanh, hướng dẫn điều hướng hoặc trợ lý nói</string>
     <string name="casting_category">Truyền</string>
-    <string name="remote_access">Truy cập từ xa</string>
-    <string name="remote_access_version_title">Phiên bản truy cập từ xa</string>
-    <string name="remote_access_hash_title">Băm truy cập từ xa</string>
-    <string name="remote_access_status">Trạng thái máy chủ</string>
-    <string name="remote_access_status_summary">Nhấn để xem trạng thái máy chủ</string>
-    <string name="remote_access_connections">Kết nối</string>
-    <string name="remote_access_links">Liên kết</string>
-    <string name="remote_access_active">Truy cập từ xa sẵn sàng</string>
-    <string name="remote_access_notification">Truy cập từ xa sẵn sàng ở %s</string>
-    <string name="remote_access_notification_stopped">Đã ngừng truy cập từ xa</string>
-    <string name="remote_access_notification_connecting">Kết nối truy cập từ xa</string>
-    <string name="remote_access_notification_error">Lỗi truy cập từ xa</string>
-    <string name="remote_access_notification_stopping">Dừng truy cập từ xa</string>
-    <string name="remote_access_notification_not_init">Thiết đặt điều khiển từ xa</string>
-    <string name="enable_remote_access">Cho phép truy cập từ xa</string>
-    <string name="remote_access_info">Thông tin truy cập từ xa</string>
-    <string name="remote_access_content">Nội dung</string>
-    <string name="remote_access_medialibrary_content">Nội dung thư viện phương tiện</string>
-    <string name="remote_access_medialibrary_content_summary">Cho phép: %1$s\n Vô hiệu: %2$s</string>
-    <string name="remote_access_file_browser_content">Trình duyệt tập tin</string>
-    <string name="remote_access_network_browser_content">Trình duyệt mạng</string>
-    <string name="remote_access_playback_control">Kiểm soát phát lại</string>
-    <string name="remote_access_logs">Chia sẻ tệp nhật ký</string>
     <string name="casting_switch_title">Truyền không dây</string>
     <string name="casting_passthrough_title">Chuyển âm thanh qua</string>
     <string name="casting_passthrough_summary">Để TV của bạn xử lý âm thanh</string>
@@ -576,16 +546,7 @@
     <!--What's new-->
     <string name="whats_new_title">VLC cho Android %s có gì mới? </string>
     <!--    update-->
-    <string name="update_title">Cập nhật sẵn sàng</string>
-    <string name="install_nightly_title">Cài đặt phiên bản mới nhất hàng ngày</string>
-    <string name="update_text">Một phiên bản mới hàng ngày của VLC cho Android đã sẵn sàng!\n\nBạn nhìn thấy điều này do bạn đang sử dụng một phiên bản hàng ngày.</string>
-    <string name="install_text">Phiên bản phần mềm mới hàng ngày là phiên bản được thêm tính năng mới và vá lỗi thường xuyên. \n\nTải ngay nhé?</string>
 
-    <string name="open_in_browser">Mở trong trình duyệt</string>
-    <string name="install">Cài đặt</string>
-    <string name="install_nightly">Cài đặt phiên bản mới hàng ngày</string>
-    <string name="install_nightly_alert">Phiên bản mới hàng ngày là phiên bản xịn nhất. \n\nTính năng mới lâu lâu có một xíu lỗi nha!</string>
-    <string name="nightly_version">Tìm thấy phiên bản: %2$s - %1$s</string>
     <!-- Accessibility -->
     <string name="more_actions">Nhiều hành động hơn</string>
     <string name="back_quit_lock">Ấn trở về một lần nữa để thoát</string>
@@ -606,7 +567,6 @@
     <string name="allow_storage_access_description">VLC cần bạn cấp quyền để truy cập tập tin đa phương tiện trên thiết bị.</string>
     <string name="partial_content">VLC không thể truy cập tất cả tệp</string>
     <string name="partial_content_description">Từ Android 11 trở đi, các ứng dụng cần quyền đặc biệt để truy cập tất cả tệp của thiết bị.\n\n%s</string>
-    <string name="never_ask_again">Không hỏi lại</string>
     <string name="never_show_again">Không bao giờ hiển thị lại, ngay cả đối với các phiên bản trong tương lai</string>
     <string name="allow_settings_access_ringtone_title">Cho phép VLC đặt nhạc chuông</string>
     <string name="allow_settings_access_ringtone_description">VLC cần bạn cấp quyền để đặt bài hát này làm nhạc chuông của bạn.</string>
@@ -748,7 +708,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="next">Tiếp</string>
     <string name="skip">Nhảy</string>
     <string name="next_step">Tiếp theo</string>
-    <string name="download">Tải về</string>
     <string name="ctx_player_video_track">Chọn kênh video</string>
     <string name="ctx_player_audio_track">Kênh âm thanh</string>
     <string name="ctx_player_subs_track">Kênh phụ đề</string>
@@ -835,25 +794,7 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="invalid_file">Tập tin không hợp lệ. Không thể chia sẻ.</string>
     <string name="share_file">Chia sẻ %s</string>
     <string name="share_message">Đây là %s</string>
-    <string name="find_metadata">Tìm siêu dữ liệu</string>
-    <string name="moviepedia_hint">Tìm kiếm siêu dữ liệu</string>
-    <string name="moviepedia_result">Kết quả video</string>
-    <string name="directed_by">Được đạo diễn bởi</string>
-    <string name="casting">Truyền</string>
-    <string name="produced_by">Được sản xuất bởi</string>
-    <string name="written_by">Được viết bởi</string>
-    <string name="music_by">Nhạc bởi</string>
-    <string name="posters">Áp phích</string>
-    <string name="backdrops">Nền</string>
-    <string name="header_tvshows">Chương trình TV</string>
-    <string name="header_movies">Phim</string>
-    <string name="season_number">Mùa %s</string>
-    <string name="resume_episode">Tiếp tục (%s)</string>
-    <string name="start_over">Bắt đầu lại từ đầu</string>
-    <string name="next_episode">Tập tiếp theo</string>
     <string name="open_network_settings">Mở cài đặt mạng ?</string>
-    <string name="recently_played">Xem gần đây</string>
-    <string name="recently_added">Được thêm gần đây</string>
     <string name="playback_multiple_errors">Nhiều media không thể phát được</string>
     <string name="clear_media_db_message">Bạn sẽ mất các tiến trình, đánh dấu, và các danh sách phát của bạn nhưng sẽ giữ lại cài đặt VLC của bạn.</string>
     <string name="clear_app_data_message">Bạn sẽ mất các tiến trình, đánh dấu, các danh sách phát và tất cả cài đặt VLC của bạn.</string>
@@ -910,19 +851,11 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="sub_result_by_name_season">Phần 1%s</string>
     <string name="sub_result_by_name_episode">Tập 1%s</string>
     <string name="sub_result_by_file">Kết quả cho tệp của bạn</string>
-    <string name="donate">Giúp VLC</string>
-    <string name="donate_desc">Hỗ trợ những người tình nguyện đang xây dựng VLC</string>
-    <string name="donate_subscribtion">Tôi muốn điều này là sự tài trợ hàng tháng</string>
-    <string name="donate_send">Bắt đầu sự tài trợ của bạn</string>
-    <string name="donation_description">Sự tài trợ của bạn sẽ cho phép chúng tôi:\nCải thiện ứng dụng VLC cho Android\nHỗ trợ Tổ chức VideoLAN</string>
     <string name="subscription_purchased">Bạn đã đăng ký sự tài trợ hàng tháng</string>
     <string name="subscription_cancel">Bạn có thể hủy đăng ký theo dõi trên CH Play</string>
     <string name="subscription_cancel_tv">Làm sao để hủy đăng ký theo dõi</string>
-    <string name="donate_unsubscribe_tv">Để hủy đăng ký, hãy mở %s trên điện thoại hoặc máy tính hoặc quét mã này:</string>
-    <string name="tip_jar">Giúp VLC</string>
     <string name="thank_you">Cảm ơn bạn</string>
     <string name="thank_you_desc">Cảm ơn vì sự tài trợ của bạn!\nNó sẽ giúp chúng tôi rất nhiều trong việc cải thiện VLC!</string>
-    <string name="donate_again">Tài trợ lại ứng dụng</string>
 
     <string name="mark_as_played">Đánh dấu là đã phát</string>
     <string name="mark_as_not_played">Đánh dấu là chưa phát</string>
@@ -1018,7 +951,6 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="discovery_failed">Khám phá thất bại đối với: %s</string>
     <string name="lock_use_sensor_title">Khóa bằng cảm biến</string>
     <string name="lock_use_sensor_summary">Khi hướng xoay được khóa, sử dụng cảm biến để cho phép xoay ngược</string>
-    <string name="start">Bắt đầu</string>
     <string name="notification_permission">Quyền thông báo</string>
     <string name="notification_permission_explanation">VLC cần bạn cho phép gửi thông báo.\nỨng dụng sẽ chỉ thông báo cho bạn khi quét phương tiện của bạn hoặc sử dụng video tùy chỉnh Ảnh trong ảnh.\nViệc từ chối sẽ không ngăn VLC hoạt động, tuy nhiên, thông báo sẽ bị ẩn.</string>
     <string name="permission">Quyền</string>
@@ -1147,57 +1079,7 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="replace_playlist">Thay thế danh sách phát</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Truy cập từ xa đang hoạt động</string>
-    <string name="ra_remote_access">Truy cập từ xa</string>
-    <string name="ra_remote_access_description">Thông báo trạng thái truy cập từ xa</string>
-    <string name="ra_log_file">Tệp nhật ký</string>
-    <string name="ra_log_type">Loại nhật ký</string>
-    <string name="ra_send_files">Gửi tệp</string>
-    <string name="ra_not_in_foreground">Ứng dụng không ở phía trước. Không thể khởi chạy video.</string>
-    <string name="ra_disconnected">Đã ngắt kết nối khỏi thiết bị</string>
-    <string name="ra_file">Tệp</string>
-    <string name="ra_upload_remaining">Đang tải lên %s tệp</string>
-    <string name="ra_upload_all">Tải lên toàn bộ</string>
-    <string name="ra_drop_files_tip">Thả tệp bất cứ đâu để gửi cho thiết bị của bạn</string>
-    <string name="ra_prepare_download">Chuẩn bị tải xuống</string>
-    <string name="ra_forbidden">Nội dung bị tắt trong cài đặt</string>
-    <string name="ra_playback_forbidden">Kiểm soát phát lại bị tắt trong cài đặt</string>
-    <string name="ra_code_requested_explanation">Để bảo vệ máy chủ của bạn, quyền truy cập được bảo vệ.\nVui lòng nhập mã được hiển thị trong thông báo của bạn</string>
-    <string name="ra_ssl_explanation_title">Kết nối không an toàn</string>
-    <string name="ra_ssl_explanation">Kết nối của bạn không an toàn.</string>
-    <string name="ra_ssl_explanation_browser">Do việc triển khai bảo mật trình duyệt, bạn sẽ nhận được cảnh báo bảo mật ở trang tiếp theo.</string>
-    <string name="ra_ssl_explanation_accept">Đảm bảo chấp nhận chứng chỉ để có thể sử dụng quyền truy cập từ xa</string>
-    <string name="ra_ssl_button">Sử dụng kết nối an toàn</string>
-    <string name="ra_new_code">Gửi mã mới</string>
-    <string name="home">Trang chủ</string>
-    <string name="ra_code">Nhập mã này: %s</string>
-    <string name="ra_send_logs">Lưu nhật ký truy cập từ xa trên thiết bị</string>
-    <string name="ra_otp">Truy cập từ xa mật khẩu một lần</string>
-    <string name="ra_otp_description">Yêu cầu truy cập để truy cập từ xa</string>
-    <string name="ra_otp_title">Nỗ lực đăng nhập truy cập từ xa</string>
-    <string name="ra_otp_subtitle">Nếu là bạn, hãy nhập mã này trên thiết bị kia</string>
-    <string name="ra_otp_not_me">Không phải tôi</string>
 
-    <string name="ra_onboarding_welcome_desc">Chào mừng bạn đến với VLC dành cho quyền truy cập từ xa của Android\Bằng cách bật nó, bạn sẽ có thể kiểm soát quá trình phát lại của thiết bị này và hơn thế nữa</string>
-    <string name="ra_onboarding_how_title">Kiểm soát thiết bị của bạn</string>
-    <string name="ra_onboarding_how_desc">Kiểm soát việc phát lại thiết bị của bạn, gửi hoặc truy xuất tệp và hơn thế nữa</string>
-    <string name="ra_onboarding_ssl_title">Mã hóa dữ liệu</string>
-    <string name="ra_onboarding_ssl_desc">Quyền truy cập từ xa được mã hóa để ngăn dữ liệu của bạn bị rò rỉ</string>
-    <string name="ra_onboarding_otp_title">Xác thực</string>
-    <string name="ra_onboarding_otp_desc">Với xác thực mật khẩu một lần, ngăn chặn truy cập không mong muốn vào dữ liệu của bạn</string>
-    <string name="ra_onboarding_content_title">Truy cập nội dung</string>
-    <string name="ra_onboarding_content_desc">Chọn những gì có thể được truy cập và những gì không thể</string>
-    <string name="ra_onboarding_content_ml">Truy cập nội dung thư viện phương tiện</string>
-    <string name="ra_onboarding_content_files">Trình duyệt tập tin</string>
-    <string name="ra_onboarding_content_playback">Kiểm soát phát lại</string>
-    <string name="ra_disable">Vô hiệu</string>
-    <string name="ra_log_web">Nhật ký truy cập từ xa</string>
-    <string name="ra_log_crash">Nhật ký sự cố</string>
-    <string name="ra_log_mobile">Nhật ký thiết bị</string>
-    <string name="ra_log_current">Nhật ký cục bộ hiện tại</string>
-    <string name="ra_invalid_login">Bạn cần đăng nhập trên thiết bị của mình</string>
-    <string name="ra_invalid_otp">Mã được cung cấp không hợp lệ</string>
-    <string name="learn_more">Tìm hiểu thêm</string>
 
     <!-- car screens -->
     <string name="help">Giúp đỡ</string>
@@ -1213,9 +1095,5 @@ Bạn có thể phải nhấn vào \"Hiển thị thẻ nhớ SD\" trước tron
     <string name="metered_warn">Cảnh báo tôi (cảnh báo có thể bị bỏ sót khi phát lại âm thanh)</string>
     <string name="metered_connection_stopped">Phương tiện đã dừng vì kết nối bị tính phí</string>
     <string name="metered_connection_warning">Bạn đang dùng kết nối tính phí.</string>
-    <string name="adding">Đang thêm</string>
-    <string name="to">vào</string>
     <string name="device">Thiết bị</string>
-    <string name="connected_device">Thiết bị đã kết nối</string>
-    <string name="model">Mẫu mã thiết bị</string>
     </resources>

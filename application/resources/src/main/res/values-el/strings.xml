@@ -123,14 +123,6 @@
         <item quantity="one">1 βίντεο</item>
         <item quantity="other">%d βίντεο</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 ταινία</item>
-        <item quantity="other">%d ταινίες</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 τηλεοπτική εκπομπή</item>
-        <item quantity="other">%d τηλεοπτικές εκπομπές</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 κομμάτι</item>
         <item quantity="other">%d κομμάτια</item>
@@ -232,8 +224,6 @@
     <string name="wait_before_sleep">Περιμένετε να τελειώσει πρώτο το τρέχον στοιχείο πολυμέσων</string>
     <string name="reset_on_interaction">Επαναφορά σε κάθε αλληλεπίδραση</string>
     <string name="default_sleep_timer_summary">%1$s, αναμονή τέλους μέσου: %2$s, επαναφορά κατά την αλληλεπίδραση: %3$s</string>
-    <string name="video_player_remote">Τηλεχειρισμός αναπαραγωγής βίντεο</string>
-    <string name="remote_keyboard_navigation">Πλοήγηση μέσω πληκτρολογίου</string>
 
     <string name="server_add_title">Προσθήκη νέου διακομιστή στα αγαπημένα</string>
     <string name="server_domain_hint">Διεύθυνση διακομιστή (όνομα τομέα ή ΙΡ)</string>
@@ -357,7 +347,6 @@
     <string name="screen_orientation_landscape_sensor">Οριζόντια (αισθητήρας)</string>
     <string name="screen_orientation_last_locked">Τελευταίος κλειδωμένος προσανατολισμός</string>
     <string name="enable_black_theme">Σκουρόχρωμο θέμα</string>
-    <string name="dark_theme">Σκουρόχρωμο θέμα</string>
     <string name="theme_auto">Αυτόματο θέμα</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="subtitle_preferred_language">Προτιμώμενη γλώσσα υποτίτλων</string>
@@ -499,29 +488,6 @@
     <string name="audio_ducking_title">Μείωση της έντασης ήχου του VLC κατά την εμφάνιση ειδοποιήσεων</string>
     <string name="audio_ducking_summary">Βοηθάει να ακούτε ηχητικές ειδοποιήσεις, οδηγίες πλοήγησης ή ομιλία βοηθού</string>
     <string name="casting_category">Μετάδοση</string>
-    <string name="remote_access">Απομακρυσμένη πρόσβαση</string>
-    <string name="remote_access_version_title">Έκδοση απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_hash_title">Hash απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_status">Κατάσταση διακομιστή</string>
-    <string name="remote_access_status_summary">Πατήστε για να δείτε την κατάσταση του διακομιστή</string>
-    <string name="remote_access_connections">Συνδέσεις</string>
-    <string name="remote_access_links">Σύνδεσμοι</string>
-    <string name="remote_access_active">Ενεργή απομακρυσμένη πρόσβαση</string>
-    <string name="remote_access_notification">Ενεργή απομακρυσμένη πρόσβαση στο %s</string>
-    <string name="remote_access_notification_stopped">Διακοπή απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_notification_connecting">Σύνδεση απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_notification_error">Σφάλμα απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_notification_stopping">Διακοπή απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_notification_not_init">Αρχικοποίηση απομακρυσμένης πρόσβασης</string>
-    <string name="enable_remote_access">Ενεργοποίηση απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_info">Πληροφορίες απομακρυσμένης πρόσβασης</string>
-    <string name="remote_access_content">Περιεχόμενο</string>
-    <string name="remote_access_medialibrary_content">Περιεχόμενο βιβλιοθήκης πολυμέσων</string>
-    <string name="remote_access_medialibrary_content_summary">Ενεργά:%1$s\nΑνενεργά: %2$s</string>
-    <string name="remote_access_file_browser_content">Περιηγητής αρχείων</string>
-    <string name="remote_access_network_browser_content">Περιηγητής δικτύου</string>
-    <string name="remote_access_playback_control">Έλεγχος αναπαραγωγής</string>
-    <string name="remote_access_logs">Διαμοιρασμός αρχείων καταγραφής</string>
     <string name="casting_switch_title">Ασύρματη μετάδοση</string>
     <string name="casting_passthrough_title">Ήχος σε Passthrough</string>
     <string name="casting_passthrough_summary">Επιτρέψτε στην τηλεόραση να διαχειρίζεται την έξοδο ήχου</string>
@@ -650,8 +616,6 @@
     <string name="search_global">Εύρεση σε όλη την βιβλιοθήκη πολυμέσων</string>
     <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
     <string name="playlist_name_hint">Όνομα λίστας αναπαραγωγής</string>
-    <string name="chapters">Κεφάλαια</string>
-    <string name="notset">Δεν ορίστηκε</string>
     <string name="go_to_chapter">Μετάβαση στο κεφάλαιο…</string>
     <string name="current_chapter">Κεφάλαιο: %s</string>
     <string name="confirm_resume">Συνέχιση από το τελευταίο χρονικό σημείο;</string>
@@ -671,19 +635,7 @@
     <string name="show_in_settings">Προβολή στις ρυθμίσεις</string>
 
 <!--    update-->
-    <string name="update_title">Διατίθεται ενημέρωση</string>
-    <string name="install_nightly_title">Εγκατάσταση της έκδοσης nightly</string>
-    <string name="update_text">Μια νέα έκδοση nightly για το Android είναι διαθέσιμη!\n\nΒλέπετε αυτό το μήνυμα επειδή χρησιμοποιείτε μια έκδοση nightly.</string>
-    <string name="install_text">Οι εκδόσεις nightly ενημερώνονται αυτόματα σε καθημερινή βάση, με τα τελευταία χαρακτηριστικά και επιδιορθώσεις.\n\nΝα γίνει λήψη τώρα;</string>
 
-    <string name="open_in_browser">Άνοιγμα στο πρόγραμμα περιήγησης διαδικτύου</string>
-    <string name="install">Εγκατάσταση</string>
-    <string name="install_nightly">Εγκατάσταση της έκδοσης nightly.</string>
-    <string name="install_nightly_alert">Οι εκδόσεις nightly είναι πειραματικές και ενημερώνονται καθημερινά.\n\nΝα αναμένετε νέα χαρακτηριστικά, όπως επίσης και πιθανά σφάλματα!</string>
-    <string name="nightly_version">Βρέθηκε έκδοση: %2$s- %1$s</string>
-    <string name="update_nightly_alert">Εκτελείτε μία έκδοση nightly. Θα θέλατε να γίνεται περιοδική αναζήτηση ενημερώσεων;</string>
-    <string name="update_nightly">Αυτόματη ενημέρωση</string>
-    <string name="update_nightly_summary">Αναζήτηση ενημερώσεων nightly περιοδικά</string>
 
 
     <!-- Accessibility -->
@@ -706,7 +658,6 @@
     <string name="allow_storage_access_description">Το VLC χρειάζεται παραχώρηση πρόσβασης στα αρχεία πολυμέσων αυτής της συσκευής.</string>
     <string name="partial_content">Το VLC δεν έχει πρόσβαση σε όλα τα αρχεία σας</string>
     <string name="partial_content_description">Ξεκινώντας με το Android 11, οι εφαρμογές χρειάζονται ειδική άδεια για πρόσβαση σε όλα τα αρχεία της συσκευής.\n\n%s</string>
-    <string name="never_ask_again">Να μην ερωτηθώ ξανά</string>
     <string name="never_show_again">Να μην εμφανιστεί ξανά, ακόμη και σε νεότερες εκδόσεις</string>
     <string name="allow_settings_access_ringtone_title">Επιτρέψτε στο VLC να ορίζει τον ήχο κλήσης</string>
     <string name="allow_settings_access_ringtone_description">Το VLC  σας ζητάει να του επιτρέψετε να ορίσει αυτό το τραγούδι ως ήχο κλήσης.</string>
@@ -862,7 +813,6 @@
     <string name="next">Επόμενο</string>
     <string name="skip">Παράλειψη</string>
     <string name="next_step">Επόμενο</string>
-    <string name="download">Λήψη</string>
     <string name="ctx_player_video_track">Επιλογή κομματιού βίντεο</string>
     <string name="ctx_player_audio_track"> Κομμάτι ήχου</string>
     <string name="ctx_player_subs_track"> Κομμάτι υπότιτλων</string>
@@ -962,25 +912,7 @@
     <string name="share_message">Εδώ βρίσκεται το %s</string>
     <string name="share_track_info">Διαμοιρασμός των πληροφοριών του κομματιού</string>
     <string name="share_track">Γίνεται ακρόαση του %s</string>
-    <string name="find_metadata">Εύρεση μεταδεδομένων</string>
-    <string name="moviepedia_hint">Αναζήτηση μεταδεδομένων</string>
-    <string name="moviepedia_result">Αποτελέσματα βίντεο</string>
-    <string name="directed_by">Σκηνοθεσία από</string>
-    <string name="casting">Μετάδοση</string>
-    <string name="produced_by">Παραγωγή από</string>
-    <string name="written_by">Γράφτηκε από</string>
-    <string name="music_by">Μουσική από</string>
-    <string name="posters">Αφίσες</string>
-    <string name="backdrops">Σκηνικά</string>
-    <string name="header_tvshows">Τηλεοπτικές εκπομπές</string>
-    <string name="header_movies">Ταινίες</string>
-    <string name="season_number">Κύκλος %s</string>
-    <string name="resume_episode">Συνέχιση (%s)</string>
-    <string name="start_over">Επανέναρξη</string>
-    <string name="next_episode">Επόμενο επεισόδιο</string>
     <string name="open_network_settings">Άνοιγμα ρυθμίσεων δικτύου;</string>
-    <string name="recently_played">Πρόσφατη αναπαραγωγή</string>
-    <string name="recently_added">Πρόσφατη προσθήκη</string>
     <string name="playback_multiple_errors">Αδύνατη η αναπαραγωγή πολλαπλών αρχείων πολυμέσων</string>
     <string name="clear_media_db_message">Θα χάσετε την πρόοδό σας, τους σελιδοδείκτες σας και τις λίστες αναπαραγωγής που δημιουργήσατε, αλλά θα διατηρηθούν οι ρυθμίσεις του VLC για Android</string>
     <string name="clear_app_data_message">Θα χάσετε την πρόοδό σας, τους σελιδοδείκτες σας, τις λίστες αναπαραγωγής και τις ρυθμίσεις του VLC</string>
@@ -1039,19 +971,11 @@
     <string name="sub_result_by_name_hearing_impaired">Μόνο για άτομα με προβλήματα ακοής</string>
 
     <string name="sub_result_by_file">Αποτελέσματα για το αρχείο σας</string>
-    <string name="donate">Βοηθήστε το VLC</string>
-    <string name="donate_desc">Υποστηρίξτε τους εθελοντές που αναπτύσσουν το VLC</string>
-    <string name="donate_subscribtion">Επιθυμώ αυτή να είναι μια μηνιαία χορηγία</string>
-    <string name="donate_send">Έναρξη χορηγίας</string>
-    <string name="donation_description">Η χορηγία σας μας επιτρέπει να:\nΒελτιώσουμε την εφαρμογή του VLC για το Android\nΥποστηρίξουμε την Οργάνωση VideoLAN</string>
     <string name="subscription_purchased">Έχετε εγγραφεί σε μηνιαία χορηγία</string>
     <string name="subscription_cancel">Μπορείτε να καταργήσετε τη συνδρομή σας μέσω του Play Store</string>
     <string name="subscription_cancel_tv">Πώς να καταργήσετε την συνδρομή σας</string>
-    <string name="donate_unsubscribe_tv">Για την κατάργηση της συνδρομής σας, παρακαλούμε ανοίξτε το %sμέσα από ένα τηλέφωνο ή υπολογιστή, ή σαρώστε αυτό τον κωδικό:</string>
-    <string name="tip_jar">Βοηθήστε το VLC</string>
     <string name="thank_you">Σας ευχαριστούμε</string>
     <string name="thank_you_desc">Σας ευχαριστούμε για τη χορηγία σας!\nΘα μας βοηθήσει πολύ στην βελτίωση του VLC!</string>
-    <string name="donate_again">Γίνετε ξανά χορηγοί της εφαρμογής</string>
 
     <string name="mark_as_played">Σήμανση ως αναπαραγμένου</string>
     <string name="mark_as_not_played">Σήμανση ως μη αναπαραγμένου</string>
@@ -1158,7 +1082,6 @@
     <string name="discovery_failed">Η ανακάλυψη απέτυχε για: %s</string>
     <string name="lock_use_sensor_title">Κλείδωμα με αισθητήρα</string>
     <string name="lock_use_sensor_summary">Όταν ο προσανατολισμός είναι κλειδωμένος, χρησιμοποιήστε τον αισθητήρα για να επιτρέψετε τον αντίστροφο προσανατολισμό</string>
-    <string name="start">Έναρξη</string>
     <string name="notification_permission">Αδειοδότηση ειδοποιήσεων</string>
     <string name="notification_permission_explanation">Το VLC χρειάζεται την άδειά σας για την εμφάνιση ειδοποιήσεων.\nΗ εφαρμογή θα σας ειδοποιεί μόνο όταν σαρώνει τα πολυμέσα σας ή χρησιμοποιεί το προσαρμοσμένο βίντεο Εικόνα-σε-εικόνα.\nΗ άρνηση δεν θα εμποδίσει τη λειτουργία του VLC, ωστόσο οι ειδοποιήσεις θα είναι κρυφές.</string>
     <string name="permission">Άδεια</string>
@@ -1297,58 +1220,7 @@
     <string name="replace_playlist">Αντικατάσταση λίστας αναπαραγωγής</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Ενεργοποιημένη απομακρυσμένη πρόσβαση</string>
-    <string name="ra_remote_access">Απομακρυσμένη πρόσβαση</string>
-    <string name="ra_remote_access_description">Ειδοποίηση κατάστασης απομακρυσμένης πρόσβασης</string>
-    <string name="ra_log_file">Αρχεία καταγραφής</string>
-    <string name="ra_log_type">Τύπος καταγραφής</string>
-    <string name="ra_send_files">Αποστολή αρχείων</string>
-    <string name="ra_not_in_foreground">Η εφαρμογή δεν βρίσκεται στο προσκήνιο. Αδυναμία έναρξης βίντεο.</string>
-    <string name="ra_disconnected">Αποσύνδεση από τη συσκευή</string>
-    <string name="ra_file">Αρχείο</string>
-    <string name="ra_upload_remaining">Μεταφόρτωση %s αρχείων</string>
-    <string name="ra_upload_all">Μεταφόρτωση όλων</string>
-    <string name="ra_drop_files_tip">Εναποθέστε αρχεία οπουδήποτε για μεταφορά στη συσκευή σας</string>
-    <string name="ra_prepare_download">Προετοιμασία λήψης</string>
-    <string name="ra_forbidden">Περιεχόμενο απενεργοποιημένο από τις ρυθμίσεις</string>
-    <string name="ra_playback_forbidden">Απενεργοποιημένος έλεγχος αναπαραγωγής από τις ρυθμίσεις</string>
-    <string name="ra_logs_forbidden">Απενεργοποιημένος διαμοιρασμός αρχείων καταγραφής από τις ρυθμίσεις</string>
-    <string name="ra_code_requested_explanation">Για την προστασία του διακομιστή σας, η πρόσβαση προστατεύεται.\nΠληκτρολογήστε τον κωδικό που εμφανίζεται στις ειδοποιήσεις σας</string>
-    <string name="ra_ssl_explanation_title">Μη-ασφαλής σύνδεση</string>
-    <string name="ra_ssl_explanation">Η σύνδεσή σας δεν είναι ασφαλής.</string>
-    <string name="ra_ssl_explanation_browser">Λόγω της εκτέλεσης ασφάλειας του προγράμματος περιήγησης, θα λάβετε μια προειδοποίηση ασφαλείας στην επόμενη σελίδα.</string>
-    <string name="ra_ssl_explanation_accept">Φροντίστε να αποδεχτείτε το πιστοποιητικό για να μπορείτε να χρησιμοποιήσετε την απομακρυσμένη πρόσβαση</string>
-    <string name="ra_ssl_button">Χρήση ασφαλούς σύνδεσης</string>
-    <string name="ra_new_code">Αποστολή νέου κωδικού</string>
-    <string name="home">Αρχική</string>
-    <string name="ra_code">Εισάγετε αυτόν τον κωδικό: %s</string>
-    <string name="ra_send_logs">Αποθηκεύστε τα αρχεία καταγραφής απομακρυσμένης πρόσβασης στη συσκευή</string>
-    <string name="ra_otp">Κωδικός πρόσβασης μίας χρήσης για απομακρυσμένη πρόσβαση </string>
-    <string name="ra_otp_description">Αιτήματα πρόσβασης για την απομακρυσμένη πρόσβαση</string>
-    <string name="ra_otp_title">Απόπειρα σύνδεσης απομακρυσμένης πρόσβασης</string>
-    <string name="ra_otp_subtitle">Εάν ήσαστε εσείς, εισάγετε αυτόν τον κωδικό στην άλλη συσκευή</string>
-    <string name="ra_otp_not_me">Δεν ήμουν εγώ</string>
 
-    <string name="ra_onboarding_welcome_desc">Καλώς ορίσατε στην απομακρυσμένη πρόσβαση του VLC για Android\nΕνεργοποιώντας τη θα μπορείτε να ελέγχετε την αναπαραγωγή αυτής της συσκευής και πολλά άλλα</string>
-    <string name="ra_onboarding_how_title">Έλεγχος της συσκευής σας</string>
-    <string name="ra_onboarding_how_desc">Ελέγξτε την αναπαραγωγή της συσκευής σας, μεταφέρατε αρχεία και άλλα</string>
-    <string name="ra_onboarding_ssl_title">Κρυπτοποίηση δεδομένων</string>
-    <string name="ra_onboarding_ssl_desc">Η απομακρυσμένη πρόσβαση είναι κρυπτογραφημένη ώστε να αποτραπεί οποιαδήποτε διαρροή δεδομένων</string>
-    <string name="ra_onboarding_otp_title">Ταυτοποίηση</string>
-    <string name="ra_onboarding_otp_desc">Με τον έλεγχο ταυτότητας μέσω κωδικού πρόσβασης, αποτρέπετε την ανεπιθύμητη πρόσβαση στα δεδομένα σας</string>
-    <string name="ra_onboarding_content_title">Πρόσβαση περιεχομένου</string>
-    <string name="ra_onboarding_content_desc">Επιλέξτε που υπάρχει πρόσβαση και πού όχι</string>
-    <string name="ra_onboarding_content_ml">Πρόσβαση στο περιεχόμενο της βιβλιοθήκης πολυμέσων</string>
-    <string name="ra_onboarding_content_files">Περιηγητής αρχείων</string>
-    <string name="ra_onboarding_content_playback">Έλεγχος αναπαραγωγής</string>
-    <string name="ra_disable">Απενεργοποίηση</string>
-    <string name="ra_log_web">Αρχείο καταγραφής απομακρυσμένης πρόσβασης</string>
-    <string name="ra_log_crash">Αρχείο καταγραφής κατάρρευσης</string>
-    <string name="ra_log_mobile">Αρχείο καταγραφής συσκευής</string>
-    <string name="ra_log_current">Τρέχοντα τοπικά αρχεία καταγραφής</string>
-    <string name="ra_invalid_login">Πρέπει να συνδεθείτε στη συσκευή σας</string>
-    <string name="ra_invalid_otp">Εισάγατε εσφαλμένο κωδικό</string>
-    <string name="learn_more">Μάθετε περισσότερα</string>
 
     <!-- car screens -->
     <string name="help">Βοήθεια</string>
@@ -1364,11 +1236,7 @@
     <string name="metered_warn">Να ειδοποιηθώ (η ειδοποίηση μπορεί να παρακαμφθεί για την αναπαραγωγή ήχου)</string>
     <string name="metered_connection_stopped">Η αναπαραγωγή διακόπηκε επειδή υπάρχει σύνδεση δεδομένων μέσω κινητής με όριο.</string>
     <string name="metered_connection_warning">Η σύνδεσή σας είναι μέσω δεδομένων κινητής με όριο. Ενδέχεται να υπάρξουν χρεώσεις.</string>
-    <string name="adding">Προστίθεται</string>
-    <string name="to">σε</string>
     <string name="device">Συσκευή</string>
-    <string name="connected_device">Συνδεδεμένη συσκευή</string>
-    <string name="model">Μοντέλο συσκευής</string>
     <string name="prefs_app_data">Δεδομένα εφαρμογής</string>
     <string name="export_settings_summary">Εξαγάγετε τις ρυθμίσεις σας σε ένα αρχείο για την εισαγωγή του σε μεταγενέστερο στάδιο</string>
     <string name="export_settings">Εξαγωγή ρυθμίσεων</string>
@@ -1404,12 +1272,6 @@
     <string name="generating_logs">Δημιουργία αρχείων καταγραφής. Αναμείνατε.</string>
     <string name="default_playback_action">Ενέργεια αναπαραγωγής</string>
     <string name="files">Αρχεία</string>
-    <string name="remote_access_feedback_generate">Δημιουργία αναφοράς</string>
-    <string name="remote_access_feedback_generated">Η αναφορά σχολίων σας έχει δημιουργηθεί</string>
-    <string name="remote_access_feedback_generated_explanation">Πατήστε το κουμπί παρακάτω για να το αποστείλετε χρησιμοποιώντας το προεπιλεγμένο πρόγραμμα email σας. Αν αντιμετωπίσετε προβλήματα, μπορείτε να αντιγράψετε και να επικολλήσετε τα πεδία παρακάτω και να στείλετε το email μόνοι σας</string>
-    <string name="remote_access_feedback_file_explanation">Έχετε πραγματοποιήσει λήψη του απαιτούμενου αρχείου. Παρακαλούμε, θυμηθείτε να το επισυνάψετε στο μήνυμά σας.</string>
-    <string name="generic_copied_to_clipboard">Αντιγράφηκε στο πρόχειρο</string>
     <string name="feedback_email_warning">Δεν έχει εγκατασταθεί πρόγραμμα ηλεκτρονικής αλληλογραφίας</string>
-    <string name="feedback_email_warning_remote_action">Άνοιγμα ρυθμίσεων</string>
     <string name="feedback_email_warning_try_anyway">Δοκιμή έτσι κι αλλιώς</string>
     </resources>

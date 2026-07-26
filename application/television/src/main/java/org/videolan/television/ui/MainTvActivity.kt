@@ -27,15 +27,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.Medialibrary
 import org.videolan.television.R
 import org.videolan.television.ui.browser.BaseTvActivity
 import org.videolan.tools.RESULT_RESCAN
 import org.videolan.tools.RESULT_RESTART
 import org.videolan.tools.RESULT_RESTART_APP
-import org.videolan.tools.Settings
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate

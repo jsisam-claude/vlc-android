@@ -363,7 +363,6 @@
     <string name="subtitle_search_name_hint">பெயர்</string>
     <string name="language_to_download">மொழி</string>
     <string name="next">அடுத்து</string>
-    <string name="download">பதிவிறக்கு</string>
     <string name="ctx_player_audio_track">ஒலி தடம்</string>
     <string name="ctx_pip_title">திரைமேலியக்கி</string>
     <string name="welcome_title">VLC க்கு வருக!</string>
@@ -380,7 +379,6 @@
     <string name="share">பகிர்</string>
     <string name="invalid_file">தவறான கோப்பு. பகிர முடியாது.</string>
     <string name="share_file">%s யை பகிர்</string>
-    <string name="recently_added">அண்மையில் சேர்ந்தவை</string>
     <string name="video_information">காணொளி தகவல்</string>
 
     <string name="text">எழுத்து</string>
@@ -393,9 +391,6 @@
     <string name="new_stream">புது ஓடை</string>
     <string name="rename_group">காணொளி குழுவை மறுபெயரிடு</string>
     <string name="swipe_unlock">பூட்டவிழ்க்க தேய்</string>
-    <string name="donate">VLC-ஐ உதவு</string>
-    <string name="donate_desc">VLC-ஐ கட்டும் தன்னார்வலர்களை ஆதரி</string>
-    <string name="tip_jar">VLC-ஐ உதவு</string>
     <string name="air_action_forward">10நொடி முன்னே நாடு</string>
     <string name="video_hud_timeout">காணொளியியக்கி கட்டுப்பாடுகள் மறைய தாமதம்</string>
     <string name="apply_to_all">எல்லா காணொளிகளுக்கும் உபயோகி</string>

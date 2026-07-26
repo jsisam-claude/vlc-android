@@ -104,18 +104,6 @@
         <item quantity="many">%d filmów</item>
         <item quantity="other">%d filmy</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="few">%d filmy</item>
-        <item quantity="many">%d filmów</item>
-        <item quantity="other">%d filmy</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 serial</item>
-        <item quantity="few">%d seriale</item>
-        <item quantity="many">%d serialów</item>
-        <item quantity="other">%d seriale</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 utwór</item>
         <item quantity="few">%d utwory</item>
@@ -480,7 +468,6 @@
     <string name="whats_next">Co dalej?</string>
     <string name="allow_storage_access_title">Zezwól VLC na dostęp do plików audio i wideo</string>
     <string name="allow_storage_access_description">VLC potrzebuje udzielenia pozwolenia na dostęp do plików multimedialnych na tym urządzeniu.</string>
-    <string name="never_ask_again">Nie pytaj ponownie</string>
     <string name="allow_settings_access_ringtone_title">Zezwól VLC na ustawienie dzwonka</string>
     <string name="allow_settings_access_ringtone_description">VLC potrzebuje udzielenia pozwolenia do skonfigurowania tego utworu jako dzwonka.</string>
     <string name="allow_settings_access_brightness_title">Zezwól VLC na zmianę jasności</string>
@@ -593,7 +580,6 @@
     <string name="next">Następny</string>
     <string name="skip">Pomiń</string>
     <string name="next_step">Dalej</string>
-    <string name="download">Pobierz</string>
     <string name="ctx_player_video_track">Wybierz ścieżkę wideo</string>
     <string name="ctx_player_audio_track">Ścieżka dźwiękowa</string>
     <string name="ctx_player_subs_track">Ścieżka napisów</string>
@@ -679,25 +665,7 @@
     <string name="invalid_file">Nieprawidłowy plik. Nie można udostępnić.</string>
     <string name="share_file">Udostępnij %s</string>
     <string name="share_message">Tutaj jest %s</string>
-    <string name="find_metadata">Znajdź metadane</string>
-    <string name="moviepedia_hint">Wyszukaj metadane</string>
-    <string name="moviepedia_result">Wyniki wideo</string>
-    <string name="directed_by">Reżyseria:</string>
-    <string name="casting">Obsada:</string>
-    <string name="produced_by">Produkcja:</string>
-    <string name="written_by">Scenariusz:</string>
-    <string name="music_by">Muzyka:</string>
-    <string name="posters">Plakaty</string>
-    <string name="backdrops">Tła</string>
-    <string name="header_tvshows">Seriale</string>
-    <string name="header_movies">Filmy</string>
-    <string name="season_number">Sezon %s</string>
-    <string name="resume_episode">Wznów (%s)</string>
-    <string name="start_over">Zacznij od początku</string>
-    <string name="next_episode">Następny odcinek</string>
     <string name="open_network_settings">Otworzyć ustawienia sieciowe?</string>
-    <string name="recently_played">Ostatnio odtwarzane</string>
-    <string name="recently_added">Ostatnio dodane</string>
     <string name="playback_multiple_errors">Nie można odtwarzać kilku multimediów</string>
     <string name="clear_media_db_message">Utracisz swoje postępy, zakładki i utworzone listy odtwarzania, ale zachowasz ustawienia VLC dla Androida</string>
     <string name="clear_app_data_message">Utracisz swoje postępy, zakładki, listy odtwarzania i wszystkie ustawienia VLC</string>
@@ -753,19 +721,11 @@
     <string name="sub_result_by_name_season">Sezon %s</string>
     <string name="sub_result_by_name_episode">Odcinek %s</string>
     <string name="sub_result_by_file">Wyniki dla Twojego pliku</string>
-    <string name="donate">Pomóż VLC</string>
-    <string name="donate_desc">Wspieraj wolontariuszy tworzących VLC</string>
-    <string name="donate_subscribtion">Chcę, aby to był comiesięczny sponsoring</string>
-    <string name="donate_send">Rozpocznij sponsorowanie</string>
-    <string name="donation_description">Twoje sponsorowanie pozwoli nam:\nUlepszyć aplikację VLC na Androida\nWspierać Stowarzyszenie VideoLAN</string>
     <string name="subscription_purchased">Jesteś subskrybentem comiesięcznego sponsorowania</string>
     <string name="subscription_cancel">Możesz zrezygnować z subskrypcji w Sklepie Play</string>
     <string name="subscription_cancel_tv">Jak zrezygnować z subskrypcji</string>
-    <string name="donate_unsubscribe_tv">Aby anulować subskrypcję, otwórz %s na telefonie lub komputerze albo zeskanuj ten kod:</string>
-    <string name="tip_jar">Pomóż VLC</string>
     <string name="thank_you">Dziękujemy</string>
     <string name="thank_you_desc">Dziękujemy za wsparcie!\nPomoże nam to w ulepszaniu VLC!</string>
-    <string name="donate_again">Ponownie zasponsoruj aplikację</string>
 
     <string name="mark_as_played">Oznacz jako odtworzony</string>
     <string name="mark_as_not_played">Oznacz jako nieodtworzony</string>
@@ -828,7 +788,6 @@
     <string name="discovery_failed">Odkrycie nie powiodło się dla: %s</string>
     <string name="lock_use_sensor_title">Zablokuj czujnik</string>
     <string name="lock_use_sensor_summary">Gdy orientacja jest zablokowana, użyj czujnika, aby umożliwić odwrotną orientację</string>
-    <string name="start">Start</string>
     <string name="permission">Uprawnienie</string>
     <string name="customize">Dostosuj</string>
     <string name="official_website">Oficjalna strona internetowa</string>
@@ -880,9 +839,6 @@
     <string name="downloaded">Pobrano</string>
     <string name="not_downloaded">Nie pobrano</string>
     <string name="downloading">Pobieranie</string>
-    <string name="ra_send_files">Wyślij pliki</string>
-    <string name="ra_file">Plik</string>
-    <string name="ra_disable">Wyłącz</string>
     <!-- car screens -->
     <string name="help">Pomoc</string>
     </resources>

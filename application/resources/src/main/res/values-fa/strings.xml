@@ -97,14 +97,6 @@
         <item quantity="one">1 ویدیو</item>
         <item quantity="other">%d ویدیو</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 فیلم</item>
-        <item quantity="other">%d فیلم</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 نمایش تلویزیونی</item>
-        <item quantity="other">%d نمایش تلویزیونی</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 قطعه</item>
         <item quantity="other">%d صدا</item>
@@ -292,7 +284,6 @@
     <string name="screen_orientation_landscape_reverse">افقی معکوس</string>
     <string name="screen_orientation_last_locked">آخرین جهت قفل شده</string>
     <string name="enable_black_theme">پوسته سیاه</string>
-    <string name="dark_theme">حالت تاریک</string>
     <string name="theme_auto">زمینه خودکار</string>
     <string name="subtitle_text_encoding">کد گذاری متن زیرنویس</string>
     <string name="subtitle_preferred_language">زبان دلخواه زیرنویس</string>
@@ -538,7 +529,6 @@
     <string name="allow_storage_access_title">به VLC اجازه دهید تا به فایل های ویدیویی و صدا دسترسی داشته باشد</string>
     <string name="allow_storage_access_description">پخش کننده VLC به مجوز شما برای دسترسی به فایل های رسانه ای این دستگاه نیاز دارد</string>
     <string name="partial_content">VLC نمی‌تواند به تمامی فایل‌های شما دسترسی یابد.</string>
-    <string name="never_ask_again">دوباره نپرس</string>
     <string name="allow_settings_access_ringtone_title">به VLC اجازه دهید که آهنگ زنگ گوشی را تغییر دهد</string>
     <string name="allow_settings_access_ringtone_description">پخش کننده VLC به مجوز شما برای تنظیم این آهنگ به عنوان آهنگ زنگ گوشی نیاز دارد</string>
     <string name="allow_settings_access_brightness_title">به VLC اجازه دهید حالت روشنایی را تغییر دهد</string>
@@ -656,7 +646,6 @@
     <string name="next">بعدی</string>
     <string name="skip">پرش</string>
     <string name="next_step">بعدی</string>
-    <string name="download">دانلود</string>
     <string name="ctx_player_video_track">انتخاب ویدیویی</string>
     <string name="ctx_player_audio_track">صدا</string>
     <string name="ctx_player_subs_track">زیرنویس</string>
@@ -721,25 +710,7 @@
     <string name="invalid_file">فایل نامعتبر است و نمی توانید آن را به اشتراک بگذارید</string>
     <string name="share_file">اشتراک گذاری %s</string>
     <string name="share_message">%sآماده است</string>
-    <string name="find_metadata">یافتن فراداده</string>
-    <string name="moviepedia_hint">جستجوی فراداده</string>
-    <string name="moviepedia_result">نتیجه‌ های ویدیو</string>
-    <string name="directed_by">کارگردان</string>
-    <string name="casting">بازیگران</string>
-    <string name="produced_by">تهیه کننده</string>
-    <string name="written_by">نویسنده</string>
-    <string name="music_by">آهنگساز</string>
-    <string name="posters">پوستر ها</string>
-    <string name="backdrops">پس زمینه‌ها</string>
-    <string name="header_tvshows">برنامه های تلویزیونی</string>
-    <string name="header_movies">فیلم‌ ها</string>
-    <string name="season_number">فصل %s</string>
-    <string name="resume_episode">ادامه (%s)</string>
-    <string name="start_over">شروع دوباره</string>
-    <string name="next_episode">قسمت بعدی</string>
     <string name="open_network_settings">آیا تنظیمات شبکه باز شود؟</string>
-    <string name="recently_played">آخرین پخش شده ها</string>
-    <string name="recently_added">به تازگی افزوده شده</string>
     <string name="playback_multiple_errors">چند رسانه قابل پحش نیست</string>
     <string name="clear">پاک‌کردن</string>
     <string name="abrepeat_add_first_marker">تنظیم نقطه آغاز</string>
@@ -792,17 +763,11 @@
     <string name="sub_result_by_name_season">فصل %s</string>
     <string name="sub_result_by_name_episode">قسمت %s</string>
     <string name="sub_result_by_file">نتایج برای پرونده‌تان</string>
-    <string name="donate">کمک به وی‌ال‌سی</string>
-    <string name="donate_desc">از داوطلبان ساخت وی‌ال‌سی پشتیبانی کنید</string>
-    <string name="donate_subscribtion">می‌خواهم حامی مالی ماهانه باشم</string>
-    <string name="donate_send">حمایت مالی خود را آغاز کنید</string>
     <string name="subscription_purchased">شما مشترک حمایت مالی ماهانه هستید</string>
     <string name="subscription_cancel">می‌توانید اشتراک خود را در فروشگاه پلی لغو کنید</string>
     <string name="subscription_cancel_tv">چگونه اشتراک را لغو کنیم</string>
-    <string name="tip_jar">کمک به وی‌ال‌سی</string>
     <string name="thank_you">ممنون</string>
     <string name="thank_you_desc">برای حمایت مالیتان متشکریم!\n این در بهبود وی‌ال‌سی به ما بسیار کمک خواهد کرد!</string>
-    <string name="donate_again">حمایت مالی دوباره از برنامه</string>
 
     <string name="mark_as_played">نشان‌گذاری به‌عنوان پخش شده</string>
     <string name="mark_all_as_played">نشان‌گذاری همه به‌عنوان پخش شده</string>
@@ -844,7 +809,6 @@
     <string name="add_button">افزودن</string>
     <string name="add_all_button">افزودن همه</string>
     <string name="add_new_only_button">افزودن فقط موارد جدید</string>
-    <string name="start">شروع</string>
     <string name="permission">مجوز</string>
     <string name="customize">سفارشی‌سازی</string>
     <string name="selection_count">%dانتخاب شد</string>

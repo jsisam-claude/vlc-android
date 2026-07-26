@@ -118,12 +118,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">동영상 %d개</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other"> %d개 영화</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">TV 프로그램 %d개</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">트랙 %d개</item>
     </plurals>
@@ -224,8 +218,6 @@
     <string name="wait_before_sleep">현재 미디어 항목이 먼저 완료될 때까지 대기하기</string>
     <string name="reset_on_interaction">사용자 입력 시 타이머 재설정</string>
     <string name="default_sleep_timer_summary">기본 슬립 타이머 설정을 구성합니다</string>
-    <string name="video_player_remote">동영상 플레이어 리모컨</string>
-    <string name="remote_keyboard_navigation">키보드 탐색</string>
 
     <string name="server_add_title">즐겨찾기에 새로운 서버 추가하기</string>
     <string name="server_domain_hint">서버 주소 (도메인 이름 또는 IP)</string>
@@ -348,7 +340,6 @@
     <string name="screen_orientation_landscape_sensor">자동 가로 방향 (센서)</string>
     <string name="screen_orientation_last_locked">마지막 잠금 방향</string>
     <string name="enable_black_theme">검정 테마</string>
-    <string name="dark_theme">어두운 테마</string>
     <string name="theme_auto">자동 테마</string>
     <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
     <string name="subtitle_preferred_language">선호하는 자막 언어</string>
@@ -493,29 +484,6 @@
     <string name="audio_ducking_title">알림시 VLC 음량 낮추기</string>
     <string name="audio_ducking_summary">오디오 알림, 네비게이션 안내 또는 어시스턴트 음성출력시 듣는데 도움이 됩니다</string>
     <string name="casting_category">캐스팅</string>
-    <string name="remote_access">원격 접근</string>
-    <string name="remote_access_version_title">버전</string>
-    <string name="remote_access_hash_title">해시</string>
-    <string name="remote_access_status">서버 상태</string>
-    <string name="remote_access_status_summary">서버의 현재 연결 상태를 표시합니다</string>
-    <string name="remote_access_connections">연결</string>
-    <string name="remote_access_links">링크</string>
-    <string name="remote_access_active">활성</string>
-    <string name="remote_access_notification">원격 제어 알림</string>
-    <string name="remote_access_notification_stopped">원격 제어 중지됨</string>
-    <string name="remote_access_notification_connecting">원격 제어 연결 중</string>
-    <string name="remote_access_notification_error">원격 제어 오류</string>
-    <string name="remote_access_notification_stopping">원격 제어 중지 중</string>
-    <string name="remote_access_notification_not_init">원격 제어가 초기화되지 않았습니다</string>
-    <string name="enable_remote_access">원격 제어 허용</string>
-    <string name="remote_access_info">원격 제어 정보</string>
-    <string name="remote_access_content">콘텐츠</string>
-    <string name="remote_access_medialibrary_content">미디어 라이브러리</string>
-    <string name="remote_access_medialibrary_content_summary">미디어 라이브러리 콘텐츠에 대한 원격 접근을 허용합니다</string>
-    <string name="remote_access_file_browser_content">파일 브라우저</string>
-    <string name="remote_access_network_browser_content">네트워크 브라우저</string>
-    <string name="remote_access_playback_control">재생 컨트롤</string>
-    <string name="remote_access_logs">로그 파일 공유</string>
     <string name="casting_switch_title">무선 캐스트</string>
     <string name="casting_passthrough_title">오디오 패스스루</string>
     <string name="casting_passthrough_summary">TV가 오디오 렌더링을 관리하도록 합니다</string>
@@ -645,8 +613,6 @@
     <string name="search_global">모든 미디어 라이브러리에서 찾기</string>
     <string name="playlist_save">재생 목록에 저장하기</string>
     <string name="playlist_name_hint">재생 목록 이름</string>
-    <string name="chapters">챕터</string>
-    <string name="notset">설정 안 됨</string>
     <string name="go_to_chapter">챕터 이동하기…</string>
     <string name="current_chapter">챕터: %s</string>
     <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
@@ -666,19 +632,7 @@
     <string name="show_in_settings">설정에서 보기</string>
 
 <!--    update-->
-    <string name="update_title">업데이트</string>
-    <string name="install_nightly_title">나이틀리 버전 설치</string>
-    <string name="update_text">새로운 버전이 있습니다. 업데이트하시겠습니까?</string>
-    <string name="install_text">설치하시겠습니까?</string>
 
-    <string name="open_in_browser">브라우저에서 열기</string>
-    <string name="install">설치</string>
-    <string name="install_nightly">나이틀리 설치</string>
-    <string name="install_nightly_alert">나이틀리 버전은 불안정할 수 있습니다. 설치하시겠습니까?</string>
-    <string name="nightly_version">나이틀리 버전</string>
-    <string name="update_nightly_alert">새로운 나이틀리 버전이 있습니다. 업데이트하시겠습니까?</string>
-    <string name="update_nightly">나이틀리 업데이트</string>
-    <string name="update_nightly_summary">나이틀리 버전을 최신 상태로 유지합니다</string>
 
 
     <!-- Accessibility -->
@@ -701,7 +655,6 @@
     <string name="allow_storage_access_description">이 장치에서 VLC가 미디어 파일에 접근하려면 사용자의 승인이 필요합니다.</string>
     <string name="partial_content">VLC가 일부 파일에 액세스할 수 없습니다</string>
     <string name="partial_content_description">Android 11부터 응용프로그램은 모든 기기의 파일에 액세스하려면 특별한 권한이 필요합니다.\n\n%s</string>
-    <string name="never_ask_again">다시 묻지 않음</string>
     <string name="never_show_again">다시 표시하지 않기</string>
     <string name="allow_settings_access_ringtone_title">VLC에서 전화벨 소리 설정 허용하기</string>
     <string name="allow_settings_access_ringtone_description">VLC에서 이 곡을 전화벨 소리로 등록하려면 사용자의 승인이 필요합니다.</string>
@@ -857,7 +810,6 @@
     <string name="next">다음</string>
     <string name="skip">건너뛰기</string>
     <string name="next_step">다음</string>
-    <string name="download">다운로드</string>
     <string name="ctx_player_video_track">동영상 트랙</string>
     <string name="ctx_player_audio_track">오디오 트랙</string>
     <string name="ctx_player_subs_track">자막 트랙</string>
@@ -955,25 +907,7 @@
     <string name="share_message">여기 있어요 %s</string>
     <string name="share_track_info">트랙 정보 공유</string>
     <string name="share_track">트랙 공유</string>
-    <string name="find_metadata">메타데이터 찾기</string>
-    <string name="moviepedia_hint">메타데이터 검색</string>
-    <string name="moviepedia_result">동영상 결과</string>
-    <string name="directed_by">감독</string>
-    <string name="casting">캐스팅</string>
-    <string name="produced_by">프로듀서</string>
-    <string name="written_by">작가</string>
-    <string name="music_by">음악</string>
-    <string name="posters">포스터</string>
-    <string name="backdrops">배경 이미지</string>
-    <string name="header_tvshows">TV 프로그램</string>
-    <string name="header_movies">영화</string>
-    <string name="season_number">시즌 %s</string>
-    <string name="resume_episode">이어서 재생하기 (%s)</string>
-    <string name="start_over">처음부터 다시 시작</string>
-    <string name="next_episode">다음 에피소드</string>
     <string name="open_network_settings">네트워크 설정을 열으시겠습니까?</string>
-    <string name="recently_played">최근 재생한 항목</string>
-    <string name="recently_added">최근에 추가한 항목</string>
     <string name="playback_multiple_errors">여러 미디어를 재생할 수 없습니다</string>
     <string name="clear_media_db_message">진행 상황, 바로찾기 및 생성한 재생 목록을 잃게 되지만 VLC는 Android 설정을 유지합니다.</string>
     <string name="clear_app_data_message">진행률, 바로찾기, 재생 목록 및 모든 VLC 설정을 잃게 됩니다.</string>
@@ -1032,19 +966,11 @@
     <string name="sub_result_by_name_hearing_impaired">청각 장애인용 자막 포함</string>
 
     <string name="sub_result_by_file">파일에 대한 결과</string>
-    <string name="donate">VLC에 도움 주기</string>
-    <string name="donate_desc">VLC 개발자들을 지원하기</string>
-    <string name="donate_subscribtion">정기 후원하기</string>
-    <string name="donate_send">후원 시작하기</string>
-    <string name="donation_description">후원금은 VLC Android 앱 개선과\nVideoLAN 협회 지원에 사용됩니다</string>
     <string name="subscription_purchased">월간 구독에 가입되어 있습니다</string>
     <string name="subscription_cancel">Play Store에서 구독을 중단할 수 있습니다</string>
     <string name="subscription_cancel_tv">구독을 중단하는 방법</string>
-    <string name="donate_unsubscribe_tv">구독을 중단하려면, %s를 휴대전화나 컴퓨터에서 열거나 다음 코드를 스캔하세요:</string>
-    <string name="tip_jar">VLC에 도움 주기</string>
     <string name="thank_you">감사합니다</string>
     <string name="thank_you_desc">구독해 주셔서 감사합니다!\nVLC를 개선하는 데에 많은 도움이 될 것입니다!</string>
-    <string name="donate_again">앱 다시 후원하기</string>
 
     <string name="mark_as_played">재생함으로 표시</string>
     <string name="mark_as_not_played">재생되지 않음으로 표시</string>
@@ -1151,7 +1077,6 @@
     <string name="discovery_failed">다음에 대한 검색 실패: %s</string>
     <string name="lock_use_sensor_title">센서로 잠금</string>
     <string name="lock_use_sensor_summary">방향이 잠겨 있으면 센서를 사용하여 반대 방향을 허용합니다</string>
-    <string name="start">시작</string>
     <string name="notification_permission">알림 권한</string>
     <string name="notification_permission_explanation">VLC가 알림을 보내려면 사용자의 권한이 필요합니다.\n앱은 미디어를 스캔하거나 사용자 지정 동영상 PIP(Picture in Picture)를 사용할 때만 알림을 표시합니다.\n거부해도 VLC는 작동하지만 알림은 숨겨집니다.</string>
     <string name="permission">권한</string>
@@ -1288,63 +1213,7 @@
     <string name="replace_playlist">재생 목록 바꾸기</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">서버 실행 중</string>
-    <string name="ra_remote_access">원격 제어</string>
-    <string name="ra_remote_access_description">웹 브라우저에서 VLC를 원격으로 제어할 수 있습니다.</string>
-    <string name="ra_log_file">로그 파일</string>
-    <string name="ra_log_type">로그 유형</string>
-    <string name="ra_send_files">파일 보내기</string>
-    <string name="ra_not_in_foreground">애플리케이션이 포그라운드에 있지 않습니다. 동영상을 시작할 수 없습니다.</string>
-    <string name="ra_disconnected">연결이 끊어졌습니다</string>
-    <string name="ra_file">파일</string>
-    <string name="ra_upload_remaining">업로드 남음</string>
-    <string name="ra_upload_all">전체 업로드</string>
-    <string name="ra_drop_files_tip">여기에 파일을 끌어다 놓으세요</string>
-    <string name="ra_prepare_download">다운로드 준비 중</string>
-    <string name="ra_forbidden">접근이 거부되었습니다</string>
-    <string name="ra_playback_forbidden">재생 권한이 없습니다</string>
-    <string name="ra_logs_forbidden">로그 접근 권한이 없습니다</string>
-    <string name="ra_code_requested_explanation">원격 접근을 인증하려면 앱에 표시된 코드를 입력하세요.</string>
-    <string name="ra_ssl_explanation_title">보안 연결</string>
-    <string name="ra_ssl_explanation">보안 연결(HTTPS)을 사용하면 데이터가 암호화되어 전송됩니다. 브라우저에서 인증서 경고가 표시될 수 있으며, 이는 자체 서명 인증서이기 때문입니다.</string>
-    <string name="ra_ssl_explanation_browser">브라우저에서 인증서를 신뢰하도록 허용해야 합니다.</string>
-    <string name="ra_ssl_explanation_accept">계속하려면 브라우저에서 경고를 수락하세요.</string>
-    <string name="ra_ssl_button">보안 연결 사용</string>
-    <string name="ra_new_code">새 코드 전송</string>
-    <string name="home">홈</string>
-    <string name="ra_code">코드</string>
-    <string name="ra_send_logs">로그 보내기</string>
-    <string name="ra_otp">일회용 비밀번호</string>
-    <string name="ra_otp_description">원격 접근을 허용하려면 아래 코드를 입력하세요.</string>
-    <string name="ra_otp_title">원격 접근 요청</string>
-    <string name="ra_otp_subtitle">새로운 기기에서 원격 접근이 요청되었습니다.</string>
-    <string name="ra_otp_not_me">내가 아닙니다</string>
-    <string name="ra_output">출력</string>
-    <string name="ra_play_on_browser">브라우저에서 재생</string>
-    <string name="ra_play_on_device">기기에서 재생</string>
-    <string name="ra_browser_audio_not_found">브라우저에서 오디오를 찾을 수 없습니다</string>
-    <string name="ra_browser_audio_unsupported_format">브라우저에서 지원하지 않는 오디오 형식입니다</string>
 
-    <string name="ra_onboarding_welcome_desc">스마트폰, 태블릿 또는 컴퓨터의 웹 브라우저에서 VLC를 원격으로 제어할 수 있습니다.</string>
-    <string name="ra_onboarding_how_title">작동 방식</string>
-    <string name="ra_onboarding_how_desc">동일한 네트워크에 연결된 기기의 웹 브라우저에서 표시되는 URL을 열어 원격으로 VLC를 제어합니다.</string>
-    <string name="ra_onboarding_ssl_title">데이터 암호화</string>
-    <string name="ra_onboarding_ssl_desc">보안 연결을 통해 데이터가 암호화되어 안전하게 전송됩니다.</string>
-    <string name="ra_onboarding_otp_title">인증</string>
-    <string name="ra_onboarding_otp_desc">일회용 비밀번호를 사용하여 원격 접근 요청을 승인합니다.</string>
-    <string name="ra_onboarding_content_title">원격 콘텐츠 제어</string>
-    <string name="ra_onboarding_content_desc">원격으로 다음을 수행할 수 있습니다.</string>
-    <string name="ra_onboarding_content_ml">미디어 라이브러리</string>
-    <string name="ra_onboarding_content_files">파일 브라우저</string>
-    <string name="ra_onboarding_content_playback">재생 제어</string>
-    <string name="ra_disable">비활성화</string>
-    <string name="ra_log_web">웹 로그</string>
-    <string name="ra_log_crash">충돌 로그</string>
-    <string name="ra_log_mobile">모바일 로그</string>
-    <string name="ra_log_current">현재 로그</string>
-    <string name="ra_invalid_login">잘못된 로그인 정보입니다</string>
-    <string name="ra_invalid_otp">잘못된 코드입니다</string>
-    <string name="learn_more">자세히 알아보기</string>
 
     <!-- car screens -->
     <string name="help">도움말</string>
@@ -1360,11 +1229,7 @@
     <string name="metered_warn">경고</string>
     <string name="metered_connection_stopped">데이터 과금 연결로 인해 중지되었습니다</string>
     <string name="metered_connection_warning">데이터 과금 연결에서는 데이터가 소비될 수 있습니다</string>
-    <string name="adding">추가 중</string>
-    <string name="to">대상</string>
     <string name="device">기기</string>
-    <string name="connected_device">연결된 기기</string>
-    <string name="model">모델</string>
     <string name="prefs_app_data">앱 데이터</string>
     <string name="export_settings_summary">설정을 파일로 내보내기</string>
     <string name="export_settings">설정 내보내기</string>
@@ -1400,13 +1265,7 @@
     <string name="generating_logs">로그 생성 중...</string>
     <string name="default_playback_action">기본 재생 동작</string>
     <string name="files">파일</string>
-    <string name="remote_access_feedback_generate">보고서 생성하기</string>
-    <string name="remote_access_feedback_generated">보고서가 생성되었습니다</string>
-    <string name="remote_access_feedback_generated_explanation">생성된 보고서를 첨부하여 피드백 이메일을 보낼 수 있습니다.</string>
-    <string name="remote_access_feedback_file_explanation">보고서 파일이 저장소에 저장됩니다. 필요 시 첨부하여 전송하세요.</string>
-    <string name="generic_copied_to_clipboard">클립보드에 복사됨</string>
     <string name="feedback_email_warning">이메일 계정이 설정되지 않았습니다</string>
     <string name="feedback_email_warning_explanation">피드백을 보내려면 기기에 이메일 계정이 설정되어 있어야 합니다.</string>
-    <string name="feedback_email_warning_remote_action">설정 열기</string>
     <string name="feedback_email_warning_try_anyway">그래도 시도</string>
     </resources>

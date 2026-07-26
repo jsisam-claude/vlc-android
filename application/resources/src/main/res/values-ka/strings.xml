@@ -123,14 +123,6 @@
         <item quantity="one">1 ვიდეო</item>
         <item quantity="other">%d ვიდეო</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 ფილმი</item>
-        <item quantity="other">%d ფილმი</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 გადაცემა</item>
-        <item quantity="other">%d გადაცემა</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 ჩანაწერი</item>
         <item quantity="other">%d ჩანაწერი</item>
@@ -232,8 +224,6 @@
     <string name="wait_before_sleep">გაშვებული ფაილის დასრულებამდე მოცდა</string>
     <string name="reset_on_interaction">განულება ნებისმიერი ურთიერთქმედებისას</string>
     <string name="default_sleep_timer_summary">%1$s, მოცდა დასრულებამდე: %2$s, განულება ურთიერთქმედებისას: %3$s</string>
-    <string name="video_player_remote">ვიდეოდამკვრელი დაშორებულად</string>
-    <string name="remote_keyboard_navigation">კლავიატურით გადასვლა</string>
 
     <string name="server_add_title">ახალი სერვერის დამატება რჩეულებში</string>
     <string name="server_domain_hint">სერვერის მისამართი (დომენის სახელი ან IP)</string>
@@ -356,7 +346,6 @@
     <string name="screen_orientation_landscape_sensor">თარაზული (აღმქმელით)</string>
     <string name="screen_orientation_last_locked">ბოლოს ჩაკეტილი განლაგება</string>
     <string name="enable_black_theme">მუქი იერსახე</string>
-    <string name="dark_theme">მუქი იერსახე</string>
     <string name="theme_auto">იერსახის თვითშერჩევა</string>
     <string name="subtitle_text_encoding">ქვეწარწერების ტექსტის კოდირება</string>
     <string name="subtitle_preferred_language">ქვეწარწერების სასურველი ენა</string>
@@ -498,29 +487,6 @@
     <string name="audio_ducking_title">VLC ხმას დაუწევს შეტყობინების მიღებისას</string>
     <string name="audio_ducking_summary">უკეთ გასაგები იქნება ხმოვანი შეტყობინებები, გზამკვლევის მითითებები ან ხმოვანი თანაშემწის საუბარი</string>
     <string name="casting_category">გადაცემა</string>
-    <string name="remote_access">დაშორებული წვდომა</string>
-    <string name="remote_access_version_title">დაშორებული წვდომის ვერსია</string>
-    <string name="remote_access_hash_title">დაშორებული წვდომის სადარჯამი</string>
-    <string name="remote_access_status">სერვერის მდგომარეობა</string>
-    <string name="remote_access_status_summary">შეეხეთ სერვერის მდგომარეობის სანახავად</string>
-    <string name="remote_access_connections">კავშირები</string>
-    <string name="remote_access_links">ბმულები</string>
-    <string name="remote_access_active">დაშორებული წვდომა მოქმედია</string>
-    <string name="remote_access_notification">დაშორებული წვდომა მოქმედია %s</string>
-    <string name="remote_access_notification_stopped">დაშორებული წვდომა შეჩერებულია</string>
-    <string name="remote_access_notification_connecting">დაშორებული წვდომისთვის უკავშირდება</string>
-    <string name="remote_access_notification_error">დაშორებული წვდომის შეცდომა</string>
-    <string name="remote_access_notification_stopping">დაშორებული წვდომა ჩერდება</string>
-    <string name="remote_access_notification_not_init">დაშორებული წვდომის წამოწყება</string>
-    <string name="enable_remote_access">დაშორებული წვდომის ჩართვა</string>
-    <string name="remote_access_info">დაშორებული წვდომის შესახებ</string>
-    <string name="remote_access_content">შიგთავსი</string>
-    <string name="remote_access_medialibrary_content">მედიათეკის შიგთავსი</string>
-    <string name="remote_access_medialibrary_content_summary">ჩართულია: %1$s\nგამორთულია: %2$s</string>
-    <string name="remote_access_file_browser_content">ფაილის ასარჩევი</string>
-    <string name="remote_access_network_browser_content">ქსელში საძიებო</string>
-    <string name="remote_access_playback_control">დაკვრის მართვა</string>
-    <string name="remote_access_logs">აღრიცხვების გაზიარება</string>
     <string name="casting_switch_title">უსადენო გადაცემა</string>
     <string name="casting_passthrough_title">ხმის გატარება</string>
     <string name="casting_passthrough_summary">თავად განკარგოს ტელევიზორმა ხმის დამუშავება</string>
@@ -649,8 +615,6 @@
     <string name="search_global">ძიება მთელ მედიათეკაში</string>
     <string name="playlist_save">დასაკრავი სიის შენახვა</string>
     <string name="playlist_name_hint">დასაკრავი სიის სახელი</string>
-    <string name="chapters">თავები</string>
-    <string name="notset">არაა მითითებული</string>
     <string name="go_to_chapter">თავზე გადასვლა...</string>
     <string name="current_chapter">თავი: %s</string>
     <string name="confirm_resume">განაგრძოს ბოლო მდებარეობიდან?</string>
@@ -670,19 +634,7 @@
     <string name="show_in_settings">ჩვენება პარამეტრებში</string>
 
 <!--    update-->
-    <string name="update_title">განახლება ხელმისაწვდომია</string>
-    <string name="install_nightly_title">საცდელი Nightly-ანაწყობის დაყენება</string>
-    <string name="update_text">ხელმისაწვდომია ახალი საცდელი Nightly-ვერსიის VLC Android!\n\nამას ხედავთ იმიტომ, რომ იყენებთ Nightly-ანაწყობს.</string>
-    <string name="install_text">Nightly-ანაწყობები თავისით ახლდება ყოველდღე ბოლო შესაძლებლობებითა და გამოსწორებული ხარვეზებით.\n\nჩამოიტვირთოს ახლავე?</string>
 
-    <string name="open_in_browser">ბრაუზერში გახსნა</string>
-    <string name="install">დაყენება</string>
-    <string name="install_nightly">საცდელი Nightly-ანაწყობის დაყენება</string>
-    <string name="install_nightly_alert">Nightly-ანაწყობები საცდელია და ახლდება ყოველდღე.\n\nმოსალოდნელია ახალი შესაძლებლობები, მაგრამ ახალი ხარვეზებიც!</string>
-    <string name="nightly_version">მოიძებნა ვერსია: %2$s - %1$s</string>
-    <string name="update_nightly_alert">გაშვებული გაქვთ Nightly-ანაწყობი. გსურთ დროდადრო შემოწმდეს განახლებისთვის?</string>
-    <string name="update_nightly">თვითგანახლება</string>
-    <string name="update_nightly_summary">დროდადრო Nightly-განახლების მოძიება</string>
 
 
     <!-- Accessibility -->
@@ -705,7 +657,6 @@
     <string name="allow_storage_access_description">VLC საჭიროებს ამ ნებართვას მოწყობილობის ფაილებთან წვდომისთვის.</string>
     <string name="partial_content">VLC ვერ ახერხებს ყველა ფაილთან წვდომას.</string>
     <string name="partial_content_description">Android 11-იდან მოყოლებული, აპები საჭიროებს საგანგებო ნებართვებს მოწყობილობის ყველა ფაილთან წვდომისთვის.\n\n%s</string>
-    <string name="never_ask_again">მომავალში შეკითხვის გარეშე</string>
     <string name="never_show_again">აღარ გამოჩნდეს, არც მომავალი ვერსიებისთვის</string>
     <string name="allow_settings_access_ringtone_title">ნებართვა, რომ VLC შეძლებს ზარის დაყენებას</string>
     <string name="allow_settings_access_ringtone_description">VLC საჭიროებს ამ ნებართვას მოცემული სიმღერის ზარად დაყენებისთვის.</string>
@@ -861,7 +812,6 @@
     <string name="next">შემდეგი</string>
     <string name="skip">გამოტოვება</string>
     <string name="next_step">შემდეგი</string>
-    <string name="download">ჩამოტვირთვა</string>
     <string name="ctx_player_video_track">აირჩიეთ ვიდეოჩანაწერი</string>
     <string name="ctx_player_audio_track">ხმოვანი ჩანაწერი</string>
     <string name="ctx_player_subs_track">ქვეწარწერების ჩანაწერი</string>
@@ -961,25 +911,7 @@
     <string name="share_message">აქაა %s</string>
     <string name="share_track_info">ჩანაწერის მონაცემების გაზიარება</string>
     <string name="share_track">ამჟამად ისმინება %s</string>
-    <string name="find_metadata">თანმხლები მონაცემების პოვნა</string>
-    <string name="moviepedia_hint">თანმხლები მონაცემების ძიება</string>
-    <string name="moviepedia_result">ვიდეოს შედეგები</string>
-    <string name="directed_by">რეჟისორი</string>
-    <string name="casting">გადაცემა</string>
-    <string name="produced_by">მწარმოებელი</string>
-    <string name="written_by">შემქმნელი</string>
-    <string name="music_by">მუსიკის შემქმნელი</string>
-    <string name="posters">ბანერები</string>
-    <string name="backdrops">ფონები</string>
-    <string name="header_tvshows">ტელეგადაცემები</string>
-    <string name="header_movies">ფილმები</string>
-    <string name="season_number">სეზონი %s</string>
-    <string name="resume_episode">გაგრძელება (%s)</string>
-    <string name="start_over">თავიდან დაწყება</string>
-    <string name="next_episode">შემდეგი სერია</string>
     <string name="open_network_settings">გაიხსნას ქსელის პარამეტრები?</string>
-    <string name="recently_played">ბოლოს გაშვებული</string>
-    <string name="recently_added">ბოლოს დამატებული</string>
     <string name="playback_multiple_errors">რამდენიმე ფაილი ვერ დაიკვრება</string>
     <string name="clear_media_db_message">დაკარგავთ წინსვლას, სანიშნებსა და შექმნილ დასაკრავ სიებს, თუმცა შეინარჩუნებთ VLC-ს Android-პარამეტრებს.</string>
     <string name="clear_app_data_message">დაკარგავთ წინსვლას, სანიშნებსა და შექმნილ დასაკრავ სიებს, ამასთან VLC-ს Android-პარამეტრებსაც.</string>
@@ -1038,19 +970,11 @@
     <string name="sub_result_by_name_hearing_impaired">მხოლოდ სმენადაქვეითებულთა</string>
 
     <string name="sub_result_by_file">შედეგები თქვენი ფაილისთვის</string>
-    <string name="donate">დაეხმარეთ VLC-ს</string>
-    <string name="donate_desc">მხარი დაუჭირეთ VLC-ს მოხალისეებს</string>
-    <string name="donate_subscribtion">მსურს, ყოველთვიური დაფინანსება</string>
-    <string name="donate_send">წამოიწყეთ დაფინანსება</string>
-    <string name="donation_description">თქვენგან ფინანსური დახმარება, საშუალებას მოგვცემს:\nგავაუმჯობესოთ VLC-პროგრამა ანდროიდისთვის\nVideoLAN ასოციაციის მხარდასაჭერად</string>
     <string name="subscription_purchased">ხელმოწერილია ყოველთვიური დაფინანსება</string>
     <string name="subscription_cancel">შეგიძლიათ გამოწერის გაუქმება Play Store-დან</string>
     <string name="subscription_cancel_tv">ხელმოწერის გაუქმების შესახებ</string>
-    <string name="donate_unsubscribe_tv">გამოწერის გასაუქმებლად, გახსენით %s ტელეფონში ან კომპიუტერში, ან წააკითხეთ ეს კოდი:</string>
-    <string name="tip_jar">დაეხმარეთ VLC-ს</string>
     <string name="thank_you">მადლობა</string>
     <string name="thank_you_desc">გმადლობთ, ფინანსური მხარდაჭერისთვის!\nმეტად დაგვეხმარება VLC-ს განვითარებაში!</string>
-    <string name="donate_again">პროგრამის კვლავ დაფინანსება</string>
 
     <string name="mark_as_played">დაკრულად მონიშვნა</string>
     <string name="mark_as_not_played">დაუკვრელად მონიშვნა</string>
@@ -1157,7 +1081,6 @@
     <string name="discovery_failed">აღმოჩენა ვერ მოხერხდა: %s</string>
     <string name="lock_use_sensor_title">ჩაკეტვა აღმქმელით</string>
     <string name="lock_use_sensor_summary">განლაგების შენარჩუნებისას საპირისპიროდ შებრუნება აღმქმელის მეშვეობით</string>
-    <string name="start">წინ</string>
     <string name="notification_permission">შეტყობინების ნებართვა</string>
     <string name="notification_permission_explanation">VLC საჭიროებს თქვენგან ნებართვას, რომ გიჩვენოთ შეტყობინებები.\nმხოლოდ ფაილების აღრიცხვა გეცნობებათ ან ეკრანი-ეკრანში გაშვება.\nუარყოფისას VLC მაინც განაგრძობს მუშაობას, მაგრამ შეტყობინებები იქნება დაფარული.</string>
     <string name="permission">ნებართვა</string>
@@ -1296,58 +1219,7 @@
     <string name="replace_playlist">დასაკრავი სიის შენაცვლება</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">დაშორებული წვდომა მოქმედია</string>
-    <string name="ra_remote_access">დაშორებული წვდომა</string>
-    <string name="ra_remote_access_description">დაშორებული წვდომის მდგომარეობის შეტყობინება</string>
-    <string name="ra_log_file">აღრიცხვები</string>
-    <string name="ra_log_type">აღრიცხვის სახეობა</string>
-    <string name="ra_send_files">ფაილების გაგზავნა</string>
-    <string name="ra_not_in_foreground">პროგრამა ფონურ რეჟიმშია. ვერ გაეშვება ვიდეო.</string>
-    <string name="ra_disconnected">გამოერთებულია მოწყობილობიდან</string>
-    <string name="ra_file">ფაილი</string>
-    <string name="ra_upload_remaining">იტვირთება %s ფაილი</string>
-    <string name="ra_upload_all">ყველას ატვირთვა</string>
-    <string name="ra_drop_files_tip">მოათავსეთ სადმე ფაილი მოწყობილობაზე გასაგზავნად</string>
-    <string name="ra_prepare_download">მზადდება ჩამოტვირთვა</string>
-    <string name="ra_forbidden">შიგთავსი შეზღუდულია პარამეტრებში</string>
-    <string name="ra_playback_forbidden">დაკვრის მართვა შეზღუდულია პარამეტრებში</string>
-    <string name="ra_logs_forbidden">აღრიცხვის გაზიარება გათიშულია პარამეტრებიდან</string>
-    <string name="ra_code_requested_explanation">თქვენი სერვერის უსაფრთხოებისთვის წვდომა დაცულია.\nგთხოვთ შეიყვანოთ შეტყობინებაში მოცემული კოდი</string>
-    <string name="ra_ssl_explanation_title">დაუცველი კავშირი</string>
-    <string name="ra_ssl_explanation">თქვენი კავშირი დაუცველია.</string>
-    <string name="ra_ssl_explanation_browser">ბრაუზერში არსებული უსაფრთხოების ზომებიდან გამომდინარე გაფრთხილებას იხილავთ მომდევნო გვერდზე.</string>
-    <string name="ra_ssl_explanation_accept">სერტიფიკატის მიღება იქნება საჭირო დაშორებული წვდომისთვის</string>
-    <string name="ra_ssl_button">დაცული კავშირის გამოყენება</string>
-    <string name="ra_new_code">ახალი კოდის გაგზავნა</string>
-    <string name="home">მთავარი</string>
-    <string name="ra_code">შეიყვანეთ კოდი: %s</string>
-    <string name="ra_send_logs">დაშორებული წვდომის აღრიცხვების ამ მოწყობილობაზე შენახვა</string>
-    <string name="ra_otp">დაშორებული წვდომა ერთჯერადი პაროლით</string>
-    <string name="ra_otp_description">კავშირის მოთხოვნები დაშორებული წვდომისთვის</string>
-    <string name="ra_otp_title">დაშორებული წვდომისთვის შესვლის მცდელობები</string>
-    <string name="ra_otp_subtitle">თუ თქვენ იყავით, შეიყვანეთ ეს კოდი სხვა მოწყობილობაზე</string>
-    <string name="ra_otp_not_me">არ ვყოფილვარ</string>
 
-    <string name="ra_onboarding_welcome_desc">გაეცანით დაშორებული წვდომის შესაძლებლობას, რომელსაც გთავაზობთ VLC Android\nმისი ამოქმედებით შეგეძლებათ მოწყობილობაზე მართოთ დაკვრის საშუალებები და კიდევ ბევრი სხვა რამ</string>
-    <string name="ra_onboarding_how_title">თქვენი მოწყობილობის მართვა</string>
-    <string name="ra_onboarding_how_desc">მართეთ თქვენს მოწყობილობაზე ფაილების დაკვრის, გაგზავნის, მიღების საშუალებები და სხვა</string>
-    <string name="ra_onboarding_ssl_title">მონაცემთა დაშიფვრა</string>
-    <string name="ra_onboarding_ssl_desc">დაშორებული წვდომა დაშიფრულია მონაცემთა გაჟონვის ასარიდებლად</string>
-    <string name="ra_onboarding_otp_title">შესვლის დამოწმება</string>
-    <string name="ra_onboarding_otp_desc">ერთჯერადი პაროლით დამოწმება აღკვეთს თქვენს მონაცემებთან არასასურველ წვდომას</string>
-    <string name="ra_onboarding_content_title">შიგთავსთან წვდომა</string>
-    <string name="ra_onboarding_content_desc">აირჩიეთ, რასთან წვდომა შეიძლებოდეს და რასთან არა.</string>
-    <string name="ra_onboarding_content_ml">მედიათეკის შიგთავსთან წვდომა</string>
-    <string name="ra_onboarding_content_files">ფაილის ასარჩევი</string>
-    <string name="ra_onboarding_content_playback">დაკვრის სამართავი</string>
-    <string name="ra_disable">გამორთვა</string>
-    <string name="ra_log_web">დაშორებული წვდომის აღრიცხვები</string>
-    <string name="ra_log_crash">უეცარი გათიშვის აღიცხვები</string>
-    <string name="ra_log_mobile">მოწყობილობის აღრიცხვები</string>
-    <string name="ra_log_current">მიმდინარე ადგილობრივი აღრიცხვები</string>
-    <string name="ra_invalid_login">უნდა შეხვიდეთ თქვენს მოწყობილობაზე</string>
-    <string name="ra_invalid_otp">უმართებულო კოდია შეყვანილი</string>
-    <string name="learn_more">ვრცლად</string>
 
     <!-- car screens -->
     <string name="help">დახმარება</string>
@@ -1363,11 +1235,7 @@
     <string name="metered_warn">გაფრთხილება (რომ გამოტოვებს ფაილის გაშვებას)</string>
     <string name="metered_connection_stopped">შეწყდა გასახარჯი ინტერნეტკავშირის გამო</string>
     <string name="metered_connection_warning">გასახარჯ ინტერნეტკავშირს იყენებთ. შეიძლება თანხა ჩამოგეჭრათ.</string>
-    <string name="adding">ემატება</string>
-    <string name="to">ამ</string>
     <string name="device">მოწყობილობას</string>
-    <string name="connected_device">დაკავშირებული მოწყობილობა</string>
-    <string name="model">მოწყობილობის მოდელი</string>
     <string name="prefs_app_data">პროგრამის მონაცემები</string>
     <string name="export_settings_summary">გაიტანეთ პარამეტრები ფაილში მოგვიანებით შესატანად</string>
     <string name="export_settings">პარამეტრების გატანა</string>
@@ -1403,12 +1271,6 @@
     <string name="generating_logs">იქმნება აღრიცხვის ჩანაწერები. მოითმინეთ.</string>
     <string name="default_playback_action">დაკვრის მოქმედება</string>
     <string name="files">ფაილები</string>
-    <string name="remote_access_feedback_generate">მოხსენების შედგენა</string>
-    <string name="remote_access_feedback_generated">თქვენი გამოხმარების მოხსენება შედგენილია</string>
-    <string name="remote_access_feedback_generated_explanation">შეეხეთ ღილაკს ქვემოთ ნაგულისხმევი ელფოსტის პროგრამით გამოსაგზავნად. თუ დაბრკოლებას წააწყდით, შეგიძლიათ ასლები აიღოთ და ხელით ჩასვათ ელფოსტის გამოგზავნისას.</string>
-    <string name="remote_access_feedback_file_explanation">თქვენ ახლახან ჩამოტვირთეთ საჭირო ფაილი. გთხოვთ, არ დაგავიწყდეთ, დაურთოთ ელფოსტას.</string>
-    <string name="generic_copied_to_clipboard">ასლი აღებულია</string>
     <string name="feedback_email_warning">ელფოსტის პროგრამა არ აყენია</string>
-    <string name="feedback_email_warning_remote_action">პარამეტრების გახსნა</string>
     <string name="feedback_email_warning_try_anyway">მაინც მოსინჯვა</string>
     </resources>

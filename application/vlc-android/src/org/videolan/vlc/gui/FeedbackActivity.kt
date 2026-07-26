@@ -56,7 +56,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AboutFeedbackActivityBinding
 import org.videolan.vlc.gui.helpers.FeedbackUtil
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.TextUtils
@@ -184,9 +183,6 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
             switchFormVisibility()
             updateFormIncludesVisibility()
         }
-        // The former "open settings" action pointed at the remote-access feature,
-        // which this fork removed; the alternative feedback channel no longer exists.
-        binding.openSettings.setGone()
         binding.emailSupportCard.setOnClickListener {
             if (!isMailClientPresent()) {
                 switchNoEmailVisibility()
@@ -263,8 +259,8 @@ class FeedbackActivity : BaseActivity(), DebugLogService.Client.Callback {
         switchFormVisibility(true)
         if (!binding.emailWarning.isVisible()) {
             binding.emailWarning.setVisible()
-            binding.emailSupportCard.nextFocusDownId = R.id.open_settings
-            binding.emailSupportCard.nextFocusRightId = R.id.open_settings
+            binding.emailSupportCard.nextFocusDownId = R.id.try_anyway
+            binding.emailSupportCard.nextFocusRightId = R.id.try_anyway
         } else {
             binding.emailWarning.setGone()
             binding.emailSupportCard.nextFocusDownId = R.id.read_doc_card

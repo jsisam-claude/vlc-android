@@ -96,16 +96,6 @@
         <item quantity="two">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
         <item quantity="other">%d ᱣᱤᱰᱤᱭᱚ ᱠᱚ</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">᱑ ᱥᱤᱱᱮᱢᱟ</item>
-        <item quantity="two">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
-        <item quantity="other">%d ᱥᱤᱱᱮᱢᱟ ᱠᱚ</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">᱑ TV ᱥᱷᱚ</item>
-        <item quantity="two">%d TV ᱥᱷᱚ ᱠᱚ</item>
-        <item quantity="other">%d TV ᱥᱷᱚ ᱠᱚ</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 ᱴᱨᱮᱠ</item>
         <item quantity="two">%d ᱴᱨᱮᱠ ᱠᱚ</item>
@@ -548,7 +538,6 @@
     <string name="delete_the_selected">ᱥᱮᱞᱮᱫᱟᱜ ᱚᱪᱚᱫ</string>
     <string name="download_the_selected">ᱥᱮᱞᱮᱫᱟᱜ ᱰᱟᱣᱩᱱᱞᱚᱰ</string>
     <string name="next">ᱤᱱᱟ ᱛᱟᱭᱚᱢ</string>
-    <string name="download">ᱰᱟᱩᱱᱞᱳᱰ</string>
     <string name="ctx_player_video_track">ᱣᱤᱰᱤᱭᱚ ᱴᱨᱮᱠ ᱵᱟᱪᱷᱟᱣ ᱢᱮ</string>
     <string name="ctx_player_audio_track">ᱚᱰᱤᱭᱚ ᱴᱨᱮᱠ</string>
     <string name="ctx_player_subs_track">ᱥᱟᱹᱵᱽᱴᱟᱭᱴᱟᱹᱞ ᱴᱨᱟᱠ</string>
@@ -597,23 +586,7 @@
     <string name="share">ᱦᱟᱹᱴᱤᱧ ᱢᱮ</string>
     <string name="share_file">%s ᱦᱟᱹᱴᱤᱧ ᱢᱮ</string>
     <string name="share_message">%s ᱫᱚ ᱱᱚᱰᱮ ᱢᱮᱱᱟᱜᱼᱟ</string>
-    <string name="find_metadata">ᱢᱮᱴᱟᱰᱟᱴᱟ ᱧᱟᱢ ᱢᱮ</string>
-    <string name="moviepedia_hint">ᱢᱮᱴᱟᱰᱟᱴᱟ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ</string>
-    <string name="moviepedia_result">ᱣᱤᱰᱤᱭᱚ ᱛᱮᱞᱟ ᱠᱚ</string>
-    <string name="casting">ᱠᱟᱥᱴᱤᱝ</string>
-    <string name="written_by">ᱚᱱᱚᱞᱤᱡ</string>
-    <string name="music_by">ᱥᱮᱨᱮᱧᱤᱡ</string>
-    <string name="posters">ᱯᱳᱥᱴᱟᱨᱠᱚ</string>
-    <string name="backdrops">ᱯᱟᱨᱫᱟᱠᱚ</string>
-    <string name="header_tvshows">TV ᱥᱚ</string>
-    <string name="header_movies">ᱥᱤᱱᱮᱢᱟ ᱠᱚ</string>
-    <string name="season_number">ᱥᱤᱡᱚᱱ %s</string>
-    <string name="resume_episode">ᱞᱟᱦᱟ(%s)</string>
-    <string name="start_over">ᱮᱦᱚᱵᱽ ᱢᱮ</string>
-    <string name="next_episode">ᱤᱱᱟᱹᱛᱟᱭᱚᱢ ᱟᱜᱽ ᱮᱯᱤᱥᱚᱰ</string>
     <string name="open_network_settings">ᱱᱮᱴᱣᱟᱨᱠ ᱥᱟᱡᱟᱣᱠᱚ ᱠᱷᱩᱞᱟᱹᱭ ᱢᱮ?</string>
-    <string name="recently_played">ᱱᱮᱛᱟᱨᱟᱜᱽ ᱯᱞᱮᱭᱟᱜᱽ</string>
-    <string name="recently_added">ᱱᱮᱛᱟᱨᱟᱜ ᱥᱮᱞᱮᱫᱟᱜ</string>
     <string name="playback_multiple_errors">ᱟᱭᱢᱟ ᱢᱮᱰᱤᱭᱟ ᱯᱞᱮ ᱵᱟᱭ ᱜᱟᱱᱚᱜᱼᱟ</string>
     <string name="clear">ᱯᱷᱟᱨᱪᱟ</string>
     <string name="abrepeat_add_first_marker">ᱮᱦᱚᱵ ᱴᱩᱲᱟᱹᱜᱽ ᱥᱮᱴ ᱢᱮ</string>
@@ -656,11 +629,8 @@
 
     <string name="swipe_unlock">ᱟᱱᱞᱚᱠ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱥᱣᱟᱤᱯ ᱢᱮ</string>
     <string name="sub_result_by_name_episode">ᱮᱯᱤᱥᱚᱰ %s</string>
-    <string name="donate">VLC ᱜᱚᱲᱚᱟᱭ ᱢᱮ</string>
-    <string name="tip_jar">VLC ᱜᱚᱲᱚ ᱞᱮᱢ</string>
     <string name="thank_you">ᱟᱢ ᱥᱟᱨᱦᱟᱣ</string>
     <string name="thank_you_desc">ᱟᱢᱟᱜᱽ ᱥᱯᱚᱱᱥᱚᱨᱥᱤᱯᱷ ᱞᱟᱹᱜᱤᱫ ᱟᱢ ᱥᱟᱨᱦᱟᱣ!\nᱱᱚᱶᱟ VLC ᱟᱨᱦᱚᱸ ᱵᱮᱥ ᱪᱚᱨᱚᱠ ᱞᱟᱦᱟ ᱦᱚ ᱪᱷᱚᱭᱟᱭ!</string>
-    <string name="donate_again">ᱮᱯ ᱟᱨᱦᱚᱸ ᱥᱯᱚᱱᱥᱚᱨ ᱢᱮ</string>
 
     <string name="mark_as_played">ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜᱽ ᱢᱮ</string>
     <string name="mark_all_as_played">ᱡᱷᱚᱛᱚ ᱯᱞᱮ ᱟᱠᱟᱱ ᱞᱮᱠᱷᱟ ᱪᱤᱱᱦᱟᱹ ᱟᱜ ᱢᱮ</string>
@@ -690,7 +660,6 @@
     <string name="add_button">ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_all_button">ᱡᱚᱛᱚ ᱥᱮᱞᱮᱫᱽ ᱢᱮ</string>
     <string name="add_new_only_button">ᱱᱟᱶᱟᱱᱟᱜ ᱠᱷᱟᱹᱞᱤ ᱥᱮᱞᱮᱫ ᱢᱮ</string>
-    <string name="start">ᱮᱦᱚᱵ</string>
     <string name="customize">ᱠᱩᱥᱤᱭᱟᱜ</string>
     <string name="controls_setting">ᱠᱚᱵᱡᱟ ᱨᱮᱭᱟᱜ ᱥᱟᱡᱟᱣ ᱠᱚ</string> <string name="view_online">ᱚᱱᱞᱟᱭᱤᱱ ᱫᱮᱠᱷᱟᱣ ᱢᱮ</string>
     </resources>

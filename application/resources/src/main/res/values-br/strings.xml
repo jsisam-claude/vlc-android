@@ -122,20 +122,6 @@
         <item quantity="many">%d a videoioù</item>
         <item quantity="other">%d a videoioù</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="two">%d a filmoù</item>
-        <item quantity="few">%d a filmoù</item>
-        <item quantity="many">%d a filmoù</item>
-        <item quantity="other">%d a filmoù</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 abadenn TV</item>
-        <item quantity="two">%d a abadennoù TV</item>
-        <item quantity="few">%d a abadennoù TV</item>
-        <item quantity="many">%d a abadennoù TV</item>
-        <item quantity="other">%d a abadennoù TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 roud</item>
         <item quantity="two">%d a roudoù</item>
@@ -337,7 +323,6 @@
     <string name="screen_orientation_landscape_sensor">Gweledva (kaptor)</string>
     <string name="screen_orientation_last_locked">Tuadur diwezhañ morailhet</string>
     <string name="enable_black_theme">Tem du</string>
-    <string name="dark_theme">Tem teñval</string>
     <string name="theme_auto">Tem aoto</string>
     <string name="subtitle_text_encoding">Enkodañ testenn an istitloù</string>
     <string name="subtitle_preferred_language">Yezh an istitloù gwellañ</string>
@@ -459,10 +444,6 @@
     <string name="aout">Ezvont aodio</string>
     <string name="audio_ducking_title">Izelaat live-son VLC da vare ar c\'hemennoù</string>
     <string name="casting_category">Skignañ</string>
-    <string name="remote_access">Haeziñ a-bell</string>
-    <string name="remote_access_version_title">Stumm an haeziñ a-bell</string>
-    <string name="remote_access_links">Liammoù</string>
-    <string name="remote_access_active">Haeziñ a-bell oberiant</string>
     <string name="casting_switch_title">Strewiñ diorjal</string>
     <string name="casting_passthrough_title">Treuzell aodio</string>
     <string name="casting_passthrough_summary">Lezit ho TV merañ ar rentañ aodio</string>
@@ -672,7 +653,6 @@
     <string name="delete_the_selected">Dilemel an diuzadenn</string>
     <string name="download_the_selected">Pellgargañ an diuzadenn</string>
     <string name="next">War-lerc\'h</string>
-    <string name="download">Pellgargañ</string>
     <string name="ctx_player_video_track">Diuzañ ur roudenn video</string>
     <string name="ctx_player_audio_track">Roudenn aodio</string>
     <string name="ctx_player_subs_track">Diuzañ ur roudenn istitloù</string>
@@ -752,25 +732,7 @@
     <string name="invalid_file">Restr amreizh. N\'hall ket bezañ rannet.</string>
     <string name="share_file">Rannañ %s</string>
     <string name="share_message">Ha setu %s</string>
-    <string name="find_metadata">Kavout metaroadennoù</string>
-    <string name="moviepedia_hint">Klask metaroadennoù</string>
-    <string name="moviepedia_result">Disoc\'hoù video</string>
-    <string name="directed_by">Renet gant</string>
-    <string name="casting">Skignañ</string>
-    <string name="produced_by">Produet gant</string>
-    <string name="written_by">Skrivet gant</string>
-    <string name="music_by">Sonerezh gant</string>
-    <string name="posters">Skritelloù</string>
-    <string name="backdrops">Kinkladurioù</string>
-    <string name="header_tvshows">Abadennoù TV</string>
-    <string name="header_movies">Filmoù</string>
-    <string name="season_number">Koulzad %s</string>
-    <string name="resume_episode">Adkregiñ ganti (%s)</string>
-    <string name="start_over">Kregiñ en-dro</string>
-    <string name="next_episode">Rann da-heul</string>
     <string name="open_network_settings">Digeriñ arventennoù ar genrouedad?</string>
-    <string name="recently_played">Lennet nevez \'zo</string>
-    <string name="recently_added">Ouzhpennet nevez \'zo</string>
     <string name="playback_multiple_errors">Kalz a vediaoù n\'hallont ket bezañ lennet</string>
     <string name="clear">Skarzhañ</string>
     <string name="abrepeat_add_first_marker">Termeniñ ar poent deraouiñ</string>
@@ -824,16 +786,10 @@
     <string name="sub_result_by_name_season">Koulzad %s</string>
     <string name="sub_result_by_name_episode">Rann %s</string>
     <string name="sub_result_by_file">Disoc\'hoù evit ho restr</string>
-    <string name="donate">Skoazellañ VLC</string>
-    <string name="donate_desc">Skoazellit an dud a-youl vat a sav VLC</string>
-    <string name="donate_subscribtion">Fellout a ra din e vefe graet ur roadenn-arc\'hant viziek</string>
-    <string name="donate_send">Stagañ gant ho roadenn-arc\'hant</string>
     <string name="subscription_purchased">Koumanantet oc\'h d\'ar roadenn-arc\'hant miziek</string>
     <string name="subscription_cancel">Gellout a rit digoumanantiñ er Play Store</string>
     <string name="subscription_cancel_tv">Penaos digoumanantiñ</string>
-    <string name="tip_jar">Sikour VLC</string>
     <string name="thank_you">Trugarez vras</string>
-    <string name="donate_again">Reiñ arc\'hant a-nevez</string>
 
     <string name="mark_as_played">Merkañ evel bezañ lennet</string>
     <string name="mark_as_not_played">Merkañ evel amsellet</string>
@@ -870,7 +826,6 @@
     <string name="add_new_only_button">Ouzhpennañ ar re nevez hepken</string>
     <string name="discovery_failed">An dizoloiñ a zo c\'hwitet evit: %s</string>
     <string name="lock_use_sensor_title">Morailhañ gant ar c\'haptorioù</string>
-    <string name="start">Loc\'hañ</string>
     <string name="permission">Aotre</string>
     <string name="customize">Personelaat</string>
     <string name="disabled">Lazhet</string>

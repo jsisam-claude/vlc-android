@@ -105,12 +105,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">%d filem</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">%d Rancangan TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d trek</item>
     </plurals>
@@ -201,8 +195,6 @@
     <string name="wait_before_sleep">Tunggu item media semasa selesai dahulu</string>
     <string name="reset_on_interaction">Tetap semula pada mana-mana interaksi</string>
     <string name="default_sleep_timer_summary">%1$s, tunggu media tamat: %2$s, tetap semula ketika berinteraksi: %3$s</string>
-    <string name="video_player_remote">Pemain video jauh</string>
-    <string name="remote_keyboard_navigation">Pengemudian papan kekunci</string>
 
     <string name="server_add_title">Tambah satu pelayan baharu ke kegemaran</string>
     <string name="server_domain_hint">Alamat pelayan (nama domain atau IP)</string>
@@ -322,7 +314,6 @@
     <string name="screen_orientation_landscape_sensor">Lanskap (sensor)</string>
     <string name="screen_orientation_last_locked">Orientasi kunci terakhir</string>
     <string name="enable_black_theme">Tema gelap</string>
-    <string name="dark_theme">Tema gelap</string>
     <string name="theme_auto">Auto tema</string>
     <string name="subtitle_text_encoding">Pengekodan teks sari kata</string>
     <string name="subtitle_preferred_language">Bahasa sari kata dikehendaki</string>
@@ -458,29 +449,6 @@
     <string name="audio_ducking_title">Rendahkan volum VLC ketika pemberitahuan</string>
     <string name="audio_ducking_summary">Bantu mendengar pemberitahuan audio, arahan pengemudian atau percakapan pembantu</string>
     <string name="casting_category">Penyiaran</string>
-    <string name="remote_access">Capaian jauh</string>
-    <string name="remote_access_version_title">Versi capaian jauh</string>
-    <string name="remote_access_hash_title">Cincangan capaian jauh</string>
-    <string name="remote_access_status">Status pelayan</string>
-    <string name="remote_access_status_summary">Ketika untuk melihat status pelayan</string>
-    <string name="remote_access_connections">Sambungan</string>
-    <string name="remote_access_links">Pautan</string>
-    <string name="remote_access_active">Capaian jauh aktif</string>
-    <string name="remote_access_notification">Capaian jauh aktif pada %s</string>
-    <string name="remote_access_notification_stopped">Capaian jauh dihentikan</string>
-    <string name="remote_access_notification_connecting">Capaian jauh bersambung</string>
-    <string name="remote_access_notification_error">Ralat capaian jauh</string>
-    <string name="remote_access_notification_stopping">Capaian jauh berhenti</string>
-    <string name="remote_access_notification_not_init">Capaian jauh dimulakan</string>
-    <string name="enable_remote_access">Benarkan capaian jauh</string>
-    <string name="remote_access_info">Maklumat capaian jauh</string>
-    <string name="remote_access_content">Kandungan</string>
-    <string name="remote_access_medialibrary_content">Kandungan pusataka media</string>
-    <string name="remote_access_medialibrary_content_summary">Didayakan: %1$s\nDilumpuhkan: %2$s</string>
-    <string name="remote_access_file_browser_content">Pelayar fail</string>
-    <string name="remote_access_network_browser_content">Pelayar rangkaian</string>
-    <string name="remote_access_playback_control">Kawalan main balik</string>
-    <string name="remote_access_logs">Kongsi fail log</string>
     <string name="casting_switch_title">Penyiaran tanpa wayar</string>
     <string name="casting_passthrough_title">Passthrough Audio</string>
     <string name="casting_passthrough_summary">Biarkan TV anda mengurus pengemasgabungan audio</string>
@@ -601,8 +569,6 @@
     <string name="search_global">Gelintar dalam semua pustaka media</string>
     <string name="playlist_save">Simpan Senarai Main</string>
     <string name="playlist_name_hint">Senarai main</string>
-    <string name="chapters">Bab</string>
-    <string name="notset">Tidak ditetapkan</string>
     <string name="go_to_chapter">Pergi ke bab…</string>
     <string name="current_chapter">Bab: %s</string>
     <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
@@ -617,19 +583,7 @@
     <!--What's new-->
     <string name="whats_new_title">Terbaharu di VLC untuk Android %s</string>
     <!--    update-->
-    <string name="update_title">Kemas kini tersedia</string>
-    <string name="install_nightly_title">Pasang versi semalaman</string>
-    <string name="update_text">Satu keluaran semalaman baharu VLC untuk Android telah tersedia!\n\nAnda melihat ini kerana anda menggunakan binaan semalaman.</string>
-    <string name="install_text">Versi semalaman telah dikemas kini secara automatik setiap hari dengan ciri-ciri dan pembaikan terkini.\n\nMuat turun sekarang?</string>
 
-    <string name="open_in_browser">Buka dalam pelayar</string>
-    <string name="install">Pasang</string>
-    <string name="install_nightly">Pasang versi semalaman</string>
-    <string name="install_nightly_alert">Binaan semalaman merupakan versi eskperimental yang dikemas kini setiap hari.\n\nJangkakan ciri-ciri baharu bersama-sama pepijat baharu!</string>
-    <string name="nightly_version">Versi ditemui: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Anda menggunakan versi semalaman. Anda mahu melihat kemas kini secara berkala?</string>
-    <string name="update_nightly">Auto kemas kini</string>
-    <string name="update_nightly_summary">Gelintar kemas kini semalaman secara berkala</string>
 
 
     <!-- Accessibility -->
@@ -652,7 +606,6 @@
     <string name="allow_storage_access_description">VLC memerlukan keizinan anda untuk mencapai fail media dalam peranti ini.</string>
     <string name="partial_content">VLC tidak dapat mencapai semua fail anda</string>
     <string name="partial_content_description">Bermula dengan Android 11, aplikasi perlu dapatkan keizinan untuk mencapai semua fail peranti.\n\n %s</string>
-    <string name="never_ask_again">Jangan tanya lagi</string>
     <string name="never_show_again">Jangan tunjuk lagi, walapun pada versi akan datang</string>
     <string name="allow_settings_access_ringtone_title">Benarkan VLC tetapkan nada dering</string>
     <string name="allow_settings_access_ringtone_description">VLC memerlukan keizinan anda untuk memasang lagu ini sebagai nada dering anda.</string>
@@ -807,7 +760,6 @@
     <string name="next">Berikut</string>
     <string name="skip">Langkau</string>
     <string name="next_step">Berikutnya</string>
-    <string name="download">Muat Turun</string>
     <string name="ctx_player_video_track">Pilih trek video</string>
     <string name="ctx_player_audio_track">Trek audio</string>
     <string name="ctx_player_subs_track">Trek sari kata</string>
@@ -900,25 +852,7 @@
     <string name="share_message">Di sini ialah %s</string>
     <string name="share_track_info">Kongsi maklumat trek</string>
     <string name="share_track">Buat masa ini mendengar %s</string>
-    <string name="find_metadata">Cari metadata</string>
-    <string name="moviepedia_hint">Gelintar metadata</string>
-    <string name="moviepedia_result">Keputusan video</string>
-    <string name="directed_by">Diarah oleh</string>
-    <string name="casting">Lakonan</string>
-    <string name="produced_by">Dihasilkan oleh</string>
-    <string name="written_by">Ditulis oleh</string>
-    <string name="music_by">Muzik oleh</string>
-    <string name="posters">Poster</string>
-    <string name="backdrops">Balik Tabir</string>
-    <string name="header_tvshows">Rancangan TV</string>
-    <string name="header_movies">Filem</string>
-    <string name="season_number">Musim %s</string>
-    <string name="resume_episode">Sambung semula (%s)</string>
-    <string name="start_over">Mula dari awal</string>
-    <string name="next_episode">Episod berikutnya</string>
     <string name="open_network_settings">Buka tetapan rangkaian?</string>
-    <string name="recently_played">Dimainkan baru-baru ini</string>
-    <string name="recently_added">Ditambah baru-baru ini</string>
     <string name="playback_multiple_errors">Media berbilang tidak dapat dimainkan</string>
     <string name="clear_media_db_message">Anda akan kehilangan kemajuan, tanda buku dan senarai main yang telah dicipta tetapi anda masih dapat mengekalkan tetapan VLC untuk Android anda</string>
     <string name="clear_app_data_message">Anda akan kehilangan kemajuan, tanda buku, senarai main dan semua tetapan VLC anda</string>
@@ -977,19 +911,11 @@
     <string name="sub_result_by_name_hearing_impaired">Untuk masalah pendengaran</string>
 
     <string name="sub_result_by_file">Keputusan untuk fail anda</string>
-    <string name="donate">Bantu VLC</string>
-    <string name="donate_desc">Sokong para sukarelawan yang membina VLC</string>
-    <string name="donate_subscribtion">Saya mahu ia menjadi penaja bulanan</string>
-    <string name="donate_send">Mulakan penajaan anda</string>
-    <string name="donation_description">Penajaan anda akan membantu kami:\ntambah baik apl VLC untuk Android\nSokong Persatuan VideoLAN</string>
     <string name="subscription_purchased">Anda telah melanggan penajaan bulanan</string>
     <string name="subscription_cancel">Anda boleh menyahlanggan menerusi Gedung Play</string>
     <string name="subscription_cancel_tv">Bagaimana hendak menyahlanggan</string>
-    <string name="donate_unsubscribe_tv">Untuk menyahlanggan, sila buka %s dalam telefon bimbit atau komputer ataupun imbas kod ini:</string>
-    <string name="tip_jar">Bantu VLC</string>
     <string name="thank_you">Terima kasih</string>
     <string name="thank_you_desc">Terima kasih atas penajaan anda!\nIa dapat bantu kami menambah baik VLC!</string>
-    <string name="donate_again">Taja apl sekali lagi</string>
 
     <string name="mark_as_played">Tanda sebagai telah dimainkan</string>
     <string name="mark_as_not_played">Tanda sebagai tidak dimainkan</string>
@@ -1090,7 +1016,6 @@
     <string name="discovery_failed">Penemuan gagal: %s</string>
     <string name="lock_use_sensor_title">Kunci dengan penderia</string>
     <string name="lock_use_sensor_summary">Apabila orientasi dikunci, guna penderia untuk membolehkan orientasi songsang</string>
-    <string name="start">Mula</string>
     <string name="notification_permission">Keizinan pemberitahuan</string>
     <string name="notification_permission_explanation">VLC memerlukan keizinan anda untuk menghantar pemberitahuan.\nApl hanya memaklumkan anda ketika pengimbasan media atau penggunaan video Gambar dalam Gambar.\nMenafikan proses ini tidak menghalang kerja-kerja VLC, cuma pemberitahuan akan disembunyikan.</string>
     <string name="permission">Keizinan</string>
@@ -1227,57 +1152,7 @@
     <string name="replace_playlist">Ganti senarai main</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Capaian jauh aktif</string>
-    <string name="ra_remote_access">Capaian jauh</string>
-    <string name="ra_remote_access_description">Pemberitahuan keadaan capaian jauh</string>
-    <string name="ra_log_file">Fail log</string>
-    <string name="ra_log_type">Jenis log</string>
-    <string name="ra_send_files">Hantar fail</string>
-    <string name="ra_not_in_foreground">Aplikasi masih dibalik tabir. Gagal melancarkan video.</string>
-    <string name="ra_disconnected">Diputuskan melalui peranti</string>
-    <string name="ra_file">Fail</string>
-    <string name="ra_upload_remaining">Memuat naik %s fail</string>
-    <string name="ra_upload_all">Muat naik semua</string>
-    <string name="ra_drop_files_tip">Lepas fail di mana sahaja untuk menghantar ke peranti anda</string>
-    <string name="ra_prepare_download">Menyediakan muat turun anda</string>
-    <string name="ra_forbidden">Kandungan dilumpuhkan dalam tetapan</string>
-    <string name="ra_playback_forbidden">Kawalan main balik dilumpuhkan dalam tetapan</string>
-    <string name="ra_code_requested_explanation">Untuk melindungi pelayan anda, capaian ini dilindungi.\nSila masukkan kod yang dipaparkan dalam pemberitahuan anda</string>
-    <string name="ra_ssl_explanation_title">Sambungan tidak selamat</string>
-    <string name="ra_ssl_explanation">Sambungan anda tidak selamat.</string>
-    <string name="ra_ssl_explanation_browser">Disebabkan perlaksanaan keselamatan pelayar, anda akan menerima satu amaran keselamatan pada halaman berikutnya.</string>
-    <string name="ra_ssl_explanation_accept">Pastikan anda menerima sijil supaya dapat terus menggunakan capaian jauh</string>
-    <string name="ra_ssl_button">Guna sambungan selamat</string>
-    <string name="ra_new_code">Hantar satu kod baharu</string>
-    <string name="home">Rumah</string>
-    <string name="ra_code">Masukkan kod ini: %s</string>
-    <string name="ra_send_logs">Simpan log capaian jauh dalam peranti</string>
-    <string name="ra_otp">Kata laluan sekali capaian jauh</string>
-    <string name="ra_otp_description">Pinta capaian untuk capaian jauh</string>
-    <string name="ra_otp_title">Percubaan daftar masuk capaian jauh</string>
-    <string name="ra_otp_subtitle">Jika memang anda, masukkan kod ini dalam peranti lain</string>
-    <string name="ra_otp_not_me">Bukan saya</string>
 
-    <string name="ra_onboarding_welcome_desc">Selamat datang ke capaian jauh VLC untuk Android\nDengan mendayakannya, anda akan berupaya mengawal main balik peranti ini dan banyak lagi kelebihan lain</string>
-    <string name="ra_onboarding_how_title">Kawal peranti anda</string>
-    <string name="ra_onboarding_how_desc">Kawal main balik peranti anda, hantar atau terima fail dan banyak lagi</string>
-    <string name="ra_onboarding_ssl_title">Penyulitan data</string>
-    <string name="ra_onboarding_ssl_desc">Capaian jauh disulitkan untuk menghindari kebocoran data anda</string>
-    <string name="ra_onboarding_otp_title">Pengesahihan</string>
-    <string name="ra_onboarding_otp_desc">Dengan pengesahihan kata laluan sekali, dapat menghindari capaian ke atas data anda yang tidak diingini</string>
-    <string name="ra_onboarding_content_title">Capaian kandungan</string>
-    <string name="ra_onboarding_content_desc">Pilih apa yang hendak dicapai dan yang tidak boleh dicapai</string>
-    <string name="ra_onboarding_content_ml">Capaian kandungan pustaka media</string>
-    <string name="ra_onboarding_content_files">Pelayar fail</string>
-    <string name="ra_onboarding_content_playback">Kawalan main balik</string>
-    <string name="ra_disable">Dilumpuhkan</string>
-    <string name="ra_log_web">Log capaian jauh</string>
-    <string name="ra_log_crash">Log kerosakan</string>
-    <string name="ra_log_mobile">Log peranti</string>
-    <string name="ra_log_current">Log setempat semasa</string>
-    <string name="ra_invalid_login">Anda perlu mendaftar masuk peranti anda</string>
-    <string name="ra_invalid_otp">Kod tidak sah diberi</string>
-    <string name="learn_more">Ketahui lagi</string>
 
     <!-- car screens -->
     <string name="help">Bantuan</string>
@@ -1293,11 +1168,7 @@
     <string name="metered_warn">Beri amaran (amaran mungkin terlepas untuk main balik audio)</string>
     <string name="metered_connection_stopped">Media dihentikan kerana sambungan bermeter</string>
     <string name="metered_connection_warning">Sambungan anda bermeter. Bayaran mungkin dikenakan.</string>
-    <string name="adding">Menambah</string>
-    <string name="to">ke</string>
     <string name="device">Peranti</string>
-    <string name="connected_device">Peranti bersambung</string>
-    <string name="model">Model peranti</string>
     <string name="prefs_app_data">Data aplikasi</string>
     <string name="export_settings_summary">Eskport tetapan anda ke fail untuk mengimportnya kemudian</string>
     <string name="export_settings">Tetapan eksport</string>

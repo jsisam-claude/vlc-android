@@ -104,14 +104,6 @@
         <item quantity="one">1 वीडियो</item>
         <item quantity="other">%d भिडियोहरू</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 movie</item>
-        <item quantity="other">%dचलचित्रहरू</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV show</item>
-        <item quantity="other">%dटिभी कार्यक्रमहरू</item>
-    </plurals>
     <string name="internal_memory">आन्तरिक भण्डारण</string>
     <string name="audio">अडियो</string>
     <string name="video">भिडियो</string>
@@ -446,7 +438,6 @@
     <string name="allow_storage_access_title">VLC लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>
     <string name="allow_storage_access_description">VLC लाई यो यन्त्रमा मिडिया फाइलहरू पहुँच गर्न तपाईंले अनुमति दिनु आवश्यक पर्दछ।</string>
     <string name="partial_content">VLCले हजुरका फाइलहरू पाउन सकेन</string>
-    <string name="never_ask_again">अब फेरी नसोध्नुहोस्</string>
     <string name="allow_settings_access_ringtone_title">रिङटोन सेट गर्न VLC लाई अनुमति दिनुहोस्</string>
     <string name="allow_settings_access_ringtone_description">VLC ले यस गीतलाई तपाईँको रिङटोनको रूपमा सेट गर्न तपाईंले यसलाई अनुमति दिनु आवश्यक पर्दछ।</string>
     <string name="allow_settings_access_brightness_title">VLC लाई चमक मोड परिवर्तन गर्न अनुमति दिनुहोस्</string>
@@ -542,7 +533,6 @@
     <string name="download_the_selected">छनौट डाउनलोड गर्नुहोस्</string>
     <string name="next">पछिल्लो</string>
     <string name="next_step">अर्को</string>
-    <string name="download">डाउनलोड</string>
     <string name="ctx_player_video_track">भिडियो ट्रायाक चयन गर्नुहोस्</string>
     <string name="ctx_player_audio_track">अडियो ट्र्याक</string>
     <string name="ctx_player_subs_track">उपशीर्षक ट्रयाक</string>
@@ -576,25 +566,7 @@
     <string name="invalid_file">अमान्य फाइल। साझा गर्न सकिँदैन।</string>
     <string name="share_file">%s साझा गर्नुहोस्</string>
     <string name="share_message">यहाँ %s छ</string>
-    <string name="find_metadata">मेटाडाटा फेला पार्नुहोस्</string>
-    <string name="moviepedia_hint">मेटाडाटा खोज्नुहोस्</string>
-    <string name="moviepedia_result">भिडियो नतिजा</string>
-    <string name="directed_by">द्वारा निर्देशित</string>
-    <string name="casting">कास्टिङ</string>
-    <string name="produced_by">निर्माता</string>
-    <string name="written_by">लेखक</string>
-    <string name="music_by">सङ्गीतकार</string>
-    <string name="posters">पोस्टरहरू</string>
-    <string name="backdrops">ब्याकड्रपहरू</string>
-    <string name="header_tvshows">टिभी कार्यक्रमहरू</string>
-    <string name="header_movies">चलचित्रहरू</string>
-    <string name="season_number">सिजन %s</string>
-    <string name="resume_episode">रिज्युम (%s)</string>
-    <string name="start_over">सुरुबाट चलाउनुहोस्</string>
-    <string name="next_episode">अर्को भाग</string>
     <string name="open_network_settings">नेटवर्क सेटिङहरू खोल्ने हो?</string>
-    <string name="recently_played">भर्खरै प्ले गरिएको</string>
-    <string name="recently_added">भर्खरै थपिएको</string>
     <string name="video_information">भिडियो जानकारी</string>
 
     <string name="channels">च्यानलहरू</string>
@@ -641,19 +613,11 @@
     <string name="sub_result_by_name_season">सिजन %s</string>
     <string name="sub_result_by_name_episode">श्रृङ्खला %s </string>
     <string name="sub_result_by_file">तपाईँको फाइलको लागि नतिजा</string>
-    <string name="donate">VLC मद्दत</string>
-    <string name="donate_desc">VLC निर्माण गर्न स्वयंसेवकहरूलाई सहायता गर्नुहोस्</string>
-    <string name="donate_subscribtion">म यो मासिक प्रायोजन भएको चाहन्छु</string>
-    <string name="donate_send">तपाईँको प्रयोजन सुरु गर्नुहोस्</string>
-    <string name="donation_description">तपाईँको प्रायोजनले हामीलाई निम्नमा अनुमति दिन्छ: \VideoLAN संघ Android\सहायताको लागि VLC एप सुधार गर्न</string>
     <string name="subscription_purchased">तपाईँलाई मासिक प्रायोजनको सदस्यता दिइन्छ</string>
     <string name="subscription_cancel">तपाईँले Play Store मा सदस्यता रद्द गर्न सक्नुहुन्छ</string>
     <string name="subscription_cancel_tv">सदस्यता कसरी रद्द गर्ने</string>
-    <string name="donate_unsubscribe_tv">सदस्यता रद्द गर्न, कृपया फोन वा कम्प्युटरमा %s खोल्नुहोस् वा यो कोड स्क्यान गर्नुहोस्:</string>
-    <string name="tip_jar">VLC मद्दत</string>
     <string name="thank_you">धन्यवाद</string>
     <string name="thank_you_desc">तपाईँको प्रायोजनको लागि धन्यवाद!\nIt ले VLC सुधार गर्न हामीलाई धेरै मद्दत गर्नेछ!</string>
-    <string name="donate_again">एपलाई फेरि प्रायोजन गर्नुहोस्</string>
 
     <string name="mark_as_played">प्ले गरिएको रूपमा चिन्ह लगाउनुहोस्</string>
     <string name="mark_all_as_played">सबैलाई प्ले गरिएको रूपमा चिन्ह लगाउनुहोस्</string>

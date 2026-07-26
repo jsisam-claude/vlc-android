@@ -118,12 +118,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d ビデオ</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">%d 映画</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">%d TVショー</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d トラック</item>
     </plurals>
@@ -223,8 +217,6 @@
     <string name="wait_before_sleep">現在のメディア項目が最初に終了するのを待つ</string>
     <string name="reset_on_interaction">すべてのインタラクションでリセット</string>
     <string name="default_sleep_timer_summary">%1$s, メディアの終了待ち: %2$s, インタラクションでリセット: %3$s</string>
-    <string name="video_player_remote">リモートビデオプレイヤー</string>
-    <string name="remote_keyboard_navigation">キーボードナビゲーション</string>
 
     <string name="server_add_title">お気に入りにサーバーを追加</string>
     <string name="server_domain_hint">サーバーアドレス(ドメイン名またはIP)</string>
@@ -347,7 +339,6 @@
     <string name="screen_orientation_landscape_sensor">ランドスケープ（センサー）</string>
     <string name="screen_orientation_last_locked">最後にロックされた方向</string>
     <string name="enable_black_theme">ブラックテーマ</string>
-    <string name="dark_theme">ダークテーマ</string>
     <string name="theme_auto">自動テーマ</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="subtitle_preferred_language">優先する字幕の言語</string>
@@ -492,29 +483,6 @@
     <string name="audio_ducking_title">通知時にVLCの音量を下げる</string>
     <string name="audio_ducking_summary">音声通知、ナビゲーションまたはアシスタント会話を聴き取りやすくする</string>
     <string name="casting_category">キャスティング</string>
-    <string name="remote_access">リモートアクセス</string>
-    <string name="remote_access_version_title">リモートアクセスバージョン</string>
-    <string name="remote_access_hash_title">リモートアクセスハッシュ</string>
-    <string name="remote_access_status">サーバーステータス</string>
-    <string name="remote_access_status_summary">タップしてサーバーステータスを確認</string>
-    <string name="remote_access_connections">接続</string>
-    <string name="remote_access_links">リンク</string>
-    <string name="remote_access_active">リモートアクセスはアクティブ</string>
-    <string name="remote_access_notification">%s上でリモートアクセスがアクティブ</string>
-    <string name="remote_access_notification_stopped">リモートアクセスは停止</string>
-    <string name="remote_access_notification_connecting">リモートアクセスは接続中</string>
-    <string name="remote_access_notification_error">リモートアクセスエラー</string>
-    <string name="remote_access_notification_stopping">リモートアクセスを停止中</string>
-    <string name="remote_access_notification_not_init">リモートアクセスを初期化中</string>
-    <string name="enable_remote_access">リモートアクセスを有効化</string>
-    <string name="remote_access_info">リモートアクセス情報</string>
-    <string name="remote_access_content">コンテンツ</string>
-    <string name="remote_access_medialibrary_content">メディアライブラリコンテンツ</string>
-    <string name="remote_access_medialibrary_content_summary">有効: %1$s\n無効: %2$s</string>
-    <string name="remote_access_file_browser_content">ファイルブラウザ</string>
-    <string name="remote_access_network_browser_content">ネットワークブラウザ</string>
-    <string name="remote_access_playback_control">再生を制御</string>
-    <string name="remote_access_logs">ログファイルを共有</string>
     <string name="casting_switch_title">ワイヤレスキャスティング</string>
     <string name="casting_passthrough_title">オーディオパススルー</string>
     <string name="casting_passthrough_summary">TV側でオーディオレンダリングを管理</string>
@@ -644,8 +612,6 @@
     <string name="search_global">すべてのメディアライブラリから検索</string>
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
-    <string name="chapters">チャプター</string>
-    <string name="notset">未設定</string>
     <string name="go_to_chapter">チャプター指定…</string>
     <string name="current_chapter">チャプター: %s</string>
     <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
@@ -665,19 +631,7 @@
     <string name="show_in_settings">設定で表示</string>
 
 <!--    update-->
-    <string name="update_title">アップデートがあります</string>
-    <string name="install_nightly_title">ナイトリーバージョンをインストール</string>
-    <string name="update_text">VLC for Androidの新しいナイトリーリリースがあります!\n\nこのメッセージはあなたがナイトリー版を利用しているため表示されています。</string>
-    <string name="install_text">ナイトリーバージョンは自動的に最新の機能と修正が行われて更新されています。\n\nすぐにダウンロードしますか?</string>
 
-    <string name="open_in_browser">ブラウザーで開く</string>
-    <string name="install">インストール</string>
-    <string name="install_nightly">ナイトリーバージョンをインストール</string>
-    <string name="install_nightly_alert">ナイトリーバージョンは試験のために毎日更新されています。\n\n新しい機能をすぐに利用できますが、新たなバグもあるかもしれません!</string>
-    <string name="nightly_version">見つかったバージョン: %2$s - %1$s</string>
-    <string name="update_nightly_alert">ナイトリーバージョンを使用中です。定期的にアップデートを希望しますか?</string>
-    <string name="update_nightly">自動更新</string>
-    <string name="update_nightly_summary">ナイトリーバージョンの更新を定期的に確認する</string>
 
 
     <!-- Accessibility -->
@@ -700,7 +654,6 @@
     <string name="allow_storage_access_description">このデバイスのメディアファイルにアクセスするためにVLCに許可を与える必要があります。</string>
     <string name="partial_content">VLCがすべてのファイルにアクセスできません</string>
     <string name="partial_content_description">Android 11で使用する場合、アプリケーションはデバイスのすべてのファイルにアクセスするために特別な権限が必要です。\n\n%s</string>
-    <string name="never_ask_again">問い合わせない</string>
     <string name="never_show_again">表示しない(将来のバージョンでも継続)</string>
     <string name="allow_settings_access_ringtone_title">VLCに着信音の設定を許可</string>
     <string name="allow_settings_access_ringtone_description">この音楽を着信音に設定するためにVLCに許可を与える必要があります。</string>
@@ -856,7 +809,6 @@
     <string name="next">次へ</string>
     <string name="skip">スキップ</string>
     <string name="next_step">次へ</string>
-    <string name="download">ダウンロード</string>
     <string name="ctx_player_video_track">ビデオトラックを選択</string>
     <string name="ctx_player_audio_track">オーディオトラック</string>
     <string name="ctx_player_subs_track">字幕トラック</string>
@@ -954,25 +906,7 @@
     <string name="share_message">%sはここに</string>
     <string name="share_track_info">トラックの情報を共有</string>
     <string name="share_track">現在視聴中 %s</string>
-    <string name="find_metadata">メタデータの検索</string>
-    <string name="moviepedia_hint">メタデータを検索</string>
-    <string name="moviepedia_result">ビデオの検索結果</string>
-    <string name="directed_by">監督</string>
-    <string name="casting">キャスティング</string>
-    <string name="produced_by">プロデューサー</string>
-    <string name="written_by">原作</string>
-    <string name="music_by">音楽</string>
-    <string name="posters">ポスター</string>
-    <string name="backdrops">背景</string>
-    <string name="header_tvshows">TVショー</string>
-    <string name="header_movies">映画</string>
-    <string name="season_number">シーズン %s</string>
-    <string name="resume_episode">再開 (%s)</string>
-    <string name="start_over">やり直し</string>
-    <string name="next_episode">次のエピソード</string>
     <string name="open_network_settings">ネットワーク設定を開きますか?</string>
-    <string name="recently_played">最近再生されたもの</string>
-    <string name="recently_added">最近追加されたもの</string>
     <string name="playback_multiple_errors">複数のメディアは再生できません</string>
     <string name="clear_media_db_message">作成したプレイリスト、ブックマーク、進捗が失われますが、VLC for Androidの設定は保存されます</string>
     <string name="clear_app_data_message">作成したプレイリスト、ブックマーク、進捗、VLC for Androidの設定が失われます</string>
@@ -1031,19 +965,11 @@
     <string name="sub_result_by_name_hearing_impaired">聴覚障害のみ</string>
 
     <string name="sub_result_by_file">あなたのファイルに対する結果</string>
-    <string name="donate">VLCを支援</string>
-    <string name="donate_desc">ボランティアがVLCを開発することを支援します</string>
-    <string name="donate_subscribtion">毎月の支援を希望します</string>
-    <string name="donate_send">支援を始める</string>
-    <string name="donation_description">あなたのご支援がVideoLANアソシエーションによる\nアンドロイド用VLCアプリの改善を\nサポートします</string>
     <string name="subscription_purchased">月次の支援に申し込みました</string>
     <string name="subscription_cancel">プレイストアで支援を停止することが可能です</string>
     <string name="subscription_cancel_tv">支援の停止方法</string>
-    <string name="donate_unsubscribe_tv">支援を停止するには、スマートフォンまたはコンピューターから %s を開くか、このコードをスキャンしてください:</string>
-    <string name="tip_jar">VLCを支援</string>
     <string name="thank_you">ありがとうございます</string>
     <string name="thank_you_desc">支援の申し込みありがとうございます!\nVLCの改善に役立てさせて頂きます!</string>
-    <string name="donate_again">アプリの支援を再開</string>
 
     <string name="mark_as_played">再生済みとしてマーク</string>
     <string name="mark_as_not_played">未再生としてマーク</string>
@@ -1150,7 +1076,6 @@
     <string name="discovery_failed">%sの検出が失敗しました</string>
     <string name="lock_use_sensor_title">センサーを使用してロック</string>
     <string name="lock_use_sensor_summary">スクリーン方向がロックされている時、センサーの検知で反転を許可する</string>
-    <string name="start">開始</string>
     <string name="notification_permission">通知権限</string>
     <string name="notification_permission_explanation">VLCは通知を送信するために許可が必要です。\nアプリケーションがメディアをスキャンする時、およびカスタムピクチャーインピクチャーを使用する時のみ通知を行います。\n通知を拒否してもVLCは動作しますが、通知が行われなくなります。</string>
     <string name="permission">権限</string>
@@ -1287,63 +1212,7 @@
     <string name="replace_playlist">プレイリストを置換</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">リモートアクセスはアクティブ</string>
-    <string name="ra_remote_access">リモートアクセス</string>
-    <string name="ra_remote_access_description">リモートアクセスの状態通知</string>
-    <string name="ra_log_file">ログファイル</string>
-    <string name="ra_log_type">ログタイプ</string>
-    <string name="ra_send_files">ファイルを送信</string>
-    <string name="ra_not_in_foreground">アプリケーションがフォアグラウンドではありません。ビデオを再生できません。</string>
-    <string name="ra_disconnected">デバイスから切断されました</string>
-    <string name="ra_file">ファイル</string>
-    <string name="ra_upload_remaining">ファイル%sファイルをアップロード中</string>
-    <string name="ra_upload_all">すべてをアップロード</string>
-    <string name="ra_drop_files_tip">ファイルを任意の場所にドロップしてデバイスに送信</string>
-    <string name="ra_prepare_download">ダウンロードを準備中</string>
-    <string name="ra_forbidden">設定でコンテンツが無効化されています</string>
-    <string name="ra_playback_forbidden">設定で再生制御が無効化されています</string>
-    <string name="ra_logs_forbidden">設定でログの共有が無効化されています</string>
-    <string name="ra_code_requested_explanation">サーバーを保護するため、アクセスは保護されています。\n通知されたコードを入力してください。</string>
-    <string name="ra_ssl_explanation_title">セキュアでない接続</string>
-    <string name="ra_ssl_explanation">接続はセキュアではありません。</string>
-    <string name="ra_ssl_explanation_browser">ブラウザのセキュリティ実装により、次のページで警告が表示されます。</string>
-    <string name="ra_ssl_explanation_accept">リモートアクセスを使用できるようにするには、必ず証明書を受け入れてください</string>
-    <string name="ra_ssl_button">セキュアな接続を使用</string>
-    <string name="ra_new_code">新しいコードを送る</string>
-    <string name="home">ホーム</string>
-    <string name="ra_code">このコードを入力してください: %s</string>
-    <string name="ra_send_logs">リモートアクセスのログをデバイスに保存</string>
-    <string name="ra_otp">リモートアクセスのワンタイムパスワード</string>
-    <string name="ra_otp_description">リモートアクセスのアクセス要求</string>
-    <string name="ra_otp_title">リモートアクセスのログインが試行されました</string>
-    <string name="ra_otp_subtitle">あなたによるアクセスの場合、このコードを他のデバイスに入力してください。</string>
-    <string name="ra_otp_not_me">私ではありません</string>
-    <string name="ra_output">オーディオ出力</string>
-    <string name="ra_play_on_browser">ブラウザ上で再生</string>
-    <string name="ra_play_on_device">デバイス上で再生</string>
-    <string name="ra_browser_audio_not_found">メディアが見つからないかブラウザで再生できません</string>
-    <string name="ra_browser_audio_unsupported_format">このオーディオフォーマットはあなたのブラウザでサポートされていません</string>
 
-    <string name="ra_onboarding_welcome_desc">Android版VLCのリモートアクセスにようこそ\nこれを有効化すると、このデバイスの再生などを制御できるようになります</string>
-    <string name="ra_onboarding_how_title">デバイスの制御</string>
-    <string name="ra_onboarding_how_desc">デバイスの再生、ファイルの送信または受信などを制御</string>
-    <string name="ra_onboarding_ssl_title">データ暗号化</string>
-    <string name="ra_onboarding_ssl_desc">リモートアクセスは暗号化され、データ漏洩を防ぎます</string>
-    <string name="ra_onboarding_otp_title">認証</string>
-    <string name="ra_onboarding_otp_desc">ワンタイムパスワードによる認証時、データへの意図しないアクセスを防ぐ</string>
-    <string name="ra_onboarding_content_title">コンテンツへのアクセス</string>
-    <string name="ra_onboarding_content_desc">アクセス可能なもの、不可能なものを選択してください</string>
-    <string name="ra_onboarding_content_ml">メディアライブラリのコンテンツアクセス</string>
-    <string name="ra_onboarding_content_files">ファイルブラウザ</string>
-    <string name="ra_onboarding_content_playback">再生制御</string>
-    <string name="ra_disable">無効化</string>
-    <string name="ra_log_web">リモートアクセスログ</string>
-    <string name="ra_log_crash">クラッシュログ</string>
-    <string name="ra_log_mobile">デバイスのログ</string>
-    <string name="ra_log_current">現在のローカルのログ</string>
-    <string name="ra_invalid_login">デバイスにログインする必要があります</string>
-    <string name="ra_invalid_otp">無効なコードが入力されました</string>
-    <string name="learn_more">さらに詳しく</string>
 
     <!-- car screens -->
     <string name="help">ヘルプ</string>
@@ -1359,11 +1228,7 @@
     <string name="metered_warn">通知（再生中の通知は行われないかも知れません）</string>
     <string name="metered_connection_stopped">接続が従量制のため再生を停止しました</string>
     <string name="metered_connection_warning">接続が従量制です。使用量が課金される可能性があります。</string>
-    <string name="adding">追加</string>
-    <string name="to">に</string>
     <string name="device">デバイス</string>
-    <string name="connected_device">接続されたデバイス</string>
-    <string name="model">デバイスモデル</string>
     <string name="prefs_app_data">アプリケーションデータ</string>
     <string name="export_settings_summary">後でインポートするために設定をファイルにエクスポートする</string>
     <string name="export_settings">設定をエクスポートする</string>
@@ -1399,12 +1264,6 @@
     <string name="generating_logs">ログを生成しています。しばらくお待ちください。</string>
     <string name="default_playback_action">再生アクション</string>
     <string name="files">ファイル</string>
-    <string name="remote_access_feedback_generate">レポートを生成</string>
-    <string name="remote_access_feedback_generated">フェードバックレポートが生成されました</string>
-    <string name="remote_access_feedback_generated_explanation">以下のボタンをアップして、デフォルトのメールクライアントで送信してください。問題が発生した場合、以下のフィールドをコピーペーストして、ご自身でメールを送信するようお願い致します。</string>
-    <string name="remote_access_feedback_file_explanation">必要なファイルがダウンロードされました。メールにこれらのファイルを添付する様お願い致します。</string>
-    <string name="generic_copied_to_clipboard">クリップボードにコピーされました</string>
     <string name="feedback_email_warning">メールクライアントがインストールされていません</string>
-    <string name="feedback_email_warning_remote_action">設定を開く</string>
     <string name="feedback_email_warning_try_anyway">とにかく実施する</string>
     </resources>

@@ -109,16 +109,6 @@
         <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 película</item>
-        <item quantity="many">%d películas</item>
-        <item quantity="other">%d películas</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 programa de TV</item>
-        <item quantity="many">%d programas de TV</item>
-        <item quantity="other">%d programas de TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 pista</item>
         <item quantity="many">%d pistas</item>
@@ -293,7 +283,6 @@
     <string name="screen_orientation_landscape_reverse">Orientación horizontal invertida</string>
     <string name="screen_orientation_last_locked">Última orientación bloqueada</string>
     <string name="enable_black_theme">Tema negro</string>
-    <string name="dark_theme">Tema oscuro</string>
     <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificador textual de subtítulos</string>
     <string name="subtitle_preferred_language">Idioma preferido para subtítulos </string>
@@ -627,7 +616,6 @@
     <string name="delete_the_selected">Borrar selección</string>
     <string name="download_the_selected">Descargar  selección</string>
     <string name="next">Siguiente</string>
-    <string name="download">Descargar</string>
     <string name="ctx_player_video_track">Elegir pista de vídeo</string>
     <string name="ctx_player_audio_track">Pista de audio</string>
     <string name="ctx_player_subs_track">Pista de subtítulos</string>
@@ -711,25 +699,7 @@
     <string name="invalid_file">Archivo no válido. No se puede compartir.</string>
     <string name="share_file">Compartir %s</string>
     <string name="share_message">Aquí está %s</string>
-    <string name="find_metadata">Encontrar metadatos</string>
-    <string name="moviepedia_hint">Buscar metadatos</string>
-    <string name="moviepedia_result">Resultados de vídeo</string>
-    <string name="directed_by">Director</string>
-    <string name="casting">Reparto</string>
-    <string name="produced_by">Productor</string>
-    <string name="written_by">Escrito por</string>
-    <string name="music_by">Música por</string>
-    <string name="posters">Póster</string>
-    <string name="backdrops">Fondos</string>
-    <string name="header_tvshows">Programas de TV</string>
-    <string name="header_movies">Películas</string>
-    <string name="season_number">Temporada %s</string>
-    <string name="resume_episode">Reanudar (%s)</string>
-    <string name="start_over">Comenzar de nuevo</string>
-    <string name="next_episode">Siguiente episodio</string>
     <string name="open_network_settings">Abrir opciones de red?</string>
-    <string name="recently_played">Reproducido recientemente</string>
-    <string name="recently_added">Agregado recientemente</string>
     <string name="playback_multiple_errors">No se pueden ver múltiples medios </string>
     <string name="abrepeat_add_first_marker">Establecer punto inicial</string>
     <string name="abrepeat_add_second_marker">Establecer punto final</string>
@@ -781,19 +751,11 @@
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
     <string name="sub_result_by_file">Resultados de tu archivo</string>
-    <string name="donate">Ayuda de VLC</string>
-    <string name="donate_desc">Apoyar a los voluntarios que desarrollan VLC</string>
-    <string name="donate_subscribtion">Me gustaría que este fuera un patrocinio mensual</string>
-    <string name="donate_send">Iniciar tu patrocinio</string>
-    <string name="donation_description">Tu patrocinio nos permite:\nMejorar VLC para Android\nApoya la asociación VideoLAN</string>
     <string name="subscription_purchased">Estás suscrito a un patrocinio mensual</string>
     <string name="subscription_cancel">Puedes cancelar suscripción en Play Store</string>
     <string name="subscription_cancel_tv">Cómo cancelar suscripción</string>
-    <string name="donate_unsubscribe_tv">Para cancelar suscripción, por favor abre %s en tu teléfono o PC o escanea el código:</string>
-    <string name="tip_jar">Ayuda de VLC</string>
     <string name="thank_you">Gracias a ti</string>
     <string name="thank_you_desc">¡Gracias por tu patrocinio!\n¡Nos ayudará mucho a mejorar VLC!</string>
-    <string name="donate_again">Patrocinar la app nuevamente</string>
 
     <string name="mark_as_played">Marcar como visto</string>
     <string name="mark_all_as_played">Marcar todo como visto</string>

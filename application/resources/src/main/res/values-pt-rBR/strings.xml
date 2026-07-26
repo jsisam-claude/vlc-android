@@ -117,16 +117,6 @@
         <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 filme</item>
-        <item quantity="many">%d filmes</item>
-        <item quantity="other">%d filmes</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 Programa de TV</item>
-        <item quantity="many">%d Programas de TV</item>
-        <item quantity="other">%d Programas de TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 trilha</item>
         <item quantity="many">%d trilhas</item>
@@ -210,8 +200,6 @@
     <string name="wait_before_sleep">Aguarde primeiro a mídia atual terminar</string>
     <string name="reset_on_interaction">Reiniciar em qualquer interação</string>
     <string name="default_sleep_timer_summary">%1$s, aguardar até o término da mídia: %2$s, reiniciar em interações: %3$s</string>
-    <string name="video_player_remote">Reprodutor de vídeo remoto</string>
-    <string name="remote_keyboard_navigation">Navegação por teclado</string>
 
     <string name="server_add_title">Adicionar um novo servidor aos favoritos</string>
     <string name="server_domain_hint">Endereço do servidor (nome ou IP)</string>
@@ -330,7 +318,6 @@
     <string name="screen_orientation_landscape_sensor">Paisagem (sensor)</string>
     <string name="screen_orientation_last_locked">Última orientação travada</string>
     <string name="enable_black_theme">Tema escuro</string>
-    <string name="dark_theme">Tema escuro</string>
     <string name="theme_auto">Tema automático</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="subtitle_preferred_language">Idioma preferido para a legenda</string>
@@ -459,29 +446,6 @@
     <string name="audio_ducking_title">Reduzir o volume do VLC em notificações</string>
     <string name="audio_ducking_summary">Ajuda a ouvir notificações de áudio, instruções de navegação ou assistência por voz</string>
     <string name="casting_category">Conversão</string>
-    <string name="remote_access">Acesso remoto</string>
-    <string name="remote_access_version_title">Versão do acesso remoto</string>
-    <string name="remote_access_hash_title">Código hash do acesso remoto</string>
-    <string name="remote_access_status">Status do servidor</string>
-    <string name="remote_access_status_summary">Toque para ver o status do servidor</string>
-    <string name="remote_access_connections">Conexões</string>
-    <string name="remote_access_links">Links</string>
-    <string name="remote_access_active">Acesso remoto ativo</string>
-    <string name="remote_access_notification">Acesso remoto ativo em %s</string>
-    <string name="remote_access_notification_stopped">Acesso remoto inativo</string>
-    <string name="remote_access_notification_connecting">Acesso remoto conectando</string>
-    <string name="remote_access_notification_error">Erro no acesso remoto</string>
-    <string name="remote_access_notification_stopping">Acesso remoto parando</string>
-    <string name="remote_access_notification_not_init">Acesso remoto iniciando</string>
-    <string name="enable_remote_access">Habilitar o acesso remoto</string>
-    <string name="remote_access_info">Informação do acesso remoto</string>
-    <string name="remote_access_content">Conteúdo</string>
-    <string name="remote_access_medialibrary_content">Conteúdo da biblioteca de mídias</string>
-    <string name="remote_access_medialibrary_content_summary">Habilitados: %1$s\nDesabilitados: %2$s</string>
-    <string name="remote_access_file_browser_content">Explorador de arquivos</string>
-    <string name="remote_access_network_browser_content">Explorador de rede</string>
-    <string name="remote_access_playback_control">Controlar a reprodução</string>
-    <string name="remote_access_logs">Compartilhar arquivos de registro</string>
     <string name="casting_switch_title">Conversão sem fio</string>
     <string name="casting_passthrough_title">Passagem Direta de Áudio</string>
     <string name="casting_passthrough_summary">Permite à sua TV gerenciar a geração de áudio</string>
@@ -602,8 +566,6 @@
     <string name="search_global">Procurar em toda a biblioteca de mídias</string>
     <string name="playlist_save">Salvar Lista de Reprodução</string>
     <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
-    <string name="chapters">Capítulos</string>
-    <string name="notset">Não definido</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="current_chapter">Capítulo: %s</string>
     <string name="confirm_resume">Continuar a reprodução da última posição?</string>
@@ -618,11 +580,6 @@
     <!--What's new-->
     <string name="whats_new_title">O que há de novo no VLC para Android %s</string>
     <!--    update-->
-    <string name="update_title">Atualização disponível</string>
-    <string name="install_nightly_title">Instalar a versão diária</string>
-    <string name="open_in_browser">Abrir no navegador</string>
-    <string name="install">Instalar</string>
-    <string name="update_nightly">Atualizar automaticamente</string>
     <!-- Accessibility -->
     <string name="more_actions">Mais Ações</string>
     <string name="back_quit_lock">Pressione Voltar novamente para fechar o vídeo</string>
@@ -643,7 +600,6 @@
     <string name="allow_storage_access_description">O VLC precisa que você conceda esta permissão para acessar os arquivos de mídia deste dispositivo.</string>
     <string name="partial_content">O VLC não consegue acessar todos os seus arquivos</string>
     <string name="partial_content_description">A partir do Android 11, aplicativos precisam de permissão especial para acessar arquivos de um dispositivo.\n\n%s</string>
-    <string name="never_ask_again">Não me perguntar novamente</string>
     <string name="allow_settings_access_ringtone_title">Permitir que o VLC defina o toque</string>
     <string name="allow_settings_access_ringtone_description">O VLC precisa que você conceda esta permissão para definir esta música como toque.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC defina o brilho</string>
@@ -768,7 +724,6 @@
     <string name="download_the_selected">Baixar seleção</string>
     <string name="next">Próximo</string>
     <string name="next_step">Próximo</string>
-    <string name="download">Download</string>
     <string name="ctx_player_video_track">Selecionar trilha de vídeo</string>
     <string name="ctx_player_audio_track">Trilha de áudio</string>
     <string name="ctx_player_subs_track">Trilha de legenda</string>
@@ -854,25 +809,7 @@
     <string name="invalid_file">Arquivo inválido. Não é possível compartilhá-lo.</string>
     <string name="share_file">Compartilhar 1%s</string>
     <string name="share_message">Aqui está 1%s</string>
-    <string name="find_metadata">Encontrar metadados</string>
-    <string name="moviepedia_hint">Pesquisar metadados</string>
-    <string name="moviepedia_result">Resultados de vídeo</string>
-    <string name="directed_by">Dirigido por</string>
-    <string name="casting">Estrelando</string>
-    <string name="produced_by">Produzido por</string>
-    <string name="written_by">Escrito por</string>
-    <string name="music_by">Música de</string>
-    <string name="posters">Pôsteres</string>
-    <string name="backdrops">Painéis Pantográficos</string>
-    <string name="header_tvshows">Programas de TV</string>
-    <string name="header_movies">Filmes</string>
-    <string name="season_number">Temporada %s</string>
-    <string name="resume_episode">Retomar (%s)</string>
-    <string name="start_over">Reiniciar</string>
-    <string name="next_episode">Próximo episódio</string>
     <string name="open_network_settings">Abrir configurações de rede?</string>
-    <string name="recently_played">Reproduzido recentemente</string>
-    <string name="recently_added">Adicionado recentemente</string>
     <string name="playback_multiple_errors">Não é possível reproduzir múltiplas mídias</string>
     <string name="clear_media_db_message">Você perderá seus progressos, favoritos e as listas de reprodução que criou, mas manterá suas configurações do VLC para Android</string>
     <string name="clear_app_data_message">Você perderá seus progressos, favoritos, as listas de reprodução e todas as configurações do VLC</string>
@@ -928,19 +865,11 @@
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episódio %s</string>
     <string name="sub_result_by_file">Resultados para o seu arquivo</string>
-    <string name="donate">Ajude o VLC</string>
-    <string name="donate_desc">Ajude os voluntários que fazem o VLC</string>
-    <string name="donate_subscribtion">Eu gostaria que esse patrocínio fosse mensal</string>
-    <string name="donate_send">Comece o seu patrocínio</string>
-    <string name="donation_description">Seu patrocínio nos permitirá:\nMelhorar o aplicativo VLC para Android\nAjude a organização VideoLAN</string>
     <string name="subscription_purchased">Você está inscrito em um patrocínio mensal</string>
     <string name="subscription_cancel">Você pode se desinscrever na Play Store</string>
     <string name="subscription_cancel_tv">Como se desinscrever</string>
-    <string name="donate_unsubscribe_tv">Para se desinscrever, por favor abra o %s em um telefone ou um computador, ou escaneie este código:</string>
-    <string name="tip_jar">Ajude o VLC</string>
     <string name="thank_you">Obrigado</string>
     <string name="thank_you_desc">Obrigado pelo seu patrocínio!\nEle nos ajudará muito a melhorar o VLC!</string>
-    <string name="donate_again">Patrocinar o aplicativo novamente</string>
 
     <string name="mark_as_played">Marcar como reproduzido</string>
     <string name="mark_as_not_played">Marcar como não reproduzido</string>
@@ -1007,7 +936,6 @@
     <string name="discovery_failed">Falha na descoberta de: %s</string>
     <string name="lock_use_sensor_title">Travar com sensor</string>
     <string name="lock_use_sensor_summary">Quando a orientação está travada, usa o sensor para permitir a orientação reversa</string>
-    <string name="start">Iniciar</string>
     <string name="permission">Permissão</string>
     <string name="customize">Personalizar</string>
     <string name="selection_count">%d selecionado</string>

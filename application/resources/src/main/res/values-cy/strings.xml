@@ -96,18 +96,6 @@
         <item quantity="many">%d o fideos</item>
         <item quantity="other">%d fideo</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 ffilm</item>
-        <item quantity="two">%d ffilm</item>
-        <item quantity="many">%d ffilm</item>
-        <item quantity="other">%d ffilm</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 rhaglen deledu</item>
-        <item quantity="two">%d raglen deledu</item>
-        <item quantity="many">%d rhaglen deledu</item>
-        <item quantity="other">%d rhaglen deledu</item>
-    </plurals>
     <string name="internal_memory">Cof mewnol</string>
     <string name="audio">Sain</string>
     <string name="video">Fideo</string>
@@ -531,7 +519,6 @@
     <string name="delete_the_selected">Dileu\'r dewis</string>
     <string name="download_the_selected">Lawrlwytho\'r dewis</string>
     <string name="next">Nesaf</string>
-    <string name="download">Lawrlwytho</string>
     <string name="ctx_player_video_track">Dewisa trac fideo</string>
     <string name="ctx_player_audio_track">Trac sain</string>
     <string name="ctx_player_subs_track">Trac isdeitlau</string>
@@ -618,25 +605,7 @@
     <string name="invalid_file">Ffeil annilys. Ni ellir ei rhannu.</string>
     <string name="share_file">Rhannu %s</string>
     <string name="share_message">Dyma %s</string>
-    <string name="find_metadata">Canfod metaddata</string>
-    <string name="moviepedia_hint">Chwilio metaddata</string>
-    <string name="moviepedia_result">Canlyniadau fideos</string>
-    <string name="directed_by">Cyfarwyddwyd gan</string>
-    <string name="casting">Castio</string>
-    <string name="produced_by">Cynhyrchwyd gan</string>
-    <string name="written_by">Ysgrifenwyd gan</string>
-    <string name="music_by">Cerddoriaeth gan</string>
-    <string name="posters">Posteri</string>
-    <string name="backdrops">Cefndiroedd</string>
-    <string name="header_tvshows">Rhaglenni teledu</string>
-    <string name="header_movies">Ffilmiau</string>
-    <string name="season_number">Cyfres %s</string>
-    <string name="resume_episode">Parhau (%s)</string>
-    <string name="start_over">Dechrau o\'r dechrau</string>
-    <string name="next_episode">Pennod nesaf</string>
     <string name="open_network_settings">Agor gosodiadau rhwydwaith?</string>
-    <string name="recently_played">Chwaraewyd yn ddiweddar</string>
-    <string name="recently_added">Ychwanegwyd yn ddiweddar</string>
     <string name="playback_multiple_errors">Ni ellir chwarae cyfryngau aml-gyfrwng</string>
     <string name="abrepeat_add_first_marker">Gosod pwynt dechrau</string>
     <string name="abrepeat_add_second_marker">Gosod pwynt gorffen</string>
@@ -687,19 +656,11 @@
     <string name="sub_result_by_name_season">Cyfres %s</string>
     <string name="sub_result_by_name_episode">Pennod %s</string>
     <string name="sub_result_by_file">Canlyniadau ar gyfer dy ffeil</string>
-    <string name="donate">Helpu VLC</string>
-    <string name="donate_desc">Cefnogi\'r gwirfoddolwyr sy\'n adeiladu VLC</string>
-    <string name="donate_subscribtion">Hoffwn i hyn fod yn danysgrifiad misol</string>
-    <string name="donate_send">Dechrau dy nawdd</string>
-    <string name="donation_description">Bydd dy nawd yn ain caniatáu i:\nWella ap VLC ar gyfer Android\nGefnogi Cymdeithas VideoLAN </string>
     <string name="subscription_purchased">Rwyt wedi tanysgrifio i nawdd misol</string>
     <string name="subscription_cancel">Gellir dad-danysgrifio yn Play Store</string>
     <string name="subscription_cancel_tv">Sut i ddad-danysgrifio</string>
-    <string name="donate_unsubscribe_tv">I ddad-danysgrifio, agora %s ar ddyfais a sganio\'r cod hwn:</string>
-    <string name="tip_jar">Helpu VLC</string>
     <string name="thank_you">Diolch yn fawr</string>
     <string name="thank_you_desc">Diolch yn fawr am dy nawdd!\nMi fydd yn ein helpu\'n fawr i wella VLC!</string>
-    <string name="donate_again">Noddi\'r ap eto</string>
 
     <string name="mark_as_played">Nodi fel wedi\'i chwarae</string>
     <string name="mark_all_as_played">Nodi pob un fel wedi\'i chwarae</string>

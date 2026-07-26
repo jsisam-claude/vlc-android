@@ -95,16 +95,6 @@
         <item quantity="many">%d vídeos</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 película</item>
-        <item quantity="many">%d películas</item>
-        <item quantity="other">%d películas</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 programa de TV</item>
-        <item quantity="many">%d programas de TV</item>
-        <item quantity="other">%d programas de TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 pista</item>
         <item quantity="many">%d pistas</item>
@@ -539,7 +529,6 @@
     <string name="delete_the_selected">Eliminar seleccionados</string>
     <string name="download_the_selected">Descargar seleccionados</string>
     <string name="next">Siguiente</string>
-    <string name="download">Descargar</string>
     <string name="ctx_player_video_track">Seleccionar pista de vídeo</string>
     <string name="ctx_player_audio_track">Pista de audio</string>
     <string name="ctx_player_subs_track">Pista de subtítulos</string>
@@ -623,25 +612,7 @@
     <string name="invalid_file">Archivo inválido. No se puede compartir.</string>
     <string name="share_file">Compartir %s</string>
     <string name="share_message">Aquí está %s</string>
-    <string name="find_metadata">Buscar metadatos</string>
-    <string name="moviepedia_hint">Buscar metadados</string>
-    <string name="moviepedia_result">Resultados de vídeo</string>
-    <string name="directed_by">Dirigida por</string>
-    <string name="casting">Reparto</string>
-    <string name="produced_by">Producida por</string>
-    <string name="written_by">Escrita por</string>
-    <string name="music_by">Música por</string>
-    <string name="posters">Carteles</string>
-    <string name="backdrops">Fondos</string>
-    <string name="header_tvshows">Programas de TV</string>
-    <string name="header_movies">Películas</string>
-    <string name="season_number">Temporada %s</string>
-    <string name="resume_episode">Resumen (%s)</string>
-    <string name="start_over">Empezar de nuevo</string>
-    <string name="next_episode">Siguiente episodio</string>
     <string name="open_network_settings">¿Abrir preferencias de red?</string>
-    <string name="recently_played">Reproducido recientemente</string>
-    <string name="recently_added">Añadido recientemente</string>
     <string name="playback_multiple_errors">No se pueden reproducir múltiples medios</string>
     <string name="clear_media_db_message">Perderás los progresos, marcadores y listas de reproducción que hayas creado, pero se mantendrán los ajustes de VLC para Android</string>
     <string name="clear_app_data_message">Perderás los progresos, marcadores y listas de reproducción que hayas creado, así como todos los ajustes de VLC</string>
@@ -697,19 +668,11 @@
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
     <string name="sub_result_by_file">Resultados para su archivo</string>
-    <string name="donate">Ayudar a VLC</string>
-    <string name="donate_desc">Apoyar a los voluntarios contruyendo VLC</string>
-    <string name="donate_subscribtion">Me gustaría que este fuera un patrocinio mensual</string>
-    <string name="donate_send">Iniciar su patrocinio</string>
-    <string name="donation_description">Su patrocinio nos ayudará a:\nMejorar la app de VLC para Android\nApoyar la VideoLAN Association</string>
     <string name="subscription_purchased">Está suscrito al patrocinio mensual</string>
     <string name="subscription_cancel">Puede desuscribirse en la Play Store</string>
     <string name="subscription_cancel_tv">Como desuscribirse</string>
-    <string name="donate_unsubscribe_tv">Para desuscribirse, abra %s en un teléfono, en un ordenador o escanee este código:</string>
-    <string name="tip_jar">Ayudar a VLC</string>
     <string name="thank_you">Gracias</string>
     <string name="thank_you_desc">Gracias por su patrocinio\nNos ayudará mucho a mejorar VLC!</string>
-    <string name="donate_again">Patrocinar la app de nuevo</string>
 
     <string name="mark_as_played">Marcar como reproducido</string>
     <string name="mark_as_not_played">Marcar como no reproducida</string>

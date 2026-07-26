@@ -128,22 +128,6 @@
         <item quantity="many">%d ڤديوها</item>
         <item quantity="other">%d ڤديو</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="zero">%d أفلام </item>
-        <item quantity="one">1 فلم</item>
-        <item quantity="two">%d أفلام </item>
-        <item quantity="few">%d أفلام </item>
-        <item quantity="many">%d أفلام  </item>
-        <item quantity="other">%d أفلام </item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="zero">%d برنامج تلفاز</item>
-        <item quantity="one">1 برنامج تلفاز</item>
-        <item quantity="two">%d برامج تلفاز</item>
-        <item quantity="few">%d برامج تلفاز</item>
-        <item quantity="many">%d برامج تلفاز</item>
-        <item quantity="other">%d برامج تلفاز</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="zero">%d مسارات</item>
         <item quantity="one">1 مسار</item>
@@ -231,8 +215,6 @@
     <string name="subtitle_select">اختر ملف ترجمة</string>
     <string name="wait_before_sleep">انتظر حتى انتهاء عنصر الوسائط الحالي أولاً</string>
     <string name="reset_on_interaction">إعادة الضبط على أي تفاعل</string>
-    <string name="video_player_remote">مشغل الفيديو عن بعد</string>
-    <string name="remote_keyboard_navigation">التنقل عبر لوحة المفاتيح</string>
 
     <string name="server_add_title">أضِف خادوما جديدا إلى المفضلة</string>
     <string name="server_domain_hint">عنوان الخادوم (اسم النطاق أو IP)</string>
@@ -342,7 +324,6 @@
     <string name="screen_orientation_landscape_reverse">عرضي معكوس</string>
     <string name="screen_orientation_last_locked">آخر اتجاه مغلق</string>
     <string name="enable_black_theme">الثيم الأسود</string>
-    <string name="dark_theme">السمة الداكنة</string>
     <string name="theme_auto">السمة التلقائية</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="subtitle_preferred_language">لغة الترجمة المفضلة</string>
@@ -439,21 +420,6 @@
     <string name="audio_ducking_title">قلل درجة صوت في حالة الإشعارات</string>
     <string name="audio_ducking_summary">يساعد في سماع الإشعارات الصوتية أو تعليمات التنقل أو حديث المساعد</string>
     <string name="casting_category">يتم الآن التحويل</string>
-    <string name="remote_access">الوصول عن بعد</string>
-    <string name="remote_access_version_title">إصدار الوصول عن بعد</string>
-    <string name="remote_access_hash_title">تجزئة الوصول عن بعد</string>
-    <string name="remote_access_status">حالة الخادم</string>
-    <string name="remote_access_connections">الاتصالات</string>
-    <string name="remote_access_links">روابط</string>
-    <string name="remote_access_notification_error">خطأ في الوصول عن بعد</string>
-    <string name="remote_access_notification_stopping">إيقاف الوصول عن بعد</string>
-    <string name="remote_access_notification_not_init">تهيئة الوصول عن بعد</string>
-    <string name="enable_remote_access">تمكين الوصول عن بعد</string>
-    <string name="remote_access_info">معلومات الوصول عن بعد</string>
-    <string name="remote_access_content">المحتوى</string>
-    <string name="remote_access_file_browser_content">متصفح الملفات</string>
-    <string name="remote_access_network_browser_content">متصفح الشبكة</string>
-    <string name="remote_access_playback_control">التحكم في التشغيل</string>
     <string name="casting_switch_title">التحويل عن بعد</string>
     <string name="casting_passthrough_title">ممر عبور الصوت</string>
     <string name="casting_passthrough_summary">اعتمد على التلفاز في إدارة بث الصوت</string>
@@ -575,14 +541,6 @@
     <!--What's new-->
     <string name="whats_new_title">ما الجديد في برنامج VLC للأندرويد %s</string>
     <!--    update-->
-    <string name="update_title">التحديث متاح</string>
-    <string name="open_in_browser">افتح في المتصفح </string>
-    <string name="install">ثبّت</string>
-    <string name="install_nightly">قم بتثبيت الإصدار الليلي</string>
-    <string name="install_nightly_alert">الإصدارات الليلية هي إصدارات تجريبية يتم تحديثها يوميًا.\n\nتوقع ميزات جديدة ولكن أيضًا أخطاء جديدة!</string>
-    <string name="update_nightly_alert">تقوم بتشغيل إصدار ليلي. هل ترغب في البحث عن التحديثات بشكل دوري؟</string>
-    <string name="update_nightly">تحديث تلقائي</string>
-    <string name="update_nightly_summary">إبحث عن تحديثات  للإصدار الليلي بشكل دوري</string>
 
 
     <!-- Accessibility -->
@@ -601,7 +559,6 @@
     <string name="click_here">انقر هنا لمعرفة المزيد.</string>
     <string name="allow_storage_access_title">السماح لـ VLC بالدخول إلى الملفات السمعية و الفيديو</string>
     <string name="allow_storage_access_description">يحتاج VLC إلى الحصول على تصريح للدخول إلى ملفات الوسائط هذه في هذا الجهاز</string>
-    <string name="never_ask_again">لا تسأل مرة أخرى</string>
     <string name="never_show_again">لا تظهر مرة أخرى ، حتى بالنسبة للإصدارات المستقبلية</string>
     <string name="allow_settings_access_ringtone_title">السماح لـVLC من تعيين الرنة</string>
     <string name="allow_settings_access_ringtone_description">يطلب منك VLC التصريح للسماح له لاستخدام هذه الأغنية كنغمة للهاتف.</string>
@@ -729,7 +686,6 @@
     <string name="next">التالي</string>
     <string name="skip">تخطي</string>
     <string name="next_step">التالي</string>
-    <string name="download">نزّل</string>
     <string name="ctx_player_video_track">حدد مسار الفيديو</string>
     <string name="ctx_player_audio_track">مسار الصوت</string>
     <string name="ctx_player_subs_track">مسار الترجمات النصية</string>
@@ -824,25 +780,7 @@
     <string name="invalid_file">ملف غير صالح: لا يمكن المشاركة</string>
     <string name="share_file">مشاركة %s</string>
     <string name="share_message">ها هو %s</string>
-    <string name="find_metadata">البحث عن الوصف</string>
-    <string name="moviepedia_hint">وصف البحث</string>
-    <string name="moviepedia_result">نتائج الفيديو</string>
-    <string name="directed_by">إخراج</string>
-    <string name="casting">يتم الآن التحويل</string>
-    <string name="produced_by">انتجت من</string>
-    <string name="written_by">كتبت من</string>
-    <string name="music_by">موسيقى من</string>
-    <string name="posters">ملصقات</string>
-    <string name="backdrops">الخلفيات المسرحية</string>
-    <string name="header_tvshows">برامج تلفاز</string>
-    <string name="header_movies">أفلام</string>
-    <string name="season_number">الموسم %s</string>
-    <string name="resume_episode">استئناف (%s)</string>
-    <string name="start_over">أعد من بداية</string>
-    <string name="next_episode">الحلقة التالية</string>
     <string name="open_network_settings">تريد فتح إعدادات الشبكة؟</string>
-    <string name="recently_played">مشغل حديثا</string>
-    <string name="recently_added">أُضيف حديثًا</string>
     <string name="playback_multiple_errors">لا يمكن تشغيل وسائط متعددة</string>
     <string name="clear_media_db_message">ستفقد تقدمك والإشارات المرجعية وقوائم التشغيل التي أنشأتها ولكنك ستحتفظ بإعدادات VLC لنظام Android</string>
     <string name="clear_app_data_message">ستفقد تقدمك والإشارات المرجعية وقوائم التشغيل وجميع إعدادات VLC</string>
@@ -899,19 +837,11 @@
     <string name="sub_result_by_name_season">الموسم %s</string>
     <string name="sub_result_by_name_episode">الحلقة %s</string>
     <string name="sub_result_by_file">نتائج لملفك</string>
-    <string name="donate">مساعدة VLC</string>
-    <string name="donate_desc">دعم المتطوعين لبناء VLC</string>
-    <string name="donate_subscribtion">أود أن يكون هذا رعاية شهرية</string>
-    <string name="donate_send">ابدأ رعايتك</string>
-    <string name="donation_description">ستسمح لنا رعايتك بما يلي:\nتحسين تطبيق VLC لنظام Android\nدعم جمعية VideoLAN</string>
     <string name="subscription_purchased">أنت مشترك في رعاية شهرية</string>
     <string name="subscription_cancel">يمكنك إلغاء الاشتراك في متجر Play</string>
     <string name="subscription_cancel_tv">كيفية إلغاء الاشتراك</string>
-    <string name="donate_unsubscribe_tv">لإلغاء الاشتراك ، يرجى فتح %s على الهاتف أو الكمبيوتر أو مسح هذا الرمز:</string>
-    <string name="tip_jar">مساعدة VLC</string>
     <string name="thank_you">شكرًا لك</string>
     <string name="thank_you_desc">شكرًا لك على رعايتك!\n  سيساعدنا ذلك كثيرًا في تحسين VLC!</string>
-    <string name="donate_again">رعاية التطبيق مرة أخرى</string>
 
     <string name="mark_as_played">سِمْ بأنه مُشغل</string>
     <string name="mark_as_not_played">ضع علامة \"لم يتم تشغيلها\"</string>
@@ -987,7 +917,6 @@
     <string name="discovery_failed">فشل الاكتشاف لـ: %s</string>
     <string name="lock_use_sensor_title">قفل مع جهاز الاستشعار</string>
     <string name="lock_use_sensor_summary">عندما يكون الاتجاه مغلقًا ، استخدم المستشعر للسماح بالاتجاه العكسي</string>
-    <string name="start">إبدأ</string>
     <string name="notification_permission_explanation">يحتاج VLC إلى إذنك لإرسال الإشعارات.\nسوف يقوم التطبيق بإعلامك فقط عند مسح الوسائط الخاصة بك أو استخدام صورة داخل صورة مخصصة للفيديو.\nلن يؤدي رفض الإذن إلى منع VLC من العمل، ومع ذلك سيتم إخفاء الإشعارات.</string>
     <string name="permission">الإذن</string>
     <string name="customize">خصّص</string>
@@ -1036,26 +965,7 @@
     <string name="show_only_favs">إظهار المفضلات فقط</string>
     <string name="replace_playlist">استبدل قائمة التشغيل</string>
 
-    <string name="ra_remote_access">الوصول عن بعد</string>
-    <string name="ra_log_file">ملفات السجل</string>
-    <string name="ra_log_type">نوع السجل</string>
-    <string name="ra_send_files">إرسال الملفات</string>
-    <string name="ra_not_in_foreground">التطبيق ليس في المقدمة. لا يمكن تشغيل الفيديو.</string>
-    <string name="ra_file">ملف</string>
-    <string name="ra_upload_all">تحميل الكل</string>
-    <string name="ra_drop_files_tip">أفلت الملفات في أي مكان لإرسالها إلى جهازك</string>
-    <string name="ra_prepare_download">جار تحضير التنزيل</string>
-    <string name="ra_ssl_explanation_title">الاتصال غير الآمن</string>
-    <string name="ra_new_code">أرسل رمزًا جديدًا</string>
-    <string name="ra_code">أدخل هذا الرمز: %s</string>
-    <string name="ra_otp_not_me">ليس أنا</string>
 
-    <string name="ra_onboarding_how_title">السيطرة على جهازك</string>
-    <string name="ra_onboarding_otp_title">المصادقة</string>
-    <string name="ra_onboarding_content_desc">اختر ما يمكن الوصول إليه وما لا يمكن الوصول إليه</string>
-    <string name="ra_log_web">سجل الوصول عن بعد</string>
-    <string name="ra_invalid_login">تحتاج إلى تسجيل الدخول على جهازك</string>
-    <string name="learn_more">تعلّم المزيد</string>
 
     <!-- car screens -->
     <string name="help">المُساعدة</string>
@@ -1064,8 +974,6 @@
     <string name="metered_connection_stopped">تم إيقاف الوسائط لأن الاتصال مقيد</string>
     <string name="metered_connection_warning">اتصالك مقيد برسوم. قد يتم تطبيق رسوم.</string>
     <string name="device">جهاز</string>
-    <string name="connected_device">الجهاز المتصل</string>
-    <string name="model">طراز الجهاز</string>
     <string name="prefs_app_data">بيانات التطبيق</string>
     <string name="export_settings">إعدادات التصدير</string>
     <string name="restore_settings">استعادة الإعدادات</string>

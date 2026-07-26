@@ -103,18 +103,6 @@
         <item quantity="many">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 видео</item>
-        <item quantity="few">%dвидео</item>
-        <item quantity="many">%d видео</item>
-        <item quantity="other">%d видео</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 ТВ-шоу</item>
-        <item quantity="few">%d ТВ-шоу</item>
-        <item quantity="many">%d ТВ-шоу</item>
-        <item quantity="other">%d ТВ-сериал(а)</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 дорожка</item>
         <item quantity="few">Дорожек: %d</item>
@@ -521,7 +509,6 @@
     <string name="allow_storage_access_description">VLC требуется это разрешение, чтобы обращаться к медиафайлам на вашем устройстве.</string>
     <string name="partial_content">VLC не может обращаться ко всем вашим файлам</string>
     <string name="partial_content_description">Начиная с Android 11, приложениям требуется специальное разрешение, чтобы обращаться ко всем файлам на устройстве.\n\n%s</string>
-    <string name="never_ask_again">Не спрашивать в дальнейшем</string>
     <string name="allow_settings_access_ringtone_title">Разрешить VLC устанавливать мелодию звонка</string>
     <string name="allow_settings_access_ringtone_description">VLC требуется это разрешение, чтобы устанавливать текущий звуковой файл в качестве мелодии звонка.</string>
     <string name="allow_settings_access_brightness_title">Разрешить VLC изменять режим яркости</string>
@@ -645,7 +632,6 @@
     <string name="next">Следующий</string>
     <string name="skip">Пропустить</string>
     <string name="next_step">Далее</string>
-    <string name="download">Загрузка</string>
     <string name="ctx_player_video_track">Видеодорожка</string>
     <string name="ctx_player_audio_track">Аудиодорожка</string>
     <string name="ctx_player_subs_track">Дорожка субтитров</string>
@@ -733,25 +719,7 @@
     <string name="invalid_file">Файл повреждён. Вы не можете им поделиться.</string>
     <string name="share_file">Поделиться %s</string>
     <string name="share_message">Здесь %s</string>
-    <string name="find_metadata">Найти метаданные</string>
-    <string name="moviepedia_hint">Поиск метаданных</string>
-    <string name="moviepedia_result">Найденные видео</string>
-    <string name="directed_by">Режиссёр</string>
-    <string name="casting">Подбор актёров</string>
-    <string name="produced_by">Производство</string>
-    <string name="written_by">Сценарист</string>
-    <string name="music_by">Композитор</string>
-    <string name="posters">Постеры</string>
-    <string name="backdrops">Фон</string>
-    <string name="header_tvshows">ТВ-сериалы</string>
-    <string name="header_movies">Фильмы</string>
-    <string name="season_number">Сезон %s</string>
-    <string name="resume_episode">Возобновить (%s)</string>
-    <string name="start_over">Начать сначала</string>
-    <string name="next_episode">Следующий эпизод</string>
     <string name="open_network_settings">Открыть настройки сети?</string>
-    <string name="recently_played">Недавние</string>
-    <string name="recently_added">По дате добавления</string>
     <string name="playback_multiple_errors">Некоторые медиафайлы не могут быть проиграны</string>
     <string name="clear_media_db_message">Вы потеряете сохранённые позиции, избранное и ваши плейлисты, но настройки VLC для Android сохранятся</string>
     <string name="clear_app_data_message">Вы потеряете сохранённые позиции, избранное, плейлисты и все настройки VLC </string>
@@ -808,19 +776,11 @@
     <string name="sub_result_by_name_season">Сезон %s</string>
     <string name="sub_result_by_name_episode">Эпизод %s</string>
     <string name="sub_result_by_file">Результаты для вашего файла</string>
-    <string name="donate">Помощь проекту VLC</string>
-    <string name="donate_desc">Поддержите энтузиастов, создающих VLC</string>
-    <string name="donate_subscribtion">Я желаю вносить этот вклад ежемесячно</string>
-    <string name="donate_send">Оказать спонсорскую помощь</string>
-    <string name="donation_description">Ваша финансовая поддержка поможет нам:\nУлучшать приложение VLC для Android\nПоддерживать организацию VideoLAN</string>
     <string name="subscription_purchased">Вы оформили ежемесячные взносы</string>
     <string name="subscription_cancel">Вы можете отменить взносы в Play Store</string>
     <string name="subscription_cancel_tv">Как отменить взносы</string>
-    <string name="donate_unsubscribe_tv">Чтобы отменить взносы, откройте %s на телефоне или компьютере, или отсканируйте этот код:</string>
-    <string name="tip_jar">Помощь проекту VLC</string>
     <string name="thank_you">Спасибо</string>
     <string name="thank_you_desc">Благодарим вас за ваш вклад!\nВаша помощь будет очень полезна для развития VLC!</string>
-    <string name="donate_again">Спонсировать VLC ещё</string>
 
     <string name="mark_as_played">Пометить как воспроизведённое</string>
     <string name="mark_as_not_played">Пометить как невоспроизведённое</string>
@@ -887,7 +847,6 @@
     <string name="discovery_failed">Ошибка сканирования %s</string>
     <string name="lock_use_sensor_title">Блокировка с сенсором</string>
     <string name="lock_use_sensor_summary">При заблокированной ориентации сенсор будет переключать ориентацию на противоположную.</string>
-    <string name="start">Поехали!</string>
     <string name="permission">Разрешение</string>
     <string name="customize">Настроить</string>
     <string name="selection_count">Выбрано: %d</string>

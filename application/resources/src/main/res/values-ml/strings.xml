@@ -94,14 +94,6 @@
         <item quantity="one">1 വീഡിയോ</item>
         <item quantity="other">%dവീഡിയോകൾ </item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 സിനിമ</item>
-        <item quantity="other">%d സിനിമകൾ</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1  ടിവി ഷോ</item>
-        <item quantity="other">%d ടിവി ഷോകൾ</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 ചാലുകൾ </item>
         <item quantity="other">%d ചാലുകൾ</item>
@@ -518,7 +510,6 @@
     <string name="allow_storage_access_description">ഈ ഉപകരണത്തിലെ മീഡിയ ഫയലുകൾ കൈകാര്യം ചെയ്യാൻ വിഎൽസി ക്ക് ഈ അനുവാദം നൽകുക </string>
     <string name="partial_content">വിഎൽസി ക്ക് നിങ്ങളുടെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ കഴിയുന്നില്ല</string>
     <string name="partial_content_description">ആൻഡ്രോയിഡ് 11 മുതൽ, ഉപകരണത്തിന്റെ എല്ലാ ഫയലുകളും ഉപയോഗിക്കാൻ അപ്ലിക്കേഷനുകൾക്ക് പ്രത്യേക അനുമതി ആവശ്യമാണ്.\n\n%s</string>
-    <string name="never_ask_again">ഇനി ഒരിക്കലും ചോദിക്കരുത്</string>
     <string name="allow_settings_access_ringtone_title">
 റിങ്ടോൺ സെറ്റ് ചെയ്യാൻ വിഎൽസി യെ അനുവദിക്കുക </string>
     <string name="allow_settings_access_ringtone_description">ഈ പാട്ട് റിങ്ടോൺ ആയി ഉപയോഗിക്കാൻ വിഎൽസി ക്ക് അനുമതി നൽകേണ്ടത് ആവശ്യമാണ് </string>
@@ -643,7 +634,6 @@
     <string name="next">അടുത്തത്</string>
     <string name="skip">ഒഴിവാക്കുക</string>
     <string name="next_step">അടുത്തത്</string>
-    <string name="download">ഡൗൺലോഡ്</string>
     <string name="ctx_player_video_track">വീഡിയോ ട്രാക്ക് തിരഞ്ഞെടുക്കുക </string>
     <string name="ctx_player_audio_track">ഓഡിയോ ട്രാക്ക് </string>
     <string name="ctx_player_subs_track">സബ്ടൈറ്റിൽ ട്രാക്ക് </string>
@@ -728,25 +718,7 @@
     <string name="invalid_file">അസാധുവായ ഫയൽ. പങ്കിടാൻ കഴിയില്ല.</string>
     <string name="share_file">പങ്കിടുക %s</string>
     <string name="share_message">ഇവിടെയാണ് %s</string>
-    <string name="find_metadata">മെറ്റാ ഡാറ്റ കണ്ടെത്തുക </string>
-    <string name="moviepedia_hint">മെറ്റാ ഡാറ്റ തിരയുക </string>
-    <string name="moviepedia_result">വീഡിയോ ഫലങ്ങൾ</string>
-    <string name="directed_by">സംവിധാനം</string>
-    <string name="casting">കാസ്റ്റിങ് </string>
-    <string name="produced_by">നിർമ്മിച്ചത് </string>
-    <string name="written_by">എഴുതിയത് </string>
-    <string name="music_by">സംഗീതം</string>
-    <string name="posters">പോസ്റ്ററുകൾ </string>
-    <string name="backdrops">ബാക്ക് ഡ്രോപ്പുകൾ </string>
-    <string name="header_tvshows">ടിവി ഷോകൾ</string>
-    <string name="header_movies">സിനിമകൾ</string>
-    <string name="season_number">സീസൺ %s</string>
-    <string name="resume_episode">(%s) തുടരുക</string>
-    <string name="start_over">പുനരാരംഭിക്കുക</string>
-    <string name="next_episode">അടുത്ത എപ്പിസോഡ്</string>
     <string name="open_network_settings">നെറ്റ്‌വർക്ക് ക്രമീകരണങ്ങൾ തുറക്കണോ?</string>
-    <string name="recently_played">അടുത്തിടെ പ്ളേ ചെയ്തത് </string>
-    <string name="recently_added">അടുത്തിടെ ചേർത്തത് </string>
     <string name="playback_multiple_errors">ഒന്നിലധികം മീഡിയകൾ പ്ലേ ചെയ്യാൻ കഴിയില്ല</string>
     <string name="clear_media_db_message">നിങ്ങളുടെ പുരോഗതി, ബുക്ക്മാർക്കുകൾ, നിങ്ങൾ സൃഷ്ടിച്ച പ്ലേലിസ്റ്റ് എന്നിവ നഷ്‌ടപ്പെടും, പക്ഷേ ആൻഡ്രോയിഡിനായുള്ള വിഎൽസി യുടെ ക്രമീകരണങ്ങൾ സംരക്ഷിക്കപ്പെടും </string>
     <string name="clear_app_data_message">നിങ്ങളുടെ പുരോഗതി, ബുക്ക്മാർക്കുകൾ, പ്ലേലിസ്റ്റുകൾ, എല്ലാ വി‌എൽ‌സി ക്രമീകരണങ്ങളും നഷ്‌ടപ്പെടും</string>
@@ -803,19 +775,11 @@
     <string name="sub_result_by_name_season">സീസൺ %s</string>
     <string name="sub_result_by_name_episode">എപ്പിസോഡ് %s</string>
     <string name="sub_result_by_file">നിങ്ങളുടെ ഫയലിനായുള്ള ഫലങ്ങൾ</string>
-    <string name="donate">VLC-യെ സഹായിക്കുക</string>
-    <string name="donate_desc">VLC നിർമ്മിക്കുന്ന സന്നദ്ധപ്രവർത്തകരെ പിന്തുണയ്ക്കുക</string>
-    <string name="donate_subscribtion">ഇത് പ്രതിമാസ സ്പോൺസർഷിപ്പ് ആകാൻ ഞാൻ ആഗ്രഹിക്കുന്നു</string>
-    <string name="donate_send">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ആരംഭിക്കുക</string>
-    <string name="donation_description">നിങ്ങളുടെ സ്പോൺസർഷിപ്പ് ഞങ്ങളെ Android-നായുള്ള VLC അപ്ലിക്കേഷൻ മെച്ചപ്പെടുത്താൻ സഹായിക്കും\nVideoLAN അസോസിയേഷനെ പിന്തുണയ്ക്കുക</string>
     <string name="subscription_purchased">നിങ്ങൾ പ്രതിമാസ സ്പോൺസർഷിപ്പിനായി സബ്‌സ്‌ക്രൈബുചെയ്‌തു</string>
     <string name="subscription_cancel">നിങ്ങൾക്ക് പ്ലേ സ്റ്റോറിൽ അൺസബ്‌സ്‌ക്രൈബുചെയ്യാനാകും</string>
     <string name="subscription_cancel_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യുന്നതെങ്ങനെ</string>
-    <string name="donate_unsubscribe_tv">അൺസബ്‌സ്‌ക്രൈബുചെയ്യാൻ, ഒരു ഫോണിലോ കമ്പ്യൂട്ടറിലോ %s തുറക്കുക അല്ലെങ്കിൽ ഈ കോഡ് സ്‌കാൻ ചെയ്യുക:</string>
-    <string name="tip_jar">VLC-യെ സഹായിക്കുക</string>
     <string name="thank_you">നന്ദി</string>
     <string name="thank_you_desc">നിങ്ങളുടെ സ്പോൺസർഷിപ്പിന് നന്ദി!\n VLC മെച്ചപ്പെടുത്തുന്നതിന് ഇത് ഞങ്ങളെ ശരിക്കും സഹായിക്കും!</string>
-    <string name="donate_again">അപ്ലിക്കേഷൻ വീണ്ടും സ്പോൺസർ ചെയ്യുക</string>
 
     <string name="mark_as_played">പ്രവർത്തപ്പിച്ചതായി രേഖപ്പെടുത്തുക</string>
     <string name="mark_as_not_played">പ്ളേ ചെയ്തിട്ടില്ല എന്ന് രേഖപ്പെടുത്തുക</string>
@@ -884,7 +848,6 @@
     <string name="discovery_failed">ഇതിനായുള്ള തിരച്ചിൽ പരാജയപെട്ടു: %s</string>
     <string name="lock_use_sensor_title">തിരിച്ചറിയൽ സംവിധാനം ഉപയോഗിച്ച് പൂട്ടുക</string>
     <string name="lock_use_sensor_summary">ഓറിയന്റേഷൻ ലോക്ക് ചെയ്യുമ്പോൾ, റിവേഴ്സ് ഓറിയന്റേഷൻ അനുവദിക്കുന്നതിന് സെൻസർ ഉപയോഗിക്കുക</string>
-    <string name="start">പ്രവർത്തിപ്പിക്കുക</string>
     <string name="permission">അനുമതി</string>
     <string name="customize">ഇഷ്ടാനുസൃതമാക്കുക</string>
     <string name="selection_count">%d തിരഞ്ഞെടുത്തു</string>

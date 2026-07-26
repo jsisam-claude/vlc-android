@@ -108,14 +108,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videoer</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="other">%d filmer</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 tv-serie</item>
-        <item quantity="other">%d tv-serier</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 spor</item>
         <item quantity="other">%d spor</item>
@@ -193,8 +185,6 @@
     <string name="sleep_in">Sov om</string>
     <string name="jump_to_time">Hopp til:</string>
     <string name="subtitle_select">Velg undertekstfil</string>
-    <string name="video_player_remote">Videoavspillers-fjernkontroll</string>
-    <string name="remote_keyboard_navigation">Tastaturstyring</string>
 
     <string name="server_add_title">Legg til en ny tjener til favorittene</string>
     <string name="server_domain_hint">Tjeneradresse (domenenavn eller IP)</string>
@@ -307,7 +297,6 @@
     <string name="screen_orientation_landscape_reverse">Landskap reversert</string>
     <string name="screen_orientation_last_locked">Siste låste orientering</string>
     <string name="enable_black_theme">Svart tema</string>
-    <string name="dark_theme">Mørkt tema</string>
     <string name="theme_auto">Automatisk tema</string>
     <string name="subtitle_text_encoding">Undertekstkoding</string>
     <string name="subtitle_preferred_language">Foretrukket undertekst språk</string>
@@ -421,11 +410,6 @@
     <string name="audio_ducking_title">Senk lyden i VLC når det kommer varsel</string>
     <string name="audio_ducking_summary">Hjelper for å høre lydvarsel, navigasjonsinstrukser, eller når assistenten prater</string>
     <string name="casting_category">Casting</string>
-    <string name="remote_access_status">Tjenerstatus</string>
-    <string name="remote_access_connections">Tilkoblinger</string>
-    <string name="remote_access_links">Lenker</string>
-    <string name="remote_access_content">Innhold</string>
-    <string name="remote_access_file_browser_content">Filutforsker</string>
     <string name="casting_switch_title">Trådløs kringkasting</string>
     <string name="casting_passthrough_title">Lydgjennomgang</string>
     <string name="casting_passthrough_summary">La TVen din behandle lydgjengivelse</string>
@@ -528,7 +512,6 @@
     <string name="search_global">Søk i hele mediebiblioteket</string>
     <string name="playlist_save">Lagre spilleliste</string>
     <string name="playlist_name_hint">Spillelistetittel</string>
-    <string name="notset">Ikke satt</string>
     <string name="go_to_chapter">Gå til kapittel…</string>
     <string name="current_chapter">Kapittel: %s</string>
     <string name="confirm_resume">Fortsett fra siste posisjon?</string>
@@ -541,9 +524,6 @@
 
     <!--What's new-->
     <string name="whats_new_title">Hva er nytt i VLC for Android %s</string>
-    <string name="open_in_browser">Åpne nettleser</string>
-    <string name="nightly_version">Fant versjon: %2$s - %1$s</string>
-    <string name="update_nightly">Auto-oppdatering</string>
     <!-- Accessibility -->
     <string name="more_actions">Flere handlinger</string>
     <string name="back_quit_lock">Trykk Tilbake igjen for å avslutte videoen</string>
@@ -561,7 +541,6 @@
     <string name="allow_storage_access_title">Gi VLC tilgang til video- og lyd-filer</string>
     <string name="allow_storage_access_description">VLC behøver denne tilgangen for å kunne lese mediefilene på denne enheten.</string>
     <string name="partial_content">VLC kan ikke nå alle dine filer</string>
-    <string name="never_ask_again">Aldri spør igjen</string>
     <string name="allow_settings_access_ringtone_title">La VLC velge ringetonen</string>
     <string name="allow_settings_access_ringtone_description">VLC behøver denne tilgangen for å sette denne sangen som din ringetone.</string>
     <string name="allow_settings_access_brightness_title">Tillat VLC å endre lysstyrkemodus</string>
@@ -697,7 +676,6 @@
     <string name="next">Neste</string>
     <string name="skip">Hopp over</string>
     <string name="next_step">Neste</string>
-    <string name="download">Last ned</string>
     <string name="ctx_player_video_track">Velg videospor</string>
     <string name="ctx_player_audio_track">Lydspor</string>
     <string name="ctx_player_subs_track">Undertekst</string>
@@ -786,25 +764,7 @@
     <string name="share_file">Del %s</string>
     <string name="share_message">Her er %s</string>
     <string name="share_track">Hører for øyeblikket på %s</string>
-    <string name="find_metadata">Finn metadata</string>
-    <string name="moviepedia_hint">Søk i metadata</string>
-    <string name="moviepedia_result">Videoresultater</string>
-    <string name="directed_by">Regisert av</string>
-    <string name="casting">Rollebesetning</string>
-    <string name="produced_by">Produsert av</string>
-    <string name="written_by">Skrevet av</string>
-    <string name="music_by">Musikk av</string>
-    <string name="posters">Plakater</string>
-    <string name="backdrops">Bakgrunner</string>
-    <string name="header_tvshows">TV-serier</string>
-    <string name="header_movies">Filmer</string>
-    <string name="season_number">Sesong %s</string>
-    <string name="resume_episode">Gjenoppta (%s)</string>
-    <string name="start_over">Start på nytt</string>
-    <string name="next_episode">Neste episode</string>
     <string name="open_network_settings">Åpne nettverkinnstillinger</string>
-    <string name="recently_played">Nylig avspilt</string>
-    <string name="recently_added">Nylig lagt til</string>
     <string name="playback_multiple_errors">Flere medier kan ikke spilles</string>
     <string name="clear">Tøm</string>
     <string name="abrepeat_add_first_marker">Velg startpunkt</string>
@@ -858,11 +818,8 @@
     <string name="sub_result_by_name_season">Sesong %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
     <string name="sub_result_by_file">Resultater for filen din</string>
-    <string name="donate">Hjelp VLC</string>
-    <string name="donate_send">Start din sponsing</string>
     <string name="subscription_cancel">Du kan avslutte abonnementet i Play-Store</string>
     <string name="subscription_cancel_tv">Slik avslutter du abonnementet</string>
-    <string name="tip_jar">Hjelp VLC</string>
     <string name="thank_you">Takk</string>
     <string name="mark_as_played">Merk som avspilt</string>
     <string name="mark_as_not_played">Merk som ikke avspilt</string>
@@ -920,7 +877,6 @@
     <string name="discovery_failed">Oppdaging mislyktes for: %s</string>
     <string name="lock_use_sensor_title">Lås med sensor</string>
     <string name="lock_use_sensor_summary">Når skjermrotasjonen er låst fast, kan sensoren brukes for å tillate 180°-rotasjon</string>
-    <string name="start">Start</string>
     <string name="notification_permission">Varseltillatelse</string>
     <string name="permission">Tilganger</string>
     <string name="permission_no_access">Ingen filtilgang</string>

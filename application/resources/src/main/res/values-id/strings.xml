@@ -95,12 +95,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">%d film</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">%dTayangan TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d trek</item>
     </plurals>
@@ -409,23 +403,6 @@
     <string name="audio_ducking_title">Rendahkan volume VLC bila ada notifikasi</string>
     <string name="audio_ducking_summary">Bantu untuk dengar notifikasi audio, instruksi navigasi atau asisten berbicara</string>
     <string name="casting_category">salurkan/tampilkan pada layar lain</string>
-    <string name="remote_access">Akses jarak jauh</string>
-    <string name="remote_access_status">Status server</string>
-    <string name="remote_access_status_summary">Ketuk untuk melihat status server</string>
-    <string name="remote_access_connections">Koneksi</string>
-    <string name="remote_access_active">Akses jarak jauh aktif</string>
-    <string name="remote_access_notification">Akses jarak jauh aktif di %s</string>
-    <string name="remote_access_notification_stopped">Akses jarak jauh berhenti</string>
-    <string name="remote_access_notification_connecting">Akses jarak jauh melakukan koneksi</string>
-    <string name="remote_access_notification_error">Galat pada akses jarak jauh</string>
-    <string name="remote_access_notification_stopping">Penghentian akses jarak jauh</string>
-    <string name="remote_access_notification_not_init">Inisialisasi akses jarak jauh</string>
-    <string name="enable_remote_access">Aktifkan akses jarak jauh</string>
-    <string name="remote_access_info">Info akses jarak jauh</string>
-    <string name="remote_access_content">Isi</string>
-    <string name="remote_access_medialibrary_content">Isi pustaka media</string>
-    <string name="remote_access_file_browser_content">Peramban berkas</string>
-    <string name="remote_access_network_browser_content">Peramban jaringan</string>
     <string name="casting_switch_title">Proyeksi nirkabel</string>
     <string name="casting_passthrough_title">Menyalurkan audio melalui perangkat lain</string>
     <string name="casting_passthrough_summary">Biarkan TV anda mengatur render audio</string>
@@ -566,7 +543,6 @@
     <string name="allow_storage_access_description">VLC membutuhkan anda untuk memberi akses ke file media dalam perangkat ini.</string>
     <string name="partial_content">VLC tidak dapat mengakses semua file Anda</string>
     <string name="partial_content_description">Dimulai dengan Android 11, aplikasi membutuhkan izin khusus untuk mengakses semua file milik perangkat.\n\n%s</string>
-    <string name="never_ask_again">Tidak perlu ditanyakan kembali</string>
     <string name="allow_settings_access_ringtone_title">Izinkan VLC untuk menyetel nada dering</string>
     <string name="allow_settings_access_ringtone_description">VLC membutuhkan anda untuk memberikan akses untuk mengatur lagu ini sebagai nada dering anda.</string>
     <string name="allow_settings_access_brightness_title">Izinkan VLC untuk mengubah mode kecerahan</string>
@@ -701,7 +677,6 @@
     <string name="next">Selanjutya</string>
     <string name="skip">Lewati</string>
     <string name="next_step">Selanjutnya</string>
-    <string name="download">Unduh</string>
     <string name="ctx_player_video_track">Pilih trek video</string>
     <string name="ctx_player_audio_track">Trek audio</string>
     <string name="ctx_player_subs_track">Trek terjemahan</string>
@@ -784,25 +759,7 @@
     <string name="invalid_file">File tidak valid. Tidak dapat dibagikan.</string>
     <string name="share_file">Bagikan %s</string>
     <string name="share_message">Disini %s</string>
-    <string name="find_metadata">Temukan metadata</string>
-    <string name="moviepedia_hint">Cari metadata</string>
-    <string name="moviepedia_result">Hasil video</string>
-    <string name="directed_by">Disutradarai oleh</string>
-    <string name="casting">Pemeran</string>
-    <string name="produced_by">Diproduser oleh</string>
-    <string name="written_by">Ditulis oleh</string>
-    <string name="music_by">Musik oleh</string>
-    <string name="posters">Poster</string>
-    <string name="backdrops">Latar</string>
-    <string name="header_tvshows">Acara TV</string>
-    <string name="header_movies">Film</string>
-    <string name="season_number">Musim %s</string>
-    <string name="resume_episode">Lanjut (%s)</string>
-    <string name="start_over">Mulai ulang</string>
-    <string name="next_episode">Episode selanjutnya</string>
     <string name="open_network_settings">Buka pengaturan jaringan?</string>
-    <string name="recently_played">Terakhir diputar</string>
-    <string name="recently_added">Terakhir ditambahkan</string>
     <string name="playback_multiple_errors">Banyak media tidak dapat diputar</string>
     <string name="clear_media_db_message">Anda akan kehilangan kemajuan Anda, bookmark dan juga daftar putar yang telah Anda buat tetapi pengaturan VLC untuk Android Anda akan disimpan</string>
     <string name="clear_app_data_message">Anda akan kehilangan kemajuan Anda, boomark, daftar putar dan juga seluruh pengaturan VLC</string>
@@ -859,19 +816,11 @@
     <string name="sub_result_by_name_season">Musim %s</string>
     <string name="sub_result_by_name_episode">Episode %s</string>
     <string name="sub_result_by_file">Hasil untuk file anda</string>
-    <string name="donate">Bantu VLC</string>
-    <string name="donate_desc">Dukung relawan membangun VLC</string>
-    <string name="donate_subscribtion">Saya lebih suka ini untuk sponsor bulanan</string>
-    <string name="donate_send">Mulai sponsor anda</string>
-    <string name="donation_description">Dukungan anda akan membuat kita mampu:\n meningkatkan aplikasi VLC untuk android\n Beri dukungan pada asosiasi VideoLAN</string>
     <string name="subscription_purchased">Anda telah berlangganan sponsor bulanan</string>
     <string name="subscription_cancel">Anda dapat berhenti berlangganan di Play Store</string>
     <string name="subscription_cancel_tv">Cara berhenti berlangganan</string>
-    <string name="donate_unsubscribe_tv">Untuk berhenti berlangganan, silahkan buka %s di ponsel atau komputer atau pindai kode ini:</string>
-    <string name="tip_jar">Bantu VLC</string>
     <string name="thank_you">Terima kasih</string>
     <string name="thank_you_desc">Terima kasih untuk dukungan anda!\nIni sangat membantu kami meningkatkan VLC!</string>
-    <string name="donate_again">Sponsor aplikasi lagi</string>
 
     <string name="mark_as_played">Tandai sebagai sudah diputar</string>
     <string name="mark_as_not_played">Tandai sebagai belum diputar</string>
@@ -943,7 +892,6 @@
     <string name="discovery_failed">Penemuan gagal untuk: %s</string>
     <string name="lock_use_sensor_title">Kunci dengan sensor</string>
     <string name="lock_use_sensor_summary">Saat orientasi dikunci, gunakan sensor untuk memungkinkan orientasi sebaliknya</string>
-    <string name="start">Mulai</string>
     <string name="notification_permission">Izin notifikasi</string>
     <string name="notification_permission_explanation">VLC memerlukan izin Anda untuk mengirim notifikasi.\nAplikasi hanya akan memberi tahu Anda saat memindai media atau menggunakan video khusus Gambar dalam Gambar.\nMenolaknya tidak akan menghalangi VLC untuk bekerja, namun notifikasi akan disembunyikan.</string>
     <string name="permission">Izin</string>
@@ -1051,7 +999,5 @@
     <string name="show_only_favs">Tampilkan hanya favorit</string>
     <string name="ignore_headset_media_button_presses">Abaikan penekanan tombol media headset</string>
     <string name="ignore_headset_media_button_presses_summary">Berguna, misalnya jika Anda menggunakan headset dengan tombol fisik yang rusak</string>
-    <string name="ra_onboarding_content_files">Peramban berkas</string>
-    <string name="learn_more">Pelajari lebih lanjut</string>
 
     </resources>

@@ -123,14 +123,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d video\'s</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="other">%d films</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 serie</item>
-        <item quantity="other">%d series</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 track</item>
         <item quantity="other">%d tracks</item>
@@ -232,8 +224,6 @@
     <string name="wait_before_sleep">Eerst wachten tot huidig media-item klaar is</string>
     <string name="reset_on_interaction">Herstellen bij om het even welke interactie</string>
     <string name="default_sleep_timer_summary">%1$s, wachten op media-einde: %2$s, herstellen bij interactie: %3$s</string>
-    <string name="video_player_remote">Videospeler-afstandsbediening</string>
-    <string name="remote_keyboard_navigation">Toetsenbordnavigatie</string>
 
     <string name="server_add_title">Nieuwe server aan favorieten toevoegen</string>
     <string name="server_domain_hint">Server-adres (domeinnaam of IP)</string>
@@ -356,7 +346,6 @@
     <string name="screen_orientation_landscape_sensor">Liggend (sensor)</string>
     <string name="screen_orientation_last_locked">Laatst vergrendelde oriëntatie</string>
     <string name="enable_black_theme">Zwart thema</string>
-    <string name="dark_theme">Donker thema</string>
     <string name="theme_auto">Automatisch thema</string>
     <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="subtitle_preferred_language">Voorkeurstaal ondertitels</string>
@@ -498,29 +487,6 @@
     <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
     <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
     <string name="casting_category">Uitzenden</string>
-    <string name="remote_access">Externe toegang</string>
-    <string name="remote_access_version_title">Externe toegang versie</string>
-    <string name="remote_access_hash_title">Externe toegang hash</string>
-    <string name="remote_access_status">Serverstatus</string>
-    <string name="remote_access_status_summary">Tikken om de serverstatus te zien</string>
-    <string name="remote_access_connections">Verbindingen</string>
-    <string name="remote_access_links">Koppelingen</string>
-    <string name="remote_access_active">Externe toegang actief</string>
-    <string name="remote_access_notification">Externe toegang actief op %s</string>
-    <string name="remote_access_notification_stopped">Externe toegang gestopt</string>
-    <string name="remote_access_notification_connecting">Externe toegang verbinden</string>
-    <string name="remote_access_notification_error">Externe toegang fout</string>
-    <string name="remote_access_notification_stopping">Externe toegang aan het stoppen</string>
-    <string name="remote_access_notification_not_init">Externe toegang initialiseren</string>
-    <string name="enable_remote_access">Externe toegang inschakelen</string>
-    <string name="remote_access_info">Externe toegang informatie</string>
-    <string name="remote_access_content">Inhoud</string>
-    <string name="remote_access_medialibrary_content">Inhoud van mediabibliotheek</string>
-    <string name="remote_access_medialibrary_content_summary">Ingeschakeld: %1$s\nUitgeschakeld: %2$s</string>
-    <string name="remote_access_file_browser_content">Bestandsverkenner</string>
-    <string name="remote_access_network_browser_content">Netwerkverkenner</string>
-    <string name="remote_access_playback_control">Afspelen bedienen</string>
-    <string name="remote_access_logs">Logebestanden delen</string>
     <string name="casting_switch_title">Draadloos casten</string>
     <string name="casting_passthrough_title">Audiodoorvoer</string>
     <string name="casting_passthrough_summary">Laat uw tv het renderen van audio beheren</string>
@@ -649,8 +615,6 @@
     <string name="search_global">In volledige mediabibliotheek zoeken</string>
     <string name="playlist_save">Afspeellijst opslaan</string>
     <string name="playlist_name_hint">Naam afspeellijst</string>
-    <string name="chapters">Hoofdstukken</string>
-    <string name="notset">Niet ingesteld</string>
     <string name="go_to_chapter">Naar hoofdstuk gaan…</string>
     <string name="current_chapter">Hoofdstuk: %s</string>
     <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
@@ -670,19 +634,7 @@
     <string name="show_in_settings">Weergeven in instellingen</string>
 
 <!--    update-->
-    <string name="update_title">Update beschikbaar</string>
-    <string name="install_nightly_title">De nachtelijke versie installeren</string>
-    <string name="update_text">Er is een nieuwe nachtelijke release van VLC voor Android beschikbaar!\n\nU ziet dit omdat u een nachtelijke build gebruikt.</string>
-    <string name="install_text">De nachtelijke versies worden elke dag automatisch bijgewerkt met de nieuwste functies en fixes.\n\nNu downloaden?</string>
 
-    <string name="open_in_browser">Openen in browser</string>
-    <string name="install">Installeren</string>
-    <string name="install_nightly">De nachtelijke versie installeren</string>
-    <string name="install_nightly_alert">Nachtelijke builds zijn experimentele versies die dagelijks worden bijgewerkt.\n\nVerwacht nieuwe functies, maar ook nieuwe bugs!</string>
-    <string name="nightly_version">Versie gevonden: %2$s - %1$s</string>
-    <string name="update_nightly_alert">U gebruikt een nachtelijke versie. Wilt u regelmatig controleren of er updates beschikbaar zijn?</string>
-    <string name="update_nightly">Automatisch bijwerken</string>
-    <string name="update_nightly_summary">Regelmatig zoeken naar nachtelijke updates</string>
 
 
     <!-- Accessibility -->
@@ -705,7 +657,6 @@
     <string name="allow_storage_access_description">VLC moet uw toestemming hebben om toegang te krijgen tot de mediabestanden op dit apparaat.</string>
     <string name="partial_content">VLC heeft geen toegang tot al uw bestanden</string>
     <string name="partial_content_description">Vanaf Android 11 hebben toepassingen een speciale toestemming nodig om toegang te krijgen tot alle bestanden op het apparaat.\n\n%s</string>
-    <string name="never_ask_again">Nooit meer vragen</string>
     <string name="never_show_again">Nooit meer weergeven, zelfs voor toekomstige versies</string>
     <string name="allow_settings_access_ringtone_title">VLC toelaten om de ringtone in te stellen</string>
     <string name="allow_settings_access_ringtone_description">VLC moet uw toestemming hebben om dit nummer in te stellen als uw ringtone.</string>
@@ -861,7 +812,6 @@
     <string name="next">Volgende</string>
     <string name="skip">Overslaan</string>
     <string name="next_step">Volgende</string>
-    <string name="download">Downloaden</string>
     <string name="ctx_player_video_track">Videospoor selecteren</string>
     <string name="ctx_player_audio_track">Audiospoor</string>
     <string name="ctx_player_subs_track">Ondertitelspoor</string>
@@ -961,25 +911,7 @@
     <string name="share_message">Hier is %s</string>
     <string name="share_track_info">Track-info delen</string>
     <string name="share_track">Luistert momenteel naar %s</string>
-    <string name="find_metadata">Metadata zoeken</string>
-    <string name="moviepedia_hint">Metadata doorzoeken</string>
-    <string name="moviepedia_result">Videoresultaten</string>
-    <string name="directed_by">Geregisseerd door</string>
-    <string name="casting">Casting</string>
-    <string name="produced_by">Geproduceerd door</string>
-    <string name="written_by">Geschreven door</string>
-    <string name="music_by">Muziek door</string>
-    <string name="posters">Posters</string>
-    <string name="backdrops">Achtergrond</string>
-    <string name="header_tvshows">Series</string>
-    <string name="header_movies">Films</string>
-    <string name="season_number">Seizoen %s</string>
-    <string name="resume_episode">Hervatten (%s)</string>
-    <string name="start_over">Opnieuw beginnen</string>
-    <string name="next_episode">Volgende aflevering</string>
     <string name="open_network_settings">Netwerkinstellingen openen?</string>
-    <string name="recently_played">Recent afgespeeld</string>
-    <string name="recently_added">Recent toegevoegd</string>
     <string name="playback_multiple_errors">Meerdere media kunnen niet afgespeeld worden</string>
     <string name="clear_media_db_message">U verliest uw voortgangen, bladwijzers en de afspeellijsten die u aanmaakte maar u behoudt uw instellingen voor VLC voor Android</string>
     <string name="clear_app_data_message">U verliest uw voortgangen, bladwijzers, afspeellijsten en alle VLC-instellingen</string>
@@ -1038,19 +970,11 @@
     <string name="sub_result_by_name_hearing_impaired">Alleen slechthorend</string>
 
     <string name="sub_result_by_file">Resultaten voor uw bestand</string>
-    <string name="donate">VLC helpen</string>
-    <string name="donate_desc">Ondersteun de vrijwilligers die VLC maken</string>
-    <string name="donate_subscribtion">Ik wil dat dit een maandelijkse sponsoring wordt</string>
-    <string name="donate_send">Uw sponsoring starten</string>
-    <string name="donation_description">Uw sponsoring zal ons toelaten om:\nde VLC-app voor Android te verbeteren\nde VideoLAN-associatie te ondersteunen</string>
     <string name="subscription_purchased">U bent ingeschreven op een maandelijkse sponsoring</string>
     <string name="subscription_cancel">U kunt zich afmelden in de Play Store</string>
     <string name="subscription_cancel_tv">Hoe af te melden</string>
-    <string name="donate_unsubscribe_tv">Om zich af te melden, opent u %s op een telefoon of computer of scant u deze code:</string>
-    <string name="tip_jar">VLC helpen</string>
     <string name="thank_you">Bedankt</string>
     <string name="thank_you_desc">Bedankt voor uw sponsoring!\nZe zal ons veel helpen bij het verbeteren van VLC!</string>
-    <string name="donate_again">De app opnieuw sponsoren</string>
 
     <string name="mark_as_played">Markeren als afgespeeld</string>
     <string name="mark_as_not_played">Markeren als niet afgespeeld</string>
@@ -1157,7 +1081,6 @@
     <string name="discovery_failed">Ontdekking mislukt voor: %s</string>
     <string name="lock_use_sensor_title">Vergrendelen met sensor</string>
     <string name="lock_use_sensor_summary">Wanneer de oriëntatie vergrendeld is, de sensor gebruiken om de omgekeerde oriëntatie toe te staan</string>
-    <string name="start">Start</string>
     <string name="notification_permission">Toestemming voor meldingen</string>
     <string name="notification_permission_explanation">VLC heeft uw toestemming nodig om meldingen te versturen.\nDe app zal u alleen verwittigen wanneer u uw media scant of de aangepaste video Picture in Picture gebruikt.\Weigeren zal niet voorkomen dat VLC werkt, maar de meldingen zullen worden verborgen.</string>
     <string name="permission">Toestemming</string>
@@ -1296,58 +1219,7 @@
     <string name="replace_playlist">Afspeellijst vervangen</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Externe toegang actief</string>
-    <string name="ra_remote_access">Externe toegang</string>
-    <string name="ra_remote_access_description">Statusmelding voor externe toegang</string>
-    <string name="ra_log_file">Logbestanden</string>
-    <string name="ra_log_type">Logtype</string>
-    <string name="ra_send_files">Bestanden verzenen</string>
-    <string name="ra_not_in_foreground">Toepassing is niet op de voorgrond. Kan video niet starten.</string>
-    <string name="ra_disconnected">Verbinding met apparaat verbroken</string>
-    <string name="ra_file">Bestand</string>
-    <string name="ra_upload_remaining">%s bestanden uploaden</string>
-    <string name="ra_upload_all">Alles uploaden</string>
-    <string name="ra_drop_files_tip">Zet bestanden ergens neer om naar uw apparaat te verzenden</string>
-    <string name="ra_prepare_download">Uw download klaarmaken</string>
-    <string name="ra_forbidden">Inhoud uitgeschakeld in de instellingen</string>
-    <string name="ra_playback_forbidden">Afspeelbediening uitgeschakeld in de instellingen</string>
-    <string name="ra_logs_forbidden">Delen van logs uitgeschakeld in de instellingen</string>
-    <string name="ra_code_requested_explanation">Om uw server te beschermen is de toegang beschermd.\nVoer de code in die weergegeven wordt in uw meldingen</string>
-    <string name="ra_ssl_explanation_title">Niet-beveiligde verbinding</string>
-    <string name="ra_ssl_explanation">Uw verbinding is niet beveiligd</string>
-    <string name="ra_ssl_explanation_browser">Vanwege de beveiligingsinstellingen van uw browser krijgt u op de volgende pagina een beveiligingswaarschuwing te zien.</string>
-    <string name="ra_ssl_explanation_accept">Zorg ervoor dat u het certificaat accepteert om gebruik te kunnen maken van de externe toegang.</string>
-    <string name="ra_ssl_button">Gebruik een beveiligde verbinding</string>
-    <string name="ra_new_code">Een nieuwe code versturen</string>
-    <string name="home">Home</string>
-    <string name="ra_code">Voer deze code in: %s</string>
-    <string name="ra_send_logs">Logs van externe toegang opslaan op het apparaat</string>
-    <string name="ra_otp">Eenmalig wachtwoord voor externe toegang</string>
-    <string name="ra_otp_description">Toegangsaanvragen voor de externe toegang</string>
-    <string name="ra_otp_title">Aanmeldingspoging voor externe toegang</string>
-    <string name="ra_otp_subtitle">Als u dit bent, voer dan deze code in op het andere apparaat</string>
-    <string name="ra_otp_not_me">Dit ben ik niet</string>
 
-    <string name="ra_onboarding_welcome_desc">Welkom bij externe toegang in VLC voor Android\nDoor deze functie in te schakelen, kunt u het afspelen op dit apparaat regelen en nog veel meer.</string>
-    <string name="ra_onboarding_how_title">Uw apparaat bedienen</string>
-    <string name="ra_onboarding_how_desc">Bedien de afspeelfuncties van uw apparaat, verstuur of haal bestanden op en nog veel meer.</string>
-    <string name="ra_onboarding_ssl_title">Gegevensversleuteling</string>
-    <string name="ra_onboarding_ssl_desc">De externe toegang is versleuteld om het lekken van uw gegevens te voorkomen</string>
-    <string name="ra_onboarding_otp_title">Authenticatie</string>
-    <string name="ra_onboarding_otp_desc">Met de eenmalige wachtwoordverificatie voorkomt u ongewenste toegang tot uw gegevens.</string>
-    <string name="ra_onboarding_content_title">Toegang tot inhoud</string>
-    <string name="ra_onboarding_content_desc">Kies wat toegankelijk is en wat niet</string>
-    <string name="ra_onboarding_content_ml">Toegang tot inhoud van mediabibliotheek</string>
-    <string name="ra_onboarding_content_files">Bestandsverkenner</string>
-    <string name="ra_onboarding_content_playback">Afspeelbediening</string>
-    <string name="ra_disable">Uitschakelen</string>
-    <string name="ra_log_web">Externe toegang log</string>
-    <string name="ra_log_crash">Crash log</string>
-    <string name="ra_log_mobile">Apparaat log</string>
-    <string name="ra_log_current">Huidige lokale logs</string>
-    <string name="ra_invalid_login">U moet aanmelden op uw apparaat</string>
-    <string name="ra_invalid_otp">Ongeldige code opgegeven</string>
-    <string name="learn_more">Meer informatie</string>
 
     <!-- car screens -->
     <string name="help">Help</string>
@@ -1363,11 +1235,7 @@
     <string name="metered_warn">Waarschuw mij (de waarschuwing kan worden gemist bij het afspelen van audio)</string>
     <string name="metered_connection_stopped">Media gestopt omdat de verbinding een datalimiet heeft</string>
     <string name="metered_connection_warning">Uw verbinding heeft een datalimiet. Er kunnen kosten van toepassing zijn.</string>
-    <string name="adding">Toevoegen</string>
-    <string name="to">aan</string>
     <string name="device">Apparaat</string>
-    <string name="connected_device">Verbonden apparaat</string>
-    <string name="model">Model apparaat</string>
     <string name="prefs_app_data">Toepassingsgegevens</string>
     <string name="export_settings_summary">Uw instellingen exporteren naar een bestand om ze later te importeren</string>
     <string name="export_settings">Instellingen exporteren</string>
@@ -1403,12 +1271,6 @@
     <string name="generating_logs">Logs genereren. Even geduld.</string>
     <string name="default_playback_action">Afspeel-actie</string>
     <string name="files">Bestanden</string>
-    <string name="remote_access_feedback_generate">Rapport genereren</string>
-    <string name="remote_access_feedback_generated">Uw feedback-rapport is gegenereerd</string>
-    <string name="remote_access_feedback_generated_explanation">Tik op de onderstaande knop om het bericht te verzenden via uw standaard e-mailprogramma. Als u problemen ondervindt, kunt u de onderstaande velden kopiëren en plakken en het e-mailbericht zelf verzenden.</string>
-    <string name="remote_access_feedback_file_explanation">U hebt zojuist het benodigde bestand gedownload. Vergeet niet om het aan uw e-mail toe te voegen.</string>
-    <string name="generic_copied_to_clipboard">Naar klembord gekopieerd</string>
     <string name="feedback_email_warning">Geen e-mail-client geïnstalleerd</string>
-    <string name="feedback_email_warning_remote_action">De instellingen openen</string>
     <string name="feedback_email_warning_try_anyway">Toch proberen</string>
     </resources>

@@ -125,14 +125,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videota</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 elokuvat</item>
-        <item quantity="other">%d elokuvaa</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV-ohjelmat</item>
-        <item quantity="other">%d TV-ohjelmaa</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 raita</item>
         <item quantity="other">%d ääniraitaa</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">Odota, että nykyinen media valmistuu ensin</string>
     <string name="reset_on_interaction">Nollaa kaikissa tilanteissa</string>
     <string name="default_sleep_timer_summary">%1$s, odota median päättymistä: %2$s, nollaa tilanne: %3$s</string>
-    <string name="video_player_remote">Video kaukosäädin</string>
-    <string name="remote_keyboard_navigation">Navigointi näppäimistöllä</string>
 
     <string name="server_add_title">Lisää uusi serveri suosikkeihin</string>
     <string name="server_domain_hint">Serverin osoite (domain tai IP-osoite)</string>
@@ -365,7 +355,6 @@ Täysi: voi parantaa suorituskykyä edelleen.</string>
     <string name="screen_orientation_landscape_sensor">Vaakasuunta (anturi)</string>
     <string name="screen_orientation_last_locked">Viimeinen lukittu suunta</string>
     <string name="enable_black_theme">Musta teema</string>
-    <string name="dark_theme">Tumma teema</string>
     <string name="theme_auto">Autom. teema</string>
     <string name="subtitle_text_encoding">Tekstityksen merkistö</string>
     <string name="subtitle_preferred_language">Tekstityksen kieli</string>
@@ -511,29 +500,6 @@ Arvo 0 poistaa tämän käytöstä</string>
     <string name="audio_ducking_title">Alenna VLC-ilmoitusten voimakkuutta</string>
     <string name="audio_ducking_summary">Kuulet ilmoituksia, navigointiohjeita tai avustajan puhetta</string>
     <string name="casting_category">Lähetys</string>
-    <string name="remote_access">Etäyhteys</string>
-    <string name="remote_access_version_title">Etäkäytön versio</string>
-    <string name="remote_access_hash_title">Etäkäytön hash</string>
-    <string name="remote_access_status">Palvelimen tila</string>
-    <string name="remote_access_status_summary">Paina ja katso palvelimen tila</string>
-    <string name="remote_access_connections">Yhteydet</string>
-    <string name="remote_access_links">Linkit</string>
-    <string name="remote_access_active">Etäkäyttö on aktiivinen</string>
-    <string name="remote_access_notification">Etäkäyttö on aktiivinen %s</string>
-    <string name="remote_access_notification_stopped">Etäkäyttö pysäytetty</string>
-    <string name="remote_access_notification_connecting">Etäkäyttö yhdistyy</string>
-    <string name="remote_access_notification_error">Etäkäytön virhe</string>
-    <string name="remote_access_notification_stopping">Etäkäyttö pysäytetään</string>
-    <string name="remote_access_notification_not_init">Etäkäyttö alustetaan</string>
-    <string name="enable_remote_access">Salli etäkäyttö</string>
-    <string name="remote_access_info">Etäkäytön tiedot</string>
-    <string name="remote_access_content">Sisältö</string>
-    <string name="remote_access_medialibrary_content">Mediakirjaston sisältö</string>
-    <string name="remote_access_medialibrary_content_summary">Käytössä: %1$snPoistettu: %2$s</string>
-    <string name="remote_access_file_browser_content">Tiedostoselain</string>
-    <string name="remote_access_network_browser_content">Verkkoselain</string>
-    <string name="remote_access_playback_control">Ohjaa toistoa</string>
-    <string name="remote_access_logs">Jaa lokitiedostoja</string>
     <string name="casting_switch_title">Langaton lähetys</string>
     <string name="casting_passthrough_title">Äänen läpivienti</string>
     <string name="casting_passthrough_summary">Anna television hallita äänentoistoa</string>
@@ -665,8 +631,6 @@ Käynnistätkö uudelleen?</string>
     <string name="search_global">Hae koko mediakirjastosta</string>
     <string name="playlist_save">Tallenna soittolista</string>
     <string name="playlist_name_hint">Soittolistan nimi</string>
-    <string name="chapters">Jaksot</string>
-    <string name="notset">Ei asetettu</string>
     <string name="go_to_chapter">Siirry jaksoon...</string>
     <string name="current_chapter">Jakso: %s</string>
     <string name="confirm_resume">Jatketaanko viimeisimmästä kohdasta?</string>
@@ -686,25 +650,7 @@ Käynnistätkö uudelleen?</string>
     <string name="show_in_settings">Näytä asetuksissa</string>
 
 <!--    update-->
-    <string name="update_title">Päivitys saatavilla</string>
-    <string name="install_nightly_title">Asenna ennakkoversio</string>
-    <string name="update_text">Uusi VLC Android:lle on saatavilla ennakkoversiona
 
-Näet tämän, koska käytät aikaisempaa ennakkoversiota.</string>
-    <string name="install_text">Ennakkoversiot päivitetään automaattisesti joka päivä uusimmilla ominaisuuksilla ja korjauksilla.
-
-Ladataanko nyt?</string>
-
-    <string name="open_in_browser">Avaa selaimessa</string>
-    <string name="install">Asenna</string>
-    <string name="install_nightly">Asenna ennakkoversio</string>
-    <string name="install_nightly_alert">Ennakkoversiot ovat kokeellisia versioita, joita tehdään päivittäin.
-
-Uusia ominaisuuksia, mutta myös uusia bugeja!</string>
-    <string name="nightly_version">Löydetty versio: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Käytät ennakkoversiota. Haluatko päivittää säännöllisesti?</string>
-    <string name="update_nightly">Autom. päivitys</string>
-    <string name="update_nightly_summary">Hae ennakkoversio säännöllisesti</string>
 
 
     <!-- Accessibility -->
@@ -729,7 +675,6 @@ Riippuen käynnistyksestä saatat joutua poistamaan tai korvaamaan vanhat.</stri
     <string name="allow_storage_access_description">Sinun tarvitsee myöntää VLC:lle oikeudet siirtyä tämän laitteen mediatiedostoihin.</string>
     <string name="partial_content">VLC ei voi käyttää kaikkia tiedostojasi</string>
     <string name="partial_content_description">Android 11 alkaen, sovellukset tarvitsevat erityisluvan käyttää kaikkia laitteen tiedostoja.\n\n%s</string>
-    <string name="never_ask_again">Älä kysy uudestaan</string>
     <string name="never_show_again">Älä näytä uudelleen, edes tulevissa versioissa</string>
     <string name="allow_settings_access_ringtone_title">Salli VLC:n määrittää soittoääni</string>
     <string name="allow_settings_access_ringtone_description">Sinun tarvitsee myöntää VLC:lle oikeudet määrittää tämä kappale soittoääneksi.</string>
@@ -886,7 +831,6 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="next">Seuraava</string>
     <string name="skip">Ohita</string>
     <string name="next_step">Seuraava</string>
-    <string name="download">Lataa</string>
     <string name="ctx_player_video_track">Valitse videoraita</string>
     <string name="ctx_player_audio_track">Audioraita</string>
     <string name="ctx_player_subs_track">Tekstitysraita</string>
@@ -986,25 +930,7 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="share_message">Täällä on %s</string>
     <string name="share_track_info">Jaa raidan tiedot</string>
     <string name="share_track">Kuuntelet %s</string>
-    <string name="find_metadata">Löydä metatiedot</string>
-    <string name="moviepedia_hint">Etsi metatiedot</string>
-    <string name="moviepedia_result">Videon tuloksia</string>
-    <string name="directed_by">Ohjannut</string>
-    <string name="casting">Lähetys</string>
-    <string name="produced_by">Tuottanut</string>
-    <string name="written_by">Kirjoittanut</string>
-    <string name="music_by">Musiikki</string>
-    <string name="posters">Kannet</string>
-    <string name="backdrops">Taustat</string>
-    <string name="header_tvshows">TV-ohjelmat</string>
-    <string name="header_movies">Elokuvat</string>
-    <string name="season_number">Kausi %s</string>
-    <string name="resume_episode">Jatka (%s)</string>
-    <string name="start_over">Aloita alusta</string>
-    <string name="next_episode">Seuraava jakso</string>
     <string name="open_network_settings">Avataanko verkon asetukset?</string>
-    <string name="recently_played">Viimeksi toistettu</string>
-    <string name="recently_added">Viimeksi lisätyt</string>
     <string name="playback_multiple_errors">Useampaa mediaa ei voi toistaa</string>
     <string name="clear_media_db_message">Menetät toistohistorian, kirjanmerkkisi ja luomasi soittolistat, mutta säilytät VLC Android asetukset</string>
     <string name="clear_app_data_message">Menetät toistohistorian, kirjanmerkit, soittolistat ja kaikki VLC asetukset</string>
@@ -1063,19 +989,11 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="sub_result_by_name_hearing_impaired">Kuulovammaisille</string>
 
     <string name="sub_result_by_file">Tulokset tiedostollesi</string>
-    <string name="donate">Auta VLC:tä</string>
-    <string name="donate_desc">Tue vapaaehtoisia, jotka rakentavat VLC:tä</string>
-    <string name="donate_subscribtion">Haluaisin tehdä kuukausilahtoituksen</string>
-    <string name="donate_send">Ryhdy sponsoriksi</string>
-    <string name="donation_description">Sponsorointisi avulla voimme:\nParantaa VLC-sovellusta Androidille\nTue VideoLAN yhdistystä</string>
     <string name="subscription_purchased">Olet tilannut kuukausittaisen lahjoituksen</string>
     <string name="subscription_cancel">Play Storen kautta voit peruuttaa tilauksen</string>
     <string name="subscription_cancel_tv">Kuinka tilaus peruutetaan</string>
-    <string name="donate_unsubscribe_tv">Peruuta tilaus avaamalla %s puhelimella tai tietokoneella tai skannaamalla tämä koodi:</string>
-    <string name="tip_jar">Auta VLC:tä</string>
     <string name="thank_you">Kiitos</string>
     <string name="thank_you_desc">Kiitos sinun tuestasi!\nSe auttaa meitä parantamaan VLC:tä!</string>
-    <string name="donate_again">Sponsoroi sovellusta uudelleen</string>
 
     <string name="mark_as_played">Merkitse toistetuksi</string>
     <string name="mark_as_not_played">Merkitse toistamattomaksi</string>
@@ -1182,7 +1100,6 @@ Voit toistaa vain suoratoistoa tai verkkomediaa</string>
     <string name="discovery_failed">Haku epäonnistui: %s</string>
     <string name="lock_use_sensor_title">Lukitse anturilla</string>
     <string name="lock_use_sensor_summary">Kun suunta on lukittu, salli anturin käänteinen suunta</string>
-    <string name="start">Aloita</string>
     <string name="notification_permission">Ilmoitusten lupa</string>
     <string name="notification_permission_explanation">VLC tarvitsee luvan näyttääkseen ilmoituksia.
 Sovellus ilmoittaa sinulle vain, kun se hakee mediaa tai käyttää mukautettua kuva kuvassa videota.
@@ -1325,65 +1242,7 @@ Osoite on %s</string>
     <string name="replace_playlist">Korvaa soittolista</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Etäkäyttö on aktiivinen</string>
-    <string name="ra_remote_access">Etäkäyttö</string>
-    <string name="ra_remote_access_description">Etäkäytön tilailmoitus</string>
-    <string name="ra_log_file">Lokitiedostot</string>
-    <string name="ra_log_type">Lokin tyyppi</string>
-    <string name="ra_send_files">Lähetä tiedostoja</string>
-    <string name="ra_not_in_foreground">Sovellus ei ole etualalla. Videota ei voi käynnistää.</string>
-    <string name="ra_disconnected">Yhteys katkaistu laitteesta</string>
-    <string name="ra_file">Tiedosto</string>
-    <string name="ra_upload_remaining">Lähetetään %s tiedostoa</string>
-    <string name="ra_upload_all">Lähetä kaikki</string>
-    <string name="ra_drop_files_tip">Pudota tiedostot ja lähetetä laitteellesi</string>
-    <string name="ra_prepare_download">Valmistellaan latausta</string>
-    <string name="ra_forbidden">Sisältö poistettu käytöstä asetuksissa</string>
-    <string name="ra_playback_forbidden">Toiston ohjaus pois käytöstä asetuksissa</string>
-    <string name="ra_logs_forbidden">Lokien jakaminen poistettu käytöstä asetuksissa</string>
-    <string name="ra_code_requested_explanation">Palvelimesi suojaamiseksi pääsy on suojattu.
-Anna ilmoituksissa näkyvä koodi</string>
-    <string name="ra_ssl_explanation_title">Suojaamaton yhteys</string>
-    <string name="ra_ssl_explanation">Yhteys ei ole turvallinen.</string>
-    <string name="ra_ssl_explanation_browser">Selaimen tietoturvan vuoksi saat suojausvaroituksen seuraavalla sivulla.</string>
-    <string name="ra_ssl_explanation_accept">Varmista, että hyväksyt varmenteen, jotta voit käyttää etäkäyttöä</string>
-    <string name="ra_ssl_button">Käytä suojattua yhteyttä</string>
-    <string name="ra_new_code">Lähetä uusi koodi</string>
-    <string name="home">Koti</string>
-    <string name="ra_code">Anna tämä koodi: %s</string>
-    <string name="ra_send_logs">Tallenna etäkäytön lokit laitteeseen</string>
-    <string name="ra_otp">Kertakäyttöinen etäkäytön salasana</string>
-    <string name="ra_otp_description">Etäkäyttöä koskevat käyttöpyynnöt</string>
-    <string name="ra_otp_title">Etäkäytön kirjautumisyritys</string>
-    <string name="ra_otp_subtitle">Jos se olet sinä, kirjoita tämä koodi toiseen laitteeseen</string>
-    <string name="ra_otp_not_me">Se en ollut minä</string>
-    <string name="ra_output">Audio ulostulo</string>
-    <string name="ra_play_on_browser">Toista selaimella</string>
-    <string name="ra_play_on_device">Toista laitteella</string>
-    <string name="ra_browser_audio_not_found">Mediaa ei löydy tai sitä ei voi toistaa selaimella</string>
-    <string name="ra_browser_audio_unsupported_format">Selaimesi ei tue tätä audio formaattia</string>
 
-    <string name="ra_onboarding_welcome_desc">Tervetuloa VLC Android etäkäyttöön
-Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
-    <string name="ra_onboarding_how_title">Ohjaa laitettasi</string>
-    <string name="ra_onboarding_how_desc">Ohjaa toistoa, lähetä tai nouda tiedostoja ja muuta mukavaa</string>
-    <string name="ra_onboarding_ssl_title">Tiedonsalaus</string>
-    <string name="ra_onboarding_ssl_desc">Etäkäyttö on salattu, jotta sinun tiedot ei vuoda</string>
-    <string name="ra_onboarding_otp_title">Todennus</string>
-    <string name="ra_onboarding_otp_desc">Kertakäyttöisen salasanatodennuksen avulla voit estää muiden pääsyn tietoihisi</string>
-    <string name="ra_onboarding_content_title">Sisällön käyttöoikeus</string>
-    <string name="ra_onboarding_content_desc">Valitse, mitä voi käyttää ja mitä ei</string>
-    <string name="ra_onboarding_content_ml">Pääsy mediakirjaston sisältöön</string>
-    <string name="ra_onboarding_content_files">Tiedostoselain</string>
-    <string name="ra_onboarding_content_playback">Toiston ohjaus</string>
-    <string name="ra_disable">Pois käytöstä</string>
-    <string name="ra_log_web">Etäkäyttöloki</string>
-    <string name="ra_log_crash">Kaatumisloki</string>
-    <string name="ra_log_mobile">Laiteloki</string>
-    <string name="ra_log_current">Paikalliset lokit</string>
-    <string name="ra_invalid_login">Sinun täytyy kirjautua laitteellesi</string>
-    <string name="ra_invalid_otp">Annettu koodi on virheellinen</string>
-    <string name="learn_more">Lue lisää</string>
 
     <!-- car screens -->
     <string name="help">Apua</string>
@@ -1399,11 +1258,7 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="metered_warn">Varoita minua (voi jäädä huomaamatta toiston aikana)</string>
     <string name="metered_connection_stopped">Media pysähtyi, koska yhteyttä mitataan</string>
     <string name="metered_connection_warning">Yhteytesi on mitattu.</string>
-    <string name="adding">Lisätään</string>
-    <string name="to">-</string>
     <string name="device">Laite</string>
-    <string name="connected_device">Yhdistetty laite</string>
-    <string name="model">Laitteen malli</string>
     <string name="prefs_app_data">Sovellusdata</string>
     <string name="export_settings_summary">Vie asetukset tiedostoon, jotta voit tuoda ne myöhemmin</string>
     <string name="export_settings">Vie asetukset</string>
@@ -1439,12 +1294,6 @@ Ottamalla tämän käyttöön voit ohjata toistoa ja muuta mukavaa</string>
     <string name="generating_logs">Luodaan lokeja. Odota.</string>
     <string name="default_playback_action">Toistotoiminto</string>
     <string name="files">Tiedostot</string>
-    <string name="remote_access_feedback_generate">Luo raportti</string>
-    <string name="remote_access_feedback_generated">Palautteesi on luotu</string>
-    <string name="remote_access_feedback_generated_explanation">Paina alla olevaa painiketta ja lähetä sähköpostina. Jos kohtaat ongelmia, voit kopioida ja liittää alla olevat kentät ja lähettää sähköpostin itse.</string>
-    <string name="remote_access_feedback_file_explanation">Latasit juuri tarvittavan tiedoston. Muista liittää se sähköpostiisi.</string>
-    <string name="generic_copied_to_clipboard">Kopioitu leikepöydälle.</string>
     <string name="feedback_email_warning">Sähköpostia ei ole asennettu</string>
-    <string name="feedback_email_warning_remote_action">Avaa asetukset</string>
     <string name="feedback_email_warning_try_anyway">Kokeile kuitenkin</string>
     </resources>

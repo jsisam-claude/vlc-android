@@ -125,14 +125,6 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 pel·lícula</item>
-        <item quantity="other">%d pel·lícules</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 programa de tele</item>
-        <item quantity="other">%d programes de TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 pista</item>
         <item quantity="other">%d pistes</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">Espereu que acabi primer l\'actual element multimèdia</string>
     <string name="reset_on_interaction">Restableix en qualsevol interacció</string>
     <string name="default_sleep_timer_summary">%1$s, espera el final del multimèdia: %2$s, restableix en interacció: %3$s</string>
-    <string name="video_player_remote">Reproductor de vídeo remot</string>
-    <string name="remote_keyboard_navigation">Navegació amb teclat</string>
 
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (nom de domini o IP)</string>
@@ -358,7 +348,6 @@
     <string name="screen_orientation_landscape_sensor">Horitzontal (sensor)</string>
     <string name="screen_orientation_last_locked">Darrera orientació bloquejada</string>
     <string name="enable_black_theme">Tema negre</string>
-    <string name="dark_theme">Tema fosc</string>
     <string name="theme_auto">Tema automàtic</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
     <string name="subtitle_preferred_language">Idioma preferit per als subtítols</string>
@@ -503,29 +492,6 @@
     <string name="audio_ducking_title">Baixa el volum del VLC a les notificacions</string>
     <string name="audio_ducking_summary">Ajuda a sentir les notificacions d\'àudio, instruccions de navegació o la veu de l\'assistent</string>
     <string name="casting_category">Difusió</string>
-    <string name="remote_access">Accés remot</string>
-    <string name="remote_access_version_title">Versió d\'accés remot</string>
-    <string name="remote_access_hash_title">Hash d\'accés remot</string>
-    <string name="remote_access_status">Estat del servidor</string>
-    <string name="remote_access_status_summary">Toqueu per veure l\'estat del servidor</string>
-    <string name="remote_access_connections">Connexions</string>
-    <string name="remote_access_links">Enllaços</string>
-    <string name="remote_access_active">Accés remot actiu</string>
-    <string name="remote_access_notification">Accés remot actiu a %s</string>
-    <string name="remote_access_notification_stopped">Accés remot aturat</string>
-    <string name="remote_access_notification_connecting">Connectant l\'accés remot</string>
-    <string name="remote_access_notification_error">Error d\'accés remot</string>
-    <string name="remote_access_notification_stopping">Aturant l\'accés remot</string>
-    <string name="remote_access_notification_not_init">Inicialitzant l\'accés remot</string>
-    <string name="enable_remote_access">Habilita l\'accés remot</string>
-    <string name="remote_access_info">Informació d\'accés remot</string>
-    <string name="remote_access_content">Contingut</string>
-    <string name="remote_access_medialibrary_content">Contingut de la mediateca</string>
-    <string name="remote_access_medialibrary_content_summary">Habilitat: %1$s\nInhabilitat: %2$s</string>
-    <string name="remote_access_file_browser_content">Explorador de fitxers</string>
-    <string name="remote_access_network_browser_content">Navegador de xarxa</string>
-    <string name="remote_access_playback_control">Controla la reproducció</string>
-    <string name="remote_access_logs">Compartir els fitxers de registre</string>
     <string name="casting_switch_title">Difusió sense fils</string>
     <string name="casting_passthrough_title">Pas directe d\'àudio</string>
     <string name="casting_passthrough_summary">Deixa que la tele gestioni el renderitzat de l\'àudio</string>
@@ -655,8 +621,6 @@
     <string name="search_global">Cerca a tota la mediateca</string>
     <string name="playlist_save">Desa la llista de reproducció</string>
     <string name="playlist_name_hint">Nom de la llista de reproducció</string>
-    <string name="chapters">Capítols</string>
-    <string name="notset">No definit</string>
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="current_chapter">Capítol: %s</string>
     <string name="confirm_resume">Reprèn des de l\'última posició?</string>
@@ -676,19 +640,7 @@
     <string name="show_in_settings">Mostra a la configuració</string>
 
 <!--    update-->
-    <string name="update_title">Actualització disponible</string>
-    <string name="install_nightly_title">Instal·la la versió nocturna</string>
-    <string name="update_text">Hi ha disponible un nou llançament nocturn del VLC per a Android!\n\nVeieu aquest missatge perquè esteu usant un muntatge nocturn.</string>
-    <string name="install_text">Els muntatges nocturns s\'actualitzen automàticament cada dia amb les últimes característiques i correccions.\n\nVoleu descarrregar ara?</string>
 
-    <string name="open_in_browser">Obre al navegador web</string>
-    <string name="install">Instal·la</string>
-    <string name="install_nightly">Instal·la la versió nocturna</string>
-    <string name="install_nightly_alert">Els muntatges nocturns són versions experimentals que s\'actualitzen diàriament.\n\nPodeu esperar noves funcions però també nous errors!</string>
-    <string name="nightly_version">Versió trobada: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Esteu executant una versió nocturna. Voleu buscar actualitzacions periòdicament?</string>
-    <string name="update_nightly">Actualització automàtica</string>
-    <string name="update_nightly_summary">Buscar actualització nocturna periòdicament</string>
 
 
     <!-- Accessibility -->
@@ -711,7 +663,6 @@
     <string name="allow_storage_access_description">VLC necessita permís per accedir als fitxers multimèdia en aquest dispositiu.</string>
     <string name="partial_content">El VLC no pot accedir a tots els vostres fitxers</string>
     <string name="partial_content_description">Amb l\'Android 11 cal un permís especial perquè les aplicacions accedeixin a tots els fitxers del dispositiu.\n\n%s</string>
-    <string name="never_ask_again">No ho tornis a demanar</string>
     <string name="never_show_again">Mai tornis a mostrar, fins i tot per a futures versions</string>
     <string name="allow_settings_access_ringtone_title">Deixa que el VLC configuri la melodia del telèfon</string>
     <string name="allow_settings_access_ringtone_description">VLC necessita permís per configurar aquesta cançó com a melodia del telèfon.</string>
@@ -867,7 +818,6 @@
     <string name="next">Endavant</string>
     <string name="skip">Omet</string>
     <string name="next_step">Següent</string>
-    <string name="download">Baixa</string>
     <string name="ctx_player_video_track">Tria la pista de vídeo</string>
     <string name="ctx_player_audio_track">Pista d\'àudio</string>
     <string name="ctx_player_subs_track">Pista de subtítols</string>
@@ -967,25 +917,7 @@
     <string name="share_message">Aquí és %s</string>
     <string name="share_track_info">Comparteix la informació de la pista</string>
     <string name="share_track">Actualment escoltant %s</string>
-    <string name="find_metadata">Trobar metadades</string>
-    <string name="moviepedia_hint">Buscar metadades</string>
-    <string name="moviepedia_result">Resultats del vídeo</string>
-    <string name="directed_by">Dirigit per</string>
-    <string name="casting">Casting</string>
-    <string name="produced_by">Produït</string>
-    <string name="written_by">Escrit per</string>
-    <string name="music_by">Música per</string>
-    <string name="posters">Cartells</string>
-    <string name="backdrops">Fons de pantalla</string>
-    <string name="header_tvshows">Programes de TV</string>
-    <string name="header_movies">Pel·lícules</string>
-    <string name="season_number">Temporada %s</string>
-    <string name="resume_episode">Reprèn (%s)</string>
-    <string name="start_over">Comença de nou</string>
-    <string name="next_episode">Episodi següent</string>
     <string name="open_network_settings">Obrir paràmetres de la xarxa?</string>
-    <string name="recently_played">Reproduït ara mateix</string>
-    <string name="recently_added">Acabat d\'afegir</string>
     <string name="playback_multiple_errors">No es poden reproduir múltiples multimèdia</string>
     <string name="clear_media_db_message">Perdreu els progressos, els preferits i les llistes de reproducció que hàgiu creat però mantindreu la configuració del VLC per a Android</string>
     <string name="clear_app_data_message">Perdreu els progressos, els preferits, les llistes de reproducció i la configuració completa del VLC</string>
@@ -1044,19 +976,11 @@
     <string name="sub_result_by_name_hearing_impaired">Només amb discapacitat auditiva</string>
 
     <string name="sub_result_by_file">Resultats del vostre fitxer</string>
-    <string name="donate">ajut VLC</string>
-    <string name="donate_desc">Donar suport als voluntaris en la creació de VLC</string>
-    <string name="donate_subscribtion">M\'agradaria que fos un patrocini mensual</string>
-    <string name="donate_send">Inicia el teu patrocini</string>
-    <string name="donation_description">El vostre patrocini ens permetrà: \nMillorar l’aplicació VLC per a Android\nDonar suport a l\'associació VideoLAN</string>
     <string name="subscription_purchased">Esteu subscrit a un patrocini mensual</string>
     <string name="subscription_cancel">Podeu donar-vos de baixa a Play Store</string>
     <string name="subscription_cancel_tv">Com donar-se de baixa</string>
-    <string name="donate_unsubscribe_tv">Per donar-se de baixa, si us plau obriu el %s en un telèfon o ordinador o escanejar aquest codi:</string>
-    <string name="tip_jar">Ajut VLC</string>
     <string name="thank_you">Gràcies</string>
     <string name="thank_you_desc">Gràcies pel vostre patrocini! \nIt ens ajudarà molt a millorar VLC!</string>
-    <string name="donate_again">Patrocinen l\'aplicació de nou</string>
 
     <string name="mark_as_played">Marca-ho com a reproduït</string>
     <string name="mark_as_not_played">Marca-ho com a no reproduït</string>
@@ -1163,7 +1087,6 @@
     <string name="discovery_failed">Ha fallat el descobriment de: %s</string>
     <string name="lock_use_sensor_title">Bloqueja amb el sensor</string>
     <string name="lock_use_sensor_summary">Quan l\'orientació està bloquejada, usar el sensor per permetre l\'orientació inversa</string>
-    <string name="start">Inicia</string>
     <string name="notification_permission">Permís de notificació</string>
     <string name="notification_permission_explanation">Al VLC li cal el vostre permís per enviar notificacions.\nL\'app només us notificarà quan escanegi els vostres multimèdia o quan utilitzi el vídeo personalitzat a Imatges.\nEncara que es refusi, el VLC seguirà treballant, però les notificacions quedaran amagades.</string>
     <string name="permission">Permís</string>
@@ -1302,63 +1225,7 @@
     <string name="replace_playlist">Substitueix la llista de reproducció</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Accés remot actiu</string>
-    <string name="ra_remote_access">Accés remot</string>
-    <string name="ra_remote_access_description">Notificació d\'estat d\'accés remot</string>
-    <string name="ra_log_file">Fitxers de registre</string>
-    <string name="ra_log_type">Tipus de registre</string>
-    <string name="ra_send_files">Envia fitxers</string>
-    <string name="ra_not_in_foreground">L\'aplicació no està en primer pla. No es pot iniciar el vídeo.</string>
-    <string name="ra_disconnected">Desconnectat del dispositiu</string>
-    <string name="ra_file">Fitxer</string>
-    <string name="ra_upload_remaining">Pujant %s fitxers</string>
-    <string name="ra_upload_all">Pujar-ho tot</string>
-    <string name="ra_drop_files_tip">Deixa caure fitxers en qualsevol lloc per enviar-los al teu dispositiu.</string>
-    <string name="ra_prepare_download">Preparant la vostra descàrrega</string>
-    <string name="ra_forbidden">Contingut desactivat a la configuració</string>
-    <string name="ra_playback_forbidden">Control de reproducció desactivat a la configuració</string>
-    <string name="ra_logs_forbidden">Compartició de registres desactivada a la configuració</string>
-    <string name="ra_code_requested_explanation">Per protegir el vostre servidor, l\'accés està protegit.\nSi us plau, introduïu el codi que apareix a les vostres notificacions</string>
-    <string name="ra_ssl_explanation_title">Connexió no segura</string>
-    <string name="ra_ssl_explanation">La vostra connexió no és segura.</string>
-    <string name="ra_ssl_explanation_browser">A causa de la implementació de seguretat del navegador, rebreu un avís de seguretat a la pàgina següent.</string>
-    <string name="ra_ssl_explanation_accept">Assegureu-vos d\'acceptar el certificat per poder utilitzar l\'accés remot</string>
-    <string name="ra_ssl_button">Utilitza una connexió segura</string>
-    <string name="ra_new_code">Envia un nou codi</string>
-    <string name="home">Inici</string>
-    <string name="ra_code">Introduïu aquest codi: %s</string>
-    <string name="ra_send_logs">Desar els registres d\'accés remot al dispositiu</string>
-    <string name="ra_otp">Contrasenya d\'accés remot d\'una sola vegada</string>
-    <string name="ra_otp_description">Sol·licituds d\'accés per a l\'accés remot</string>
-    <string name="ra_otp_title">Intent d\'inici de sessió d\'accés remot</string>
-    <string name="ra_otp_subtitle">Si ets tu, introdueix aquest codi a l\'altre dispositiu</string>
-    <string name="ra_otp_not_me">No sóc jo</string>
-    <string name="ra_output">Sortida d\'àudio</string>
-    <string name="ra_play_on_browser">Reprodueix al navegador</string>
-    <string name="ra_play_on_device">Reprodueix al dispositiu</string>
-    <string name="ra_browser_audio_not_found">No s\'ha trobat el contingut multimèdia o no es pot reproduir al navegador</string>
-    <string name="ra_browser_audio_unsupported_format">Aquest format d\'àudio no és compatible amb el vostre navegador</string>
 
-    <string name="ra_onboarding_welcome_desc">Benvingut a l\'accés remot del VLC per a Android\nEn habilitar-lo, podreu controlar la reproducció d\'aquest dispositiu i més</string>
-    <string name="ra_onboarding_how_title">Controla el vostre dispositiu</string>
-    <string name="ra_onboarding_how_desc">Controla la reproducció del vostre dispositiu, envia o recupera fitxers i més</string>
-    <string name="ra_onboarding_ssl_title">Encriptatge de dades</string>
-    <string name="ra_onboarding_ssl_desc">L\'accés remot està encriptat per evitar que les teves dades es filtrin</string>
-    <string name="ra_onboarding_otp_title">Autenticació</string>
-    <string name="ra_onboarding_otp_desc">Amb l\'autenticació de contrasenya d\'un sol ús, eviteu l\'accés no desitjat a les vostres dades</string>
-    <string name="ra_onboarding_content_title">Accés al contingut</string>
-    <string name="ra_onboarding_content_desc">Trieu què es pot accedir i què no es pot accedir</string>
-    <string name="ra_onboarding_content_ml">Accés al contingut de la mediateca</string>
-    <string name="ra_onboarding_content_files">Explorador de fitxers</string>
-    <string name="ra_onboarding_content_playback">Control de reproducció</string>
-    <string name="ra_disable">Desactiva</string>
-    <string name="ra_log_web">Registre d\'accés remot</string>
-    <string name="ra_log_crash">Registre de la fallada</string>
-    <string name="ra_log_mobile">Registre del dispositiu</string>
-    <string name="ra_log_current">Registres locals actuals</string>
-    <string name="ra_invalid_login">Heu d\'iniciar sessió al vostre dispositiu</string>
-    <string name="ra_invalid_otp">El codi proporcionat no és vàlid</string>
-    <string name="learn_more">Per saber-ne més</string>
 
     <!-- car screens -->
     <string name="help">Ajuda</string>
@@ -1374,11 +1241,7 @@
     <string name="metered_warn">Avisa\'m (es pot perdre l\'avís per a la reproducció d\'àudio)</string>
     <string name="metered_connection_stopped">El multimèdia s\'ha aturat perquè es mesura la connexió</string>
     <string name="metered_connection_warning">La vostra connexió està mesurada. Es poden aplicar tarifes.</string>
-    <string name="adding">Afegint</string>
-    <string name="to">a</string>
     <string name="device">Dispositiu</string>
-    <string name="connected_device">Dispositiu connectat</string>
-    <string name="model">Model de dispositiu</string>
     <string name="prefs_app_data">Dades de l\'aplicació</string>
     <string name="export_settings_summary">Exporteu la vostra configuració a un fitxer per importar-la més tard</string>
     <string name="export_settings">Exportar configuració</string>
@@ -1414,12 +1277,6 @@
     <string name="generating_logs">Generant els registres. Espereu.</string>
     <string name="default_playback_action">Acció de reproducció</string>
     <string name="files">Fitxers</string>
-    <string name="remote_access_feedback_generate">Generar informe</string>
-    <string name="remote_access_feedback_generated">S\'ha generat el vostre informe de comentaris</string>
-    <string name="remote_access_feedback_generated_explanation">Toqueu el botó següent per enviar-lo mitjançant el vostre client de correu electrònic predeterminat. Si trobeu algun problema, podeu copiar i enganxar els camps següents i enviar el correu electrònic vosaltres mateixos.</string>
-    <string name="remote_access_feedback_file_explanation">Acabeu de descarregar el fitxer necessari. Recordeu adjuntar-lo al vostre correu electrònic.</string>
-    <string name="generic_copied_to_clipboard">Copiat al porta-retalls</string>
     <string name="feedback_email_warning">No hi ha cap client de correu electrònic instal·lat</string>
-    <string name="feedback_email_warning_remote_action">Obrir la configuració</string>
     <string name="feedback_email_warning_try_anyway">Prova-ho de totes maneres</string>
     </resources>

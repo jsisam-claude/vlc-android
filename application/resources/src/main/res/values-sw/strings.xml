@@ -93,14 +93,6 @@
         <item quantity="one">video 1</item>
         <item quantity="other">video %d</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">filamu 1</item>
-        <item quantity="other">filamu %d</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">Kipindi cha televisheni 1</item>
-        <item quantity="other">Vipindi vya televisheni %d</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">nakala 1</item>
         <item quantity="other">nakala %d</item>
@@ -543,7 +535,6 @@
     <string name="allow_storage_access_description">VLC inahitaji ruhusa yako ifikie faili za midia zilizo kwenye kifaa.</string>
     <string name="partial_content">VLC haiwezi kufukia faili zako zote</string>
     <string name="partial_content_description">Kuanzia Android 11, programu zote zinahitaji ruhusa maalum zifikie faili zote za kifaa.\n\n%s</string>
-    <string name="never_ask_again">Usiulizwe tena</string>
     <string name="allow_settings_access_ringtone_title">Ruhusu VLC iweke sauti ya simu</string>
     <string name="allow_settings_access_ringtone_description">VLC inahitaji ruhusa hii ili iweze kuweka wimbo kama sauti ya simu.</string>
     <string name="allow_settings_access_brightness_title">Ruhusu VLC ibadili uangavu</string>
@@ -674,7 +665,6 @@
     <string name="next">Kinachofuata</string>
     <string name="skip">Ruka</string>
     <string name="next_step">Kinachofuata</string>
-    <string name="download">Pakua</string>
     <string name="ctx_player_video_track">Chagua nakala ya video</string>
     <string name="ctx_player_audio_track">Nakala ya usikiko</string>
     <string name="ctx_player_subs_track">Nakala ya manukuu</string>
@@ -759,25 +749,7 @@
     <string name="invalid_file">Faili batili. Haiwezi kushirikiwa.</string>
     <string name="share_file">Shiriki %s</string>
     <string name="share_message">%s ndio hii</string>
-    <string name="find_metadata">Tafuta datameta</string>
-    <string name="moviepedia_hint">Tafuta datameta</string>
-    <string name="moviepedia_result">Video zilizopatikana</string>
-    <string name="directed_by">Imeendeshwa na</string>
-    <string name="casting">Waigizaji</string>
-    <string name="produced_by">Imetolewa na</string>
-    <string name="written_by">Imeandikwa na</string>
-    <string name="music_by">Muziki kutoka</string>
-    <string name="posters">Picha za kutangaza</string>
-    <string name="backdrops">Mandhari</string>
-    <string name="header_tvshows">Vipindi vya TV</string>
-    <string name="header_movies">Filamu</string>
-    <string name="season_number">Msimu wa %s</string>
-    <string name="resume_episode">Endelea (%s)</string>
-    <string name="start_over">Anza kutoka mwanzo</string>
-    <string name="next_episode">Kipindi kifuatacho</string>
     <string name="open_network_settings">Fungua mipangilio ya mtandao?</string>
-    <string name="recently_played">Kilichochezwa hivi karibuni</string>
-    <string name="recently_added">Kilichoongezwa hivi karibuni</string>
     <string name="playback_multiple_errors">Midia nyingi hazichezeki</string>
     <string name="clear_media_db_message">Utapoteza kinachocheza, vialamisho na orodha chezeshi ulizounda, lakini utabaki na mipangilio ya VLC ya Android</string>
     <string name="clear_app_data_message">Utapoteza kinachocheza, vialamisho, orodha chezeshi na mipangilio yote ya VLC</string>
@@ -834,19 +806,11 @@
     <string name="sub_result_by_name_season">Msimu wa %s</string>
     <string name="sub_result_by_name_episode">Kipindi %s</string>
     <string name="sub_result_by_file">Matokeo ya faili</string>
-    <string name="donate">Saidia VLC</string>
-    <string name="donate_desc">Saidia wanaojitolea kuunda VLC</string>
-    <string name="donate_subscribtion">Ningetaka uwe ufadhili wa kila mwezi</string>
-    <string name="donate_send">Anza kufadhili</string>
-    <string name="donation_description">Ufadhili wako utatuwezesha:\nKuboresha programu ya VLC ya Android\nKusaidia Ushirika wa VideoLAN</string>
     <string name="subscription_purchased">Ufadhili wako utakuwa kila mwezi</string>
     <string name="subscription_cancel">Unaweza kukatiza ufadhili katika Duka la Play</string>
     <string name="subscription_cancel_tv">Jinsi ya kukatiza ufadhili</string>
-    <string name="donate_unsubscribe_tv">Ili ukatize, tafadhali fungua %s katika simu au tarakilishi au uskani msimbo:</string>
-    <string name="tip_jar">Saidia VLC</string>
     <string name="thank_you">Asante</string>
     <string name="thank_you_desc">Asante kwa ufadhili wako!\nUtatusaidia kuboresha VLC!</string>
-    <string name="donate_again">Fadhili programu tena</string>
 
     <string name="mark_as_played">Tia alama kuwa umecheza</string>
     <string name="mark_as_not_played">Tia alama kuwa hujacheza</string>
@@ -915,7 +879,6 @@
     <string name="discovery_failed">Ugunduzi haukuwezekana kwa: %s</string>
     <string name="lock_use_sensor_title">Funga kwa kihisi</string>
     <string name="lock_use_sensor_summary">Mwelekeo unapofungwa, tumia kihisi ili uwezeshe mwelekeo pindu</string>
-    <string name="start">Anza</string>
     <string name="notification_permission">Ruhusa ya arifa</string>
     <string name="notification_permission_explanation">VLC inahitaji ruhusa yako ili itume arifa.\nProgramu itakuarifu inaposkani midia au inapotumia video tanafsifu ya picha ndani ya picha.\nKuikataza hakutazuia utendakazi wa VLC, lakini arifa zitafichwa.</string>
     <string name="permission">Ruhusa</string>

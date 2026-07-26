@@ -101,14 +101,6 @@
         <item quantity="one">1 vídeo</item>
         <item quantity="other">%d vídeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 película</item>
-        <item quantity="other">%d películas</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 programa de TV</item>
-        <item quantity="other">%d programas de TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 pista</item>
         <item quantity="other">%d pistas</item>
@@ -355,10 +347,6 @@
     <string name="audio_ducking_title">Baixar o volume do VLC nas notificacións</string>
     <string name="audio_ducking_summary">Axuda na escoita de notificacións de son, instrucións de navegación e para falar co asistente</string>
     <string name="casting_category">Emisión</string>
-    <string name="remote_access">Acceso remoto</string>
-    <string name="remote_access_connections">Conexións</string>
-    <string name="remote_access_links">Ligazóns</string>
-    <string name="remote_access_content">Contido</string>
     <string name="casting_switch_title">Emisión sen fíos</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Permitir que a TV xestione o procesamento do son</string>
@@ -458,7 +446,6 @@
     <string name="search_global">Buscar na biblioteca multimedia global</string>
     <string name="playlist_save">Gardar lista de reprodución</string>
     <string name="playlist_name_hint">Nome da lista de reprodución</string>
-    <string name="chapters">Capítulos</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="current_chapter">Capítulo: %s</string>
     <string name="confirm_resume">Quere continuar desde a última posición?</string>
@@ -469,8 +456,6 @@
     <string name="medialibrary_directories">Cartafoles da biblioteca multimedia</string>
 
     <!--    update-->
-    <string name="update_title">Actualización dispoñible</string>
-    <string name="install">Instalar</string>
     <!-- Accessibility -->
     <string name="more_actions">Máis accións</string>
     <string name="back_quit_lock">Prema de novo Atrás para saír do vídeo</string>
@@ -485,7 +470,6 @@
     <string name="click_here">Prema aquí para ter máis información.</string>
     <string name="allow_storage_access_title">Permitir a VLC acceder aos ficheiros de son e vídeo</string>
     <string name="allow_storage_access_description">VLC precisa o permiso de acceso aos ficheiros multimedia deste dispositivo</string>
-    <string name="never_ask_again">Non preguntar de novo</string>
     <string name="allow_settings_access_ringtone_title">Permitir que VLC estableza o tono de chamada</string>
     <string name="allow_settings_access_ringtone_description">O VLC precisa o seu permiso para estabelecer esta canción como ton de chamada.</string>
     <string name="allow_settings_access_brightness_title">Permitir que o VLC cambie o modo do brillo</string>
@@ -610,7 +594,6 @@
     <string name="download_the_selected">Descargar selección</string>
     <string name="next">Seguinte</string>
     <string name="next_step">Seguinte</string>
-    <string name="download">Descargar</string>
     <string name="ctx_player_video_track">Seleccionar pista de vídeo</string>
     <string name="ctx_player_audio_track">Pista de son</string>
     <string name="ctx_player_subs_track">Pista dos subtítulos</string>
@@ -695,25 +678,7 @@
     <string name="invalid_file">Nome non válido. Non é posibel compartilo.</string>
     <string name="share_file">Compartir %s</string>
     <string name="share_message">Aquí está %s</string>
-    <string name="find_metadata">Buscar nos metadatos</string>
-    <string name="moviepedia_hint">Buscar nos metadatos</string>
-    <string name="moviepedia_result">Resultados de vídeo</string>
-    <string name="directed_by">Dirixida por</string>
-    <string name="casting">Elenco</string>
-    <string name="produced_by">Producida por</string>
-    <string name="written_by">Escrita por</string>
-    <string name="music_by">Música por</string>
-    <string name="posters">Carteis</string>
-    <string name="backdrops">Fondos</string>
-    <string name="header_tvshows">Programas de TV</string>
-    <string name="header_movies">Películas</string>
-    <string name="season_number">Temporada %s</string>
-    <string name="resume_episode">Continuar (%s)</string>
-    <string name="start_over">Empezar de novo</string>
-    <string name="next_episode">Episocio seguinte</string>
     <string name="open_network_settings">Desexa abrir as preferencias de rede?</string>
-    <string name="recently_played">Reproducido recentemente</string>
-    <string name="recently_added">Engadido recentemente</string>
     <string name="playback_multiple_errors">Non é posíbel reproducir múltiples multimedia</string>
     <string name="clear_media_db_message">Perderá os progresos, marcadores e listas de reprodución que creou pero manterá os axustes do VLC para Android.</string>
     <string name="clear_app_data_message">Perderá os progresos, marcadores, listas de reprodución e todos os axustes do VLC.</string>
@@ -769,19 +734,11 @@
     <string name="sub_result_by_name_season">Temporada %s</string>
     <string name="sub_result_by_name_episode">Episodio %s</string>
     <string name="sub_result_by_file">Resultados para o seu ficheiro</string>
-    <string name="donate">Axude ao VLC</string>
-    <string name="donate_desc">Apoie os voluntarios que desenvolven o VLC</string>
-    <string name="donate_subscribtion">Gustaríame que isto fose un patrocinio mensual</string>
-    <string name="donate_send">Inicie o patrocinio</string>
-    <string name="donation_description">O seu patrocinio permitiranos:\nmellorar o VLC para Android e\napoiar á Asociación VideoLAN</string>
     <string name="subscription_purchased">Subscribiuse a un patrocinio mensual</string>
     <string name="subscription_cancel">Pode cancelar a subscrición na Play Store</string>
     <string name="subscription_cancel_tv">Como cancelar a subscrición</string>
-    <string name="donate_unsubscribe_tv">Para cancelar a subscrición, abra %s nun móbil, computador ou escanee este código:</string>
-    <string name="tip_jar">Axude ao VLC</string>
     <string name="thank_you">Grazas</string>
     <string name="thank_you_desc">Grazas polo patrocinio!\nAxudaranos moito a mellorar o VLC.</string>
-    <string name="donate_again">Patrocinar a aplicación de novo</string>
 
     <string name="mark_as_played">Marcar como reproducido</string>
     <string name="mark_as_not_played">Marcar non reproducido</string>
@@ -847,7 +804,6 @@
     <string name="discovery_failed">Fallou a detección de: %s</string>
     <string name="lock_use_sensor_title">Bloqueo con sensor</string>
     <string name="lock_use_sensor_summary">Cando a orientación estea bloqueada, usar o sensor para permitir a orientación inversa</string>
-    <string name="start">Iniciar</string>
     <string name="permission">Permiso</string>
     <string name="permissions">Permisos</string>
     <string name="customize">Personalizar</string>
@@ -870,14 +826,10 @@
     <string name="talkback_minutes">minutos</string>
     <string name="talkback_seconds">segundos</string>
     <string name="downloading">Descargando</string>
-    <string name="ra_remote_access">Acceso remoto</string>
-    <string name="ra_new_code">Enviar un código novo</string>
-    <string name="ra_onboarding_otp_title">Autenticación</string>
     <!-- car screens -->
     <string name="help">Axuda</string>
     <string name="network" >Rede</string>
     <string name="device">Dispositivo</string>
-    <string name="model">Modelo do dispositivo</string>
     <string name="subject">Asunto</string>
     <string name="body">Mensaxe</string>
     </resources>

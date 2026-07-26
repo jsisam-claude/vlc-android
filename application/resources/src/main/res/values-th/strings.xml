@@ -78,12 +78,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d วิดีโอ</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">ภาพยนตร์ %d เรื่อง</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">รายการทีวี %d รายการ</item>
-    </plurals>
     <string name="internal_memory">หน่วยความจำภายใน</string>
     <string name="audio">เสียง</string>
     <string name="video">วิดีโอ</string>
@@ -504,7 +498,6 @@
     <string name="delete_the_selected">ลบส่วนที่เลือก</string>
     <string name="download_the_selected">ดาวน์โหลดส่วนที่เลือก</string>
     <string name="next">ถัดไป</string>
-    <string name="download">ดาวน์โหลด</string>
     <string name="ctx_player_video_track">เลือกแทร็กวิดีโอ</string>
     <string name="ctx_player_audio_track">แทร็กเสียง</string>
     <string name="ctx_player_subs_track">แทร็กบทบรรยาย</string>
@@ -585,25 +578,7 @@
     <string name="invalid_file">ไฟล์ไม่ถูกต้อง ไม่สามารถแชร์ได้</string>
     <string name="share_file">แชร์ %s</string>
     <string name="share_message">ที่นี่คือ %s</string>
-    <string name="find_metadata">ค้นหาข้อมูลกำกับ</string>
-    <string name="moviepedia_hint">ค้นหาข้อมูลกำกับ</string>
-    <string name="moviepedia_result">ผลลัพธ์วิดีโอ</string>
-    <string name="directed_by">กำกับโดย</string>
-    <string name="casting">นักแสดง</string>
-    <string name="produced_by">ผลิตโดย</string>
-    <string name="written_by">เขียนโดย</string>
-    <string name="music_by">เพลงโดย</string>
-    <string name="posters">โปสเตอร์</string>
-    <string name="backdrops">ฉากหลัง</string>
-    <string name="header_tvshows">รายการทีวี</string>
-    <string name="header_movies">ภาพยนตร์</string>
-    <string name="season_number">ซีซัน %s</string>
-    <string name="resume_episode">เล่นต่อ (%s)</string>
-    <string name="start_over">เริ่มเล่นใหม่</string>
-    <string name="next_episode">ตอนถัดไป</string>
     <string name="open_network_settings">เปิดการตั้งค่าเครือข่ายหรือไม่</string>
-    <string name="recently_played">ที่เล่นเมื่อล่าสุด</string>
-    <string name="recently_added">ที่เพิ่มเมื่อล่าสุด</string>
     <string name="playback_multiple_errors">ไม่สามารถเล่นสื่อหลายรายการได้</string>
     <string name="abrepeat_add_first_marker">ตั้งค่าจุดเริ่มต้น</string>
     <string name="abrepeat_add_second_marker">ตั้งค่าจุดสิ้นสุด</string>
@@ -654,19 +629,11 @@
     <string name="sub_result_by_name_season">ซีซัน %s</string>
     <string name="sub_result_by_name_episode">ตอน %s</string>
     <string name="sub_result_by_file">ผลลัพธ์สำหรับไฟล์ของคุณ</string>
-    <string name="donate">ช่วย VLC</string>
-    <string name="donate_desc">ร่วมสนับสนุนอาสาสมัครที่สร้าง VLC</string>
-    <string name="donate_subscribtion">ฉันต้องการร่วมสนับสนุนรายเดือน</string>
-    <string name="donate_send">เริ่มการร่วมสนับสนุนของคุณ</string>
-    <string name="donation_description">การร่วมสนับสนุนของคุณจะทำให้เราสามารถ:\nปรับปรุงแอป VLC สำหรับ Android\nสนับสนุนสมาคม VideoLAN</string>
     <string name="subscription_purchased">คุณบอกรับการร่วมสนับสนุนรายเดือนแล้ว</string>
     <string name="subscription_cancel">คุณสามารถเลิกบอกรับได้ใน Play Store</string>
     <string name="subscription_cancel_tv">วิธีเลิกบอกรับ</string>
-    <string name="donate_unsubscribe_tv">เมื่อต้องการเลิกบอกรับ โปรดเปิด %s บนโทรศัพท์หรือคอมพิวเตอร์ หรือสแกนรหัสนี้:</string>
-    <string name="tip_jar">ช่วย VLC</string>
     <string name="thank_you">ขอบคุณ</string>
     <string name="thank_you_desc">ขอบคุณที่ร่วมสนับสนุน!\nการร่วมสนับสนุนของคุณจะช่วยเราปรับปรุง VLC ได้มากขึ้น!</string>
-    <string name="donate_again">ร่วมสนับสนุนแอปอีกครั้ง</string>
 
     <string name="mark_as_played">ทำเครื่องหมายว่าเล่นแล้ว</string>
     <string name="mark_all_as_played">ทำเครื่องหมายทั้งหมดว่าเล่นแล้ว</string>

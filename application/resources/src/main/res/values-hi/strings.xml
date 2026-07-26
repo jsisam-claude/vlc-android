@@ -99,14 +99,6 @@
         <item quantity="one">1 वीडियो</item>
         <item quantity="other">%d वीडियो</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 सिनेमा</item>
-        <item quantity="other">%d सिनेमा</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 टीवी शो</item>
-        <item quantity="other">%d टीवी शो</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 ट्रैक</item>
         <item quantity="other">%d पगडंडीयां</item>
@@ -277,7 +269,6 @@
     <string name="screen_orientation_landscape_reverse">दायीं करवट से लेटा हुआ</string>
     <string name="screen_orientation_last_locked">पिछली बार जैसी दिशा</string>
     <string name="enable_black_theme">काला रंगरूप</string>
-    <string name="dark_theme">काला रंगरूप</string>
     <string name="theme_auto">स्वतः रंगरूप चुनें</string>
     <string name="subtitle_text_encoding">लिखितसंवाद की रूपांतरण विधि</string>
     <string name="subtitle_preferred_language">लिखितसंवाद की मुख्य भाषा</string>
@@ -355,10 +346,6 @@
     <string name="replaygain_track">पगडंडी</string>
     <string name="replaygain_album">गीतमाला</string>
     <string name="aout">ऑडियो आउटपुट</string>
-    <string name="remote_access_content">सामान</string>
-    <string name="remote_access_medialibrary_content">मण्डली में शामिल कलाकृतियाँ</string>
-    <string name="remote_access_file_browser_content">फाइल अल्मारी</string>
-    <string name="remote_access_logs">गतिविधि फाइलें साझा करें</string>
     <string name="casting_passthrough_title">ऑडियो पासथ्रू</string>
     <string name="casting_quality_high">उच्च</string>
     <string name="casting_quality_medium">मध्यम</string>
@@ -425,7 +412,6 @@
     <string name="search_global">कलाकृति को सभी मण्डलियों में ढूंढें</string>
     <string name="playlist_save">प्लेलिस्ट सहेजें</string>
     <string name="playlist_name_hint">प्लेलिस्ट का नाम</string>
-    <string name="chapters">अध्याय</string>
     <string name="go_to_chapter">इस अध्याय पर जायें…</string>
     <string name="current_chapter">अध्याय: %s</string>
     <string name="confirm_resume">पिछले पंक्ति से पुनः आरंभ करें?</string>
@@ -433,14 +419,11 @@
     <string name="medialibrary">कलाकृति मण्डली</string>
     <string name="medialibrary_directories">कलाकृति मण्डलियों से सम्बन्धित फोल्डर</string>
 
-    <string name="open_in_browser">इंटरनेट ब्राउजर में खोलें</string>
-    <string name="install">स्थापित करें</string>
     <string name="stream_deleted">धारा मिटा दी</string>
     <string name="no_subs_found">इस फोल्डर में एक भी लिखितसंवाद नहीं है</string>
     <string name="music_now_playing">अभी चल रहा है</string>
 
     <string name="whats_next">आगे चलें?</string>
-    <string name="never_ask_again">आगे से कभी भी दुबारा न पूछें</string>
     <string name="permission_ask_again">अनुमति प्रदान करें</string>
     <string name="pick_file">फाइल चुनें</string>
     <string name="permission_not_granted">अनुमति नहीं मिली</string>
@@ -510,7 +493,6 @@
     <string name="no_sub_history">इस कलाकृतियाँ के लिए एक भी लिखितसंवाद नहीं है</string>
     <string name="next">अगला</string>
     <string name="next_step">अगला</string>
-    <string name="download">डाउनलोड करें</string>
     <string name="ctx_player_video_track">इस पगडंडी के बाद रूक जाना है</string>
     <string name="ctx_player_audio_track">ऑडियो पगडंडी</string>
     <string name="ctx_player_subs_track">लिखितसंवाद पगडंडी</string>
@@ -543,16 +525,7 @@
     <string name="directory_not_scanned">ये फोल्डर स्कैन नहीं हुआ है</string>
     <string name="video_group_size_summary">पहले %s अक्षरों के आधार पर समूह बनायें</string>
     <string name="share_track_info">लिखितसंवाद पगडंडी का परिचय औरों को दें</string>
-    <string name="moviepedia_result">वीडियो के परिणाम</string>
-    <string name="written_by">लेखक</string>
-    <string name="music_by">संगीतज्ञ</string>
-    <string name="header_movies">फिल्में</string>
-    <string name="resume_episode">पुनः आरम्भ करें (%s)</string>
-    <string name="start_over">शुरू से चलायें</string>
-    <string name="next_episode">अगला एपिसोड</string>
     <string name="open_network_settings">नेटवर्क सेटिंग खोलें?</string>
-    <string name="recently_played">हाल ही में चलाये गए</string>
-    <string name="recently_added">हाल ही में जोडें गए</string>
     <string name="playback_multiple_errors">एक साथ कई सारी कलाकृतियाँ नहीं चलायी जा सकतीं</string>
     <string name="clear_media_db_message">वीएलसी सेटिंगें छोड़कर आपकी सभी गतिविधियाँ, बूक्मार्क और प्लेलिस्टें मिट जायेंगी।</string>
     <string name="clear_app_data_message">आपकी सभी गतिविधियाँ, बूक्मार्क, प्लेलिस्टें और वीएलसी की सेटिंगें मिट जायेंगी।</string>
@@ -586,8 +559,6 @@
     <string name="sub_result_by_name_season">सीजन %s</string>
     <string name="sub_result_by_name_episode">एपिसोड %s</string>
     <string name="sub_result_by_file">फाइल ढूंढने पर ये मिला</string>
-    <string name="donate">वीएलसी की सहायता करें</string>
-    <string name="tip_jar">वीएलसी की सहायता करें</string>
     <string name="thank_you">धन्यवाद</string>
     <string name="mark_as_played">चला हुआ चिन्हित करें</string>
     <string name="mark_as_not_played">बिना चला हुआ चिन्हित करें</string>
@@ -623,7 +594,6 @@
     <string name="add_all_button">सभी को जोड़ें</string>
     <string name="add_new_only_button">केवल नए जोड़ें</string>
     <string name="discovery_failed">%s: के लिए खोज असफल रही </string>
-    <string name="start">शुरू करें</string>
     <string name="permission">अनुमति</string>
     <string name="permission_no_access">एप्प की पहुँच किसी भी फाइल तक नहीं</string>
     <string name="permissions">अनुमतियाँ</string>
@@ -682,24 +652,12 @@
     <string name="downloaded">डाउनलोड हो चुके</string>
     <string name="not_downloaded">डाउनलोड होंगे</string>
     <string name="downloading">डाउनलोड हो रहे</string>
-    <string name="ra_log_file">गतिविधि फाइलें</string>
-    <string name="ra_log_type">गतिविधि प्रकार</string>
-    <string name="ra_send_files">फाइलें भेजें</string>
-    <string name="ra_file">फाइल</string>
-    <string name="ra_upload_remaining">%s फाइलें ऊपर भेज रहें हैं</string>
-    <string name="ra_upload_all">सभी को ऊपर भेजें</string>
-    <string name="ra_prepare_download">नीचे लाने की तैयारी कर रहे हैं</string>
-    <string name="ra_otp_not_me">ये मैं नहीं हूँ</string>
 
-    <string name="ra_onboarding_content_files">फोल्डर अल्मारी</string>
-    <string name="ra_disable">बंद करें</string>
-    <string name="learn_more">अधिक जानें</string>
 
     <!-- car screens -->
     <string name="help">सहायता</string>
     <string name="metered_do_nothing">कुछ न करें</string>
     <string name="metered_stop">चलना बंद हो जाए</string>
-    <string name="model">फोन मॉडल</string>
     <string name="queue_info">पंक्ति का परिचय</string>
     <string name="queue_info_before_title">शीर्षक से पहले</string>
     <string name="queue_info_after_title">शीर्षक के बाद</string>

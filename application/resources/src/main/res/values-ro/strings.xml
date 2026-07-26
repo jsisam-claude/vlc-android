@@ -132,16 +132,6 @@
         <item quantity="few">%d videoclipuri</item>
         <item quantity="other">%d de videoclipuri</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="few">%d filme</item>
-        <item quantity="other">%d de filme</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 emisiune TV</item>
-        <item quantity="few">%d emisiuni TV</item>
-        <item quantity="other">%d de emisiuni TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 track</item>
         <item quantity="few">%d track-uri</item>
@@ -245,8 +235,6 @@
     <string name="wait_before_sleep">Așteaptă ca elementul media actual să se termine primul</string>
     <string name="reset_on_interaction">Resetează orice interacțiune</string>
     <string name="default_sleep_timer_summary">%1$s, așteaptă sfârșitul fișierului media: %2$s, resetare la interacțiune: %3$s</string>
-    <string name="video_player_remote">Player-ul video de la distanță</string>
-    <string name="remote_keyboard_navigation">Navigare prin tastatură</string>
 
     <string name="server_add_title">Adaugă un server nou la favorite</string>
     <string name="server_domain_hint">Adresa serverului (nume domeniu sau IP)</string>
@@ -369,7 +357,6 @@
     <string name="screen_orientation_landscape_sensor">Peisaj (senzor)</string>
     <string name="screen_orientation_last_locked">Ultima orientare blocată</string>
     <string name="enable_black_theme">Tematica neagră</string>
-    <string name="dark_theme">Temă întunecată</string>
     <string name="theme_auto">Temă automată</string>
     <string name="subtitle_text_encoding">Codificarea textului din subtitlu</string>
     <string name="subtitle_preferred_language">Limba preferată pentru subtitrare</string>
@@ -514,29 +501,6 @@
     <string name="audio_ducking_title">Redu volumul VLC la notificări</string>
     <string name="audio_ducking_summary">Ajutor prin redarea notificărilor audio, a instrucțiunilor de navigare sau a asistentului care vorbește</string>
     <string name="casting_category">Redare</string>
-    <string name="remote_access">Acces de la distanță</string>
-    <string name="remote_access_version_title">Versiune de acces la distanță</string>
-    <string name="remote_access_hash_title">Hash de acces la distanță</string>
-    <string name="remote_access_status">Starea serverului</string>
-    <string name="remote_access_status_summary">Atinge pentru a vedea starea serverului</string>
-    <string name="remote_access_connections">Conexiuni</string>
-    <string name="remote_access_links">Legături</string>
-    <string name="remote_access_active">Accesul de la distanță e activ</string>
-    <string name="remote_access_notification">Accesul de la distanță e activ pe %s</string>
-    <string name="remote_access_notification_stopped">S-a oprit accesul de la distanță</string>
-    <string name="remote_access_notification_connecting">Se conectează accesul de la distanță</string>
-    <string name="remote_access_notification_error">Eroare pentru accesul de la distanță</string>
-    <string name="remote_access_notification_stopping">Se oprește accesul de la distanță</string>
-    <string name="remote_access_notification_not_init">Se inițializează accesul de la distanță</string>
-    <string name="enable_remote_access">Se activează accesul de la distanță</string>
-    <string name="remote_access_info">Informații despre accesul de la distanță</string>
-    <string name="remote_access_content">Conținut</string>
-    <string name="remote_access_medialibrary_content">Conținutul bibliotecii media</string>
-    <string name="remote_access_medialibrary_content_summary">Activat: %1$s\nDezactivat: %2$s</string>
-    <string name="remote_access_file_browser_content">Navigatorul de fișiere</string>
-    <string name="remote_access_network_browser_content">Navigatorul de rețea</string>
-    <string name="remote_access_playback_control">Controlează redarea</string>
-    <string name="remote_access_logs">Distribuie fișierele de jurnal</string>
     <string name="casting_switch_title">Transmisie wireless</string>
     <string name="casting_passthrough_title">Redare audio la distanță</string>
     <string name="casting_passthrough_summary">Permite televizorului să gestioneze redarea audio</string>
@@ -666,8 +630,6 @@
     <string name="search_global">Caută în toate bibliotecile media</string>
     <string name="playlist_save">Salvare Playlist</string>
     <string name="playlist_name_hint">Numele listei de redare</string>
-    <string name="chapters">Capitole</string>
-    <string name="notset">Nu e setat</string>
     <string name="go_to_chapter">Dute la capitolul…</string>
     <string name="current_chapter">Chapter: %s</string>
     <string name="confirm_resume">Reiau redarea de la ultima poziție?</string>
@@ -687,19 +649,7 @@
     <string name="show_in_settings">Afișează în setări</string>
 
 <!--    update-->
-    <string name="update_title">O actualizare disponibilă</string>
-    <string name="install_nightly_title">Instalează versiunea de noapte</string>
-    <string name="update_text">Este disponibilă o nouă lansare nocturnă a VLC pentru Android!\n\nVezi asta pentru că folosești o subversiune de noapte.</string>
-    <string name="install_text">Versiunile nocturne sunt actualizate automat în fiecare zi cu cele mai recente funcții și remedieri.</string>
 
-    <string name="open_in_browser">Deschide în browser</string>
-    <string name="install">Instalează</string>
-    <string name="install_nightly">Instalează versiunea de noapte</string>
-    <string name="install_nightly_alert">Subversiunile nocture sunt versiuni experimentale ce sunt actualizate zilnic.\n\nAșteptați-vă noi funcții, dar și la noi erori!</string>
-    <string name="nightly_version">S-a găsit versiunea: %2$s-%1$s</string>
-    <string name="update_nightly_alert">Rulezi o versiune nocturnă. Dorești să cauți periodic actualizări?</string>
-    <string name="update_nightly">Actualizare automată</string>
-    <string name="update_nightly_summary">Caută periodic actualizări nocturne</string>
 
 
     <!-- Accessibility -->
@@ -722,7 +672,6 @@
     <string name="allow_storage_access_description">VLC cere permisiunea pentru a accesa fișierele media de pe acest dispozitiv.</string>
     <string name="partial_content">VLC nu poate accesa toate fișierele dumneavoastră</string>
     <string name="partial_content_description">Începând cu Android 11, aplicațiile au nevoie de o permisiune specială pentru a accesa toate fișierele dispozitivului.\n\n\n%s</string>
-    <string name="never_ask_again">Să nu mai întrebi niciodată</string>
     <string name="never_show_again">Nu mai afișa niciodată, nici măcar pentru versiunile viitoare</string>
     <string name="allow_settings_access_ringtone_title">Permite programului VLC să stabilească tonul de apel</string>
     <string name="allow_settings_access_ringtone_description">VLC are nevoie de permisiune pentru a configura acest cântec ca ton de sonerie.</string>
@@ -878,7 +827,6 @@
     <string name="next">Următoarea</string>
     <string name="skip">Sari</string>
     <string name="next_step">Următorul</string>
-    <string name="download">Descărcați</string>
     <string name="ctx_player_video_track">Selectați pista video</string>
     <string name="ctx_player_audio_track">Pistă audio</string>
     <string name="ctx_player_subs_track">Pistă subtitluri</string>
@@ -980,25 +928,7 @@
     <string name="share_message">Aici este %s</string>
     <string name="share_track_info">Distribuie informațiile pistei</string>
     <string name="share_track">În prezent asculți %s</string>
-    <string name="find_metadata">Găsiți metadatele</string>
-    <string name="moviepedia_hint">Căutare metadate</string>
-    <string name="moviepedia_result">Rezultate video</string>
-    <string name="directed_by">Regizat de</string>
-    <string name="casting">Redare</string>
-    <string name="produced_by">Produs de</string>
-    <string name="written_by">Scris de </string>
-    <string name="music_by">Muzica de</string>
-    <string name="posters">Postere</string>
-    <string name="backdrops">Fundaluri</string>
-    <string name="header_tvshows">Filme seriale</string>
-    <string name="header_movies">Filme artistice</string>
-    <string name="season_number">Sezon %s</string>
-    <string name="resume_episode">Rezumare (%s)</string>
-    <string name="start_over">Începeți din nou</string>
-    <string name="next_episode">Următorul episod</string>
     <string name="open_network_settings">Deschideți setările de rețea?</string>
-    <string name="recently_played">Recent redate</string>
-    <string name="recently_added">Recent adăugate</string>
     <string name="playback_multiple_errors">Nu pot fi redate mai multe suporturi media</string>
     <string name="clear_media_db_message">Vă veți pierde progresele, marcajele și listele de redare pe care le-ați creat, dar veți păstra setările VLC pentru Android.</string>
     <string name="clear_app_data_message">Vă veți pierde progresele, marcajele, listele de redare și toate setările VLC</string>
@@ -1057,19 +987,11 @@
     <string name="sub_result_by_name_hearing_impaired">Doar cu deficiențe de auz</string>
 
     <string name="sub_result_by_file">Rezultatele pentru fișierul dvs.</string>
-    <string name="donate">Ajutor VLC</string>
-    <string name="donate_desc">Sprijină voluntarii care construiesc VLC</string>
-    <string name="donate_subscribtion">Aș dori ca aceasta să fie o sponsorizare lunară.</string>
-    <string name="donate_send">Începeți sponsorizarea dvs.</string>
-    <string name="donation_description">Sponsorizarea dumneavoastră ne va permite să:\nîmbunătățim aplicația VLC pentru Android\nSusținem Asociația VideoLAN</string>
     <string name="subscription_purchased">Sunteți abonat la o sponsorizare lunară</string>
     <string name="subscription_cancel">Vă puteți dezabona în Play Store</string>
     <string name="subscription_cancel_tv">Cum să vă dezabonați</string>
-    <string name="donate_unsubscribe_tv">Pentru a vă dezabona, vă rugăm să deschideți %s de pe un telefon sau de pe un computer sau scanați acest cod:</string>
-    <string name="tip_jar">Ajutor VLC</string>
     <string name="thank_you">Vă mulțumim.</string>
     <string name="thank_you_desc">Vă mulțumim pentru sponsorizare!\nNe va ajuta foarte mult să îmbunătățim VLC!</string>
-    <string name="donate_again">Sponsorizați din nou aplicația</string>
 
     <string name="mark_as_played">Marcați ca fiind jucat</string>
     <string name="mark_as_not_played">Marcați ca neredat</string>
@@ -1176,7 +1098,6 @@
     <string name="discovery_failed">Descoperirea a eșuat pentru: %s</string>
     <string name="lock_use_sensor_title">Blocaj cu senzor</string>
     <string name="lock_use_sensor_summary">Când orientarea este blocată, utilizați senzorul pentru a permite orientarea inversă.</string>
-    <string name="start">Start</string>
     <string name="notification_permission">Permisiune de notificare</string>
     <string name="notification_permission_explanation">VLC are nevoie de permisiunea ta pentru a trimite notificări.\nAplicația te va notifica numai când îți vei scana fișierele media sau când vei folosi videoclipuri personalizate de tip Imagine în imagine.\nRefuzul acesteia nu va împiedica funcționarea VLC, dar notificările vor fi ascunse.</string>
     <string name="permission">Permisiune</string>
@@ -1317,63 +1238,7 @@
     <string name="replace_playlist">Înlocuiește lista de redare</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Accesul la distanță e activ</string>
-    <string name="ra_remote_access">Acces la distanță</string>
-    <string name="ra_remote_access_description">Notificare privind starea accesului la distanță</string>
-    <string name="ra_log_file">Fișiere jurnal</string>
-    <string name="ra_log_type">Tip de jurnal</string>
-    <string name="ra_send_files">Trimite fișiere</string>
-    <string name="ra_not_in_foreground">Aplicația nu este în prim plan. Nu se poate lansa videoclipul.</string>
-    <string name="ra_disconnected">Deconectat de la dispozitiv</string>
-    <string name="ra_file">Fișier</string>
-    <string name="ra_upload_remaining">Se încarcă fișierele %s</string>
-    <string name="ra_upload_all">Încarcă tot</string>
-    <string name="ra_drop_files_tip">Plasează fișiere oriunde pentru a le trimite pe dispozitiv</string>
-    <string name="ra_prepare_download">Se pregătește descărcarea ta</string>
-    <string name="ra_forbidden">Conținutul e dezactivat din setări</string>
-    <string name="ra_playback_forbidden">Controlul de redare e dezactivat din setări</string>
-    <string name="ra_logs_forbidden">Partajarea jurnalelor este dezactivată în setări</string>
-    <string name="ra_code_requested_explanation">Pentru a-ți proteja serverul accesul e protejat.\nTe rugăm să introduci codul afișat în notificările tale</string>
-    <string name="ra_ssl_explanation_title">Desecurizează conexiunea</string>
-    <string name="ra_ssl_explanation">Conexiunea ta nu e sigură.</string>
-    <string name="ra_ssl_explanation_browser">Din cauza implementării de securitate a browser-ului, vei primi o alertă de securitate pe pagina următoare.</string>
-    <string name="ra_ssl_explanation_accept">Fii sigur că accepți certificatul pentru a putea folosi accesul la distanță</string>
-    <string name="ra_ssl_button">Folosește o conexiune securizată</string>
-    <string name="ra_new_code">Trimite un cod nou</string>
-    <string name="home">Acasă</string>
-    <string name="ra_code">Introdu acest cod: %s</string>
-    <string name="ra_send_logs">Salvează jurnalele pentru accesul la distanță pe dispozitiv</string>
-    <string name="ra_otp">Parolă de unică folosință pentru accesul la distanță</string>
-    <string name="ra_otp_description">Solicitare de acces pentru accesul la distanță</string>
-    <string name="ra_otp_title">Încercare de logare pentru accesul la distanță</string>
-    <string name="ra_otp_subtitle">Dacă ești tu, introdu codul pe alt dispozitiv</string>
-    <string name="ra_otp_not_me">Nu sunt eu</string>
-    <string name="ra_output">Ieșire audio</string>
-    <string name="ra_play_on_browser">Redă în browser</string>
-    <string name="ra_play_on_device">Redă pe dispozitiv</string>
-    <string name="ra_browser_audio_not_found">Conținut media nu a fost găsit sau nu poate fi redat în browser</string>
-    <string name="ra_browser_audio_unsupported_format">Acest format audio nu este acceptat de browserul tău.</string>
 
-    <string name="ra_onboarding_welcome_desc">Bun venit la accesul la distanță al lui VLC pentru Android\nPrin activarea acestuia, veți putea controla redarea acestui dispozitiv și multe altele</string>
-    <string name="ra_onboarding_how_title">Controlează-ți dispozitivul</string>
-    <string name="ra_onboarding_how_desc">Controlează redarea, trimiterea sau primirea de fișiere și mai multe funcții pe dispozitivul tău</string>
-    <string name="ra_onboarding_ssl_title">Criptare de date</string>
-    <string name="ra_onboarding_ssl_desc">Accesul de la distanță este criptat pentru a preveni scurgerea de datelor tale</string>
-    <string name="ra_onboarding_otp_title">Autentificare</string>
-    <string name="ra_onboarding_otp_desc">Cu autentificarea folosind o parolă de unică folosință, previne accesul nedorit la datele tale</string>
-    <string name="ra_onboarding_content_title">Acces la conținut</string>
-    <string name="ra_onboarding_content_desc">Alege ce poate fi accesat și ce nu</string>
-    <string name="ra_onboarding_content_ml">Accesul conținutului bibliotecii media</string>
-    <string name="ra_onboarding_content_files">Browser de fișiere</string>
-    <string name="ra_onboarding_content_playback">Controlează redarea</string>
-    <string name="ra_disable">Dezactivează</string>
-    <string name="ra_log_web">Jurnal de acces la distanță</string>
-    <string name="ra_log_crash">Jurnal de blocare</string>
-    <string name="ra_log_mobile">Jurnal de dispozitiv</string>
-    <string name="ra_log_current">Jurnale locale curente</string>
-    <string name="ra_invalid_login">Trebuie să te loghezi pe dispozitivul tău</string>
-    <string name="ra_invalid_otp">Codul furnizat e invalid</string>
-    <string name="learn_more">Află mai multe</string>
 
     <!-- car screens -->
     <string name="help">Ajutor</string>
@@ -1389,11 +1254,7 @@
     <string name="metered_warn">Avertizează-mă (avertismentul poate fi ratat pentru redarea audio)</string>
     <string name="metered_connection_stopped">Fișierul media s-a oprit deoarece conexiunea este măsurată</string>
     <string name="metered_connection_warning">Conexiunea dvs. este măsurată. Se pot aplica taxe.</string>
-    <string name="adding">Se adaugă</string>
-    <string name="to">la</string>
     <string name="device">Dispozitiv</string>
-    <string name="connected_device">Dispozitiv conectat</string>
-    <string name="model">Modelul dispozitivului</string>
     <string name="prefs_app_data">Datele aplicației</string>
     <string name="export_settings_summary">Exportă-ți setările într-un fișier ca să le imporți mai târziu</string>
     <string name="export_settings">Exportă setările</string>
@@ -1429,12 +1290,6 @@
     <string name="generating_logs">Se generează jurnalele. Te rugăm să aștepți.</string>
     <string name="default_playback_action">Acțiune de redare</string>
     <string name="files">Fișiere</string>
-    <string name="remote_access_feedback_generate">Generează un raport</string>
-    <string name="remote_access_feedback_generated">Raportul tău de feedback a fost generat</string>
-    <string name="remote_access_feedback_generated_explanation">Atinge butonul de mai jos pentru a-l trimite folosindu-ți clientul de e-mail implicit. Dacă întâmpini probleme, poți copia și lipi câmpurile de mai jos și îți poți trimite ție e-mailul.</string>
-    <string name="remote_access_feedback_file_explanation">Tocmai ai descărcat fișierul necesar. Te rugăm să nu uiți să îl atașezi la adresa ta de e-mail.</string>
-    <string name="generic_copied_to_clipboard">Copiat(ă) în clipboard</string>
     <string name="feedback_email_warning">Nu e instalat niciun client email</string>
-    <string name="feedback_email_warning_remote_action">Deschide setările</string>
     <string name="feedback_email_warning_try_anyway">Încearcă oricum</string>
     </resources>

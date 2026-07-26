@@ -346,12 +346,6 @@
     <string name="audio_ducking_title">Ísligh airde fuaime VLC nuair a fhaightear fógraí</string>
     <string name="audio_ducking_summary">Cabhraíonn sé sin chun fógraí fuaime, treoracha tiomána, nó caint ó chúntóir a chloisteáil</string>
     <string name="casting_category">Teilgean</string>
-    <string name="remote_access">Rochtain chianda</string>
-    <string name="remote_access_status">An chaoi ina bhfuil an freastalaí</string>
-    <string name="remote_access_connections">Ceangail</string>
-    <string name="remote_access_links">Naisc</string>
-    <string name="remote_access_content">Inneachar</string>
-    <string name="remote_access_medialibrary_content_summary">Cumasaithe: %1$s\nDíchumasaithe: %2$s</string>
     <string name="casting_switch_title">Teilgean gan sreang</string>
     <string name="casting_passthrough_title">Taisteal Tríd Fuaime</string>
     <string name="casting_passthrough_summary">Lig do do theilifíseán an fhuaim a oiriúnú</string>
@@ -444,7 +438,6 @@
     <string name="allow_storage_access_title">Lig do VLC físchomhaid agus comhaid fhuaime a rochtain</string>
     <string name="allow_storage_access_description">Caithfidh tú cead a thabhairt do VLC na comhaid mheáin ar an ngléas seo a rochtain.</string>
     <string name="partial_content">Ní féidir le VLC gach ceann do de chuid comhaid a rochtain</string>
-    <string name="never_ask_again">Ná fiafraigh riamh arís</string>
     <string name="never_show_again">Ná taispeáin é seo arís, fiú do leaganacha eile amach anseo.</string>
     <string name="allow_settings_access_ringtone_title">Lig do VLC an ghlaofhuaim a shocrú</string>
     <string name="allow_settings_access_ringtone_description">Ní mór duit cead a thabhairt do VLC chun an t-amhrán sin a shocrú mar do ghlaofhuaim.</string>
@@ -547,7 +540,6 @@
     <string name="next">Ar aghaidh</string>
     <string name="skip">Léim thar seo</string>
     <string name="next_step">Ar aghaidh</string>
-    <string name="download">Íosluchtaigh é</string>
     <string name="ctx_player_video_track">Roghnaigh an físrian</string>
     <string name="ctx_player_audio_track">Rian fuaime</string>
     <string name="ctx_player_subs_track">Rian fotheidil</string>
@@ -607,25 +599,7 @@
     <string name="invalid_file">Comhad neamhbhailí. Ní féidir é a chomhroinnt.</string>
     <string name="share_file">Comhroinn %s</string>
     <string name="share_message">Seo é %s</string>
-    <string name="find_metadata">Aimsigh meiteashonraí</string>
-    <string name="moviepedia_hint">Cuardaigh meiteashonraí</string>
-    <string name="moviepedia_result">Torthaí do na fiseáin</string>
-    <string name="directed_by">Arna stiúrtha ag</string>
-    <string name="casting">Roghnú aisteoirí</string>
-    <string name="produced_by">Arna léiriú ag</string>
-    <string name="written_by">Scríofa ag</string>
-    <string name="music_by">Ceol le</string>
-    <string name="posters">Póstaeir</string>
-    <string name="backdrops">Cúlbhrait</string>
-    <string name="header_tvshows">Cláir teilifíse</string>
-    <string name="header_movies">Scannáin</string>
-    <string name="season_number">Séasúr %s</string>
-    <string name="resume_episode">Atosaigh (%s)</string>
-    <string name="start_over">Tosaigh arís</string>
-    <string name="next_episode">An chéad eipeasóid eile</string>
     <string name="open_network_settings">Oscail socruithe an líonra?</string>
-    <string name="recently_played">A seinneadh le déanaí</string>
-    <string name="recently_added">A cuireadh leis le déanaí</string>
     <string name="playback_multiple_errors">Ní féidir iliomad meán a sheinm</string>
     <string name="clear">Glan</string>
     <string name="abrepeat_add_first_marker">Socraigh áit thosaigh</string>
@@ -676,12 +650,7 @@
     <string name="sub_result_by_name_season">Séasúr %s</string>
     <string name="sub_result_by_name_episode">Eipeasóid %s</string>
     <string name="sub_result_by_file">Torthaí do do chomhad</string>
-    <string name="donate">Cabhraigh le VLC</string>
-    <string name="donate_desc">Tacaigh leis na daoine atá ag tógáil VLC go deonach</string>
-    <string name="donate_send">Cuir tús le m\'urraíocht</string>
-    <string name="tip_jar">Cabhraigh le VLC</string>
     <string name="thank_you">Go raibh maith agat</string>
-    <string name="donate_again">Déan urraíocht arís ar an bhfeidhmchlár</string>
 
     <string name="mark_as_played">Sainigh mar sheinnte</string>
     <string name="mark_as_not_played">Rianaigh nach bhfuil sé seinnte</string>
@@ -724,7 +693,6 @@
     <string name="add_button">Cuir leis</string>
     <string name="add_all_button">Cuir gach ceann leis</string>
     <string name="add_new_only_button">Ná cuir ach cinn nua leis</string>
-    <string name="start">Tosaigh</string>
     <string name="permission">Cead</string>
     <string name="customize">Saincheap</string>
     <string name="selection_count">%d roghnaithe</string>
@@ -791,27 +759,7 @@
     <string name="talkback_display_settings">Taispeáin na socruithe</string>
     <string name="talkback_already_played">Seinnte cheana</string>
     <string name="show_only_favs">Taispeáin na ceanáin amháin</string>
-    <string name="ra_remote_access">Rochtain chianda</string>
-    <string name="ra_send_files">Seol comhaid</string>
-    <string name="ra_not_in_foreground">Níl an feidhmchlár sa tulra. Ní féidir an físeán a thosú.</string>
-    <string name="ra_disconnected">Dícheangailte ón ngléas</string>
-    <string name="ra_file">Comhad</string>
-    <string name="ra_upload_remaining">Tá %s chomhad á n-uasluchtú</string>
-    <string name="ra_upload_all">Uasluchtaigh uile iad</string>
-    <string name="ra_drop_files_tip">Scaoil na comhaid in áit ar bith chun iad a sheoladh chuig do ghléas</string>
-    <string name="ra_prepare_download">Tá d\'íosluchtú á ullmhú</string>
-    <string name="ra_ssl_explanation_title">Ceangal gan slándáil</string>
-    <string name="ra_ssl_explanation">Níl do cheangal slán.</string>
-    <string name="ra_new_code">Seol tagairt nua</string>
-    <string name="home">Baile</string>
-    <string name="ra_code">Cuir isteach an tagairt seo: %s</string>
-    <string name="ra_otp_not_me">Ní mise atá ann</string>
 
-    <string name="ra_onboarding_how_title">Rialaigh do ghléas</string>
-    <string name="ra_onboarding_otp_title">Fíordheimhniú</string>
-    <string name="ra_onboarding_content_playback">Rialú athsheanma</string>
-    <string name="ra_disable">Díchumasaigh é</string>
-    <string name="learn_more">Foghlaim tuilleadh faoi</string>
 
     <!-- car screens -->
     <string name="help">Cabhair</string>

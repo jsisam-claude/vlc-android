@@ -23,7 +23,6 @@ CACHE="${GRADLE_USER_HOME:-$HOME/.gradle}/caches/modules-2/files-2.1"
 [ -d "$CACHE" ] || { echo "no gradle cache at $CACHE — run a full build first"; exit 1; }
 
 mkdir -p "$MIRROR"
-count=0
 find "$CACHE" -type f | while read -r f; do
     rel=${f#"$CACHE"/}                      # group/artifact/version/<sha1>/file
     group=$(printf '%s' "$rel" | cut -d/ -f1 | tr . /)

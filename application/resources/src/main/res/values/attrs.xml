@@ -53,8 +53,6 @@
     <attr name="empty_button" format="reference" />
     <attr name="default_separator" format="color" />
     <attr name="card_border" format="color" />
-    <attr name="donate_card" format="color" />
-    <attr name="donate_item_background" format="reference" />
     <attr name="empty_foreground" format="color" />
     <attr name="empty_background" format="color" />
     <attr name="disabled_overlay_color" format="color" />
@@ -71,7 +69,6 @@
     <attr name="bottom_navigation_focus" format="color" />
     <attr name="primary_focus" format="color" />
     <attr name="scan_background" format="reference" />
-    <attr name="otp_code_background" format="reference" />
     <attr name="fast_scroller_bubble" format="reference" />
     <attr name="fast_scroller_handle" format="reference" />
     <attr name="empty_title" format="color" />

@@ -119,18 +119,6 @@
         <item quantity="many">%d відэа</item>
         <item quantity="other">%d відэа</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 відэа</item>
-        <item quantity="few">%d відэа</item>
-        <item quantity="many">%d відэа</item>
-        <item quantity="other">%d відэа</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 тэлеперадача</item>
-        <item quantity="few">%d тэлеперадачы</item>
-        <item quantity="many">%d тэлеперадач</item>
-        <item quantity="other">%d тэлеперадач</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 дарожка</item>
         <item quantity="few">%d дарожкі</item>
@@ -316,7 +304,6 @@
     <string name="screen_orientation_landscape_sensor">Альбомная (датчык)</string>
     <string name="screen_orientation_last_locked">Апошняя заблакіраваная арыентацыя</string>
     <string name="enable_black_theme">Чорная тэма</string>
-    <string name="dark_theme">Цёмная тэма</string>
     <string name="theme_auto">Аўтаматычна</string>
     <string name="subtitle_text_encoding">Кадзіроўка субтытраў</string>
     <string name="subtitle_preferred_language">Пажаданая мова субтытраў</string>
@@ -421,25 +408,6 @@
     <string name="audio_ducking_title">Памяншаць гучнасць VLC пры апавяшчэннях</string>
     <string name="audio_ducking_summary">Дазваляе лепш чуць гукавыя апавяшчэнні, інструкцыі навігатара, голас памочніка</string>
     <string name="casting_category">Трансляванне</string>
-    <string name="remote_access">Аддалены доступ</string>
-    <string name="remote_access_version_title">Версія аддаленага доступу</string>
-    <string name="remote_access_status">Стан сервера</string>
-    <string name="remote_access_status_summary">Націсніце, каб паглядзець стан сервера</string>
-    <string name="remote_access_connections">Злучэнні</string>
-    <string name="remote_access_links">Спасылкі</string>
-    <string name="remote_access_active">Аддалены доступ задзейнічаны</string>
-    <string name="remote_access_notification">Аддалены доступ задзейнічаны на %s</string>
-    <string name="remote_access_notification_stopped">Аддалены доступ спынены</string>
-    <string name="remote_access_notification_error">Памылка аддаленага доступу</string>
-    <string name="remote_access_notification_stopping">Спыненне аддаленага доступу</string>
-    <string name="remote_access_notification_not_init">Запуск аддаленага доступу</string>
-    <string name="enable_remote_access">Уключыць аддалены доступ</string>
-    <string name="remote_access_content">Змесціва</string>
-    <string name="remote_access_medialibrary_content">Змесціва медыятэкі</string>
-    <string name="remote_access_medialibrary_content_summary">Уключана: %1$s\nАдключана: %2$s</string>
-    <string name="remote_access_file_browser_content">Файлавы менеджар</string>
-    <string name="remote_access_network_browser_content">Сеткавы агляд</string>
-    <string name="remote_access_playback_control">Кіраванне прайграваннем</string>
     <string name="casting_switch_title">Бесправадное трансляванне</string>
     <string name="casting_conversion_quality_title">Якасць пераўтварэння</string>
     <string name="casting_conversion_quality_summary">Выберыце якасць пераўтварэння відэа пры трансляванні на аддалены экран</string>
@@ -549,7 +517,6 @@
     <string name="search_global">Пошук ва ўсёй медыятэцы</string>
     <string name="playlist_save">Захаваць плэйліст</string>
     <string name="playlist_name_hint">Назва плэйліста</string>
-    <string name="chapters">Раздзелы</string>
     <string name="go_to_chapter">Перайсці да раздзела…</string>
     <string name="current_chapter">Раздзел: %s</string>
     <string name="confirm_resume">Узнавіць прайграванне з апошняй пазіцыі?</string>
@@ -564,19 +531,7 @@
     <!--What's new-->
     <string name="whats_new_title">Што новага ў VLC для Android %s</string>
     <!--    update-->
-    <string name="update_title">Даступна абнаўленне</string>
-    <string name="install_nightly_title">Усталяваць начную зборку</string>
-    <string name="update_text">Даступны начны выпуск VLC для Android!\n\nВы бачыце гэта паведамленне, бо карыстаецеся начной зборкай.</string>
-    <string name="install_text">Начныя версіі з новымі магчымасцямі і выпраўленнямі штодзённа ствараюцца аўтаматычна. \n\nСпампаваць?</string>
 
-    <string name="open_in_browser">Адкрыць у менеджары файлаў</string>
-    <string name="install">Усталяваць</string>
-    <string name="install_nightly">Усталяваць начную зборку</string>
-    <string name="install_nightly_alert">Начныя зборкі — гэта эксперыментальныя версіі, якія абнаўляюцца штодзённа.\n\nСустракайце новыя функцыі, а таксама новыя памылкі!</string>
-    <string name="nightly_version">Знойдзена версія: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Запушчана начная версія праграмы. Хочаце, каб рэгулярна правяралася наяўнасць абнаўленняў?</string>
-    <string name="update_nightly">Аўтаабнаўленне</string>
-    <string name="update_nightly_summary">Правяраць наяўнасць абнаўленняў для начных зборак</string>
 
 
     <!-- Accessibility -->
@@ -594,7 +549,6 @@
     <string name="widget_old_description_start">Добрыя навіны! Мы выпусцілі палепшаныя віджэты.\nПавысілася хуткасць узаемадзеяння і больш налад выгляду</string>
     <string name="whats_next">Што далей?</string>
     <string name="click_here">Націсніце, каб даведацца больш.</string>
-    <string name="never_ask_again">Больш не пытаць</string>
     <string name="never_show_again">Больш ніколі не паказваць, нават у новых версіях</string>
     <string name="allow_settings_access_ringtone_title">Дазволіць VLC змяняць мелодыю выкліку</string>
     <string name="allow_settings_access_brightness_title">Дазволіць VLC змяняць рэжым яркасці</string>
@@ -714,7 +668,6 @@
     <string name="next">Далей</string>
     <string name="skip">Прапусціць</string>
     <string name="next_step">Далей</string>
-    <string name="download">Спампаваць</string>
     <string name="ctx_player_video_track">Відэадарожка</string>
     <string name="ctx_player_audio_track">Аўдыядарожка</string>
     <string name="ctx_player_subs_track">Дарожка субтытраў</string>
@@ -786,16 +739,6 @@
     <string name="invalid_file">Памылковы файл. Немагчыма абагуліць.</string>
     <string name="share_file">Абагуліць %s</string>
     <string name="share_track_info">Абагуліць звесткі дарожкі</string>
-    <string name="moviepedia_hint">Пошук метаданых</string>
-    <string name="directed_by">Рэжысёр</string>
-    <string name="casting">Трансляванне</string>
-    <string name="written_by">Сцэнарыст</string>
-    <string name="header_tvshows">Тэлеперадачы</string>
-    <string name="header_movies">Фільмы</string>
-    <string name="season_number">Сезон %s</string>
-    <string name="resume_episode">Узнавіць (%s)</string>
-    <string name="start_over">Запусціць спачатку</string>
-    <string name="next_episode">Наступная серыя</string>
     <string name="open_network_settings">Адкрыць сеткавыя налады?</string>
     <string name="clear">Ачысціць</string>
     <string name="abrepeat_add_first_marker">Задаць пачатковы пункт</string>
@@ -845,12 +788,6 @@
     <string name="sub_result_by_name">Вынікі для %s</string>
     <string name="sub_result_by_name_season">Сезон %s</string>
     <string name="sub_result_by_name_episode">Серыя %s</string>
-    <string name="donate">Дапамагчы VLC</string>
-    <string name="donate_desc">Падтрымайце добраахвотнікаў, якія ствараюць VLC</string>
-    <string name="donate_subscribtion">Хачу рабіць ўнёсак штомесяц</string>
-    <string name="donate_send">Зрабіць грашовы ўнёсак</string>
-    <string name="donation_description">Ваш грашовы ўнёсак дазволіць нам:\nПаляпшаць VLC для Android\nПадтрымліваць VideoLAN Association</string>
-    <string name="tip_jar">Дапамагчы VLC</string>
     <string name="thank_you">Дзякуй</string>
     <string name="mark_as_played">Пазначыць як прагледжанае</string>
     <string name="mark_as_not_played">Пазначыць як непрагледжанае</string>
@@ -1049,34 +986,7 @@
     <string name="replace_playlist">Замяніць плэйліст</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Аддалены доступ задзейнічаны</string>
-    <string name="ra_remote_access">Аддалены доступ</string>
-    <string name="ra_log_file">Файлы журнала</string>
-    <string name="ra_log_type">Тып журнала</string>
-    <string name="ra_send_files">Адправіць файлы</string>
-    <string name="ra_not_in_foreground">Праграма выконваецца не ў фоне. Немагчыма запусціць відэа.</string>
-    <string name="ra_disconnected">Адлучаны ад прылады</string>
-    <string name="ra_file">Файл</string>
-    <string name="ra_upload_all">Запампаваць усе</string>
-    <string name="ra_forbidden">Змесціва адключана ў наладах</string>
-    <string name="ra_ssl_explanation_title">Небяспечнае злучэнне</string>
-    <string name="ra_ssl_explanation">Ваша злучэнне не з\'яўляецца бяспечным.</string>
-    <string name="ra_ssl_button">Выкарыстоўваць бяспечнае злучэнне</string>
-    <string name="ra_new_code">Адправіць новы код</string>
-    <string name="home">Хатняя</string>
-    <string name="ra_code">Увядзіце код: %s</string>
-    <string name="ra_otp">Аднаразовы пароль аддаленага доступу</string>
-    <string name="ra_otp_subtitle">Калі гэта вы, увядзіце код на другой прыладзе</string>
-    <string name="ra_otp_not_me">Гэта не я</string>
 
-    <string name="ra_onboarding_ssl_title">Шыфраванне даных</string>
-    <string name="ra_onboarding_otp_title">Аўтэнтыфікацыя</string>
-    <string name="ra_onboarding_content_title">Доступ да змесціва</string>
-    <string name="ra_onboarding_content_files">Файлавы менеджар</string>
-    <string name="ra_onboarding_content_playback">Кіраванне прайграваннем</string>
-    <string name="ra_disable">Адключыць</string>
-    <string name="ra_log_web">Журнал аддаленага доступу</string>
-    <string name="learn_more">Даведацца больш</string>
 
     <!-- car screens -->
     <string name="help">Даведка</string>
@@ -1088,8 +998,6 @@
     <string name="metered_do_nothing">Нічога не рабіць</string>
     <string name="metered_stop">Спыніць прайграванне</string>
     <string name="device">Прылада</string>
-    <string name="connected_device">Падлучаная прылада</string>
-    <string name="model">Мадэль прылады</string>
     <string name="prefs_app_data">Даныя праграмы</string>
     <string name="export_settings_summary">Экспартаваць налады ў файл, каб імпартаваць іх у будучыні</string>
     <string name="export_settings">Экспартаваць налады</string>

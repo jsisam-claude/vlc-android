@@ -113,14 +113,6 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videoer</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="other">%d film</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV-udsendelse</item>
-        <item quantity="other">%d TV-udsendelser</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 spor</item>
         <item quantity="other">%d spor</item>
@@ -214,8 +206,6 @@
     <string name="wait_before_sleep">Vent først på afslutning af nuværende medie</string>
     <string name="reset_on_interaction">Nulstil ved enhver interaktion</string>
     <string name="default_sleep_timer_summary">%1$s, afvent medieafslutning: %2$s, nulstil ved interaktion: %3$s</string>
-    <string name="video_player_remote">Videoafspillerfjernbetjening</string>
-    <string name="remote_keyboard_navigation">Tastaturnavigation</string>
 
     <string name="server_add_title">Tilføj en ny server til favoritter</string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
@@ -338,7 +328,6 @@
     <string name="screen_orientation_landscape_sensor">Landskab (sensor)</string>
     <string name="screen_orientation_last_locked">Sidst låste retning</string>
     <string name="enable_black_theme">Sort tema</string>
-    <string name="dark_theme">Mørkt tema</string>
     <string name="theme_auto">Autotema</string>
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="subtitle_preferred_language">Foretrukket undertekstsprog</string>
@@ -480,29 +469,6 @@
     <string name="audio_ducking_title">Lavere VLC-lydstyrke ved notifikationer</string>
     <string name="audio_ducking_summary">Hjælper med at høre lydnotifikationer, navigationsinstruktioner eller assisterende tale</string>
     <string name="casting_category">Udsendelse</string>
-    <string name="remote_access">Fjernadgang</string>
-    <string name="remote_access_version_title">Fjernadgangsversion</string>
-    <string name="remote_access_hash_title">Fjernadgangshashværdi</string>
-    <string name="remote_access_status">Serverstatus</string>
-    <string name="remote_access_status_summary">Tryk for at se serverstatus</string>
-    <string name="remote_access_connections">Forbindelser</string>
-    <string name="remote_access_links">Links</string>
-    <string name="remote_access_active">Fjernadgang aktiv</string>
-    <string name="remote_access_notification">Fjernadgang aktiv på %s</string>
-    <string name="remote_access_notification_stopped">Fjernadgang stoppet</string>
-    <string name="remote_access_notification_connecting">Fjernadgang forbinder</string>
-    <string name="remote_access_notification_error">Fjernadgangsfejl</string>
-    <string name="remote_access_notification_stopping">Fjernadgang stopper</string>
-    <string name="remote_access_notification_not_init">Fjernadgang initialiserer</string>
-    <string name="enable_remote_access">Slå fjernadgang til</string>
-    <string name="remote_access_info">Fjernadgang info</string>
-    <string name="remote_access_content">Indhold</string>
-    <string name="remote_access_medialibrary_content">Mediebiblioteksindhold</string>
-    <string name="remote_access_medialibrary_content_summary">Slået til: %1$s\nSlået fra: %2$s</string>
-    <string name="remote_access_file_browser_content">Fil-browser</string>
-    <string name="remote_access_network_browser_content">Netværksbrowser</string>
-    <string name="remote_access_playback_control">Kontrollér afspilning</string>
-    <string name="remote_access_logs">Del logfiler</string>
     <string name="casting_switch_title">Trådløs udsending</string>
     <string name="casting_passthrough_title">Lydgennemsendelse</string>
     <string name="casting_passthrough_summary">Lad dit tv håndtere lydrendering</string>
@@ -631,8 +597,6 @@
     <string name="search_global">Søg i alle mediebiblioteker</string>
     <string name="playlist_save">Gem afspilningsliste</string>
     <string name="playlist_name_hint">Afspilningslistenavn</string>
-    <string name="chapters">Afsnit</string>
-    <string name="notset">Ikke sat</string>
     <string name="go_to_chapter">Gå til kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Genoptag fra sidste position?</string>
@@ -647,19 +611,7 @@
     <!--What's new-->
     <string name="whats_new_title">Hvad er nyt i VLC til Android %s</string>
     <!--    update-->
-    <string name="update_title">Tilgængelig opdatering</string>
-    <string name="install_nightly_title">Installér natlig version</string>
-    <string name="update_text">Der er en ny natlig version af VLC til Android tilgængelig!\n\nDu ser denne besked, fordi du anvender en natlig version.</string>
-    <string name="install_text">Natlige versioner opdateres automatisk hver dag med de nyeste funktioner og rettelser.\n\nHent nu?</string>
 
-    <string name="open_in_browser">Åbn i browser</string>
-    <string name="install">Installér</string>
-    <string name="install_nightly">Installér natlig version</string>
-    <string name="install_nightly_alert">Natlige versioner er eksperimentelle versioner opdateret hver eneste dag.\n\nForvent nye funktioner. Forvent nye fejl!</string>
-    <string name="nightly_version">Fundet version: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Du bruger en natlig version. Vil du periodisk se efter opdateringer?</string>
-    <string name="update_nightly">Automatisk opdatering</string>
-    <string name="update_nightly_summary">Søg periodisk efter opdatering til natlig version</string>
 
 
     <!-- Accessibility -->
@@ -682,7 +634,6 @@
     <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
     <string name="partial_content">VLC kan ikke tilgå alle filer</string>
     <string name="partial_content_description">Fra Android 11 skal applikationer have særlig tilladelse for at få adgang til alle enhedens filer.\n\n%s</string>
-    <string name="never_ask_again">Spørg ikke igen</string>
     <string name="never_show_again">Vis det aldrig igen, heller ikke i fremtidige versioner</string>
     <string name="allow_settings_access_ringtone_title">Tillad at VLC angiver ringetonen</string>
     <string name="allow_settings_access_ringtone_description">VLC kræver at du giver rettigheder til at angive denne sang som din ringetone.</string>
@@ -838,7 +789,6 @@
     <string name="next">Næste</string>
     <string name="skip">Spring over</string>
     <string name="next_step">Næste</string>
-    <string name="download">Download</string>
     <string name="ctx_player_video_track">Vælg videospor</string>
     <string name="ctx_player_audio_track">Lydspor</string>
     <string name="ctx_player_subs_track">Undertekstspor</string>
@@ -938,25 +888,7 @@
     <string name="share_message">Her er %s</string>
     <string name="share_track_info">Del sporets info</string>
     <string name="share_track">Lytter nu til %s</string>
-    <string name="find_metadata">Find metadata</string>
-    <string name="moviepedia_hint">Søg efter metadata</string>
-    <string name="moviepedia_result">Videoresultater</string>
-    <string name="directed_by">Instrueret af</string>
-    <string name="casting">Casting</string>
-    <string name="produced_by">Produceret af</string>
-    <string name="written_by">Skrevet af</string>
-    <string name="music_by">Musik af</string>
-    <string name="posters">Plakater</string>
-    <string name="backdrops">Baggrunde</string>
-    <string name="header_tvshows">TV-udsendelser</string>
-    <string name="header_movies">Film</string>
-    <string name="season_number">Sæson %s</string>
-    <string name="resume_episode">Genoptag (%s)</string>
-    <string name="start_over">Start forfra</string>
-    <string name="next_episode">Næste episode</string>
     <string name="open_network_settings">Åbn netværksindstillinger?</string>
-    <string name="recently_played">Afspillet for nylig</string>
-    <string name="recently_added">Tilføjet for nylig</string>
     <string name="playback_multiple_errors">Flere medier kan ikke afspilles</string>
     <string name="clear_media_db_message">Du mister information om, hvor langt du er kommet, bogmærker og afspilningslister, du har fremstillet, men du beholder VLC android-indstillinger</string>
     <string name="clear_app_data_message">Du mister information om, hvor langt du er kommet, bogmærker, afspilningslister og alle VLC-indstillinger</string>
@@ -1015,19 +947,11 @@
     <string name="sub_result_by_name_hearing_impaired">Kun for hørehæmmede</string>
 
     <string name="sub_result_by_file">Resultater for din fil</string>
-    <string name="donate">Hjælp VLC</string>
-    <string name="donate_desc">Støt de frivillige som bygger VLC</string>
-    <string name="donate_subscribtion">Jeg ønsker, det skal være et månedligt sponsorat</string>
-    <string name="donate_send">Start sponsorat</string>
-    <string name="donation_description">Sponsoratet vil tillade os at :\nForbedre VLC programmet til Android\nStøtte VideoLAN foreningen</string>
     <string name="subscription_purchased">Du er tilmeldt et månedligt sponsorat </string>
     <string name="subscription_cancel">Man kan afmelde i Play Butikken</string>
     <string name="subscription_cancel_tv">Hvordan man afmelder</string>
-    <string name="donate_unsubscribe_tv">For at afmelde åben %s på en telefon eller computer eller skan denne kode:</string>
-    <string name="tip_jar">Hjælp VLC</string>
     <string name="thank_you">Tak</string>
     <string name="thank_you_desc">Tak for sponsoratet!\nDet vil hjælpe til forbedring af VLC!</string>
-    <string name="donate_again">Sponsorér programmet igen</string>
 
     <string name="mark_as_played">Marker som afspillet</string>
     <string name="mark_as_not_played">Markér som ikke afspillet</string>
@@ -1128,7 +1052,6 @@
     <string name="discovery_failed">Opdagelse slog fejl for: %s</string>
     <string name="lock_use_sensor_title">Lås med sensor</string>
     <string name="lock_use_sensor_summary">Når orienteringen er låst, kan sensoren bruges til at tillade at vende orienteringen.</string>
-    <string name="start">Start</string>
     <string name="notification_permission">Notifikationstilladelse</string>
     <string name="notification_permission_explanation">VLC har brug for din tilladelse til at sende notifikationer.\nApp\'en vil kun notificere dig, når dine medier skannes eller under anvendelse af den brugertilpassede video Billede i Billede.\nSiger du nej, vil VLC fortsat fungere, men notifikationer vil være skjult.</string>
     <string name="permission">Tilladelse</string>
@@ -1267,58 +1190,7 @@
     <string name="replace_playlist">Erstat afspilningsliste</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Fjernadgang er slået til</string>
-    <string name="ra_remote_access">Fjernadgang</string>
-    <string name="ra_remote_access_description">Fjernadgangstilstandsnotifikation</string>
-    <string name="ra_log_file">Logfiler</string>
-    <string name="ra_log_type">Logtype</string>
-    <string name="ra_send_files">Send filer</string>
-    <string name="ra_not_in_foreground">Applikationen er ikke i forgrunden. Kan ikke starte video.</string>
-    <string name="ra_disconnected">Ikke tilsluttet til enhed</string>
-    <string name="ra_file">Fil</string>
-    <string name="ra_upload_remaining">Uploader %s filer</string>
-    <string name="ra_upload_all">Upload alt</string>
-    <string name="ra_drop_files_tip">Drop filer for at sende dem til din enhed</string>
-    <string name="ra_prepare_download">Forbereder din download</string>
-    <string name="ra_forbidden">Indhold slået fra i indstillingerne</string>
-    <string name="ra_playback_forbidden">Forældrekontrol slået fra i indstillingerne</string>
-    <string name="ra_logs_forbidden">Logdeling slået fra i indstillingerne</string>
-    <string name="ra_code_requested_explanation">For at beskytte din server er der beskyttet adgang.\nIndtast koden vist i dine notifikationer</string>
-    <string name="ra_ssl_explanation_title">Usikker forbindelse</string>
-    <string name="ra_ssl_explanation">Din forbindelse er ikke sikker.</string>
-    <string name="ra_ssl_explanation_browser">På grund af browserens sikkerhedsimplementering vil du få en sikkerhedsadvarsel på næste side.</string>
-    <string name="ra_ssl_explanation_accept">Acceptér certifikatet så du kan anvende fjernadgang.</string>
-    <string name="ra_ssl_button">Brug en sikker forbindelse</string>
-    <string name="ra_new_code">Send en ny kode</string>
-    <string name="home">Hjem</string>
-    <string name="ra_code">Indtast denne kode: %s</string>
-    <string name="ra_send_logs">Gem fjernadgangslog på enheden</string>
-    <string name="ra_otp">Engangskode til fjernadgang</string>
-    <string name="ra_otp_description">Adgangsønsker til fjernadgang</string>
-    <string name="ra_otp_title">Fjernadgangsloginforsøg</string>
-    <string name="ra_otp_subtitle">Hvis det er dig, så indtast denne kode på den anden enhed</string>
-    <string name="ra_otp_not_me">Det er ikke mig</string>
 
-    <string name="ra_onboarding_welcome_desc">Velkommen til VLC fjernadgang\nVed at slå det til bliver du i stand til at kontrollere enhedens afspilning og meget mere</string>
-    <string name="ra_onboarding_how_title">Kontrollér din enhed</string>
-    <string name="ra_onboarding_how_desc">Kontrollér din enhedsafspilning, send eller modtag filer og meget mere</string>
-    <string name="ra_onboarding_ssl_title">Datakryptering</string>
-    <string name="ra_onboarding_ssl_desc">Fjernadgang er krypteret for at forhindre datalæk</string>
-    <string name="ra_onboarding_otp_title">Autentifikation</string>
-    <string name="ra_onboarding_otp_desc">Via engangskodeordsautentifikation kan du forhindre uønsket adgang til dine data</string>
-    <string name="ra_onboarding_content_title">Indholdsadgang</string>
-    <string name="ra_onboarding_content_desc">Vælg hvad der kan og ikke kan tilgås</string>
-    <string name="ra_onboarding_content_ml">Mediebiblioteksindholdsadgang</string>
-    <string name="ra_onboarding_content_files">Filbrowser</string>
-    <string name="ra_onboarding_content_playback">Afspilningskontrol</string>
-    <string name="ra_disable">Slå fra</string>
-    <string name="ra_log_web">Fjernadgangslog</string>
-    <string name="ra_log_crash">Nedbrudslog</string>
-    <string name="ra_log_mobile">Enhedslog</string>
-    <string name="ra_log_current">Opdaterede lokale logs</string>
-    <string name="ra_invalid_login">Du skal logge på din enhed</string>
-    <string name="ra_invalid_otp">Ugyldig kode</string>
-    <string name="learn_more">Lær mere</string>
 
     <!-- car screens -->
     <string name="help">Hjælp</string>
@@ -1334,11 +1206,7 @@
     <string name="metered_warn">Advar mig (advarslen kan overses ved lydafspilning)</string>
     <string name="metered_connection_stopped">Medie stoppede da forbindelsen koster per forbrug</string>
     <string name="metered_connection_warning">Din forbindelse koster per forbrug. Det kan give udgifter.</string>
-    <string name="adding">Tilføjer</string>
-    <string name="to">til</string>
     <string name="device">Enhed</string>
-    <string name="connected_device">Tilsluttet enhed</string>
-    <string name="model">Model for enhed</string>
     <string name="prefs_app_data">Applikationsdata</string>
     <string name="export_settings_summary">Eksportér dine indstillinger til en fil for at importere dem på et senere tidspunkt</string>
     <string name="export_settings">Eksportér indstillinger</string>
@@ -1373,12 +1241,6 @@
     <string name="generating_logs">Opretter log. Vent venligst. AllerVenligst!</string>
     <string name="default_playback_action">Afspilningshandling</string>
     <string name="files">Filer</string>
-    <string name="remote_access_feedback_generate">Opret rapport</string>
-    <string name="remote_access_feedback_generated">Din feedbackrapport er oprettet</string>
-    <string name="remote_access_feedback_generated_explanation">Tap på knappen herunder for at sende med din standard mailklient. Ved fejl kopiér felterne herunder og send emailen manuelt.</string>
-    <string name="remote_access_feedback_file_explanation">Du har hentet den nødvendige fil. Husk at vedhæfte den til din email.</string>
-    <string name="generic_copied_to_clipboard">Kopieret til udklipsholder</string>
     <string name="feedback_email_warning">Ingen emailklient er installeret</string>
-    <string name="feedback_email_warning_remote_action">Åbn indstillingerne</string>
     <string name="feedback_email_warning_try_anyway">Prøv alligevel</string>
     </resources>

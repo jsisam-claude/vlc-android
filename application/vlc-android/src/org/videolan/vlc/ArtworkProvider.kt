@@ -121,7 +121,6 @@ class ArtworkProvider : ContentProvider() {
                 Log.d(TAG, "openFile() Time: ${getTimestamp()} URI: $uri " +
                         "Thread: ${Thread.currentThread().name} Caller: $callingPackage")
             }
-            val bigVariant = uri.getQueryParameter(BIG_VARIANT)  == "1"
             //retrieve thumbnails.
             when (uriSegments[0]) {
                 HISTORY -> getPFDFromByteArray(getHistory(ctx))
@@ -129,8 +128,8 @@ class ArtworkProvider : ContentProvider() {
                 SHUFFLE_ALL -> getPFDFromByteArray(getShuffleAll(ctx))
                 VIDEO -> getMediaImage(ctx, ContentUris.parseId(uri), false)
                 MEDIA -> getMediaImage(ctx, ContentUris.parseId(uri))
-                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri), false, bigVariant)
-                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri), false, bigVariant)
+                ALBUM -> getCategoryImage(ctx, ALBUM, ContentUris.parseId(uri))
+                ARTIST -> getCategoryImage(ctx, ARTIST, ContentUris.parseId(uri))
                 REMOTE -> getRemoteImage(ctx, uri.getQueryParameter(PATH))
                 GENRE -> getGenreImage(ctx, ContentUris.parseId(uri))
                 PLAYLIST -> getPlaylistImage(ctx, ContentUris.parseId(uri))
@@ -172,7 +171,7 @@ class ArtworkProvider : ContentProvider() {
      * getMediaImage in that results are not cached since AA is the only consumer and Glide within
      * AA performs caching.
      */
-    private fun getCategoryImage(context: Context, category: String, id: Long, forRemote:Boolean = false, bigVariant:Boolean = true): ParcelFileDescriptor {
+    private fun getCategoryImage(context: Context, category: String, id: Long): ParcelFileDescriptor {
         val mw: MediaLibraryItem? = runBlocking(Dispatchers.IO) {
             when (category) {
                 ALBUM -> context.getFromMl { getAlbum(id) }
@@ -195,8 +194,8 @@ class ArtworkProvider : ContentProvider() {
             }?.let { return@getCategoryImage getPFDFromByteArray(it) }
         }
         val unknownIcon = when (category) {
-            ALBUM -> if (forRemote) if (bigVariant) R.drawable.ic_remote_album_unknown_big else R.drawable.ic_remote_album_unknown else R.drawable.ic_auto_album_unknown
-            ARTIST -> if (forRemote) if (bigVariant) R.drawable.ic_remote_artist_unknown_big else R.drawable.ic_remote_artist_unknown else R.drawable.ic_auto_artist_unknown
+            ALBUM -> R.drawable.ic_auto_album_unknown
+            ARTIST -> R.drawable.ic_auto_artist_unknown
             else -> R.drawable.ic_auto_nothumb
         }
         return getPFDFromBitmap(context.getBitmapFromDrawable(unknownIcon))
@@ -531,7 +530,6 @@ class ArtworkProvider : ContentProvider() {
     companion object {
 
         const val PATH = "path"
-        const val BIG_VARIANT = "big_variant"
         const val ALBUM = "album"
         const val GENRE = "genre"
         const val VIDEO = "video"

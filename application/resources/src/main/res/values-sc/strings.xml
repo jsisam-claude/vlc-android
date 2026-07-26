@@ -125,14 +125,6 @@
         <item quantity="one">1 vìdeu</item>
         <item quantity="other">%d vìdeos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="other">%d films</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 programma televisivu</item>
-        <item quantity="other">%d programmas televisivos</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 rasta</item>
         <item quantity="other">%d rastas</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">In antis iseta chi s\'elementu multimediale atuale agabbet</string>
     <string name="reset_on_interaction">Reseta a cada interatzione</string>
     <string name="default_sleep_timer_summary">%1$s, iseta sa fine de su mèdiu: %2$s, reseta a cada interatzione: %3$s</string>
-    <string name="video_player_remote">Telecumandu de su letore vìdeu</string>
-    <string name="remote_keyboard_navigation">Navigatzione dae tecladu</string>
 
     <string name="server_add_title">Annanghe unu server nou a sos preferidos</string>
     <string name="server_domain_hint">Indiritzu server (nùmene domìniu o IP)</string>
@@ -358,7 +348,6 @@
     <string name="screen_orientation_landscape_sensor">Orizontale (sensore)</string>
     <string name="screen_orientation_last_locked">Ùrtimu orientamentu blocadu</string>
     <string name="enable_black_theme">Abìlita su tema iscuru</string>
-    <string name="dark_theme">Tema iscuru</string>
     <string name="theme_auto">Tema automàticu</string>
     <string name="subtitle_text_encoding">Codìfica de su testu de sos sutatìtulos</string>
     <string name="subtitle_preferred_language">Limba preferida de sos sutatìtulos</string>
@@ -503,29 +492,6 @@
     <string name="audio_ducking_title">Volume de VLC prus bassu in casu de notìficas</string>
     <string name="audio_ducking_summary">Agiudat a intendere sas notìficas àudio, sas istrutziones chistionadas de navigatzione o assistèntzia</string>
     <string name="casting_category">Trasmissione</string>
-    <string name="remote_access">Atzessu remotu</string>
-    <string name="remote_access_version_title">Versione de atzessu remotu</string>
-    <string name="remote_access_hash_title">Hash de atzessu remotu</string>
-    <string name="remote_access_status">Istadu de su serbidore</string>
-    <string name="remote_access_status_summary">Toca pro bìdere s\'istadu de su serbidore</string>
-    <string name="remote_access_connections">Connessiones</string>
-    <string name="remote_access_links">Ligàmenes</string>
-    <string name="remote_access_active">Atzessu remotu ativu</string>
-    <string name="remote_access_notification">Atzessu remotu ativu in %s</string>
-    <string name="remote_access_notification_stopped">Atzessu remotu firmadu</string>
-    <string name="remote_access_notification_connecting">Atzessu remotu in connessione</string>
-    <string name="remote_access_notification_error">Errore de atzessu remotu</string>
-    <string name="remote_access_notification_stopping">Atzessu remotu in fase de firmada</string>
-    <string name="remote_access_notification_not_init">Atzessu remotu inizializende</string>
-    <string name="enable_remote_access">Abìlita s\'atzessu remotu</string>
-    <string name="remote_access_info">Informatziones de atzessu remotu</string>
-    <string name="remote_access_content">Cuntenutos</string>
-    <string name="remote_access_medialibrary_content">Cuntenutos sa biblioteca multimediale</string>
-    <string name="remote_access_medialibrary_content_summary">Abilitadu: %1$s\nDisabilitadu: %2$s</string>
-    <string name="remote_access_file_browser_content">Esploradore de documentos</string>
-    <string name="remote_access_network_browser_content">Navigadore de retza</string>
-    <string name="remote_access_playback_control">Controlla sa riprodutzione</string>
-    <string name="remote_access_logs">Cumpartzi documentos de registru</string>
     <string name="casting_switch_title">Trasmissione chene filos</string>
     <string name="casting_passthrough_title">Coladòrgiu àudio</string>
     <string name="casting_passthrough_summary">Permiti a su televisore tuo de gestire sa renderizatzione àudio</string>
@@ -655,8 +621,6 @@
     <string name="search_global">Chirca in totu sa biblioteca multimediale</string>
     <string name="playlist_save">Sarva s\'iscalita</string>
     <string name="playlist_name_hint">Nùmene de s\'iscalita</string>
-    <string name="chapters">Capìtulos</string>
-    <string name="notset">No impostadu</string>
     <string name="go_to_chapter">Bae a su capìtulu…</string>
     <string name="current_chapter">Capìtulu: %s</string>
     <string name="confirm_resume">Cheres sighire dae s\'ùrtima positzione?</string>
@@ -676,19 +640,7 @@
     <string name="show_in_settings">Ammustra in sas impostatziones</string>
 
 <!--    update-->
-    <string name="update_title">Atualizatzione a disponimentu</string>
-    <string name="install_nightly_title">Installa sa versione de isvilupu</string>
-    <string name="update_text">B\'at una versione de isvilupu de VLC pro Android noa a disponimentu!n\nSes bidende custu ca ses impreende una versione de isvilupu.</string>
-    <string name="install_text">Sas versiones de isvilupu benint agiornadas in automàticu cada die cun sas ùrtimas funtzionalidades e sos ùrtimos acontzos.\n\nLa boles iscarrigare como?</string>
 
-    <string name="open_in_browser">Aberi in su navigadore</string>
-    <string name="install">Installa</string>
-    <string name="install_nightly">Installa sa versione de isvilupu</string>
-    <string name="install_nightly_alert">Sas versiones de isvilupu sunt versiones isperimentales annoadas cada die.\n\nIseta·ti funtzionalidades noas ma fintzas faddinas noas!</string>
-    <string name="nightly_version">Versione atzapada: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Ses impreende una versione de isvilupu. Boles chircare atualizatziones in manera periòdica?</string>
-    <string name="update_nightly">Atualizatzione automàtica</string>
-    <string name="update_nightly_summary">Chirca atualizatziones de sa versione de isvilupu in manera periòdica</string>
 
 
     <!-- Accessibility -->
@@ -711,7 +663,6 @@
     <string name="allow_storage_access_description">VLC tenet bisòngiu de custu permissu pro atzèdere a sos documentos multimediales in custu dispositivu.</string>
     <string name="partial_content">VLC non podet atzèdere a totu sos documentos tuos</string>
     <string name="partial_content_description">A partire dae Android 11, sas aplicatziones tenent bisòngiu de unu permissu ispetziale pro atzèdere a totu sos documentos de su dispositivos.\n\n%s</string>
-    <string name="never_ask_again">Non torres a pedire prus</string>
     <string name="never_show_again">Non mustres prus, nemmancu pro sas versiones imbenientes</string>
     <string name="allow_settings_access_ringtone_title">Permiti a VLC de impostare sa soneria</string>
     <string name="allow_settings_access_ringtone_description">VLC tenet bisòngiu de custu permissu pro  impostare custu branu comente soneria.</string>
@@ -867,7 +818,6 @@
     <string name="next">Imbeniente</string>
     <string name="skip">Brinca</string>
     <string name="next_step">Imbeniente</string>
-    <string name="download">Iscàrriga</string>
     <string name="ctx_player_video_track">Seletziona una rasta vìdeo</string>
     <string name="ctx_player_audio_track">Rasta àudio</string>
     <string name="ctx_player_subs_track">Rasta de sutatìtulos</string>
@@ -967,25 +917,7 @@
     <string name="share_message">Inoghe b\'at %s</string>
     <string name="share_track_info">Cumpartzi sas informatziones de sa rasta</string>
     <string name="share_track">Como ascurtende %s</string>
-    <string name="find_metadata">Agata metadatos</string>
-    <string name="moviepedia_hint">Chirca metadatos</string>
-    <string name="moviepedia_result">Risultados intre sos vìdeos</string>
-    <string name="directed_by">Dirigidu dae</string>
-    <string name="casting">Elencu de traballadores</string>
-    <string name="produced_by">Produidu dae</string>
-    <string name="written_by">Iscritu dae</string>
-    <string name="music_by">Mùsica de</string>
-    <string name="posters">Locandinas</string>
-    <string name="backdrops">Fundales</string>
-    <string name="header_tvshows">Programmas televisivos</string>
-    <string name="header_movies">Films</string>
-    <string name="season_number">Istajone %s</string>
-    <string name="resume_episode">Sighi (%s)</string>
-    <string name="start_over">Torra a incumintzare</string>
-    <string name="next_episode">Episòdiu imbeniente</string>
     <string name="open_network_settings">Abèrrere sas impostatziones de retza?</string>
-    <string name="recently_played">Riproduidos dae pagu</string>
-    <string name="recently_added">Annantos dae pagu</string>
     <string name="playback_multiple_errors">B\'ant medas mèdios chi non podent èssere riproduidos</string>
     <string name="clear_media_db_message">As a pèrdere sos progressos tuos, sos sinnalibros e sas iscalitas chi as creadu ma as a mantènnere sas impostatziones tuas pro VLC pro Android</string>
     <string name="clear_app_data_message">As a pèrdere sos progressos tuos, sos sinnalibros, sas iscalitas chi as creadu e totu sas impostatziones de VLC</string>
@@ -1044,19 +976,11 @@
     <string name="sub_result_by_name_hearing_impaired">Petzi pro surdos</string>
 
     <string name="sub_result_by_file">Resurtados pro su documentu tuo</string>
-    <string name="donate">Agiuda VLC</string>
-    <string name="donate_desc">Suporta sos voluntàrios chi fraigant VLC</string>
-    <string name="donate_subscribtion">Dia chèrrere chi custa siat un\'isponsorizatzione mensile</string>
-    <string name="donate_send">Faghe incumintzare s\'isponsorizatzione tua</string>
-    <string name="donation_description">S\'isponsorizatzione nos at a permìtere de:\nmegiorare s\'aplicatzione de VLC pro Android\nsuportare sa VideoLAN Association</string>
     <string name="subscription_purchased">Ses iscritu a un\'isponsorizatzione mensile</string>
     <string name="subscription_cancel">Podes annullare s\'iscritzione in su Play Store</string>
     <string name="subscription_cancel_tv">Comente annullare s\'iscritzione</string>
-    <string name="donate_unsubscribe_tv">Pro annullare s\'iscritzione, aberi %s in unu telefoneddu o un\'elaboradore o iscansi custu còdighe:</string>
-    <string name="tip_jar">Agiuda VLC</string>
     <string name="thank_you">Gràtzias</string>
     <string name="thank_you_desc">Ti torramus gràtzias pro s\'isponsorizatzione tua!\nNos at a a agiudare meda a megiorare VLC!</string>
-    <string name="donate_again">Isponsoriza torra s\'aplicatzione</string>
 
     <string name="mark_as_played">Marca comente riproduidu</string>
     <string name="mark_as_not_played">Marca comente non riproduidu</string>
@@ -1163,7 +1087,6 @@
     <string name="discovery_failed">Rilevamentu fallidu pro: %s</string>
     <string name="lock_use_sensor_title">Bloca cun su sensore</string>
     <string name="lock_use_sensor_summary">Cando s\'orientamentu est blocadu imprea su sensore pro permìtere s\'orientamentu a s\'imbesse</string>
-    <string name="start">Allughe</string>
     <string name="notification_permission">Permissu de sas notìficas</string>
     <string name="notification_permission_explanation">VLC tenet bisòngiu de su permissu tuo pro imbiare notìficas.\nS\'aplicatzione t\'at a notificare petzi cando at a iscansire sos cuntenutos multimediales tuos o at a impreare su vìdeu personalizadu Picture in Picture.\nSi non l\'as a frunire VLC at a sighire a funtzionare, ma sas notìficas ant a èssere cuadas.</string>
     <string name="permission">Permissu</string>
@@ -1302,63 +1225,7 @@
     <string name="replace_playlist">Sostitui s\'iscalita</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Atzessu remotu ativu</string>
-    <string name="ra_remote_access">Atzessu remotu</string>
-    <string name="ra_remote_access_description">Notìfica de s\'istadu de atzessu remotu</string>
-    <string name="ra_log_file">Documentos de registru</string>
-    <string name="ra_log_type">Casta de registru</string>
-    <string name="ra_send_files">Imbia documentos</string>
-    <string name="ra_not_in_foreground">S\'aplicatzione no est in primu pianu. Non faghet a aviare su vìdeu.</string>
-    <string name="ra_disconnected">Iscollegadu dae su dispositivu</string>
-    <string name="ra_file">Documentu</string>
-    <string name="ra_upload_remaining">Carrighende %s documentos</string>
-    <string name="ra_upload_all">Càrriga totu</string>
-    <string name="ra_drop_files_tip">Lassa sos documentos in cale si siat logu pro los imbiare a su dispositivu tuo</string>
-    <string name="ra_prepare_download">Ammaniende s\'iscarrigamentu tuo</string>
-    <string name="ra_forbidden">Cuntenutu disabilitadu in sas impostatziones</string>
-    <string name="ra_playback_forbidden">Controllu de riprodutzione disabilitadu in sas impostatziones</string>
-    <string name="ra_logs_forbidden">Cumpartzidura de sos registros disabilitada in sas impostatziones</string>
-    <string name="ra_code_requested_explanation">Pro amparare su serbidore tuo, s\'atzessu est amparadu.\nPro praghere inserta su còdighe mustradu in sas notìficas tuas</string>
-    <string name="ra_ssl_explanation_title">Connessione non segura</string>
-    <string name="ra_ssl_explanation">Sa connessione tua no est segura</string>
-    <string name="ra_ssl_explanation_browser">Pro more de s\'implementatzione de sa seguresa as a retzire un\'avisu de seguresa in sa pàgina chi benit.</string>
-    <string name="ra_ssl_explanation_accept">Assegura·ti de atzetare su tzertificadu pro pòdere impreare s\'atzessu remotu.</string>
-    <string name="ra_ssl_button">Imprea una connessione segura</string>
-    <string name="ra_new_code">Imbia unu còdighe nou</string>
-    <string name="home">Pàgina printzipale</string>
-    <string name="ra_code">Inserta custu còdighe: %s</string>
-    <string name="ra_send_logs">Sarva sos registros de atzessu remotu in su dispositivu tuo</string>
-    <string name="ra_otp">Crae a impreu sìngulu de atzessu remotu</string>
-    <string name="ra_otp_description">Dimandas de atzessu pro s\'atzessu remotu</string>
-    <string name="ra_otp_title">Proa de atzessu remotu</string>
-    <string name="ra_otp_subtitle">Si ses tue, inserta custu còdighe in s\'àteru dispositivu</string>
-    <string name="ra_otp_not_me">Non so deo</string>
-    <string name="ra_output">Essida àudio</string>
-    <string name="ra_play_on_browser">Reprodue in su navigadore</string>
-    <string name="ra_play_on_device">Reprodue in su dispositivu</string>
-    <string name="ra_browser_audio_not_found">Elementu multimediale no atzapadu o non faghet a lu riproduire in su navigadore</string>
-    <string name="ra_browser_audio_unsupported_format">Custu formadu àudio no est suportadu dae su navigadore tuo</string>
 
-    <string name="ra_onboarding_welcome_desc">Bene bènnidu in s\'atzessu remotu de VLC pro Android.\nAbilitende·lu, as a pòdere controllare sa riprodutzione de custu dispositivu e àteru galu</string>
-    <string name="ra_onboarding_how_title">Controlla su dispositivu tuo</string>
-    <string name="ra_onboarding_how_desc">Controlla sa riprodutzione de su dispositivu tuo, imbia o recùpera documentos e àteru galu</string>
-    <string name="ra_onboarding_ssl_title">Tzifradura de sos datos</string>
-    <string name="ra_onboarding_ssl_desc">S\'atzessu remotu est tzifradu pro evitare sa pèrdida de sos datos tuos</string>
-    <string name="ra_onboarding_otp_title">Autenticatzione</string>
-    <string name="ra_onboarding_otp_desc">Cun s\'autenticatzione cun crae a impreu sìngulu prevenis s\'atzessu non disigiadu a sos datos tuos. </string>
-    <string name="ra_onboarding_content_title">Atzessu a sos cuntenutos</string>
-    <string name="ra_onboarding_content_desc">Issèbera ite podet èssere atzessìbile e ite nono</string>
-    <string name="ra_onboarding_content_ml">Atzessu a sos cuntenutos de sa biblioteca multimediale</string>
-    <string name="ra_onboarding_content_files">Esploradore de documentos</string>
-    <string name="ra_onboarding_content_playback">Controllu de riprodutzione</string>
-    <string name="ra_disable">Disabìlita</string>
-    <string name="ra_log_web">Registru de atzessu remotu</string>
-    <string name="ra_log_crash">Registru de sas istudadas anòmalas</string>
-    <string name="ra_log_mobile">Registru de su dispositivu</string>
-    <string name="ra_log_current">Registros locales atuales</string>
-    <string name="ra_invalid_login">Depes fàghere s\'atzessu in su dispositivu tuo</string>
-    <string name="ra_invalid_otp">Còdighe frunidu non vàlidu</string>
-    <string name="learn_more">Iscoberi de prus</string>
 
     <!-- car screens -->
     <string name="help">Agiudu</string>
@@ -1374,11 +1241,7 @@
     <string name="metered_warn">Avisa·mi (s\'avisu diat pòdere no èssere presente pro sa riprodutzione àudio)</string>
     <string name="metered_connection_stopped">Mèdiu firmadu ca sa connessione est a consumu</string>
     <string name="metered_connection_warning">Sa connessione tua est a consumu. Bi diant pòdere èssere costos aplicados.</string>
-    <string name="adding">Annanghende</string>
-    <string name="to">a</string>
     <string name="device">Dispositivu</string>
-    <string name="connected_device">Dispositivu connessu</string>
-    <string name="model">Modellu de su dispositivu</string>
     <string name="prefs_app_data">Datos de s\'aplicatzione</string>
     <string name="export_settings_summary">Esporta sas impostatziones tuas a unu documentu pro las importare prus a tardu</string>
     <string name="export_settings">Esporta sas impostatziones</string>
@@ -1414,12 +1277,6 @@
     <string name="generating_logs">Generende sos registros. Iseta.</string>
     <string name="default_playback_action">Atzione de riprodutzione</string>
     <string name="files">Documentos</string>
-    <string name="remote_access_feedback_generate">Crea unu raportu</string>
-    <string name="remote_access_feedback_generated">Su raportu de sinnalatzione tuo est istadu creadu</string>
-    <string name="remote_access_feedback_generated_explanation">Toca su butone inoghe in suta pro l\'imbiare impreende su cliente predefinidu tuo de posta eletrònica. Si atzapas carchi problema, podes copiare e incollare sos campos inoghe in suta e imbiare sa lìtera eletrònica a contu tuo.</string>
-    <string name="remote_access_feedback_file_explanation">Como as iscarrigadu su documentu chi ti bisòngiat. Ammenta·ti de l\'alligare a sa lìtera eletrònica tua.</string>
-    <string name="generic_copied_to_clipboard">Copiadu in punta de billete</string>
     <string name="feedback_email_warning">Perunu cliente de posta installadu</string>
-    <string name="feedback_email_warning_remote_action">Aberi sas impostatziones</string>
     <string name="feedback_email_warning_try_anyway">Proa su matessi</string>
     </resources>

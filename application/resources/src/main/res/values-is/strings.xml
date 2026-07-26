@@ -100,14 +100,6 @@
         <item quantity="one">1 myndskeið</item>
         <item quantity="other">%d myndskeið</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 kvikmynd</item>
-        <item quantity="other">%d kvikmyndir</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 sjónvarpsþáttur</item>
-        <item quantity="other">%d sjónvarpsþættir</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 lag</item>
         <item quantity="other">%d lög</item>
@@ -183,7 +175,6 @@
     <string name="sleep_in">Sofa lengur</string>
     <string name="jump_to_time">Hoppa á tíma</string>
     <string name="subtitle_select">Veldu skjátextaskrá</string>
-    <string name="video_player_remote">Myndspilarafjarstýring</string>
     <string name="server_add_title">Bæta nýjum þjóni í eftirlæti</string>
     <string name="server_domain_hint">Vistfang þjóns (heiti léns eða IP-tala)</string>
     <string name="server_share_hint">Nafn netsameignar (eða IP vistfang)</string>
@@ -285,7 +276,6 @@
     <string name="screen_orientation_portrait">Lóðrétt</string>
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="enable_black_theme">Svart þema</string>
-    <string name="dark_theme">Dökkt þema</string>
     <string name="theme_auto">Sjálfvirkt þema</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="subtitle_preferred_language">Umbeðið tungumál skjátexta</string>
@@ -395,24 +385,6 @@
     <string name="audio_ducking_title">Lækka hljóðstyrk VLC við tilkynningar</string>
     <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
     <string name="casting_category">Útvörpun (casting)</string>
-    <string name="remote_access">Fjaraðgangur</string>
-    <string name="remote_access_status">Ástand netþjóns</string>
-    <string name="remote_access_status_summary">Ýttu til að skoða ástand netþjóns</string>
-    <string name="remote_access_connections">Tengingar</string>
-    <string name="remote_access_links">Tenglar</string>
-    <string name="remote_access_active">Fjaraðgangur virkur</string>
-    <string name="remote_access_notification">Fjaraðgangur virkur á %s</string>
-    <string name="remote_access_notification_stopped">Fjaraðgangur stöðvaður</string>
-    <string name="remote_access_notification_connecting">Fjaraðgangur að tengjast</string>
-    <string name="remote_access_notification_error">Villa í fjaraðgangi</string>
-    <string name="remote_access_notification_stopping">Fjaraðgangur stöðvast</string>
-    <string name="remote_access_notification_not_init">Fjaraðgangur frumstillist</string>
-    <string name="enable_remote_access">Virkja fjaraðgang</string>
-    <string name="remote_access_info">Upplýsingar um fjaraðgang</string>
-    <string name="remote_access_content">Efni</string>
-    <string name="remote_access_file_browser_content">Skráavafri</string>
-    <string name="remote_access_network_browser_content">Netvafri</string>
-    <string name="remote_access_playback_control">Stýring afspilunar</string>
     <string name="casting_switch_title">Þráðlaus vörpun (casting)</string>
     <string name="casting_passthrough_title">Gegnumstreymi hljóðs</string>
     <string name="casting_passthrough_summary">Láttu sjónvarpið sjá um hljóðmeðhöndlun</string>
@@ -519,7 +491,6 @@
     <string name="search_global">Leita í öllum margmiðlunarsöfnum</string>
     <string name="playlist_save">Vista spilunarlista</string>
     <string name="playlist_name_hint">Heiti spilunarlista</string>
-    <string name="chapters">Kaflar</string>
     <string name="go_to_chapter">Fara á kafla…</string>
     <string name="current_chapter">Kafli: %s</string>
     <string name="confirm_resume">Halda áfram frá síðustu stöðu?</string>
@@ -530,9 +501,6 @@
     <string name="medialibrary_directories">Möppur fyrir margmiðlunarsöfn</string>
 
     <!--    update-->
-    <string name="update_title">Uppfærsla tiltæk</string>
-    <string name="open_in_browser">Opna í vafra</string>
-    <string name="install">Setja upp</string>
     <!-- Accessibility -->
     <string name="more_actions">Fleiri aðgerðir</string>
     <string name="back_quit_lock">Ýttu aftur á til baka til að fara út úr myndskeiði</string>
@@ -548,7 +516,6 @@
     <string name="click_here">Smelltu hér til að sjá nánari upplýsingar.</string>
     <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>
     <string name="allow_storage_access_description">VLC þarf að fá þessa heimild hjá þér til að fá aðgang að margmiðlunarskrám á þessu tæki.</string>
-    <string name="never_ask_again">Ekki spyrja aftur</string>
     <string name="allow_settings_access_ringtone_title">Leyfa VLC að setja hringitón</string>
     <string name="allow_settings_access_ringtone_description">VLC þarf að fá þessa heimild hjá þér til að setja þetta lag upp sem hringitón.</string>
     <string name="allow_settings_access_brightness_title">Leyfa VLC að stilla birtustigsham</string>
@@ -673,7 +640,6 @@
     <string name="next">Næsta</string>
     <string name="skip">Sleppa</string>
     <string name="next_step">Næsta</string>
-    <string name="download">Sækja</string>
     <string name="ctx_player_video_track">Veldu myndskeiðsspor</string>
     <string name="ctx_player_audio_track">Hljóðspor</string>
     <string name="ctx_player_subs_track">Skjátextaspor</string>
@@ -759,25 +725,7 @@
     <string name="invalid_file">Ógild skrá. Er ekki hægt að deila.</string>
     <string name="share_file">Deila %s</string>
     <string name="share_message">Hér er %s</string>
-    <string name="find_metadata">Finna lýsigögn</string>
-    <string name="moviepedia_hint">Leita að lýsigögnum</string>
-    <string name="moviepedia_result">Niðurstöður myndskeiða</string>
-    <string name="directed_by">Leikstýrt af</string>
-    <string name="casting">Leikarar</string>
-    <string name="produced_by">Framleitt af</string>
-    <string name="written_by">Skrifað af</string>
-    <string name="music_by">Tónlist eftir</string>
-    <string name="posters">Auglýsingaspjöld</string>
-    <string name="backdrops">Bakgrunnar</string>
-    <string name="header_tvshows">Sjónvarpsþættir</string>
-    <string name="header_movies">Kvikmyndir</string>
-    <string name="season_number">Árgangur %s</string>
-    <string name="resume_episode">Halda áfram  (%s)</string>
-    <string name="start_over">Byrja aftur</string>
-    <string name="next_episode">Næsti þáttur</string>
     <string name="open_network_settings">Opna netstillingar?</string>
-    <string name="recently_played">Nýlega spilað</string>
-    <string name="recently_added">Nýlega bætt við</string>
     <string name="playback_multiple_errors">Ekki er hægt að spila margar gagnaskrár</string>
     <string name="clear">Hreinsa</string>
     <string name="abrepeat_add_first_marker">Setja upphafspunkt</string>
@@ -831,19 +779,11 @@
     <string name="sub_result_by_name_season">Árgangur %s</string>
     <string name="sub_result_by_name_episode">Þáttur %s</string>
     <string name="sub_result_by_file">Niðurstöður fyrir skrána þína</string>
-    <string name="donate">Hjálpa VLC</string>
-    <string name="donate_desc">Styddu við sjálfboðaliðana sem þróa VLC</string>
-    <string name="donate_subscribtion">Ég myndi vilja að þetta væri mánaðarlegur stuðningur</string>
-    <string name="donate_send">Byrjaðu stuðning þinn</string>
-    <string name="donation_description">Styrkurinn frá þér mun hjálpa okkur að:\nBæta VLC forritið fyrir Android\nStyðja við VideoLAN-samtökin</string>
     <string name="subscription_purchased">Þú ert með áskrift að mánaðarlegri styrkveitingu</string>
     <string name="subscription_cancel">Þú getur sagt upp áskriftinni í Play Store</string>
     <string name="subscription_cancel_tv">Hvernig er hægt að segja upp áskrift</string>
-    <string name="donate_unsubscribe_tv">Til að segja upp áskriftinni skaltu opna %s á síma eða tölvu eða skanna þennan kóða:</string>
-    <string name="tip_jar">Hjálpa VLC</string>
     <string name="thank_you">Takk fyrir</string>
     <string name="thank_you_desc">Takk fyrir styrkinn frá þér!\nÞetta mun hjálpa okkur við að bæta VLC!</string>
-    <string name="donate_again">Styrkja forritið aftur</string>
 
     <string name="mark_as_played">Merkja sem spilað</string>
     <string name="mark_as_not_played">Merkja sem óspilað</string>
@@ -903,7 +843,6 @@
     <string name="add_all_button">Bæta öllu við</string>
     <string name="add_new_only_button">Bæta aðeins nýju við</string>
     <string name="lock_use_sensor_title">Læsa með skynjara</string>
-    <string name="start">Byrja</string>
     <string name="permission">Heimild</string>
     <string name="customize">Sérsníða</string>
     <string name="selection_count">%d valið</string>
@@ -992,35 +931,7 @@
     <string name="talkback_display_settings">Stillingar skjás</string>
     <string name="talkback_already_played">Þegar spilað</string>
     <string name="show_only_favs">Sýna aðeins eftirlæti</string>
-    <string name="ra_remote_access">Fjaraðgangur</string>
-    <string name="ra_log_file">Atvikaskrár</string>
-    <string name="ra_send_files">Senda skrár</string>
-    <string name="ra_file">Skrá</string>
-    <string name="ra_upload_remaining">Sendi inn %s skrár</string>
-    <string name="ra_upload_all">Senda inn allt</string>
-    <string name="ra_ssl_explanation_title">Óörugg tenging</string>
-    <string name="ra_ssl_button">Nota örugga tengingu</string>
-    <string name="ra_new_code">Senda nýjan kóða</string>
-    <string name="home">Heim</string>
-    <string name="ra_code">Settu inn þennan kóða: %s</string>
-    <string name="ra_otp_not_me">Þetta er ekki ég</string>
 
-    <string name="ra_onboarding_how_title">Stýrðu tækinu þínu</string>
-    <string name="ra_onboarding_ssl_title">Dulritun gagna</string>
-    <string name="ra_onboarding_otp_title">Auðkenning</string>
-    <string name="ra_onboarding_content_title">Aðgangur að efni</string>
-    <string name="ra_onboarding_content_desc">Veldu að hverju aðgangur sé leyfður og hverju ekki</string>
-    <string name="ra_onboarding_content_ml">Aðgangur að efni margmiðlunarsafns</string>
-    <string name="ra_onboarding_content_files">Skráavafri</string>
-    <string name="ra_onboarding_content_playback">Stýring afspilunar</string>
-    <string name="ra_disable">Gera óvirkt</string>
-    <string name="ra_log_web">Atvikaskráning fjaraðgangs</string>
-    <string name="ra_log_crash">Atvikaskráning hruna</string>
-    <string name="ra_log_mobile">Atvikaskráning tækis</string>
-    <string name="ra_log_current">Fyrirliggjandi atvikaskrár tækis</string>
-    <string name="ra_invalid_login">Þú þarft að skrá þig inn á tækið þitt</string>
-    <string name="ra_invalid_otp">Ógildur kóði gefinn</string>
-    <string name="learn_more">Kanna nánar</string>
 
     <!-- car screens -->
     <string name="help">Hjálp</string>

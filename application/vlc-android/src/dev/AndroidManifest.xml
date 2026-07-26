@@ -27,5 +27,4 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 </manifest>

@@ -83,14 +83,6 @@
         <item quantity="one">1 n tvidyut</item>
         <item quantity="other">%d n tvidyutin</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 n usaru</item>
-        <item quantity="other">%d n yisura</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1  n umazrar n tiliẓri</item>
-        <item quantity="other">%d n yimazraren n tiliẓri</item>
-    </plurals>
     <string name="internal_memory">Tkatut tadigant</string>
     <string name="audio">Imesli</string>
     <string name="video">Avidyu</string>
@@ -436,7 +428,6 @@
     <string name="delete_the_selected">Kkes tafrayt</string>
     <string name="download_the_selected">Sader tafrayt</string>
     <string name="next">Win ɣer-s</string>
-    <string name="download">Sader</string>
     <string name="ctx_player_video_track">Fren tazribt n uvidyu</string>
     <string name="ctx_player_audio_track">Tazribt n umeslaw</string>
     <string name="ctx_player_subs_track">Tazribt n iduzwilen</string>
@@ -480,11 +471,7 @@
     <string name="share">Bḍu</string>
     <string name="share_file">Bḍu %s</string>
     <string name="share_message">Ataya %s</string>
-    <string name="header_tvshows">Imazraren n tiliẓri</string>
-    <string name="header_movies">Isura</string>
     <string name="open_network_settings">Ad teldiḍ iɣewwaren n uzeḍḍa?</string>
-    <string name="recently_played">Yettwaɣer melmi kan</string>
-    <string name="recently_added">Yettwarna melmi kan</string>
     <string name="playback_multiple_errors">Aṭas n yimidyaten ulamek ara ttwaɣren</string>
     <string name="clear">Sfeḍ</string>
     <string name="abrepeat_add_first_marker">Sbadu tanqiḍt n tazwara</string>

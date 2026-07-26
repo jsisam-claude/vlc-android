@@ -125,14 +125,6 @@
         <item quantity="one">Una video</item>
         <item quantity="other">%d video</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 filmu</item>
-        <item quantity="other">%d filmi</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 spettaculu TV</item>
-        <item quantity="other">%d spettaculi TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 traccia</item>
         <item quantity="other">%d traccie</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">Aspettà chì u medià attuale si compii in primu</string>
     <string name="reset_on_interaction">Reinizià à ogni interazzione</string>
     <string name="default_sleep_timer_summary">%1$s, aspettà a fine di u medià : %2$s, reinizià à ogni interazzione : %3$s</string>
-    <string name="video_player_remote">Telecumanda di u lettore video</string>
-    <string name="remote_keyboard_navigation">Navigazione da a tastera</string>
 
     <string name="server_add_title">Aghjunghje un novu servitore à i favuriti</string>
     <string name="server_domain_hint">Indirizzu di u servitore (nome di duminiu o IP)</string>
@@ -358,7 +348,6 @@
     <string name="screen_orientation_landscape_sensor">Orizuntale (cattore)</string>
     <string name="screen_orientation_last_locked">Ultima orientazione ammarchjunata</string>
     <string name="enable_black_theme">Tema neru</string>
-    <string name="dark_theme">Tema scuru</string>
     <string name="theme_auto">Tema autumaticu</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="subtitle_preferred_language">Lingua preferita di sottutitulu</string>
@@ -503,29 +492,6 @@
     <string name="audio_ducking_title">Diminuisce u vulume di VLC in casu di nutificazione</string>
     <string name="audio_ducking_summary">Aiuta à stà à sente e nutificazioni aidio, l’istruzzioni parlate di navigazione o d’assistenza</string>
     <string name="casting_category">Diffusione</string>
-    <string name="remote_access">Accessu à distanza</string>
-    <string name="remote_access_version_title">Versione di l’accessu à distanza</string>
-    <string name="remote_access_hash_title">Tazzeghju di l’accessu à distanza</string>
-    <string name="remote_access_status">Statu di u servitore</string>
-    <string name="remote_access_status_summary">Picchichjà per vede u statu di u servitore</string>
-    <string name="remote_access_connections">Cunnessioni</string>
-    <string name="remote_access_links">Liami</string>
-    <string name="remote_access_active">Accessu à distanza attivu</string>
-    <string name="remote_access_notification">Accessu à distanza attivu nant’à %s</string>
-    <string name="remote_access_notification_stopped">Accessu à distanza piantatu</string>
-    <string name="remote_access_notification_connecting">Cunnessione di l’accessu à distanza</string>
-    <string name="remote_access_notification_error">Sbagliu di l’accessu à distanza</string>
-    <string name="remote_access_notification_stopping">Piantata di l’accessu à distanza</string>
-    <string name="remote_access_notification_not_init">Iniziu di l’accessu à distanza</string>
-    <string name="enable_remote_access">Attivà l’accessu à distanza</string>
-    <string name="remote_access_info">Infurmazione nant’à l’accessu à distanza</string>
-    <string name="remote_access_content">Cuntenutu</string>
-    <string name="remote_access_medialibrary_content">Cuntenutu di a mediateca</string>
-    <string name="remote_access_medialibrary_content_summary">Attivatu : %1$s\nDisattivatu : %2$s</string>
-    <string name="remote_access_file_browser_content">Navigatore di schedarii</string>
-    <string name="remote_access_network_browser_content">Navigatore di reta</string>
-    <string name="remote_access_playback_control">Cuntrollà a ripruduzzione</string>
-    <string name="remote_access_logs">Sparte i ghjurnali di messaghji</string>
     <string name="casting_switch_title">Diffusione senza filu</string>
     <string name="casting_passthrough_title">Traversata audio</string>
     <string name="casting_passthrough_summary">Lascià a vostra TV urganizà a trasfurmazione audio</string>
@@ -653,8 +619,6 @@
     <string name="search_global">Circà in tutte e mediateche</string>
     <string name="playlist_save">Arregistrà a Lista di Lettura</string>
     <string name="playlist_name_hint">Nome di lista di lettura</string>
-    <string name="chapters">Capituli</string>
-    <string name="notset">Micca definita</string>
     <string name="go_to_chapter">Và à u capitulu…</string>
     <string name="current_chapter">Capitulu : %s</string>
     <string name="confirm_resume">Vulete riprincipià da l’ultima pusizione ?</string>
@@ -674,19 +638,7 @@
     <string name="show_in_settings">Affissà in i parametri</string>
 
 <!--    update-->
-    <string name="update_title">Versione nova dispunibule</string>
-    <string name="install_nightly_title">Installà a versione creata ogni notte</string>
-    <string name="update_text">Una versione nova - creata di notte - di VLC per Android hè dispunibule !\n\nFighjate què perchè vo impiegate una custruzzione di notte.</string>
-    <string name="install_text">E versioni create di notte sò messe à livellu autumaticamente tutti i ghjorni cù l’ultime funzioni è currezzioni.\n\nScaricà subitu ?</string>
 
-    <string name="open_in_browser">Apre in u navigatore</string>
-    <string name="install">Installà</string>
-    <string name="install_nightly">Installà a versione creata ogni notte</string>
-    <string name="install_nightly_alert">E versioni create di notte sò esperimentale è messe à livellu tutti i ghjorni.\n\nAspettatevi à truvacci funzioni nove ma ancu prublemi novi !</string>
-    <string name="nightly_version">Versione trova : %2$s - %1$s</string>
-    <string name="update_nightly_alert">Impiegate una versione creata di notte. Vulete ricercà periudicamente e messe à livellu ?</string>
-    <string name="update_nightly">Messa à livellu autumatica</string>
-    <string name="update_nightly_summary">Ricercà periudicamente e versioni create di notte</string>
 
 
     <!-- Accessibility -->
@@ -709,7 +661,6 @@
     <string name="allow_storage_access_description">VLC hà bisognu di stu permessu per accede à i schedarii medià nant’à st’apparechju.</string>
     <string name="partial_content">VLC ùn pò micca accede à tutti i vostri schedarii</string>
     <string name="partial_content_description">Cù Android 11 è dopu, l’appiecazioni richiedenu un permessu speziale per accede à tutti i schedarii di l’apparechju.\n\n%s</string>
-    <string name="never_ask_again">Ùn mi dumandà mai più</string>
     <string name="never_show_again">Ùn affissà mai più, mancu per e versioni future</string>
     <string name="allow_settings_access_ringtone_title">Permette à VLC di definisce a suneria</string>
     <string name="allow_settings_access_ringtone_description">VLC hà bisognu di stu permessu per definisce sta canzona cum’è a vostra suneria.</string>
@@ -865,7 +816,6 @@
     <string name="next">Seguente</string>
     <string name="skip">Ignurà</string>
     <string name="next_step">Seguente</string>
-    <string name="download">Scaricà</string>
     <string name="ctx_player_video_track">Selezziunà a traccia video</string>
     <string name="ctx_player_audio_track">Traccia audio</string>
     <string name="ctx_player_subs_track">Traccia di sottutituli</string>
@@ -965,25 +915,7 @@
     <string name="share_message">Eccu %s</string>
     <string name="share_track_info">Sparte l’infurmazione di a traccia</string>
     <string name="share_track">Attualmente, si stà à sente %s</string>
-    <string name="find_metadata">Truvà i metadati</string>
-    <string name="moviepedia_hint">Ricercà i metadati</string>
-    <string name="moviepedia_result">Risultati video</string>
-    <string name="directed_by">Realizatu da</string>
-    <string name="casting">Distribuzione</string>
-    <string name="produced_by">Pruduttu da</string>
-    <string name="written_by">Scrittu da</string>
-    <string name="music_by">Musica da</string>
-    <string name="posters">Affissi</string>
-    <string name="backdrops">Decori</string>
-    <string name="header_tvshows">Spettaculi TV</string>
-    <string name="header_movies">Filmi</string>
-    <string name="season_number">Stagione %s</string>
-    <string name="resume_episode">Cuntinuà (%s)</string>
-    <string name="start_over">Torna à principià</string>
-    <string name="next_episode">Episodiu seguente</string>
     <string name="open_network_settings">Apre i parametri di a reta ?</string>
-    <string name="recently_played">Sunatu pocu fà</string>
-    <string name="recently_added">Aghjuntu pocu fà</string>
     <string name="playback_multiple_errors">Parechji medià ùn ponu micca esse sunati</string>
     <string name="clear_media_db_message">Pirderete e vostre prugressioni, indette è liste di lettura chì vo avete create ma i parametri di VLC per Android seranu cunservati</string>
     <string name="clear_app_data_message">Pirderete e vostre prugressioni, indette, liste di lettura è tutte i parametri di VLC</string>
@@ -1042,19 +974,11 @@
     <string name="sub_result_by_name_hearing_impaired">Solu per i cionchi</string>
 
     <string name="sub_result_by_file">Risultati per u vostru schedariu</string>
-    <string name="donate">Aiutà VLC</string>
-    <string name="donate_desc">Sustinite i vuluntarii chì custruiscenu VLC</string>
-    <string name="donate_subscribtion">Vogliu ch’ella sia un finanziamentu misincu</string>
-    <string name="donate_send">Principià u vostru finanziamentu</string>
-    <string name="donation_description">U vostru finanziamentu ci permetterà di :\nAmendà l’appiecazione VLC per Android\nSustene l’associu VideoLAN</string>
     <string name="subscription_purchased">Avete sottuscrittu à un finanziamentu misincu</string>
     <string name="subscription_cancel">Pudete disabbunavvi in u Play Store</string>
     <string name="subscription_cancel_tv">Cumu disabbunassi</string>
-    <string name="donate_unsubscribe_tv">Per disabbunassi, ci vole à apre %s nant’à un telefonu o un urdinatore o analizà stu codice :</string>
-    <string name="tip_jar">Aiutà VLC</string>
     <string name="thank_you">Vi ringraziemu</string>
     <string name="thank_you_desc">Vi ringraziemu per u vostru finanziamentu !\nQuè ci aiuterà assai à amendà VLC !</string>
-    <string name="donate_again">Finanzià torna l’appiecazione</string>
 
     <string name="mark_as_played">Marcà cum’è issendu vistu</string>
     <string name="mark_as_not_played">Marcà cum’è ùn issendu micca vistu</string>
@@ -1161,7 +1085,6 @@
     <string name="discovery_failed">Scuperta fiascata per : %s</string>
     <string name="lock_use_sensor_title">Ammarchjunà cù u cattore</string>
     <string name="lock_use_sensor_summary">Quandu l’orientazione hè ammarchjunata, impiegate u cattore per permette un orientazione à l’arritrosa</string>
-    <string name="start">Principià</string>
     <string name="notification_permission">Permessu di nutificazione</string>
     <string name="notification_permission_explanation">VLC hà bisognu di u vostru accunsentu per mandà nutificazioni.\nL’appiecazione vi nutificherà solu durante l’analisa di u vostru medià o quandu s’impiega u modu fiura-nant’à-fiura (PIP).\nRicusà stu permessu ùn impediscerà micca VLC di funziunà, ma e nutificazioni seranu piattate.</string>
     <string name="permission">Permessu</string>
@@ -1300,57 +1223,6 @@
     <string name="replace_playlist">Rimpiazzà a lista di lettura</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Accessu à distanza attivu</string>
-    <string name="ra_remote_access">Accessu à distanza</string>
-    <string name="ra_remote_access_description">Nutificazione di u statu di l’accessu à distanza</string>
-    <string name="ra_log_file">Schedarii di ghjurnali di messaghji</string>
-    <string name="ra_log_type">Tipu di ghjurnale di messaghji</string>
-    <string name="ra_send_files">Mandà schedarii</string>
-    <string name="ra_not_in_foreground">L’appiecazione ùn hè micca in primu pianu. Ùn si pò lancià a video.</string>
-    <string name="ra_disconnected">Scunnessu da l’apparechju</string>
-    <string name="ra_file">Schedariu</string>
-    <string name="ra_upload_remaining">Incaricamentu di %s schedarii</string>
-    <string name="ra_upload_all">Tuttu incaricà</string>
-    <string name="ra_drop_files_tip">Depunite i schedarii in ogni locu per mandalli versu u vostru apparechju</string>
-    <string name="ra_prepare_download">Preparazione di u vostru scaricamentu</string>
-    <string name="ra_forbidden">Cuntenutu disattivatu in i parametri</string>
-    <string name="ra_playback_forbidden">Cuntrollu di a ripruduzzione disattivatu in i parametri</string>
-    <string name="ra_logs_forbidden">Spartera di i ghjurnali disattivata in i parametri</string>
-    <string name="ra_code_requested_explanation">Per difende u vostru servitore, l’accessu hè prutettu.\nCi vole à stampittà u codice affissatu in e vostre nutificazioni</string>
-    <string name="ra_ssl_explanation_title">Cunnessione micca assicurizata</string>
-    <string name="ra_ssl_explanation">A vostra cunnessione ùn hè micca assicurata.</string>
-    <string name="ra_ssl_explanation_browser">Per via di a messa in ballu di a sicurità in u navigatore, avete da riceve un avertimentu di sicurità in a pagina prossima.</string>
-    <string name="ra_ssl_explanation_accept">Assicuratevi d’accettà u certificatu per pudè impiegà l’accessu à distanza</string>
-    <string name="ra_ssl_button">Impiegà una cunnessione assicurizata</string>
-    <string name="ra_new_code">Mandà un codice novu</string>
-    <string name="home">Accolta</string>
-    <string name="ra_code">Stampittate stu codice : %s</string>
-    <string name="ra_send_logs">Arregistrà i ghjurnali di messaghji di l’accessu à distanza nant’à l’apparechju</string>
-    <string name="ra_otp">Parolla d’intesa unica per l’accessu à distanza</string>
-    <string name="ra_otp_description">Dumande d’accessu per l’accessu à distanza</string>
-    <string name="ra_otp_title">Tentativu di cunnessione à l’accessu à distanza</string>
-    <string name="ra_otp_subtitle">S’ella hè voi, stampittate stu codice nant’à l°altru apparechju</string>
-    <string name="ra_otp_not_me">Ùn hè micca eiu</string>
-    <string name="ra_onboarding_welcome_desc">Benvenuta nant’à l’accessu à distanza di VLC per Android\nAttivendulu serete capace di cuntrollà a ripruduzzione di st’apparechju à ancu di più</string>
-    <string name="ra_onboarding_how_title">Cuntrollà u vostru apparechju</string>
-    <string name="ra_onboarding_how_desc">Cuntrollà a ripruduzzione di u vostru apparechju, mandà o riacquistà schedarii è ancu di più</string>
-    <string name="ra_onboarding_ssl_title">Cifratura di i dati</string>
-    <string name="ra_onboarding_ssl_desc">L’accessu à distanza hè cifratu per impedisce a fughjita di i vostri dati</string>
-    <string name="ra_onboarding_otp_title">Autenticazione</string>
-    <string name="ra_onboarding_otp_desc">Cù l’autenticazione à parolla d’intesa unica, impedite l’accessu micca vulsutu à i vostri dati</string>
-    <string name="ra_onboarding_content_title">Accessu à u cuntenutu</string>
-    <string name="ra_onboarding_content_desc">Sciglite ciò chì pò esse accessu è ciò chì ùn pò</string>
-    <string name="ra_onboarding_content_ml">Accessu à u cuntenutu di a mediateca</string>
-    <string name="ra_onboarding_content_files">Navigatore di schedarii</string>
-    <string name="ra_onboarding_content_playback">Cuntrollu di ripruduzzione</string>
-    <string name="ra_disable">Disattivà</string>
-    <string name="ra_log_web">Ghjurnale di i messaghji di l’accessu à distanza</string>
-    <string name="ra_log_crash">Ghjurnale di i messaghji di l’accidenti</string>
-    <string name="ra_log_mobile">Ghjurnale di i messaghji di l’apparechji</string>
-    <string name="ra_log_current">Ghjurnali attuali lucali di i messaghji </string>
-    <string name="ra_invalid_login">Ci vole à cunnettesi nant’à u vostru apparechju</string>
-    <string name="ra_invalid_otp">Codice inaccettevule pruvistu</string>
-    <string name="learn_more">Per sapene di più</string>
 
     <!-- car screens -->
     <string name="help">Aiutu</string>
@@ -1366,11 +1238,7 @@
     <string name="metered_warn">Avertitemi (l’avertimentu puderia esse mancatu durante a lettura audio)</string>
     <string name="metered_connection_stopped">U medià hè piantatu perchè a cunnessione hè tariffata</string>
     <string name="metered_connection_warning">A vostra cunnessione hè tariffata. Certi costi puderianu appiecassi.</string>
-    <string name="adding">Aghjuntu di</string>
-    <string name="to">à</string>
     <string name="device">Apparechju</string>
-    <string name="connected_device">Apparechju cunnessu</string>
-    <string name="model">Mudellu d’apparechju</string>
     <string name="prefs_app_data">Dati d’appiecazione</string>
     <string name="export_settings_summary">Espurtà i vostri parametri in un schedariu per impurtalli ulteriurmente</string>
     <string name="export_settings">Espurtà i parametri</string>
@@ -1406,12 +1274,6 @@
     <string name="generating_logs">Generazione di i ghjurnali di messaghji. Aspittate per piacè.</string>
     <string name="default_playback_action">Azzione di lettura</string>
     <string name="files">Schedarii</string>
-    <string name="remote_access_feedback_generate">Ingenerà un raportu</string>
-    <string name="remote_access_feedback_generated">U vostru raportu di valutazione hè statu ingeneratu</string>
-    <string name="remote_access_feedback_generated_explanation">Appughjate nant’à u buttone quaghjò per mandallu via a vostra messaghjeria predefinita. In casu di prublema, pudete cupià è incullà i campi quaghjò è mandà u messaghju elettronicu dapervoi.</string>
-    <string name="remote_access_feedback_file_explanation">Avete ghjustu scaricatu u schedariu richiestu. Ùn vi scurdate di ghjunghjelu à u vostru messaghju elettronicu.</string>
-    <string name="generic_copied_to_clipboard">Cupiatu in u preme’papei</string>
     <string name="feedback_email_warning">Niisuna messaghjeria installata</string>
-    <string name="feedback_email_warning_remote_action">Apre i parametri</string>
     <string name="feedback_email_warning_try_anyway">Pruvà quantunque</string>
     </resources>

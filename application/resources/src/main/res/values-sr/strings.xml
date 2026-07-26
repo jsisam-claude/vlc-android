@@ -86,16 +86,6 @@
         <item quantity="few">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 филм</item>
-        <item quantity="few">%d филма</item>
-        <item quantity="other">%d филмова</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 ТВ серија</item>
-        <item quantity="few">%d ТВ серије</item>
-        <item quantity="other">%d ТВ серија</item>
-    </plurals>
     <string name="internal_memory">Интерна меморија</string>
     <string name="audio">Аудио</string>
     <string name="video">Видео</string>

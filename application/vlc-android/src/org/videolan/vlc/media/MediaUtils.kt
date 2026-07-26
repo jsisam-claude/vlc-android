@@ -10,7 +10,6 @@ import android.provider.OpenableColumns
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
-import androidx.collection.SimpleArrayMap
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.FragmentActivity
@@ -42,8 +41,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.resources.AppContextProvider
 import org.videolan.resources.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.resources.VLCOptions
-import org.videolan.resources.interfaces.IMediaContentResolver
-import org.videolan.resources.interfaces.ResumableList
 import org.videolan.resources.util.getFromMl
 import org.videolan.tools.AppScope
 import org.videolan.tools.Settings
@@ -70,8 +67,6 @@ import java.util.LinkedList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
-
-private typealias MediaContentResolver = SimpleArrayMap<String, IMediaContentResolver>
 
 object MediaUtils {
     fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
@@ -475,22 +470,19 @@ object MediaUtils {
 
     fun openMediaNoUiFromTvContent(context: Context, data: Uri?) = AppScope.launch {
         val id = data?.lastPathSegment ?: return@launch
-        when {
-            else -> { //Media from medialib
-                val mw = context.getFromMl {
-                    val longId = id.substringAfter("_").toLong()
-                    when {
-                        id.startsWith("album_") -> getAlbum(longId)
-                        id.startsWith("artist_") -> getArtist(longId)
-                        else -> getMedia(longId)
-                    }
-                } ?: return@launch
-                when (mw) {
-                    is MediaWrapper -> openMediaNoUi(context, mw.uri)
-                    is Album -> playAlbum(context, mw)
-                    is Artist -> playArtist(context, mw)
-                }
+        // Media from medialib
+        val mw = context.getFromMl {
+            val longId = id.substringAfter("_").toLong()
+            when {
+                id.startsWith("album_") -> getAlbum(longId)
+                id.startsWith("artist_") -> getArtist(longId)
+                else -> getMedia(longId)
             }
+        } ?: return@launch
+        when (mw) {
+            is MediaWrapper -> openMediaNoUi(context, mw.uri)
+            is Album -> playAlbum(context, mw)
+            is Artist -> playArtist(context, mw)
         }
     }
 
@@ -600,11 +592,6 @@ fun List<MediaLibraryItem>.getAll(sort: Int = Medialibrary.SORT_DEFAULT, desc: B
 
 fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false, onlyFavorites:Boolean = false) = flatMap {
     it.getAll(type, sort, desc, onlyFavorites)
-}
-
-suspend fun MediaContentResolver.getList(context: Context, id: String) : ResumableList {
-    for ( i in 0 until size()) if (id.startsWith(keyAt(i))) return valueAt(i).getList(context, id)
-    return null
 }
 
 private val Context.scope: CoroutineScope

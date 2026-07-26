@@ -119,14 +119,6 @@
         <item quantity="one">Bideo bat</item>
         <item quantity="other">%d bideo</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">Pelikula 1</item>
-        <item quantity="other">%d pelikula</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">TB saio 1</item>
-        <item quantity="other">%d TB saio</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">Pista 1</item>
         <item quantity="other">%d pista</item>
@@ -222,7 +214,6 @@
     <string name="wait_before_sleep">Itxaron uneko multimedia amaitu arte</string>
     <string name="reset_on_interaction">Berrezarri edozein interakziotan</string>
     <string name="default_sleep_timer_summary">%1$s, itxaron multimediaren bukaera: %2$s, berrezarri interakzioan:%3$s</string>
-    <string name="remote_keyboard_navigation">Teklatu bidezko nabigazioa</string>
 
     <string name="server_add_title">Gehitu zerbitzari berri bat gogokoetara</string>
     <string name="server_domain_hint">Zerbitzariaren helbidea (domeinu-izena edo IPa)</string>
@@ -340,7 +331,6 @@
     <string name="screen_orientation_landscape_sensor">Paisaia (sentsorea)</string>
     <string name="screen_orientation_last_locked">Blokeatutako azken orientazioa</string>
     <string name="enable_black_theme">Itxura beltza</string>
-    <string name="dark_theme">Itxura iluna</string>
     <string name="theme_auto">Itxura automatikoa</string>
     <string name="subtitle_text_encoding">Azpitituluen testu-kodeketa</string>
     <string name="subtitle_preferred_language">Azpitituluen hizkuntza hobetsia</string>
@@ -469,26 +459,6 @@
     <string name="audio_ducking_title">Jaitsi VLC bolumena jakinarazpenekin</string>
     <string name="audio_ducking_summary">Audio jakinarazpenak, nabigazio jarraibideak eta mintzodun morroiak entzuten laguntzen du</string>
     <string name="casting_category">Igortzea</string>
-    <string name="remote_access">Urruneko sarbidea</string>
-    <string name="remote_access_status">Zerbitzariaren egoera</string>
-    <string name="remote_access_status_summary">Ukitu zerbitzariaren egoera ikusteko</string>
-    <string name="remote_access_connections">Konexioak</string>
-    <string name="remote_access_links">Estekak</string>
-    <string name="remote_access_active">Urruneko sarbidea aktiboa</string>
-    <string name="remote_access_notification">Urruneko sarbidea aktiboa %s-n</string>
-    <string name="remote_access_notification_stopped">Urruneko sarbidea gelditu da</string>
-    <string name="remote_access_notification_connecting">Urruneko sarbidea konektatzen</string>
-    <string name="remote_access_notification_error">Urruneko sarbidearen errorea</string>
-    <string name="remote_access_notification_stopping">Urruneko sarbidea gelditzen</string>
-    <string name="remote_access_notification_not_init">Urruneko sarbidea hasieratzen</string>
-    <string name="enable_remote_access">Gaitu urruneko sarbidea</string>
-    <string name="remote_access_info">Urruneko sarbidearen informazioa</string>
-    <string name="remote_access_content">Edukia</string>
-    <string name="remote_access_medialibrary_content_summary">Gaituta: %1$s\nDesgaituta: %2$s</string>
-    <string name="remote_access_file_browser_content">Fitxategien arakatzailea</string>
-    <string name="remote_access_network_browser_content">Sareko nabigatzailea</string>
-    <string name="remote_access_playback_control">Erreprodukzio-kontrola</string>
-    <string name="remote_access_logs">Partekatu erregistro fitxategiak</string>
     <string name="casting_switch_title">Hari gabeko igortzea</string>
     <string name="casting_passthrough_title">Audio igarobidea</string>
     <string name="casting_passthrough_summary">Utzi zure telebistari audioa errendatzen</string>
@@ -601,8 +571,6 @@
     <string name="search_global">Bilatu multimedia-liburutegi osoan</string>
     <string name="playlist_save">Gorde erreprodukzio-zerrenda</string>
     <string name="playlist_name_hint">Erreprodukzio-zerrendaren izena</string>
-    <string name="chapters">Kapituluak</string>
-    <string name="notset">Ezarri gabe</string>
     <string name="go_to_chapter">Joan kapitulura…</string>
     <string name="current_chapter">Kapitulua: %s</string>
     <string name="confirm_resume">Azken posiziotik berrekin?</string>
@@ -615,9 +583,6 @@
     <!--What's new-->
     <string name="whats_new_title">Zer berri dago Android %s-erako VLC-n</string>
     <!--    update-->
-    <string name="update_title">Eguneratzea eskuragarri</string>
-    <string name="open_in_browser">Ireki nabigatzailean</string>
-    <string name="install">Instalatu</string>
     <!-- Accessibility -->
     <string name="more_actions">Ekintza gehiago</string>
     <string name="back_quit_lock">Bideotik irteteko, sakatu berriro \'Atzera\'</string>
@@ -638,7 +603,6 @@
     <string name="allow_storage_access_description">VLCk baimen hauek behar ditu gailu honetako multimedia-fitxategietarako sarbidea izateko.</string>
     <string name="partial_content">VLC-k ezin ditu zure fitxategi guztiak atzitu</string>
     <string name="partial_content_description">Android 11rekin, aplikazioek baimen berezi bat behar dute gailuko fitxategi guztiak atzitzeko.\n\n%s</string>
-    <string name="never_ask_again">Ez galdetu berriro</string>
     <string name="allow_settings_access_ringtone_title">Baimendu VLCri dei-tonua ezartzea</string>
     <string name="allow_settings_access_ringtone_description">VLCk baimen hauek behar ditu abesti hau zure dei-tonu gisa ezartzeko.</string>
     <string name="allow_settings_access_brightness_title">Baimendu VLCri distiraren modua aldatzea</string>
@@ -786,7 +750,6 @@
     <string name="next">Hurrengoa</string>
     <string name="skip">Saltatu</string>
     <string name="next_step">Hurrengoa</string>
-    <string name="download">Deskargatu</string>
     <string name="ctx_player_video_track">Aukeratu bideo-pista</string>
     <string name="ctx_player_audio_track">Audio-pista</string>
     <string name="ctx_player_subs_track">Azpitituluen pista</string>
@@ -876,25 +839,7 @@
     <string name="invalid_file">Fitxategi baliogabea. Ezin da partekatu.</string>
     <string name="share_file">Partekatu %s</string>
     <string name="share_message">Hemen dago %s</string>
-    <string name="find_metadata">Aurkitu metadatuak</string>
-    <string name="moviepedia_hint">Bilatu metadatuak</string>
-    <string name="moviepedia_result">Bideo emaitzak</string>
-    <string name="directed_by">Zuzendaria</string>
-    <string name="casting">Aktoreak</string>
-    <string name="produced_by">Produktorea</string>
-    <string name="written_by">Gidoilaria</string>
-    <string name="music_by">Musika</string>
-    <string name="posters">Posterrak</string>
-    <string name="backdrops">Atzealdeak</string>
-    <string name="header_tvshows">TB saioak</string>
-    <string name="header_movies">Filmak</string>
-    <string name="season_number">%s. denboraldia</string>
-    <string name="resume_episode">Berrekin (%s)</string>
-    <string name="start_over">Hasi berriro</string>
-    <string name="next_episode">Hurrengo kapitulua</string>
     <string name="open_network_settings">Ireki sare-ezarpenak?</string>
-    <string name="recently_played">Berriki erreproduzitua</string>
-    <string name="recently_added">Berriki gehitua</string>
     <string name="playback_multiple_errors">Hainbat multimedia ezin dira erreproduzitu</string>
     <string name="clear_media_db_message">Aurrerapenak, laster-markak eta sortutako erreprodukzio-zerrendak galduko dituzu, baina zure Android-erako VLC-aren ezarpenak mantenduko dira</string>
     <string name="clear_app_data_message">Aurrerapenak, laster-markak, erreprodukzio-zerrendak eta VLC-aren ezarpen guztiak galduko dituzu</string>
@@ -951,19 +896,11 @@
     <string name="sub_result_by_name_season">%s denboraldia</string>
     <string name="sub_result_by_name_episode">Atala %s</string>
     <string name="sub_result_by_file">Zure fitxategiaren emaitzak</string>
-    <string name="donate">Lagundu VLC</string>
-    <string name="donate_desc">Lagundu boluntarioak VLC eraikitzen</string>
-    <string name="donate_subscribtion">Nahi nuke hau hileroko babesa izatea</string>
-    <string name="donate_send">Hasi zure babeslea</string>
-    <string name="donation_description">Zure babesak honakoa ahalbidetuko digu:\nHobetu Android-erako VLC aplikazioa\nLagundu VideoLAN Elkartea</string>
     <string name="subscription_purchased">Hileroko babes bati harpidetuta zaude</string>
     <string name="subscription_cancel">Play Storen eten dezakezu harpidetza</string>
     <string name="subscription_cancel_tv">Nola eten harpidetza</string>
-    <string name="donate_unsubscribe_tv">Harpidetza eteteko, ireki mesedez %s telefonoan edo ordenagailu batean edo eskaneatu kode hau:</string>
-    <string name="tip_jar">Lagundu VLC</string>
     <string name="thank_you">Eskerrik asko</string>
     <string name="thank_you_desc">Eskerrik asko zure babesagatik!\nAsko lagunduko digu VLC hobetzen!</string>
-    <string name="donate_again">Babestu berriro aplikazioa</string>
 
     <string name="mark_as_played">Markatu erreproduzituta gisa</string>
     <string name="mark_as_not_played">Markatu erreproduzitu gabe gisa</string>
@@ -1038,7 +975,6 @@
     <string name="discovery_failed">Aurkikuntzak huts egin du: %s</string>
     <string name="lock_use_sensor_title">Sentsorearekin blokeoa</string>
     <string name="lock_use_sensor_summary">Orientazioa blokeatuta dagoenean, erabili sentsorea alderantzizko orientazioa baimentzeko</string>
-    <string name="start">Hasi</string>
     <string name="notification_permission">Jakinarazpen-baimena</string>
     <string name="notification_permission_explanation">VLC-k zure baimena behar du jakinarazpenak bidaltzeko.\nAplikazioak zure multimedia eskaneatzen duzunean edo bideoa Irudia Irudian moduan erabiltzean soilik jakinaraziko dizu.\nHau ukatuz gero, ez du VLC-k funtzionatzea eragotziko, baina jakinarazpenak ezkutatu egingo dira.</string>
     <string name="permission">Baimena</string>

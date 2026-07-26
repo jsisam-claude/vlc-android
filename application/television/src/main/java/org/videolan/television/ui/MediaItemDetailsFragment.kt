@@ -338,9 +338,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment(), CoroutineScope by Mai
                 if (viewModel.media.uri.retrieveParent() != null) actionsAdapter.set(ID_NAVIGATE_PARENT, Action(ID_NAVIGATE_PARENT.toLong(), res.getString(R.string.go_to_folder)))
             }
             detailsOverview.actionsAdapter = actionsAdapter
-            // detailsOverview is the only row here (the moviepedia metadata rows were
-            // removed); upstream added it via updateMetadata() which no longer runs.
-            if (rowsAdapter.indexOf(detailsOverview) < 0) rowsAdapter.add(detailsOverview)
+            rowsAdapter.add(detailsOverview) // sole row since the metadata rows were removed
             adapter = rowsAdapter
             loadBackdrop()
         }

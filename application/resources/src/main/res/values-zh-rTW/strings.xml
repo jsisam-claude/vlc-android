@@ -118,12 +118,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d 個影片</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">%d 部電影</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">%d 部電視節目</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d 個軌道</item>
     </plurals>
@@ -223,8 +217,6 @@
     <string name="wait_before_sleep">等待目前媒體項目先完成</string>
     <string name="reset_on_interaction">任何互動時重設</string>
     <string name="default_sleep_timer_summary">%1$s，等待媒體結束：%2$s，互動時重設：%3$s</string>
-    <string name="video_player_remote">影片播放器遠端</string>
-    <string name="remote_keyboard_navigation">鍵盤導覽</string>
 
     <string name="server_add_title">新增伺服器至收藏</string>
     <string name="server_domain_hint">伺服器地址（網域名稱或 IP 位址）</string>
@@ -347,7 +339,6 @@
     <string name="screen_orientation_landscape_sensor">橫向（感應器）</string>
     <string name="screen_orientation_last_locked">最後鎖定方向</string>
     <string name="enable_black_theme">黑色主題</string>
-    <string name="dark_theme">深色佈景主題</string>
     <string name="theme_auto">自動佈景主題</string>
     <string name="subtitle_text_encoding">字幕編碼</string>
     <string name="subtitle_preferred_language">偏好的字幕語言</string>
@@ -492,29 +483,6 @@
     <string name="audio_ducking_title">有通知時降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助於聽到音訊通知、導航指示或助理說話</string>
     <string name="casting_category">投放</string>
-    <string name="remote_access">遠端存取</string>
-    <string name="remote_access_version_title">遠端存取版本</string>
-    <string name="remote_access_hash_title">遠端存雜湊值</string>
-    <string name="remote_access_status">伺服器狀態</string>
-    <string name="remote_access_status_summary">輕點以檢視伺服器狀態</string>
-    <string name="remote_access_connections">連線</string>
-    <string name="remote_access_links">連結</string>
-    <string name="remote_access_active">遠端存取作用中</string>
-    <string name="remote_access_notification">遠端存取正於 %s 作用中</string>
-    <string name="remote_access_notification_stopped">遠端存取已停止</string>
-    <string name="remote_access_notification_connecting">遠端存取正在連線</string>
-    <string name="remote_access_notification_error">遠端存取錯誤</string>
-    <string name="remote_access_notification_stopping">遠端存取正在停止</string>
-    <string name="remote_access_notification_not_init">遠端存取正在初始化</string>
-    <string name="enable_remote_access">啟用遠端存取</string>
-    <string name="remote_access_info">遠端存取資訊</string>
-    <string name="remote_access_content">內容</string>
-    <string name="remote_access_medialibrary_content">媒體庫內容</string>
-    <string name="remote_access_medialibrary_content_summary">已啟用：%1$s\n已停用：%2$s</string>
-    <string name="remote_access_file_browser_content">檔案瀏覽器</string>
-    <string name="remote_access_network_browser_content">網路瀏覽器</string>
-    <string name="remote_access_playback_control">控制播放</string>
-    <string name="remote_access_logs">分享紀錄檔</string>
     <string name="casting_switch_title">無線投放</string>
     <string name="casting_passthrough_title">音訊傳遞(Passthrough)</string>
     <string name="casting_passthrough_summary">讓您的電視管理音訊繪製</string>
@@ -642,8 +610,6 @@
     <string name="search_global">在所有媒體櫃中搜尋</string>
     <string name="playlist_save">儲存播放清單</string>
     <string name="playlist_name_hint">播放清單名稱</string>
-    <string name="chapters">章節</string>
-    <string name="notset">未設定</string>
     <string name="go_to_chapter">轉到章節...</string>
     <string name="current_chapter">章節：%s</string>
     <string name="confirm_resume">從上次播放的位置繼續嗎？</string>
@@ -663,19 +629,7 @@
     <string name="show_in_settings">在設定中顯示</string>
 
 <!--    update-->
-    <string name="update_title">有可用的更新</string>
-    <string name="install_nightly_title">安裝每日更新版</string>
-    <string name="update_text">VLC for Android 的每日更新版已釋出新版本！\n\n因為您正在使用每日更新版，所以會看到這個訊息。</string>
-    <string name="install_text">每日更新版是包含最新功能與修復，且會每天自動更新的版本。\n\n要立刻下載嗎？</string>
 
-    <string name="open_in_browser">在瀏覽器中開啟</string>
-    <string name="install">安裝</string>
-    <string name="install_nightly">安裝每日更新版</string>
-    <string name="install_nightly_alert">每日更新版是每天更新的實驗性版本。\n\n可以享受到最新的功能，但也可能會遇到新的臭蟲！</string>
-    <string name="nightly_version">找到的版本：%2$s - %1$s</string>
-    <string name="update_nightly_alert">您正在執行每夜版本。您想要定期尋找更新嗎？</string>
-    <string name="update_nightly">自動更新</string>
-    <string name="update_nightly_summary">定期搜尋每夜更新</string>
 
 
     <!-- Accessibility -->
@@ -698,7 +652,6 @@
     <string name="allow_storage_access_description">VLC 需要您的授權才能存取這個裝置上的媒體檔案。</string>
     <string name="partial_content">VLC 無法存取您所有的檔案</string>
     <string name="partial_content_description">從 Android 11 開始，應用程式需要特別權限才能存取裝置上所有的檔案。\n\n%s</string>
-    <string name="never_ask_again">不再詢問</string>
     <string name="never_show_again">不要再次顯示，即便是未來的版本</string>
     <string name="allow_settings_access_ringtone_title">允許 VLC 設定鈴聲</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授權才能將這首歌設定為鈴聲。</string>
@@ -854,7 +807,6 @@
     <string name="next">下一個</string>
     <string name="skip">略過</string>
     <string name="next_step">下一個</string>
-    <string name="download">下載</string>
     <string name="ctx_player_video_track">選取視訊軌</string>
     <string name="ctx_player_audio_track">音訊軌</string>
     <string name="ctx_player_subs_track">字幕軌</string>
@@ -952,25 +904,7 @@
     <string name="share_message">這是 %s</string>
     <string name="share_track_info">分享軌道資訊</string>
     <string name="share_track">目前正在聆聽 %s</string>
-    <string name="find_metadata">尋找詮釋資料</string>
-    <string name="moviepedia_hint">搜尋詮釋資料</string>
-    <string name="moviepedia_result">視訊結果</string>
-    <string name="directed_by">導演為</string>
-    <string name="casting">正在投放</string>
-    <string name="produced_by">製作人為</string>
-    <string name="written_by">編劇為</string>
-    <string name="music_by">音樂製作人為</string>
-    <string name="posters">海報</string>
-    <string name="backdrops">背景</string>
-    <string name="header_tvshows">電視節目</string>
-    <string name="header_movies">電影</string>
-    <string name="season_number">第 %s 季</string>
-    <string name="resume_episode">繼續 (%s)</string>
-    <string name="start_over">重頭開始</string>
-    <string name="next_episode">下一集</string>
     <string name="open_network_settings">開啟網路設定？</string>
-    <string name="recently_played">最近播放</string>
-    <string name="recently_added">最近新增</string>
     <string name="playback_multiple_errors">無法播放多種媒體</string>
     <string name="clear_media_db_message">您會遺失您的進度、書籤與您建立的播放清單，但會保留您的 Android 版 VLC 設定</string>
     <string name="clear_app_data_message">您將會遺失您的進度、書籤、播放清單與所有 VLC 設定</string>
@@ -1029,19 +963,11 @@
     <string name="sub_result_by_name_hearing_impaired">僅聽力障礙</string>
 
     <string name="sub_result_by_file">您檔案的結果</string>
-    <string name="donate">協助 VLC</string>
-    <string name="donate_desc">支援建立 VLC 的志願者</string>
-    <string name="donate_subscribtion">我想要讓這個變成每月的贊助</string>
-    <string name="donate_send">開始您的贊助</string>
-    <string name="donation_description">您的贊助讓我們可以：\n改善 Android 上的 VLC 應用程式\n支援 VideoLAN 協會</string>
     <string name="subscription_purchased">您已訂閱每月贊助</string>
     <string name="subscription_cancel">您可在 Play 商店中取消訂閱</string>
     <string name="subscription_cancel_tv">如何取消訂閱</string>
-    <string name="donate_unsubscribe_tv">要取消訂閱，請在手機或電腦上開啟 %s，或是掃描此條碼：</string>
-    <string name="tip_jar">協助 VLC</string>
     <string name="thank_you">謝謝</string>
     <string name="thank_you_desc">感謝您的贊助！\n這將協助我們大大地改善 VLC！</string>
-    <string name="donate_again">再次贊助應用程式</string>
 
     <string name="mark_as_played">標記為已播放</string>
     <string name="mark_as_not_played">標記為未播放</string>
@@ -1148,7 +1074,6 @@
     <string name="discovery_failed">探索失敗：%s</string>
     <string name="lock_use_sensor_title">使用偵測器鎖定</string>
     <string name="lock_use_sensor_summary">當方向鎖定時，使用偵測器允許反向</string>
-    <string name="start">開始</string>
     <string name="notification_permission">通知權限</string>
     <string name="notification_permission_explanation">VLC 需您的授權才能傳送通知。\n應用程式只會在為您掃描媒體或使用自訂的「字母畫面」視訊模式時向您傳送通知。\n拒絕該權限不會影響 VLC 正常運作，只是不會顯示通知而已。</string>
     <string name="permission">權限</string>
@@ -1285,57 +1210,6 @@
     <string name="replace_playlist">取代播放清單</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">遠端存取作用中</string>
-    <string name="ra_remote_access">遠端存取</string>
-    <string name="ra_remote_access_description">遠端存取狀態通知</string>
-    <string name="ra_log_file">紀錄檔</string>
-    <string name="ra_log_type">紀錄類型</string>
-    <string name="ra_send_files">傳送檔案</string>
-    <string name="ra_not_in_foreground">應用程式不在前景。無法啟動影片。</string>
-    <string name="ra_disconnected">與裝置斷開連線</string>
-    <string name="ra_file">檔案</string>
-    <string name="ra_upload_remaining">正在上傳 %s 個檔案</string>
-    <string name="ra_upload_all">上傳全部</string>
-    <string name="ra_drop_files_tip">將檔案拖曳到任意位置以傳送到您的裝置</string>
-    <string name="ra_prepare_download">正在準備您的下載</string>
-    <string name="ra_forbidden">內容已在設定中停用</string>
-    <string name="ra_playback_forbidden">播放控制已在設定中停用</string>
-    <string name="ra_logs_forbidden">已在設定中停用紀錄檔分享</string>
-    <string name="ra_code_requested_explanation">為了保護您的伺服器，已保護存取。\n請輸入通知中顯示的代碼</string>
-    <string name="ra_ssl_explanation_title">不安全的連線</string>
-    <string name="ra_ssl_explanation">您的連線並不安全。</string>
-    <string name="ra_ssl_explanation_browser">因為瀏覽器安全實作的關係，您將會在下一頁收到安全性警告。</string>
-    <string name="ra_ssl_explanation_accept">確保接受憑證才能使用遠端存取</string>
-    <string name="ra_ssl_button">使用安全連線</string>
-    <string name="ra_new_code">傳送新代碼</string>
-    <string name="home">主畫面</string>
-    <string name="ra_code">輸入此代碼：%s</string>
-    <string name="ra_send_logs">在裝置上儲存遠端存取紀錄檔</string>
-    <string name="ra_otp">遠端存取拋棄式密碼</string>
-    <string name="ra_otp_description">遠端存取的存取請求</string>
-    <string name="ra_otp_title">遠端存取登入嘗試</string>
-    <string name="ra_otp_subtitle">如果是您本人，請在其他裝置上輸入此代碼</string>
-    <string name="ra_otp_not_me">這不是我</string>
-    <string name="ra_onboarding_welcome_desc">歡迎使用 Android 版 VLC 的遠端存取\n啟用此功能，您將可以控制此裝置的播放等功能</string>
-    <string name="ra_onboarding_how_title">控制您的裝置</string>
-    <string name="ra_onboarding_how_desc">控制您的裝置播放，傳送或擷取檔案等</string>
-    <string name="ra_onboarding_ssl_title">資料加密</string>
-    <string name="ra_onboarding_ssl_desc">遠端存取經過加密，可防止您的資料遭到洩漏</string>
-    <string name="ra_onboarding_otp_title">認證</string>
-    <string name="ra_onboarding_otp_desc">透過拋棄式密碼身份認證，防止對您的資料進行不必要的存取</string>
-    <string name="ra_onboarding_content_title">內容存取</string>
-    <string name="ra_onboarding_content_desc">選擇可以存取的內容與無法存取的內容</string>
-    <string name="ra_onboarding_content_ml">媒體庫內容存取</string>
-    <string name="ra_onboarding_content_files">檔案瀏覽器</string>
-    <string name="ra_onboarding_content_playback">播放控制</string>
-    <string name="ra_disable">停用</string>
-    <string name="ra_log_web">遠端存取紀錄</string>
-    <string name="ra_log_crash">當機紀錄</string>
-    <string name="ra_log_mobile">裝置紀錄</string>
-    <string name="ra_log_current">目前本機紀錄</string>
-    <string name="ra_invalid_login">您必須在您的裝置上登入</string>
-    <string name="ra_invalid_otp">提供了無效的代碼</string>
-    <string name="learn_more">取得更多資訊</string>
 
     <!-- car screens -->
     <string name="help">說明</string>
@@ -1351,11 +1225,7 @@
     <string name="metered_warn">警告我（音訊播放可能會錯過警告）</string>
     <string name="metered_connection_stopped">因為是計量連線，因此媒體停止播放</string>
     <string name="metered_connection_warning">您目前使用的是計量連線。可能需要付費。</string>
-    <string name="adding">新增</string>
-    <string name="to">至</string>
     <string name="device">裝置</string>
-    <string name="connected_device">已連結的裝置</string>
-    <string name="model">裝置型號</string>
     <string name="prefs_app_data">應用程式資料</string>
     <string name="export_settings_summary">將您的設定匯出為檔案，並在稍後匯入</string>
     <string name="export_settings">匯出設定</string>
@@ -1391,12 +1261,6 @@
     <string name="generating_logs">正在產生紀錄檔。請稍候。</string>
     <string name="default_playback_action">播放動作</string>
     <string name="files">檔案</string>
-    <string name="remote_access_feedback_generate">產生報告</string>
-    <string name="remote_access_feedback_generated">已產生的您的回饋報告</string>
-    <string name="remote_access_feedback_generated_explanation">輕點下方按鈕以使用您預設的電子郵件客戶端傳送。若您遇到任何問題，您可以複製貼上以下欄位的內容並自行傳送電子郵件。</string>
-    <string name="remote_access_feedback_file_explanation">您剛剛下載了所需的檔案。請記得將其做為您電子郵件的附件寄出。</string>
-    <string name="generic_copied_to_clipboard">已複製到剪貼簿</string>
     <string name="feedback_email_warning">未安裝電子郵件客戶端</string>
-    <string name="feedback_email_warning_remote_action">開啟設定</string>
     <string name="feedback_email_warning_try_anyway">無論如何都要嘗試</string>
     </resources>

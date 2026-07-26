@@ -474,29 +474,11 @@ object VersionMigration {
     }
 
     /**
-     * Migrate the wrongly typed remote_access_medialibrary_content setting
-     *
+     * Version 17 migrated the type of a remote-access preference; the feature
+     * is removed in this fork, so there is nothing left to migrate.
      */
     private fun migrateToVersion17(settings: SharedPreferences) {
-        Log.i(this::class.java.simpleName, "Migrate to version 17: Migrate the wrongly typed remote_access_medialibrary_content setting")
-        if (settings.contains("remote_access_medialibrary_content")) {
-            try {
-                settings.getString("remote_access_medialibrary_content", "")?.let {  oldValue ->
-                    settings.edit(true) {
-                        putStringSet(
-                            "remote_access_medialibrary_content",
-                            oldValue
-                                .split(",")
-                                .map { it.filter(Char::isDigit) }
-                                .toSet()
-                        )
-                    }
-                }
-
-            } catch (_: ClassCastException) {
-                //Not a string. Safe to keep
-            }
-        }
+        Log.i(this::class.java.simpleName, "Migrate to version 17: no-op (remote access removed)")
     }
 
     /**

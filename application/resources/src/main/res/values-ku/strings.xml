@@ -84,14 +84,6 @@
         <item quantity="one">vîdyoyek</item>
         <item quantity="other">%d vîdyo</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">filîmek</item>
-        <item quantity="other">%d filîm</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">Rêzefilîmek</item>
-        <item quantity="other">%d Rêzefilîm</item>
-    </plurals>
     <string name="internal_memory">bîrdanka navxweyî</string>
     <string name="audio">Deng</string>
     <string name="video">Vîdyo</string>
@@ -387,7 +379,6 @@
     <string name="delete_the_selected">Bijartinê jê bibe</string>
     <string name="download_the_selected">Bijartinê daxîne</string>
     <string name="next">Pêşve</string>
-    <string name="download">Daxîne</string>
     <string name="ctx_player_video_track">Tomara vîdyoyê hilbijêre</string>
     <string name="ctx_player_audio_track">Tomara dengî</string>
     <string name="ctx_player_subs_track">Tomara jêrnivîsê</string>
@@ -401,20 +392,6 @@
     <string name="share">Parve bike</string>
     <string name="share_file">%s\'ê parve bike</string>
     <string name="share_message">%s li vir e</string>
-    <string name="moviepedia_result">Encamên vîdyoyê</string>
-    <string name="directed_by">Derhêner</string>
-    <string name="casting">Veguheztina medyayê</string>
-    <string name="produced_by">Çêker</string>
-    <string name="written_by">Nivîskar</string>
-    <string name="music_by">Muzîk ji aliyê</string>
-    <string name="posters">Poster</string>
-    <string name="backdrops">Paşxan</string>
-    <string name="header_tvshows">TV show</string>
-    <string name="header_movies">Filîm</string>
-    <string name="season_number">Sezona %sem</string>
-    <string name="resume_episode">Bidomîne (%s)</string>
-    <string name="start_over">Ji serî ve dest pê bike</string>
-    <string name="next_episode">Beşa din</string>
     <string name="open_network_settings">Sazkariyên torê veke?</string>
     <string name="video_information">Agahiyên vîdyoyê</string>
 

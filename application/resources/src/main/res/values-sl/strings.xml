@@ -139,18 +139,6 @@
         <item quantity="few">%d videi</item>
         <item quantity="other">%d videov</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="two">%d filma</item>
-        <item quantity="few">%dfilmi</item>
-        <item quantity="other">%dfilmov</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV oddaja</item>
-        <item quantity="two">%d TV oddaji</item>
-        <item quantity="few">%d TV oddaje</item>
-        <item quantity="other">%d TV oddaj</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 skladba</item>
         <item quantity="two">%d skladbi</item>
@@ -256,8 +244,6 @@
     <string name="wait_before_sleep">Počakajte, da se trenutna vsebina konča</string>
     <string name="reset_on_interaction">Ponastavi ob interakciji</string>
     <string name="default_sleep_timer_summary">%1$s, čakanje na konec vsebine: %2$s, ponastavitev ob interakciji: %3$s</string>
-    <string name="video_player_remote">Daljinec video predvajalnika</string>
-    <string name="remote_keyboard_navigation">NAvigacija s tipkovnico</string>
 
     <string name="server_add_title">Dodaj nov strežnik med priljubljene</string>
     <string name="server_domain_hint">Naslov strežnika (ime domene ali naslov IP)</string>
@@ -380,7 +366,6 @@
     <string name="screen_orientation_landscape_sensor">Ležeče (senzor)</string>
     <string name="screen_orientation_last_locked">Zadnja zaklenjena orientacija</string>
     <string name="enable_black_theme">Črna tema</string>
-    <string name="dark_theme">Temna tema</string>
     <string name="theme_auto">Samodejna tema</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="subtitle_preferred_language">Prednostni jezik podnapisov</string>
@@ -522,29 +507,6 @@
     <string name="audio_ducking_title">Zmanjšaj glasnost ob prejemu sporočila</string>
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
     <string name="casting_category">Zasedba</string>
-    <string name="remote_access">Oddaljeni dostop</string>
-    <string name="remote_access_version_title">Različica oddaljenega dostopa</string>
-    <string name="remote_access_hash_title">Razpršitev (hash) oddaljenega dostopa</string>
-    <string name="remote_access_status">Stanje strežnika</string>
-    <string name="remote_access_status_summary">Tapnite za prikaz stanja strežnika</string>
-    <string name="remote_access_connections">Povezave</string>
-    <string name="remote_access_links">Povezave</string>
-    <string name="remote_access_active">Oddaljen dostop aktiven</string>
-    <string name="remote_access_notification">Oddaljeni dostop aktiven na %s</string>
-    <string name="remote_access_notification_stopped">Oddaljeni dostop zaustavljen</string>
-    <string name="remote_access_notification_connecting">Oddaljeni dostop se povezuje</string>
-    <string name="remote_access_notification_error">Oddaljeni dostop napaka</string>
-    <string name="remote_access_notification_stopping">Oddaljeni dostop se zaustavlja</string>
-    <string name="remote_access_notification_not_init">Oddaljeni dostop se vzpostavlja</string>
-    <string name="enable_remote_access">Vklop oddaljenega dostopa</string>
-    <string name="remote_access_info">Podatki oddaljenega dostopa</string>
-    <string name="remote_access_content">Vsebina</string>
-    <string name="remote_access_medialibrary_content">Vsebina knjižnice vsebin</string>
-    <string name="remote_access_medialibrary_content_summary">Omogočeno: %1$s\nOnemogočeno: %2$s</string>
-    <string name="remote_access_file_browser_content">Datotečni brskalnik</string>
-    <string name="remote_access_network_browser_content">Omrežni brskalnik</string>
-    <string name="remote_access_playback_control">Nadzor predvajanja</string>
-    <string name="remote_access_logs">Deli dnevniške datoteke</string>
     <string name="casting_switch_title">Brezžična avdicija</string>
     <string name="casting_passthrough_title">Zvočni prehod</string>
     <string name="casting_passthrough_summary">Naj televizor skrbi za oblikovanje zvoka</string>
@@ -673,8 +635,6 @@
     <string name="search_global">Preišči celotno knjižnico predstavnih vsebin</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
     <string name="playlist_name_hint">ime seznama predvajanja</string>
-    <string name="chapters">Poglavja</string>
-    <string name="notset">Ni določeno</string>
     <string name="go_to_chapter">Skoči na poglavje …</string>
     <string name="current_chapter">Poglavje: %s</string>
     <string name="confirm_resume">Ali želite nadaljevati pri nazadnje ustavljenem mestu?</string>
@@ -694,19 +654,7 @@
     <string name="show_in_settings">Prikaži v nastavitvah</string>
 
 <!--    update-->
-    <string name="update_title">Na voljo je posodobitev</string>
-    <string name="install_nightly_title">Namesti nočno različico</string>
-    <string name="update_text">Na voljo je nova nočna izdaja VLC za Android!\n\nTo sporočilo je prikazano, ker uporabljate nočno izdajo programa.</string>
-    <string name="install_text">Nočne izdaje se vsak dan samodejno posodobijo in vsebujejo najnovejše funkcije in popravke.\n\nPrenesem zdaj?*</string>
 
-    <string name="open_in_browser">Odpri v brskalniku</string>
-    <string name="install">Namesti</string>
-    <string name="install_nightly">Namesti nočno različico</string>
-    <string name="install_nightly_alert">Nočne izdaje so preizkusne različice, ki se posodobijo vsak dan.\n\nPričakujte nove funkcije, a tudi nove hrošče!</string>
-    <string name="nightly_version">Najdena različica: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Zagnana je nočna različica. Želite redno iskati posodobitve?</string>
-    <string name="update_nightly">Samodejno posodabljanje</string>
-    <string name="update_nightly_summary">Redno iskanje nočnih posodobitev</string>
 
 
     <!-- Accessibility -->
@@ -729,7 +677,6 @@
     <string name="allow_storage_access_description">Program zahteva odobritev dostopa do predstavnih datotek na napravi.</string>
     <string name="partial_content">VLC ne more dostopati do vseh datotek</string>
     <string name="partial_content_description">Od različice Android 11 je potrebno aplikacijam podeliti posebno pravico, da smejo dostopati do vseh datotek.\n\n%s</string>
-    <string name="never_ask_again">Tega več ne sprašuj</string>
     <string name="never_show_again">Tega ne prikaži več - niti za prihodnje različice</string>
     <string name="allow_settings_access_ringtone_title">Dovoli nastavljanje melodije zvonjenja</string>
     <string name="allow_settings_access_ringtone_description">Program zahteva odobritev nastavitve skladbe kot melodije zvonjenja.</string>
@@ -885,7 +832,6 @@
     <string name="next">Naslednje</string>
     <string name="skip">Preskoči</string>
     <string name="next_step">Naslednje</string>
-    <string name="download">Prenesi</string>
     <string name="ctx_player_video_track">Izberi video stezo</string>
     <string name="ctx_player_audio_track">Zvočna vsebina</string>
     <string name="ctx_player_subs_track">Steza s podnapisi</string>
@@ -989,25 +935,7 @@
     <string name="share_message">Tukaj je %s</string>
     <string name="share_track_info">Deli podatke o vsebini</string>
     <string name="share_track">Trenutno se predvaja %s</string>
-    <string name="find_metadata">Najdi metapodatke</string>
-    <string name="moviepedia_hint">iskanje metapodatkov</string>
-    <string name="moviepedia_result">Video rezultati</string>
-    <string name="directed_by">Režija</string>
-    <string name="casting">Igra</string>
-    <string name="produced_by">Produkcija</string>
-    <string name="written_by">Scenarij</string>
-    <string name="music_by">Glasba</string>
-    <string name="posters">Plakat</string>
-    <string name="backdrops">Ozadja</string>
-    <string name="header_tvshows">TV oddaje</string>
-    <string name="header_movies">Filmi</string>
-    <string name="season_number">Sezona %s</string>
-    <string name="resume_episode">Nadaljuj (%s)</string>
-    <string name="start_over">Začni znova</string>
-    <string name="next_episode">Naslednji del</string>
     <string name="open_network_settings">Odprem omrežne nastavitve?</string>
-    <string name="recently_played">Nedavno predvajano</string>
-    <string name="recently_added">Nedavno dodano</string>
     <string name="playback_multiple_errors">Ni mogoče predvajati več predstavnih vsebin hkrati</string>
     <string name="clear_media_db_message">Napredki, zaznamki in seznami predvajanj, ki ste jih ustvarili, ne bodo ohranjeni, bodo pa ohranjene nastavitve za VLC za Android</string>
     <string name="clear_app_data_message">Izgubili boste napredek, zaznamke, sezname predvajanj in vse VLC nastavitve</string>
@@ -1066,19 +994,11 @@
     <string name="sub_result_by_name_hearing_impaired">Le slušno omerjeni</string>
 
     <string name="sub_result_by_file">Rezultati za datoteko</string>
-    <string name="donate">Pomgajte VLC</string>
-    <string name="donate_desc">Podprite prostovoljce, ki ustvarjajo VLC</string>
-    <string name="donate_subscribtion">Želim, da je to mesečno sponzorstvo</string>
-    <string name="donate_send">Začni sponzorstvo</string>
-    <string name="donation_description">Vaše sponzorstvo na bo omogočila:\nizboljšati aplikacijo VLC za Android\nPodpreti združenje VideoLAN</string>
     <string name="subscription_purchased">Naročeni ste na mesečno sponzorstvo</string>
     <string name="subscription_cancel">Odjavite se lahko v Trgovini Play</string>
     <string name="subscription_cancel_tv">Kako se odjaviti?</string>
-    <string name="donate_unsubscribe_tv">Za odjavo odprite %s na telefonu ali računalniku, ali pa preberite to kodo:</string>
-    <string name="tip_jar">Pomagajte VLC</string>
     <string name="thank_you">Hvala</string>
     <string name="thank_you_desc">Hvala za vaše sponzorstvo!\nPomagalo nam bo izboljšati VLC!</string>
-    <string name="donate_again">Ponovno sponzoriraj aplikacijo</string>
 
     <string name="mark_as_played">Označi kot predvajano</string>
     <string name="mark_as_not_played">Označi kot nepredvajano</string>
@@ -1185,7 +1105,6 @@
     <string name="discovery_failed">Odkrivanje ni uspelo za: %s</string>
     <string name="lock_use_sensor_title">Zakleni s senzorjem</string>
     <string name="lock_use_sensor_summary">Kadar je oprientacija zaklenjena, uporabi senzor, kar omogoča obratno orientacijo</string>
-    <string name="start">Zaženi</string>
     <string name="notification_permission">Dovoljenje za obveščanje</string>
     <string name="notification_permission_explanation">VLC potrebuje dovoljenje za pošiljanje obvestil.\nAplikacija vas bo obvestila le ob pregledovanju vsebin ali ob uporabi slike v sliki.\nZavrnitev dovoljenja ne bo preprečila delovanja VLC, bodo pa obvestila ostala skrita.</string>
     <string name="permission">Dovoljenje</string>
@@ -1328,58 +1247,7 @@
     <string name="replace_playlist">Zamenjaj seznam predvajanja</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Oddaljeni dostop je aktiven</string>
-    <string name="ra_remote_access">Oddaljeni dostop</string>
-    <string name="ra_remote_access_description">Obveščanje o stanju oddaljenega dostopa</string>
-    <string name="ra_log_file">Dnevniške datoteke</string>
-    <string name="ra_log_type">Vrsta dnevnika</string>
-    <string name="ra_send_files">Pošlji datoteke</string>
-    <string name="ra_not_in_foreground">Aplikacija se ne izvaja v ospredju. Ne morem zagnati videa.</string>
-    <string name="ra_disconnected">Odklopljen od naprave</string>
-    <string name="ra_file">Datoteka</string>
-    <string name="ra_upload_remaining">Nalagam %s datotek</string>
-    <string name="ra_upload_all">Naloži vse</string>
-    <string name="ra_drop_files_tip">Spustite datoteke kamorkoli, da jih pošljete na napravo</string>
-    <string name="ra_prepare_download">Pripravljam prenos</string>
-    <string name="ra_forbidden">onemogočena v nastavitvah</string>
-    <string name="ra_playback_forbidden">Nadzor predvajanja je onemogočen v nastavitvah</string>
-    <string name="ra_logs_forbidden">Posredovanje beležk je izklopljeno v nastavitvah</string>
-    <string name="ra_code_requested_explanation">Zaradi zaščite strežnika je dostop omejen.\nVnesite kodo, ki je prikazana v obvestilih.</string>
-    <string name="ra_ssl_explanation_title">Nezaščitena povezava</string>
-    <string name="ra_ssl_explanation">Vaša povezava ni varna.</string>
-    <string name="ra_ssl_explanation_browser">Zaradi varnostnih nastavitev brskalnika boste na naslednji strani dobili varnostno obvestilo.</string>
-    <string name="ra_ssl_explanation_accept">Za uporabo oddaljenega dostopa sprejmite certifikat</string>
-    <string name="ra_ssl_button">Uporabi varno povezavo</string>
-    <string name="ra_new_code">Pošlji novo kodo</string>
-    <string name="home">Domov</string>
-    <string name="ra_code">Vnesite to kodo: %s</string>
-    <string name="ra_send_logs">Shrani dnevnike oddaljenih dostopov na napravo</string>
-    <string name="ra_otp">Enkratno geslo oddaljenega dostopa</string>
-    <string name="ra_otp_description">Dostop do zahtev za oddaljeni dostop</string>
-    <string name="ra_otp_title">Poskusi prijav za oddaljeni dostop</string>
-    <string name="ra_otp_subtitle">Če ste to vi, vnesite to kodo na drugi napravi</string>
-    <string name="ra_otp_not_me">To nisem jaz</string>
 
-    <string name="ra_onboarding_welcome_desc">Dobrodošli v oddaljenem dostopu za VLC za Android.\nZ vklopom tega je mogoče nadzorovati predvajanje te naprave in več.</string>
-    <string name="ra_onboarding_how_title">Nadzorujte napravo</string>
-    <string name="ra_onboarding_how_desc">Nadzorujte predvajanje naprave, pošljite ali pridobite datoteke in več</string>
-    <string name="ra_onboarding_ssl_title">Šifriranje podatkov</string>
-    <string name="ra_onboarding_ssl_desc">Oddaljeni dostop je šifriran, da ne podatki ne bi uhajali</string>
-    <string name="ra_onboarding_otp_title">Overitev</string>
-    <string name="ra_onboarding_otp_desc">Overitev z enkratnim geslom preprečuje nezaželen dostop do podatkov</string>
-    <string name="ra_onboarding_content_title">Dostop do vsebin</string>
-    <string name="ra_onboarding_content_desc">Izberite, do česa se lahko dostopa in do česa ne</string>
-    <string name="ra_onboarding_content_ml">Dostop do vsebin knjižnice</string>
-    <string name="ra_onboarding_content_files">Datotečni brskalnik</string>
-    <string name="ra_onboarding_content_playback">Nadzor predvajanja</string>
-    <string name="ra_disable">Onemogoči</string>
-    <string name="ra_log_web">Dnevnik oddaljenega dostopa</string>
-    <string name="ra_log_crash">Dnevnik napak</string>
-    <string name="ra_log_mobile">Dnevnik naprave</string>
-    <string name="ra_log_current">Trenutni lokalni dnevniki</string>
-    <string name="ra_invalid_login">V napravo se morate prijaviti</string>
-    <string name="ra_invalid_otp">Podana koda je napačna</string>
-    <string name="learn_more">Več o tem</string>
 
     <!-- car screens -->
     <string name="help">Pomoč</string>
@@ -1395,11 +1263,7 @@
     <string name="metered_warn">Opozori me (opozorilo se lahko zgreši za predvajanje zvoka)</string>
     <string name="metered_connection_stopped">Vsebina se je zaustavila zaradi merjenja povezave</string>
     <string name="metered_connection_warning">Povezava se meri</string>
-    <string name="adding">Dodajanje</string>
-    <string name="to">k</string>
     <string name="device">Naprava</string>
-    <string name="connected_device">Povezana naprava</string>
-    <string name="model">Model naprave</string>
     <string name="prefs_app_data">Programski podatki</string>
     <string name="export_settings_summary">Izvoz nastavitev v datoteko za kasnejši uvoz</string>
     <string name="export_settings">Nastavitve izvoza</string>
@@ -1435,12 +1299,6 @@
     <string name="generating_logs">Ustvarjanje beležk. Počakajte.</string>
     <string name="default_playback_action">Dejanje predvajanja</string>
     <string name="files">Daoteke</string>
-    <string name="remote_access_feedback_generate">Ustvari poročila</string>
-    <string name="remote_access_feedback_generated">Vaše odzivno poročilo je bilo ustvarjeno</string>
-    <string name="remote_access_feedback_generated_explanation">Tapnite na spodnji gumb za pošiljanje s privzetim odjemalcem pošte. V primeru težav lahko prekopirate spodnja polja in jih prilepite v sporočilo, ki ga sami pošljete.</string>
-    <string name="remote_access_feedback_file_explanation">Prenesli ste potrebne datoteke. Ne pozabite jih pripeti k sporočilu.</string>
-    <string name="generic_copied_to_clipboard">Kopirano na odložišče</string>
     <string name="feedback_email_warning">Noben poštni odjemalec ni nameščen</string>
-    <string name="feedback_email_warning_remote_action">Odpri nastavitve</string>
     <string name="feedback_email_warning_try_anyway">Vseeno poskusi</string>
     </resources>

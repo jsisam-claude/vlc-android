@@ -3,7 +3,6 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-    <color name="red">#bb0000</color>
 
 <!--
     Material color swatches
@@ -32,7 +31,6 @@
     <color name="green100">#a7e3d1</color>
     <color name="green200">#91dcc5</color>
     <color name="green300">#7cd5ba</color>
-    <color name="green400">#66cfaf</color>
     <color name="green500">#50c8a3</color>
     <color name="green600">#47b99b</color>
     <color name="green700">#3ea992</color>

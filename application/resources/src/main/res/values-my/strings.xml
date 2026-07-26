@@ -78,12 +78,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">ဗီဒီယို%dကား</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">ရုပ်ရှင် %dကား</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">တီဗီဖျော်ဖြေပွဲ %d ပွဲ</item>
-    </plurals>
     <string name="internal_memory">အတွင်း မှတ်ဉာဏ်</string>
     <string name="audio">အသံ</string>
     <string name="video">ဗီဒီယို</string>
@@ -188,9 +182,6 @@
     <string name="ask_confirmation">အတည်ပြုချက် ကို မေးရန်</string>
     <string name="add_to_scanned">ဤ ဖိုဒါ ကို စစ်ပါ</string>
     <string name="directory_not_scanned">ဤ လမ်းကြောင်း ကို မစစ်ပါ</string>
-    <string name="header_tvshows">တီဗီဖျော်ဖြေပွဲများ</string>
-    <string name="header_movies">ရုပ်ရှင်များ</string>
-    <string name="season_number">အတွဲ %s</string>
     <string name="abrepeat_add_first_marker">အစမှတ် သတ်မှတ်ပါ</string>
     <string name="abrepeat_add_second_marker">အဆုံးမှတ် သတ်မှတ်ပါ</string>
     <string name="demux_bitrate">Demux bitrate</string>
@@ -219,7 +210,5 @@
     <string name="sub_result_by_name_episode">အပိုင်း %s</string>
 
     <string name="sub_result_by_file">သင်၏ ဖိုင်များ အတွက် ရလဒ်</string>
-    <string name="donate">VLC ကို ကူညီရန်</string>
-    <string name="tip_jar">VLC ကို ကူညီရန်</string>
     <string name="thank_you">ကျေးဇူးတင်ပါသည်</string>
     </resources>

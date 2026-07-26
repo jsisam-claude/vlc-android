@@ -118,12 +118,6 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d 个视频</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="other">%d 部影片</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="other">%d 部电视节目</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="other">%d 条轨道</item>
     </plurals>
@@ -223,8 +217,6 @@
     <string name="wait_before_sleep">先等待当前媒体项目播放结束</string>
     <string name="reset_on_interaction">有任何交互时重置</string>
     <string name="default_sleep_timer_summary">%1$s, 等待媒体结束: %2$s, 交互时重置: %3$s</string>
-    <string name="video_player_remote">视频播放器远程控制</string>
-    <string name="remote_keyboard_navigation">键盘导航</string>
 
     <string name="server_add_title">向收藏夹添加新的服务器</string>
     <string name="server_domain_hint">服务器地址 (域名或 IP)</string>
@@ -347,7 +339,6 @@
     <string name="screen_orientation_landscape_sensor">横向 (跟随传感器)</string>
     <string name="screen_orientation_last_locked">上次锁定的方向</string>
     <string name="enable_black_theme">黑色主题</string>
-    <string name="dark_theme">深色主题</string>
     <string name="theme_auto">自动主题</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="subtitle_preferred_language">偏好的字幕语言</string>
@@ -492,29 +483,6 @@
     <string name="audio_ducking_title">收到通知时降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
     <string name="casting_category">投屏</string>
-    <string name="remote_access">远程访问</string>
-    <string name="remote_access_version_title">远程访问版本</string>
-    <string name="remote_access_hash_title">远程访问 hash</string>
-    <string name="remote_access_status">服务器状态</string>
-    <string name="remote_access_status_summary">轻按可查看服务器状态</string>
-    <string name="remote_access_connections">连接</string>
-    <string name="remote_access_links">链接</string>
-    <string name="remote_access_active">远程访问处于活动状态</string>
-    <string name="remote_access_notification">%s 正在远程访问</string>
-    <string name="remote_access_notification_stopped">远程访问已停止</string>
-    <string name="remote_access_notification_connecting">远程访问正在连接</string>
-    <string name="remote_access_notification_error">远程访问出错</string>
-    <string name="remote_access_notification_stopping">远程访问正在停止</string>
-    <string name="remote_access_notification_not_init">远程访问正在初始化</string>
-    <string name="enable_remote_access">启用远程访问</string>
-    <string name="remote_access_info">远程访问信息</string>
-    <string name="remote_access_content">内容</string>
-    <string name="remote_access_medialibrary_content">媒体库内容</string>
-    <string name="remote_access_medialibrary_content_summary">已启用: %1$s\n已禁用: %2$s</string>
-    <string name="remote_access_file_browser_content">文件浏览器</string>
-    <string name="remote_access_network_browser_content">网络浏览器</string>
-    <string name="remote_access_playback_control">播放控制</string>
-    <string name="remote_access_logs">分享日志文件</string>
     <string name="casting_switch_title">无线投屏</string>
     <string name="casting_passthrough_title">音频直通</string>
     <string name="casting_passthrough_summary">让 TV 全权负责音频渲染</string>
@@ -642,8 +610,6 @@
     <string name="search_global">在所有媒体库中搜索媒体</string>
     <string name="playlist_save">保存播放列表</string>
     <string name="playlist_name_hint">播放列表名称</string>
-    <string name="chapters">章节</string>
-    <string name="notset">未设置</string>
     <string name="go_to_chapter">转到章节…</string>
     <string name="current_chapter">章节: %s</string>
     <string name="confirm_resume">是否从上次播放到的位置继续播放？</string>
@@ -663,19 +629,7 @@
     <string name="show_in_settings">在设置中显示</string>
 
 <!--    update-->
-    <string name="update_title">有更新可用</string>
-    <string name="install_nightly_title">安装每日构建版</string>
-    <string name="update_text">VLC for Android 的每日构建版已发布新版本!\n\n您看到本消息，是因为您正在使用的是每日构建版。</string>
-    <string name="install_text">每日构建版是包含 master 分支最新的功能以及 bug 修复方案的自动构建版本。\n\n是否立即下载?</string>
 
-    <string name="open_in_browser">在浏览器中打开</string>
-    <string name="install">安装</string>
-    <string name="install_nightly">安装每日构建版</string>
-    <string name="install_nightly_alert">每日构建版是每天更新的实验性版本。\n\n您可以享用最新的功能，但也可能遇到全新的 bug!</string>
-    <string name="nightly_version">发现版本: %2$s - %1$s</string>
-    <string name="update_nightly_alert">您正在使用每日构建版本。是否希望定期查询更新版本?</string>
-    <string name="update_nightly">自动更新</string>
-    <string name="update_nightly_summary">定期查询每日构建版本更新</string>
 
 
     <!-- Accessibility -->
@@ -698,7 +652,6 @@
     <string name="allow_storage_access_description">VLC 需要您授权方可访问该设备上的媒体文件。</string>
     <string name="partial_content">VLC 无法访问您的所有文件</string>
     <string name="partial_content_description">对于 Android 11 及更高版本，应用需要经过您的特别授权，才能访问设备上的所有文件。\n\n%s</string>
-    <string name="never_ask_again">不再询问</string>
     <string name="never_show_again">以后永远不要展示新版本介绍</string>
     <string name="allow_settings_access_ringtone_title">允许 VLC 设置铃声</string>
     <string name="allow_settings_access_ringtone_description">VLC 需要您的授权方可将该歌曲设为您的铃声。</string>
@@ -854,7 +807,6 @@
     <string name="next">下一项</string>
     <string name="skip">跳过</string>
     <string name="next_step">继续</string>
-    <string name="download">下载</string>
     <string name="ctx_player_video_track">选择视频轨道</string>
     <string name="ctx_player_audio_track">音频轨</string>
     <string name="ctx_player_subs_track">字幕轨</string>
@@ -952,25 +904,7 @@
     <string name="share_message">这是 %s</string>
     <string name="share_track_info">分享轨道信息</string>
     <string name="share_track">正在欣赏 %s</string>
-    <string name="find_metadata">查找元数据</string>
-    <string name="moviepedia_hint">搜索元数据</string>
-    <string name="moviepedia_result">视频结果</string>
-    <string name="directed_by">导演</string>
-    <string name="casting">选角</string>
-    <string name="produced_by">制片</string>
-    <string name="written_by">编剧</string>
-    <string name="music_by">配乐</string>
-    <string name="posters">海报</string>
-    <string name="backdrops">背景</string>
-    <string name="header_tvshows">电视节目</string>
-    <string name="header_movies">电影</string>
-    <string name="season_number">第%s季</string>
-    <string name="resume_episode">继续 (%s)</string>
-    <string name="start_over">从头开始</string>
-    <string name="next_episode">下一集</string>
     <string name="open_network_settings">打开网络设置?</string>
-    <string name="recently_played">最近播放</string>
-    <string name="recently_added">最近添加</string>
     <string name="playback_multiple_errors">多个媒体无法播放</string>
     <string name="clear_media_db_message">您将失去播放进度、书签以及您创建的播放列表，但对 VLC for Android 的设置将得到保留</string>
     <string name="clear_app_data_message">您将失去播放进度、书签、播放列表以及所有的 VLC 设置</string>
@@ -1029,19 +963,11 @@
     <string name="sub_result_by_name_hearing_impaired">只显示听觉辅助内容</string>
 
     <string name="sub_result_by_file">文件搜索结果</string>
-    <string name="donate">帮助 VLC</string>
-    <string name="donate_desc">支持 VLC 背后的志愿者们</string>
-    <string name="donate_subscribtion">我希望每月都捐</string>
-    <string name="donate_send">开始您的赞助</string>
-    <string name="donation_description">您的赞助将帮助我们:\n改进 Android 版 VLC 应用\n支持 VideoLAN 协会</string>
     <string name="subscription_purchased">您已订阅每月赞助</string>
     <string name="subscription_cancel">您可以在 Play 商店中退订</string>
     <string name="subscription_cancel_tv">如何退订</string>
-    <string name="donate_unsubscribe_tv">要取消订阅，请在手机或计算机上打开 %s 或扫描以下二维码:</string>
-    <string name="tip_jar">帮助 VLC</string>
     <string name="thank_you">感谢</string>
     <string name="thank_you_desc">感谢您的赞助！\n这将帮助我们大大改善VLC！</string>
-    <string name="donate_again">再次赞助该应用</string>
 
     <string name="mark_as_played">标记为已播放</string>
     <string name="mark_as_not_played">标记为未播放</string>
@@ -1149,7 +1075,6 @@
     <string name="discovery_failed">扫描失败: %s</string>
     <string name="lock_use_sensor_title">锁定时接受传感器控制</string>
     <string name="lock_use_sensor_summary">屏幕方向已锁定时，允许根据传感器控制按 180° 旋转</string>
-    <string name="start">启动</string>
     <string name="notification_permission">通知权限</string>
     <string name="notification_permission_explanation">VLC 需要您的授权，方可发送通知。\n应用只会在为您扫描媒体文件或者自定义 ｢画中画｣ 视频模式时向您发送通知。\n拒绝该权限不会影响 VLC 的正常运行，只是不显示通知信息而已。</string>
     <string name="permission">权限</string>
@@ -1286,60 +1211,6 @@
     <string name="replace_playlist">替换播放列表</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">远程访问处于活动状态</string>
-    <string name="ra_remote_access">远程访问</string>
-    <string name="ra_remote_access_description">远程访问状态提醒</string>
-    <string name="ra_log_file">日志文件</string>
-    <string name="ra_log_type">日志类型</string>
-    <string name="ra_send_files">发送文件</string>
-    <string name="ra_not_in_foreground">应用程序不在前台。无法启动视频播放。</string>
-    <string name="ra_disconnected">已从设备断开连接</string>
-    <string name="ra_file">文件</string>
-    <string name="ra_upload_remaining">正在上传 %s 个文件</string>
-    <string name="ra_upload_all">全部上传</string>
-    <string name="ra_drop_files_tip">将文件拖到任意位置，即可发送到设备</string>
-    <string name="ra_prepare_download">正在准备要下载的内容</string>
-    <string name="ra_forbidden">内容访问已在 ｢设置｣ 中禁用</string>
-    <string name="ra_playback_forbidden">播放控制按钮已在 ｢设置｣ 中禁用</string>
-    <string name="ra_logs_forbidden">已在设置中关闭日志分享</string>
-    <string name="ra_code_requested_explanation">为保护服务器的安全，我们采取了验证措施。\n请输入通知消息中显示的验证码</string>
-    <string name="ra_ssl_explanation_title">未加密的连接</string>
-    <string name="ra_ssl_explanation">您的连接未加密。</string>
-    <string name="ra_ssl_explanation_browser">由于实施浏览器安全措施的技术限制，您将会在下一页看到安全警告消息。</string>
-    <string name="ra_ssl_explanation_accept">您需要接受服务器证书，才能使用该设备的远程访问功能</string>
-    <string name="ra_ssl_button">使用加密连接</string>
-    <string name="ra_new_code">发送一条新的验证码</string>
-    <string name="home">主页</string>
-    <string name="ra_code">请输入此验证码: %s</string>
-    <string name="ra_send_logs">将远程访问日志保存到设备</string>
-    <string name="ra_otp">远程访问一次性密码</string>
-    <string name="ra_otp_description">接受远程访问请求</string>
-    <string name="ra_otp_title">远程访问登录尝试</string>
-    <string name="ra_otp_subtitle">如果确定是您本人，请在另一台设备上输入此验证码</string>
-    <string name="ra_otp_not_me">不是我本人</string>
-    <string name="ra_output">音频输出</string>
-    <string name="ra_play_on_browser">在浏览器上播放</string>
-    <string name="ra_play_on_device">在设备上播放</string>
-    <string name="ra_onboarding_welcome_desc">欢迎使用 ｢VLC for Android｣ 的远程访问功能！\n启用此功能，即可从其他设备控制此设备的播放，还能做到很多其他事情</string>
-    <string name="ra_onboarding_how_title">控制您的设备</string>
-    <string name="ra_onboarding_how_desc">控制您设备的播放、发送或下载文件，以及其他功能</string>
-    <string name="ra_onboarding_ssl_title">数据加密</string>
-    <string name="ra_onboarding_ssl_desc">远程访问功能支持加密连接，可避免您的数据遭泄露</string>
-    <string name="ra_onboarding_otp_title">身份认证</string>
-    <string name="ra_onboarding_otp_desc">使用一次性密码进行身份认证，避免陌生人访问您的数据</string>
-    <string name="ra_onboarding_content_title">内容权限控制</string>
-    <string name="ra_onboarding_content_desc">选择允许访问哪些内容、不允许访问哪些内容</string>
-    <string name="ra_onboarding_content_ml">媒体库内容权限</string>
-    <string name="ra_onboarding_content_files">文件浏览器</string>
-    <string name="ra_onboarding_content_playback">播放控制</string>
-    <string name="ra_disable">禁用</string>
-    <string name="ra_log_web">远程访问日志</string>
-    <string name="ra_log_crash">崩溃日志</string>
-    <string name="ra_log_mobile">设备日志</string>
-    <string name="ra_log_current">当前本地日志</string>
-    <string name="ra_invalid_login">您需要在设备端登录</string>
-    <string name="ra_invalid_otp">密码无效</string>
-    <string name="learn_more">了解更多</string>
 
     <!-- car screens -->
     <string name="help">帮助</string>
@@ -1355,11 +1226,7 @@
     <string name="metered_warn">警告我 (播放音频时可能不会注意到警告文字)</string>
     <string name="metered_connection_stopped">因处于按流量计费的网络，媒体播放已停止</string>
     <string name="metered_connection_warning">您的网络连接属于按流量计费型。可能会产生流量费用。</string>
-    <string name="adding">增加中</string>
-    <string name="to">到</string>
     <string name="device">设备</string>
-    <string name="connected_device">已连接设备</string>
-    <string name="model">设备型号</string>
     <string name="prefs_app_data">应用程序数据</string>
     <string name="export_settings_summary">将设置参数导出为单独的文件，以便以后再导入</string>
     <string name="export_settings">导出设置</string>
@@ -1395,12 +1262,6 @@
     <string name="generating_logs">正在生成日志，请稍候。</string>
     <string name="default_playback_action">｢播放｣ 动作</string>
     <string name="files">文件</string>
-    <string name="remote_access_feedback_generate">生成报告</string>
-    <string name="remote_access_feedback_generated">您的反馈报告已生成</string>
-    <string name="remote_access_feedback_generated_explanation">点击下方按钮，将使用您默认的电子邮件客户端发送它。如果发送时出现问题，可复制、粘贴以下字段，手动发送电子邮件。</string>
-    <string name="remote_access_feedback_file_explanation">您已下载所需的文件。请记得将它作为电子邮件的附件发出。</string>
-    <string name="generic_copied_to_clipboard">已复制到剪贴板</string>
     <string name="feedback_email_warning">未安装电子邮件客户端</string>
-    <string name="feedback_email_warning_remote_action">打开设置</string>
     <string name="feedback_email_warning_try_anyway">仍然尝试</string>
     </resources>

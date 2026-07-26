@@ -123,18 +123,6 @@
         <item quantity="many">%d vaizdo įrašų</item>
         <item quantity="other">%d vaizdo įrašų</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 vaizdo įrašas</item>
-        <item quantity="few">%d vaizdo įrašai</item>
-        <item quantity="many">%d vaizdo įrašų</item>
-        <item quantity="other">%d vaizdo įrašų</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 serialas</item>
-        <item quantity="few">%d serialai</item>
-        <item quantity="many">%d serialų</item>
-        <item quantity="other">%d serialų</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 takelis</item>
         <item quantity="few">%d takeliai</item>
@@ -220,8 +208,6 @@
     <string name="wait_before_sleep">Palaukti, kol bus pabaigtas dabartinis medijos elementas</string>
     <string name="reset_on_interaction">Atkurti esant bet kokiai sąveikai</string>
     <string name="default_sleep_timer_summary">%1$s, laukti kūrinio pabaigos: %2$s, atkurti sąveikaujant: %3$s</string>
-    <string name="video_player_remote">Nuotolinio valdymo pultas</string>
-    <string name="remote_keyboard_navigation">Naršymas klaviatūra</string>
 
     <string name="server_add_title">Pridėti naują mėgst. serverį</string>
     <string name="server_domain_hint">Serverio adresas (domeno vardas ar IP)</string>
@@ -340,7 +326,6 @@
     <string name="screen_orientation_landscape_sensor">Gulsčia (jutiklis)</string>
     <string name="screen_orientation_last_locked">Paskiausia užrakinta ekrano padėtis</string>
     <string name="enable_black_theme">Tamsus apipavidalinimas</string>
-    <string name="dark_theme">Tamsus apipavidalinimas</string>
     <string name="theme_auto">Automatinis apipavidalinimas</string>
     <string name="subtitle_text_encoding">Subtitrų koduotė</string>
     <string name="subtitle_preferred_language">Pageidaujama subtitrų kalba</string>
@@ -469,29 +454,6 @@
     <string name="audio_ducking_title">Pritildyti VLC gaunant pranešimus</string>
     <string name="audio_ducking_summary">Padeda išgirsti garsinius pranešimus, navigacijos instrukcijas ar pagalbininko kalbą</string>
     <string name="casting_category">Transliacija</string>
-    <string name="remote_access">Nuotolinė prieiga</string>
-    <string name="remote_access_version_title">Nuotolinės prieigos versija</string>
-    <string name="remote_access_hash_title">Nuotolinės prieigos kontrolinė suma</string>
-    <string name="remote_access_status">Serverio būsena</string>
-    <string name="remote_access_status_summary">Bakstelėkite, kad pakeistumėte serverio būseną</string>
-    <string name="remote_access_connections">Ryšiai</string>
-    <string name="remote_access_links">Nuorodos</string>
-    <string name="remote_access_active">Nuotolinė prieiga aktyvi</string>
-    <string name="remote_access_notification">Nuotolinė prieiga aktyvi adresu: %s</string>
-    <string name="remote_access_notification_stopped">Nuotolinė prieiga sustabdyta</string>
-    <string name="remote_access_notification_connecting">Nuotolinės prieiga jungiasi</string>
-    <string name="remote_access_notification_error">Nuotolinės prieigos klaida</string>
-    <string name="remote_access_notification_stopping">Nuotolinė prieiga stabdoma</string>
-    <string name="remote_access_notification_not_init">Nuotolinė prieiga inicijuojama</string>
-    <string name="enable_remote_access">Įgalinti nuotolinę prieigą</string>
-    <string name="remote_access_info">Nuotolinės prieigos informacija</string>
-    <string name="remote_access_content">Turinys</string>
-    <string name="remote_access_medialibrary_content">Mediatekos turinys</string>
-    <string name="remote_access_medialibrary_content_summary">Įjungta: %1$s\nIšjungta: %2$s</string>
-    <string name="remote_access_file_browser_content">Rinkmenų naršyklė</string>
-    <string name="remote_access_network_browser_content">Tinklo naršyklė</string>
-    <string name="remote_access_playback_control">Atkūrimo valdymas</string>
-    <string name="remote_access_logs">Bendrinti žurnalo rinkmenas</string>
     <string name="casting_switch_title">Belaidė transliacija</string>
     <string name="casting_passthrough_title">Garso perdavimas</string>
     <string name="casting_passthrough_summary">Leisti televizoriui tvarkyti garso perdavimą</string>
@@ -612,8 +574,6 @@
     <string name="search_global">Ieškoti visoje mediatekoje</string>
     <string name="playlist_save">Įrašyti grojaraštį</string>
     <string name="playlist_name_hint">Grojaraščio pavadinimas</string>
-    <string name="chapters">Skyriai</string>
-    <string name="notset">Nenustatyta</string>
     <string name="go_to_chapter">Eiti į skyrių...</string>
     <string name="current_chapter">Skyrius: %s</string>
     <string name="confirm_resume">Tęsti nuo paskutinės padėties?</string>
@@ -628,19 +588,7 @@
     <!--What's new-->
     <string name="whats_new_title">Kas naujo VLC, skirtoje „Android“ sistemai %s</string>
     <!--    update-->
-    <string name="update_title">Galimas atnaujinimas</string>
-    <string name="install_nightly_title">„Naktinės“ versijos diegimas</string>
-    <string name="update_text">Galimas naktinės VLC, skirtos „Android“ sistemai, atnaujinimas!\n\nJūs tai matote, nes naudojate naktinę versiją.</string>
-    <string name="install_text">Naktinės versijos atnaujinamos automatiškai kasdien ir talpina savyje naujausias funkcijas ir pataisymus.\n\nAtsisiųsti dabar?</string>
 
-    <string name="open_in_browser">Atidaryti naršyklėje</string>
-    <string name="install">Įdiegti</string>
-    <string name="install_nightly">„Naktinės“ versijos diegimas</string>
-    <string name="install_nightly_alert">Naktinės versijos yra eksperimentinės ir atnaujinamos kasdien.\n\nTikėkitės ne tik naujų funkcijų, bet ir naujų klaidų!</string>
-    <string name="nightly_version">Rasta versija: %2$s – %1$s</string>
-    <string name="update_nightly_alert">Jūs naudojate naktinę versiją. Ar norėtumėte periodiškai ieškoti atnaujinimų?</string>
-    <string name="update_nightly">Automatinis naujinimas</string>
-    <string name="update_nightly_summary">Periodiškai ieškoti naktinės versijos atnaujinimų</string>
 
 
     <!-- Accessibility -->
@@ -663,7 +611,6 @@
     <string name="allow_storage_access_description">VLC reikia Jūsų leidimo pasiekti įrenginyje esančius kūrinius.</string>
     <string name="partial_content">VLC negali pasiekti visų Jūsų rinkmenų</string>
     <string name="partial_content_description">Pradedant nuo „Android“ 11 versijos, programoms reikia specialaus leidimo pasiekti visas įrenginio rinkmenas.\n\n%s</string>
-    <string name="never_ask_again">Niekada daugiau neklausti</string>
     <string name="never_show_again">Daugiau niekada nerodyti, net ir būsimose versijose</string>
     <string name="allow_settings_access_ringtone_title">Leisti nustatyti skambėjimo toną</string>
     <string name="allow_settings_access_ringtone_description">VLC reikia Jūsų leidimo nustatyti dainą kaip skambėjimo toną.</string>
@@ -818,7 +765,6 @@
     <string name="next">Toliau</string>
     <string name="skip">Praleisti</string>
     <string name="next_step">Toliau</string>
-    <string name="download">Atsisiųsti</string>
     <string name="ctx_player_video_track">Vaizdo įr. takelis</string>
     <string name="ctx_player_audio_track">Garso takelis</string>
     <string name="ctx_player_subs_track">Subtitrų takelis</string>
@@ -917,25 +863,7 @@
     <string name="share_message">Čia yra %s</string>
     <string name="share_track_info">Bendrinti takelio informaciją</string>
     <string name="share_track">Šiuo metu klausausi: „%s“.</string>
-    <string name="find_metadata">Rasti „meta“ žymenis</string>
-    <string name="moviepedia_hint">Ieškoti „meta“ žymių</string>
-    <string name="moviepedia_result">Paieškos rezultatai</string>
-    <string name="directed_by">Režisierius</string>
-    <string name="casting">Aktorių kolektyvas</string>
-    <string name="produced_by">Išleista</string>
-    <string name="written_by">Scenarijaus autorius</string>
-    <string name="music_by">Muzikos autorius</string>
-    <string name="posters">Plakatai</string>
-    <string name="backdrops">Fonas</string>
-    <string name="header_tvshows">Serialai</string>
-    <string name="header_movies">Filmai</string>
-    <string name="season_number">Sezonas %s</string>
-    <string name="resume_episode">Tęsti (%s)</string>
-    <string name="start_over">Pradėti iš naujo</string>
-    <string name="next_episode">Kitas epizodas</string>
     <string name="open_network_settings">Atverti tinklo nuostatas?</string>
-    <string name="recently_played">Neseniai grota</string>
-    <string name="recently_added">Neseniai pridėta</string>
     <string name="playback_multiple_errors">Kai kurių rinkmenų nepavyko atkurti</string>
     <string name="clear_media_db_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles ir sukurtus grojaraščius, tačiau išlaikysite savo VLC nuostatas</string>
     <string name="clear_app_data_message">Prarasite peržiūrėtų kūrinių istoriją, žymeles, sukurtus grojaraščius ir VLC nuostatas</string>
@@ -994,19 +922,11 @@
     <string name="sub_result_by_name_hearing_impaired">Rodyti tik skirtus asmenims su klausos negalia</string>
 
     <string name="sub_result_by_file">Jūsų paieškos rezultatai</string>
-    <string name="donate">Padėti VLC</string>
-    <string name="donate_desc">Paremkite VLC kūrėjus</string>
-    <string name="donate_subscribtion">Remti kas mėnesį</string>
-    <string name="donate_send">Pradėti rėmimo procedūrą</string>
-    <string name="donation_description">Jūsų rėmimas leis:\nPatobulinti VLC, skirtą „Android“ sistemai.\nPalaikyti „VideoLAN“ asociaciją</string>
     <string name="subscription_purchased">Jūs užsiprenumeravote mėnesinį rėmimą</string>
     <string name="subscription_cancel">Galite atsisakyti prenumeratos „Play“ parduotuvėje</string>
     <string name="subscription_cancel_tv">Kaip atsisakyti prenumeratos</string>
-    <string name="donate_unsubscribe_tv">Norėdami atsisakyti prenumeratos, atidarykite %s telefone ar kompiuteryje arba nuskaitykite šį kodą:</string>
-    <string name="tip_jar">Padėti VLC</string>
     <string name="thank_you">Ačiū Jums</string>
     <string name="thank_you_desc">Dėkojame už rėmimą!\nTai mums padės tobulinant VLC!</string>
-    <string name="donate_again">Paremti programą pakartotinai</string>
 
     <string name="mark_as_played">Pažymėti kaip peržiūrėtą</string>
     <string name="mark_as_not_played">Pažymėti kaip neperžiūrėtą</string>
@@ -1105,7 +1025,6 @@
     <string name="discovery_failed">Nepavyko nuskaityti: %s</string>
     <string name="lock_use_sensor_title">Užrakinti su jutikliu</string>
     <string name="lock_use_sensor_summary">Kai ekrano pasukimas užrakintas, naudoti jutiklį atvirkštinės padėties įgalinimui</string>
-    <string name="start">Pradėti!</string>
     <string name="notification_permission">Pranešimų leidimas</string>
     <string name="notification_permission_explanation">VLC reikia Jūsų leidimo siųsti pranešimus.\nPrograma Jums praneš tik tada, kai vykdys medijos nuskaitymą arba naudos tinkintą „vaizdo-vaizde“ langą.\nAtsisakymas netrukdys VLC veikti, tačiau paslėps programos pranešimus.</string>
     <string name="permission">Leidimas</string>
@@ -1248,57 +1167,7 @@
     <string name="replace_playlist">Pakeisti grojaraštį</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Nuotolinė prieiga aktyvi</string>
-    <string name="ra_remote_access">Nuotolinė prieiga</string>
-    <string name="ra_remote_access_description">Nuotolinės prieigos būsenos pranešimas</string>
-    <string name="ra_log_file">Žurnalai</string>
-    <string name="ra_log_type">Žurnalo tipas</string>
-    <string name="ra_send_files">Siųsti rinkmenas</string>
-    <string name="ra_not_in_foreground">Programa veikia ne priekiniame plane. Vaizdo įrašo paleidimas negalimas.</string>
-    <string name="ra_disconnected">Atsijungta nuo įrenginio</string>
-    <string name="ra_file">Rinkmena</string>
-    <string name="ra_upload_remaining">Siunčiamos rinkmenos: %s</string>
-    <string name="ra_upload_all">Siųsti viską</string>
-    <string name="ra_drop_files_tip">Numeskite rinkmenas bet kurioje vietoje, kad galėtumėte jas nusiųsti į savo įrenginį</string>
-    <string name="ra_prepare_download">Rengiamas Jūsų atsisiuntimas</string>
-    <string name="ra_forbidden">Turinys yra išjungtas nuostatose</string>
-    <string name="ra_playback_forbidden">Atkūrimo valdymas išjungtas nuostatose</string>
-    <string name="ra_code_requested_explanation">Saugumo sumetimais Jūsų serveris yra apribotas.\nĮveskite kodą, rodomą pranešime</string>
-    <string name="ra_ssl_explanation_title">Nesaugus ryšys</string>
-    <string name="ra_ssl_explanation">Jūsų ryšys nėra saugus.</string>
-    <string name="ra_ssl_explanation_browser">Dėl naršyklėje naudojamų saugos priemonių kitame puslapyje gausite saugos įspėjimą.</string>
-    <string name="ra_ssl_explanation_accept">Norėdami naudotis nuotoline prieiga būtinai priimkite sertifikatą</string>
-    <string name="ra_ssl_button">Naudoti saugų ryšį</string>
-    <string name="ra_new_code">Siųsti naują kodą</string>
-    <string name="home">Pradžia</string>
-    <string name="ra_code">Įveskite šį kodą: %s</string>
-    <string name="ra_send_logs">Įrašyti nuotolinės prieigos žurnalus į įrenginį</string>
-    <string name="ra_otp">Vienkartinis nuotolinės prieigos slaptažodis</string>
-    <string name="ra_otp_description">Nuotolinės prieigos užklausos</string>
-    <string name="ra_otp_title">Nuotolinės prieigos prisijungimo bandymas</string>
-    <string name="ra_otp_subtitle">Jei tai Jūs, įveskite šį kodą kitame įrenginyje</string>
-    <string name="ra_otp_not_me">Tai ne aš</string>
 
-    <string name="ra_onboarding_welcome_desc">Sveiki atvykę į VLC, skirtos „Android“ sistemai, nuotolinės prieigos nuostatas.\nJas įgalinę galėsite valdyti šio įrenginio atkūrimą ir dar daugiau</string>
-    <string name="ra_onboarding_how_title">Įrenginio valdymas</string>
-    <string name="ra_onboarding_how_desc">Valdykite savo įrenginio atkūrimą, siųskite arba gaukite rinkmenas ir dar daugiau</string>
-    <string name="ra_onboarding_ssl_title">Šifruoti duomenys</string>
-    <string name="ra_onboarding_ssl_desc">Nuotolinė prieiga yra užšifruota, tad Jūsų duomenys yra saugūs nuo „nutekėjimo“</string>
-    <string name="ra_onboarding_otp_title">Tapatybės patvirtinimas</string>
-    <string name="ra_onboarding_otp_desc">Pasitelkę vienkartinį slaptažodį tapatybės patvirtinimui, galite užkirsti kelią nepageidaujamai prieigai prie savo duomenų</string>
-    <string name="ra_onboarding_content_title">Turinio prieiga</string>
-    <string name="ra_onboarding_content_desc">Pasirinkite, ką galima bus pasiekti, o ko ne</string>
-    <string name="ra_onboarding_content_ml">Medijos bibliotekos turinį</string>
-    <string name="ra_onboarding_content_files">Rinkmenų naršyklę</string>
-    <string name="ra_onboarding_content_playback">Atkūrimo valdymą</string>
-    <string name="ra_disable">Išjungti</string>
-    <string name="ra_log_web">Nuotolinės prieigos žurnalas</string>
-    <string name="ra_log_crash">Gedimų žurnalas</string>
-    <string name="ra_log_mobile">Įrenginio žurnalas</string>
-    <string name="ra_log_current">Esami vietiniai žurnalai</string>
-    <string name="ra_invalid_login">Turite prisijungti savo įrenginyje</string>
-    <string name="ra_invalid_otp">Pateiktas neteisingas kodas</string>
-    <string name="learn_more">Sužinoti daugiau</string>
 
     <!-- car screens -->
     <string name="help">Pagalba</string>
@@ -1314,11 +1183,7 @@
     <string name="metered_warn">Įspėti mane (įspėjimas gali būti praleistas atkuriant garso įr.)</string>
     <string name="metered_connection_stopped">Medija sustabdyta, nes ryšys yra matuojamas</string>
     <string name="metered_connection_warning">Jūsų ryšys yra matuojamas. Gali būti taikomi pap. mokesčiai.</string>
-    <string name="adding">Įtraukiama</string>
-    <string name="to">į</string>
     <string name="device">Įrenginys</string>
-    <string name="connected_device">Prijungtas įrenginys</string>
-    <string name="model">Įrenginio modelis</string>
     <string name="prefs_app_data">Programos duomenys</string>
     <string name="export_settings_summary">Eksportuoti nuostatas į rinkmeną jų importavimui vėliau</string>
     <string name="export_settings">Eksportuoti nuostatas</string>

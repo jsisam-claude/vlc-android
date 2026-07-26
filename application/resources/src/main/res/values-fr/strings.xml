@@ -132,16 +132,6 @@
         <item quantity="many">%d vidéos</item>
         <item quantity="other">%d vidéos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="many">%d films</item>
-        <item quantity="other">%d films</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV show</item>
-        <item quantity="many">%d séries TV</item>
-        <item quantity="other">%d séries TV</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 piste</item>
         <item quantity="many">%d pistes</item>
@@ -245,8 +235,6 @@
     <string name="wait_before_sleep">Attendez que le multimédia en cours se termine</string>
     <string name="reset_on_interaction">Réinitialiser en cas d’interaction</string>
     <string name="default_sleep_timer_summary">%1$s, attendre la fin du média : %2$s, réinitialiser lors de l’interaction : %3$s</string>
-    <string name="video_player_remote">Télécommande du lecteur vidéo</string>
-    <string name="remote_keyboard_navigation">Navigation au clavier</string>
 
     <string name="server_add_title">Ajouter un serveur aux favoris</string>
     <string name="server_domain_hint">Adresse du serveur (domaine ou adresse IP)</string>
@@ -369,7 +357,6 @@
     <string name="screen_orientation_landscape_sensor">Paysage (capteur)</string>
     <string name="screen_orientation_last_locked">Dernière orientation verrouillée</string>
     <string name="enable_black_theme">Thème sombre</string>
-    <string name="dark_theme">Thème sombre</string>
     <string name="theme_auto">Thème auto</string>
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="subtitle_preferred_language">Langue préférée des sous-titres</string>
@@ -514,29 +501,6 @@
     <string name="audio_ducking_title">Réduire le volume de VLC lors des notifications</string>
     <string name="audio_ducking_summary">Aide à l’écoute des notifications audio, instructions de navigation ou assistant vocal</string>
     <string name="casting_category">Diffusion</string>
-    <string name="remote_access">Accès à distance</string>
-    <string name="remote_access_version_title">Version de l’accès à distance</string>
-    <string name="remote_access_hash_title">Hachage ou « hash » de l’accès à distance</string>
-    <string name="remote_access_status">État du serveur</string>
-    <string name="remote_access_status_summary">Touchez pour voir l’état du serveur</string>
-    <string name="remote_access_connections">Connexions</string>
-    <string name="remote_access_links">Liens</string>
-    <string name="remote_access_active">Accès à distance actif</string>
-    <string name="remote_access_notification">Accès à distance actif sur %s</string>
-    <string name="remote_access_notification_stopped">Accès à distance interrompu</string>
-    <string name="remote_access_notification_connecting">Connexion à l’accès à distance</string>
-    <string name="remote_access_notification_error">Erreur d’accès à distance</string>
-    <string name="remote_access_notification_stopping">Arrêt de l’accès à distance</string>
-    <string name="remote_access_notification_not_init">Initialisation de l’accès à distance</string>
-    <string name="enable_remote_access">Activer l’accès à distance</string>
-    <string name="remote_access_info">Informations sur l’accès à distance</string>
-    <string name="remote_access_content">Contenu</string>
-    <string name="remote_access_medialibrary_content">Contenu de la médiathèque</string>
-    <string name="remote_access_medialibrary_content_summary">Activé : %1$s\nDésactivé : %2$s</string>
-    <string name="remote_access_file_browser_content">Navigateur de fichiers</string>
-    <string name="remote_access_network_browser_content">Navigateur réseau</string>
-    <string name="remote_access_playback_control">Contrôler la lecture</string>
-    <string name="remote_access_logs">Partager les fichiers journaux</string>
     <string name="casting_switch_title">Diffusion sans fil</string>
     <string name="casting_passthrough_title">Passerelle audio</string>
     <string name="casting_passthrough_summary">Laisser votre téléviseur gérer le rendu audio</string>
@@ -666,8 +630,6 @@
     <string name="search_global">Rechercher dans toute la médiathèque</string>
     <string name="playlist_save">Enregistrer la liste de lecture</string>
     <string name="playlist_name_hint">Nom de liste de lecture</string>
-    <string name="chapters">Chapitres</string>
-    <string name="notset">Pas défini</string>
     <string name="go_to_chapter">Aller au chapitre…</string>
     <string name="current_chapter">Chapitre : %s</string>
     <string name="confirm_resume">Reprendre depuis la dernière position ?</string>
@@ -687,19 +649,7 @@
     <string name="show_in_settings">Afficher dans les paramètres</string>
 
 <!--    update-->
-    <string name="update_title">Mise à jour disponible</string>
-    <string name="install_nightly_title">Installer la version Nightly</string>
-    <string name="update_text">Une nouvelle version Nightly de VLC pour Android est disponible !\n\nVous voyez ce message parce que vous utilisez une version Nightly.</string>
-    <string name="install_text">Les versions Nightly sont mises à jour automatiquement tous les jours avec les dernières fonctionnalités et corrections.\n\nTélécharger maintenant ?</string>
 
-    <string name="open_in_browser">Ouvrir dans le navigateur</string>
-    <string name="install">Installer</string>
-    <string name="install_nightly">Installer la version Nightly</string>
-    <string name="install_nightly_alert">Les Nightly builds sont des versions expérimentales mises à jour quotidiennement.\n\nAttendez-vous à de nouvelles fonctionnalités mais aussi à de nouveaux bugs !</string>
-    <string name="nightly_version">Version trouvée : %2$s - %1$s</string>
-    <string name="update_nightly_alert">Vous utilisez une version nightly. Souhaitez-vous rechercher périodiquement des mises à jour ?</string>
-    <string name="update_nightly">Mise à jour automatique</string>
-    <string name="update_nightly_summary">Rechercher périodiquement une mise à jour nightly</string>
 
 
     <!-- Accessibility -->
@@ -722,7 +672,6 @@
     <string name="allow_storage_access_description">VLC a besoin de votre permission pour accéder aux fichiers multimédias de cet appareil.</string>
     <string name="partial_content">VLC ne peut pas accéder à tous vos fichiers</string>
     <string name="partial_content_description">À partir d’Android 11, les applications ont besoin d’une autorisation spéciale pour accéder à tous les fichiers de l’appareil.\n\n%s</string>
-    <string name="never_ask_again">Ne plus jamais demander</string>
     <string name="never_show_again">Ne plus jamais montrer, même pour les versions futures.</string>
     <string name="allow_settings_access_ringtone_title">Autoriser VLC à changer la sonnerie du téléphone</string>
     <string name="allow_settings_access_ringtone_description">VLC a besoin de votre autorisation pour définir ce morceau comme sonnerie.</string>
@@ -878,7 +827,6 @@
     <string name="next">Suivant</string>
     <string name="skip">Passer</string>
     <string name="next_step">Suivant</string>
-    <string name="download">Télécharger</string>
     <string name="ctx_player_video_track">Sélectionner une piste vidéo</string>
     <string name="ctx_player_audio_track">Sélectionner une piste audio</string>
     <string name="ctx_player_subs_track">Sélectionner une piste de sous-titres</string>
@@ -980,25 +928,7 @@
     <string name="share_message">Voici %s</string>
     <string name="share_track_info">Partager les informations de la piste</string>
     <string name="share_track">Actuellement à l’écoute de %s</string>
-    <string name="find_metadata">Trouver les métadonnées</string>
-    <string name="moviepedia_hint">Rechercher les métadonnées</string>
-    <string name="moviepedia_result">Résultats vidéo</string>
-    <string name="directed_by">Réalisé par</string>
-    <string name="casting">Distribution</string>
-    <string name="produced_by">Produit par</string>
-    <string name="written_by">Écrit par</string>
-    <string name="music_by">Musique de</string>
-    <string name="posters">Affiches</string>
-    <string name="backdrops">Décors</string>
-    <string name="header_tvshows">Séries TV</string>
-    <string name="header_movies">Films</string>
-    <string name="season_number">Saison %s</string>
-    <string name="resume_episode">Reprendre (%s)</string>
-    <string name="start_over">Recommencer</string>
-    <string name="next_episode">Épisode suivant</string>
     <string name="open_network_settings">Ouvrir les paramètres réseau ?</string>
-    <string name="recently_played">Lu récemment</string>
-    <string name="recently_added">Ajouté récemment</string>
     <string name="playback_multiple_errors">Plusieurs médias ne peuvent être lus</string>
     <string name="clear_media_db_message">Vous perdrez vos progressions, vos favoris et les listes de lecture que vous avez créées, mais vous conserverez vos paramètres VLC pour Android</string>
     <string name="clear_app_data_message">Vous perdrez vos progressions, vos favoris, vos listes de lecture et tous les paramètres de VLC</string>
@@ -1057,19 +987,11 @@
     <string name="sub_result_by_name_hearing_impaired">Malentendants uniquement</string>
 
     <string name="sub_result_by_file">Résultats pour votre fichier</string>
-    <string name="donate">Aider VLC</string>
-    <string name="donate_desc">Soutenez les bénévoles qui construisent VLC</string>
-    <string name="donate_subscribtion">Je souhaite que ce soit un financement mensuel</string>
-    <string name="donate_send">Démarrer votre financement</string>
-    <string name="donation_description">Votre financement nous permettra de :\nAméliorer l’application VLC pour Android\nSoutenir l’association VideoLAN</string>
     <string name="subscription_purchased">Vous avez souscrit au financement mensuel</string>
     <string name="subscription_cancel">Vous pouvez vous désinscrire dans le Play Store</string>
     <string name="subscription_cancel_tv">Comment se désinscrire</string>
-    <string name="donate_unsubscribe_tv">Pour se désinscrire, veuillez ouvrir %s sur un téléphone ou un ordinateur ou scanner ce code :</string>
-    <string name="tip_jar">Aider VLC</string>
     <string name="thank_you">Merci</string>
     <string name="thank_you_desc">Merci pour votre financement !\nCela nous aidera beaucoup à améliorer VLC !</string>
-    <string name="donate_again">Financer l’application à nouveau</string>
 
     <string name="mark_as_played">Marquer comme vu</string>
     <string name="mark_as_not_played">Marquer comme non vu</string>
@@ -1176,7 +1098,6 @@
     <string name="discovery_failed">La découverte a échoué pour : %s</string>
     <string name="lock_use_sensor_title">Verrouillage avec capteur</string>
     <string name="lock_use_sensor_summary">Lorsque l’orientation est verrouillée, utilisez le capteur pour permettre l’orientation inverse.</string>
-    <string name="start">Démarrer</string>
     <string name="notification_permission">Autorisation de notification</string>
     <string name="notification_permission_explanation">VLC a besoin de votre autorisation pour envoyer des notifications.\nL’application vous notifiera uniquement lorsque vous analyserez vos médias ou que vous utiliserez l’incrustation vidéo.\nRefuser cette autorisation n’empêchera pas VLC de fonctionner, mais les notifications seront masquées.</string>
     <string name="permission">Permission</string>
@@ -1317,63 +1238,7 @@
     <string name="replace_playlist">Remplacer la liste de lecture</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Accès à distance actif</string>
-    <string name="ra_remote_access">Accès à distance</string>
-    <string name="ra_remote_access_description">Notification de l’état de l’accès à distance</string>
-    <string name="ra_log_file">Fichiers journaux</string>
-    <string name="ra_log_type">Type de journal</string>
-    <string name="ra_send_files">Envoyer des fichiers</string>
-    <string name="ra_not_in_foreground">L’application n’est pas au premier plan. Impossible de lancer la vidéo.</string>
-    <string name="ra_disconnected">Déconnecté de l’appareil</string>
-    <string name="ra_file">Fichier</string>
-    <string name="ra_upload_remaining">Téléchargement des fichiers %s</string>
-    <string name="ra_upload_all">Tout télécharger</string>
-    <string name="ra_drop_files_tip">Déposer des fichiers n’importe où pour les envoyer sur votre appareil</string>
-    <string name="ra_prepare_download">Préparation du téléchargement</string>
-    <string name="ra_forbidden">Contenu désactivé dans les paramètres</string>
-    <string name="ra_playback_forbidden">Contrôle de lecture désactivé dans les paramètres</string>
-    <string name="ra_logs_forbidden">Partage des journaux désactivé dans les paramètres</string>
-    <string name="ra_code_requested_explanation">Pour protéger votre serveur, l’accès est protégé.\nVeuillez saisir le code affiché dans vos notifications</string>
-    <string name="ra_ssl_explanation_title">Connexion non sécurisée</string>
-    <string name="ra_ssl_explanation">Votre connexion n’est pas sécurisée.</string>
-    <string name="ra_ssl_explanation_browser">En raison de la mise en œuvre de la sécurité du navigateur, vous recevrez un avertissement de sécurité dans la page suivante.</string>
-    <string name="ra_ssl_explanation_accept">Veillez à accepter le certificat pour pouvoir utiliser l’accès à distance.</string>
-    <string name="ra_ssl_button">Utiliser une connexion sécurisée</string>
-    <string name="ra_new_code">Envoyer un nouveau code</string>
-    <string name="home">Accueil</string>
-    <string name="ra_code">Entrez ce code : %s</string>
-    <string name="ra_send_logs">Enregistrer les journaux d’accès à distance sur l’appareil</string>
-    <string name="ra_otp">Mot de passe unique pour l’accès à distance</string>
-    <string name="ra_otp_description">Demandes d’accès pour l’accès à distance</string>
-    <string name="ra_otp_title">Tentative de connexion à l’accès à distance</string>
-    <string name="ra_otp_subtitle">Si c’est vous, saisissez ce code sur l’autre appareil</string>
-    <string name="ra_otp_not_me">Ce n’est pas moi</string>
-    <string name="ra_output">Sortie audio</string>
-    <string name="ra_play_on_browser">Lire dans le navigateur</string>
-    <string name="ra_play_on_device">Lire sur l’appareil</string>
-    <string name="ra_browser_audio_not_found">Média introuvable ou impossible à lire dans le navigateur</string>
-    <string name="ra_browser_audio_unsupported_format">Ce format audio n’est pas pris en charge par votre navigateur</string>
 
-    <string name="ra_onboarding_welcome_desc">Bienvenue dans l’accès à distance de VLC pour Android.\nEn l’activant, vous pourrez contrôler la lecture de cet appareil et plus encore.</string>
-    <string name="ra_onboarding_how_title">Contrôler votre appareil</string>
-    <string name="ra_onboarding_how_desc">Contrôlez la lecture de votre appareil, envoyez ou récupérez des fichiers et bien plus encore</string>
-    <string name="ra_onboarding_ssl_title">Cryptage des données</string>
-    <string name="ra_onboarding_ssl_desc">L’accès à distance est crypté pour éviter toute fuite de vos données</string>
-    <string name="ra_onboarding_otp_title">Authentification</string>
-    <string name="ra_onboarding_otp_desc">Grâce à l’authentification par mot de passe unique, vous évitez tout accès indésirable à vos données.</string>
-    <string name="ra_onboarding_content_title">Accès au contenu</string>
-    <string name="ra_onboarding_content_desc">Choisir ce qui est accessible et ce qui ne l’est pas</string>
-    <string name="ra_onboarding_content_ml">Accès au contenu de la médiathèque</string>
-    <string name="ra_onboarding_content_files">Navigateur de fichiers</string>
-    <string name="ra_onboarding_content_playback">Contrôle de lecture</string>
-    <string name="ra_disable">Désactiver</string>
-    <string name="ra_log_web">Journal d’accès à distance</string>
-    <string name="ra_log_crash">Journal des incidents</string>
-    <string name="ra_log_mobile">Journal de l’appareil</string>
-    <string name="ra_log_current">Journaux locaux actuels</string>
-    <string name="ra_invalid_login">Vous devez vous connecter sur votre appareil</string>
-    <string name="ra_invalid_otp">Code fourni non valide</string>
-    <string name="learn_more">En savoir plus</string>
 
     <!-- car screens -->
     <string name="help">Aide</string>
@@ -1389,11 +1254,7 @@
     <string name="metered_warn">Avertissez-moi (l’avertissement peut ne pas être pris en compte lors de la lecture audio)</string>
     <string name="metered_connection_stopped">Le média s’est arrêté parce que la connexion est tarifée.</string>
     <string name="metered_connection_warning">Votre connexion est tarifée. Des frais peuvent s’appliquer.</string>
-    <string name="adding">Ajout</string>
-    <string name="to">à</string>
     <string name="device">Périphérique</string>
-    <string name="connected_device">Appareil connecté</string>
-    <string name="model">Modèle de l’appareil</string>
     <string name="prefs_app_data">Données d’application</string>
     <string name="export_settings_summary">Exporter vos paramètres dans un fichier pour les importer ultérieurement</string>
     <string name="export_settings">Exporter les paramètres</string>
@@ -1429,12 +1290,6 @@
     <string name="generating_logs">Création de journaux. Veuillez patienter.</string>
     <string name="default_playback_action">Action de lecture</string>
     <string name="files">Fichiers</string>
-    <string name="remote_access_feedback_generate">Générer un rapport</string>
-    <string name="remote_access_feedback_generated">Votre rapport d’évaluation a été généré</string>
-    <string name="remote_access_feedback_generated_explanation">Appuyez sur le bouton ci-dessous pour l’envoyer à l’aide de votre client de messagerie par défaut. Si vous rencontrez des difficultés, vous pouvez copier-coller les champs ci-dessous et envoyer le courriel par vos propres moyens.</string>
-    <string name="remote_access_feedback_file_explanation">Vous venez de télécharger le fichier nécessaire. N’oubliez pas de le joindre à votre courriel.</string>
-    <string name="generic_copied_to_clipboard">Copié dans le presse-papiers</string>
     <string name="feedback_email_warning">Aucun client de messagerie installé</string>
-    <string name="feedback_email_warning_remote_action">Ouvrir les paramètres</string>
     <string name="feedback_email_warning_try_anyway">Essayer tout de même</string>
     </resources>

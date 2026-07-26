@@ -125,14 +125,6 @@
         <item quantity="one">1 görüntü</item>
         <item quantity="other">%d görüntü</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="other">%d film</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV dizisi</item>
-        <item quantity="other">%d TV dizisi</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 iz</item>
         <item quantity="other">%d iz</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">Önce geçerli ortam ögesinin sona ermesi beklensin</string>
     <string name="reset_on_interaction">Herhangi bir etkileşimde sıfırlansın</string>
     <string name="default_sleep_timer_summary">%1$s, ortam sonunda bekleme: %2$s, etkileşimde sıfırlama: %3$s</string>
-    <string name="video_player_remote">Görüntü oynatıcı kumandası</string>
-    <string name="remote_keyboard_navigation">Klavye gezinmesi</string>
 
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
@@ -358,7 +348,6 @@
     <string name="screen_orientation_landscape_sensor">Yatay (almaç)</string>
     <string name="screen_orientation_last_locked">Son kilitlenmiş doğrultu</string>
     <string name="enable_black_theme">Siyah tema</string>
-    <string name="dark_theme">Koyu tema</string>
     <string name="theme_auto">Otomatik tema</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="subtitle_preferred_language">Yeğlenen alt yazı dili</string>
@@ -503,29 +492,6 @@
     <string name="audio_ducking_title">Bildirim geldiğinde VLC ses düzeyi azaltılsın</string>
     <string name="audio_ducking_summary">Açıldığında, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
-    <string name="remote_access">Uzaktan erişim</string>
-    <string name="remote_access_version_title">Uzaktan erişim sürümü</string>
-    <string name="remote_access_hash_title">Uzaktan erişim karması</string>
-    <string name="remote_access_status">Sunucu durumu</string>
-    <string name="remote_access_status_summary">Sunucu durumunu görüntülemek için dokunun</string>
-    <string name="remote_access_connections">Bağlantılar</string>
-    <string name="remote_access_links">Balantılar</string>
-    <string name="remote_access_active">Uzaktan erişim açık</string>
-    <string name="remote_access_notification">Uzaktan erişim %s üzerinde açık</string>
-    <string name="remote_access_notification_stopped">Uzaktan erişim durduruldu</string>
-    <string name="remote_access_notification_connecting">Uzaktan erişim bağlantısı kuruluyor</string>
-    <string name="remote_access_notification_error">Uzaktan erişim sorunu</string>
-    <string name="remote_access_notification_stopping">Uzaktan erişim durduruluyor</string>
-    <string name="remote_access_notification_not_init">Uzaktan erişim hazırlanıyor</string>
-    <string name="enable_remote_access">Uzaktan erişimi aç</string>
-    <string name="remote_access_info">Uzaktan erişim bilgileri</string>
-    <string name="remote_access_content">İçerik</string>
-    <string name="remote_access_medialibrary_content">Ortam kitaplığı içeriği</string>
-    <string name="remote_access_medialibrary_content_summary">Açık: %1$s\nKapalı: %2$s</string>
-    <string name="remote_access_file_browser_content">Dosya tarayıcı</string>
-    <string name="remote_access_network_browser_content">Ağ tarayıcı</string>
-    <string name="remote_access_playback_control">Oynatma denetlensin</string>
-    <string name="remote_access_logs">Günlük dosyaları paylaşılsın</string>
     <string name="casting_switch_title">Kablosuz aktarım</string>
     <string name="casting_passthrough_title">Doğrudan ses geçişi</string>
     <string name="casting_passthrough_summary">Ses TV tarafından oluşturulsun</string>
@@ -653,8 +619,6 @@
     <string name="search_global">Tüm ortam kitaplığında ara</string>
     <string name="playlist_save">Listeyi kaydet</string>
     <string name="playlist_name_hint">Liste adı</string>
-    <string name="chapters">Bölümler</string>
-    <string name="notset">Ayarlanmamış</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="current_chapter">Bölüm: %s</string>
     <string name="confirm_resume">Oynatma kalınan konumdan sürdürülsün mü?</string>
@@ -674,19 +638,7 @@
     <string name="show_in_settings">Ayarlarda görüntüle</string>
 
 <!--    update-->
-    <string name="update_title">Güncelleme yayınlanmış</string>
-    <string name="install_nightly_title">Gecelik sürümü kur</string>
-    <string name="update_text">Yeni bir Android için VLC gecelik sürümü yayınlanmış!\n\nBu iletiyi gecelik bir sürüm kullandığınız için görüyorsunuz.</string>
-    <string name="install_text">Gecelik sürümler her gün son özellikler ve düzeltmelerle otomatik olarak güncellenir.\n\nŞimdi indirilsin mi?</string>
 
-    <string name="open_in_browser">Tarayıcıda aç</string>
-    <string name="install">Kur</string>
-    <string name="install_nightly">Gecelik sürümü kur</string>
-    <string name="install_nightly_alert">Gecelik sürümler her gün güncellenen deneysel sürümlerdir.\n\nYeni özelliklerin yanında yeni hatalarla karşılaşmayı da bekleyin!</string>
-    <string name="nightly_version">Bulunan sürüm: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Gecelik sürümü kullanıyorsunuz. Güncellemelerin düzenli olarak denetlenmesini ister misiniz?</string>
-    <string name="update_nightly">Otomatik güncellensin</string>
-    <string name="update_nightly_summary">Gecelik güncelleme düzenli olarak denetlensin</string>
 
 
     <!-- Accessibility -->
@@ -709,7 +661,6 @@
     <string name="allow_storage_access_description">VLC bu aygıttaki ortam dosyalarına erişmek için bu izne gerek duyar.</string>
     <string name="partial_content">VLC, tüm dosyalarınıza erişemiyor</string>
     <string name="partial_content_description">Android 11 sürümünden başlayarak, uygulamaların tüm aygıt dosyalarına erişebilmesi için özel izin verilmelidir.\n\n%s</string>
-    <string name="never_ask_again">Bir daha sorma</string>
     <string name="never_show_again">Bir daha görüntülenmesin, gelecek sürümlerde de</string>
     <string name="allow_settings_access_ringtone_title">VLC zil sesini ayarlayabilsin</string>
     <string name="allow_settings_access_ringtone_description">VLC geçerli parçayı zil sesiniz olarak ayarlamak için bu izne gerek duyar.</string>
@@ -866,7 +817,6 @@
     <string name="next">Sonraki</string>
     <string name="skip">Atla</string>
     <string name="next_step">Sonraki</string>
-    <string name="download">İndir</string>
     <string name="ctx_player_video_track">Görüntü kaydını seçin</string>
     <string name="ctx_player_audio_track">Ses kaydı</string>
     <string name="ctx_player_subs_track">Alt yazı kaydı</string>
@@ -966,25 +916,7 @@
     <string name="share_message">Şurada: %s</string>
     <string name="share_track_info">Kayıt bilgilerini paylaş</string>
     <string name="share_track">Şu anda %s dinleniyor</string>
-    <string name="find_metadata">Üst verileri bul</string>
-    <string name="moviepedia_hint">Üst veri arama</string>
-    <string name="moviepedia_result">Görüntü sonuçları</string>
-    <string name="directed_by">Yönetmen</string>
-    <string name="casting">Aktarım</string>
-    <string name="produced_by">Yapımcı</string>
-    <string name="written_by">Yazar</string>
-    <string name="music_by">Müzikler</string>
-    <string name="posters">Afişler</string>
-    <string name="backdrops">Arka plan</string>
-    <string name="header_tvshows">TV dizileri</string>
-    <string name="header_movies">Filmler</string>
-    <string name="season_number">%s. sezon</string>
-    <string name="resume_episode">Sürdür (%s)</string>
-    <string name="start_over">Baştan başla</string>
-    <string name="next_episode">Sonraki bölüm</string>
     <string name="open_network_settings">Ağ ayarları açılsın mı?</string>
-    <string name="recently_played">Son oynatılanlar</string>
-    <string name="recently_added">Son eklenenler</string>
     <string name="playback_multiple_errors">Aynı anda birden çok ortam oynatılamaz</string>
     <string name="clear_media_db_message">Oluşturduğunuz işlemleri, yer imlerini ve listeleri yitireceksiniz. Ancak Android için VLC ayarları korunacak</string>
     <string name="clear_app_data_message">İlerlemeleri, yer imlerini, oynatma listeleri ve tüm VLC ayarlarınızı yitireceksiniz</string>
@@ -1043,19 +975,11 @@
     <string name="sub_result_by_name_hearing_impaired">Yalnızca işitme engelli</string>
 
     <string name="sub_result_by_file">Dosyanızın sonuçları</string>
-    <string name="donate">VLC projesine destek olun</string>
-    <string name="donate_desc">VLC geliştiricisi gönüllüleri destekleyin</string>
-    <string name="donate_subscribtion">Aylık destek olmak istiyorum</string>
-    <string name="donate_send">Desteğinizi başlatın</string>
-    <string name="donation_description">Desteğinizle birlikte:\nAndroid için VLC uygulaması geliştirilecek\nVideoLAN kuruluşu desteklenecek</string>
     <string name="subscription_purchased">Aylık destek abonesi oldunuz</string>
     <string name="subscription_cancel">Aboneliğinizi Play Store üzerinden sona erdirebilirsiniz</string>
     <string name="subscription_cancel_tv">Aboneliğimi nasıl sona erdirebilirim</string>
-    <string name="donate_unsubscribe_tv">Aboneliğinizi sona erdirmek için bir telefon ya da bilgisayar üzerinde %s uygulamasını açtıktan sonra şu kodu tarayın:</string>
-    <string name="tip_jar">VLC projesini destekleyin</string>
     <string name="thank_you">Teşekkürler</string>
     <string name="thank_you_desc">Desteğiniz için teşekkürler!\nVLC uygulamasının geliştirilmesine çok yardımınız olacak!</string>
-    <string name="donate_again">Uygulamaya yeniden destek olun</string>
 
     <string name="mark_as_played">Oynatılmış olarak imle</string>
     <string name="mark_as_not_played">Oynatılmamış olarak imle</string>
@@ -1162,7 +1086,6 @@
     <string name="discovery_failed">Şu keşfedilemedi: %s</string>
     <string name="lock_use_sensor_title">Algılayıcı ile kilitlensin</string>
     <string name="lock_use_sensor_summary">Doğrultu kilitlendiğinde, ters doğrultu için algılayıcı kullanılır</string>
-    <string name="start">Başlat</string>
     <string name="notification_permission">Bildirim izni</string>
     <string name="notification_permission_explanation">VLC uygulamasının bildirim gönderebilmesi için izin vermeniz gerekiyor.\nUygulama, yalnızca ortamınızı tararken veya özel görüntüde görüntü içinde görüntü kullanırken sizi bilgilendirir.\nBu izni reddetmek VLC uygulamasının çalışmasını engellemez, ancak bildirimler gizlenir.</string>
     <string name="permission">İzin</string>
@@ -1301,57 +1224,6 @@
     <string name="replace_playlist">Oynatma listesini değiştir</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Uzaktan erişim açık</string>
-    <string name="ra_remote_access">Uzaktan erişim</string>
-    <string name="ra_remote_access_description">Uzaktan erişim durumu bildirimi</string>
-    <string name="ra_log_file">Günlük dosyaları</string>
-    <string name="ra_log_type">Günlük türü</string>
-    <string name="ra_send_files">Dosyaları gönder</string>
-    <string name="ra_not_in_foreground">Uygulama ön planda değil. Görüntü başlatılamadı.</string>
-    <string name="ra_disconnected">Aygıt bağlantısı kesildi</string>
-    <string name="ra_file">Dosya</string>
-    <string name="ra_upload_remaining">%s dosya yükleniyor</string>
-    <string name="ra_upload_all">Tümünü yükle</string>
-    <string name="ra_drop_files_tip">Aygıtınıza göndermek istediğiniz dosyaları istediğiniz yere bırakın</string>
-    <string name="ra_prepare_download">İndirmeniz hazırlanıyor</string>
-    <string name="ra_forbidden">İçerik ayarlardan kapatılmış</string>
-    <string name="ra_playback_forbidden">Oynatma denetimi ayarlardan kapatılmış</string>
-    <string name="ra_logs_forbidden">Günlük paylaşımı ayarlardan kapatılmış</string>
-    <string name="ra_code_requested_explanation">Sunucunuzu korumak için erişim engellendi.\nLütfen bildirimlerinizde görüntülenen kodu yazın</string>
-    <string name="ra_ssl_explanation_title">Güvenlik olmayan bağlantı</string>
-    <string name="ra_ssl_explanation">Bağlantınız güvenli değil.</string>
-    <string name="ra_ssl_explanation_browser">Tarayıcı güvenlik uygulaması nedeniyle bir sonraki sayfada güvenlik uyarısı göreceksiniz.</string>
-    <string name="ra_ssl_explanation_accept">Uzaktan erişimi kullanabilmek için sertifikayı kabul ettiğinizden emin olun.</string>
-    <string name="ra_ssl_button">Güvenli bağlantı kullanılsın</string>
-    <string name="ra_new_code">Yeni bir kod gönder</string>
-    <string name="home">Giriş</string>
-    <string name="ra_code">Bu kodu yazın: %s</string>
-    <string name="ra_send_logs">Aygıt üzerinde uzaktan erişim günlüğü kaydedilsin</string>
-    <string name="ra_otp">Bir kerelik uzaktan erişim parolası</string>
-    <string name="ra_otp_description">Uzaktan erişim için erişim istekleri</string>
-    <string name="ra_otp_title">Uzaktan erişim oturum açma girişimi</string>
-    <string name="ra_otp_subtitle">Bu girişimi siz yaptıysanız bu kodu diğer aygıta yazın</string>
-    <string name="ra_otp_not_me">Ben değilim</string>
-    <string name="ra_onboarding_welcome_desc">Android için VLC uygulamasının uzaktan erişim özelliğine hoş geldiniz\Bu özelliği etkinleştirerek bu aygıtın oynatma ve diğer işlemlerini denetleyebileceksiniz</string>
-    <string name="ra_onboarding_how_title">Aygıtınızı denetleyin</string>
-    <string name="ra_onboarding_how_desc">Aygıtınızdaki oynatmayı denetleyin, dosya gönderin ya da alın ve diğer işlemleri yapın</string>
-    <string name="ra_onboarding_ssl_title">Veri şifrelemesi</string>
-    <string name="ra_onboarding_ssl_desc">Verilerinizin sızmasını önlemek için uzaktan erişim şifrelenir</string>
-    <string name="ra_onboarding_otp_title">Kimlik doğrulaması</string>
-    <string name="ra_onboarding_otp_desc">Tek seferlik parola kimlik doğrulamasıyla verilerinize istenmeyen erişimi engelleyin</string>
-    <string name="ra_onboarding_content_title">İçerik erişimi</string>
-    <string name="ra_onboarding_content_desc">Nelere erişilip erişilemeyeceğini seçin</string>
-    <string name="ra_onboarding_content_ml">Ortam kitaplığı içerik erişimi</string>
-    <string name="ra_onboarding_content_files">Dosya tarayıcı</string>
-    <string name="ra_onboarding_content_playback">Oynatma denetimi</string>
-    <string name="ra_disable">Kapat</string>
-    <string name="ra_log_web">Uzaktan erişim günlüğü</string>
-    <string name="ra_log_crash">Çökme günlüğü</string>
-    <string name="ra_log_mobile">Aygıt günlüğü</string>
-    <string name="ra_log_current">Güncel yerel günlükler</string>
-    <string name="ra_invalid_login">Aygıtınız üzerinde oturum açmalısınız</string>
-    <string name="ra_invalid_otp">Belirtilen kod geçersiz</string>
-    <string name="learn_more">Ayrıntılı bilgi</string>
 
     <!-- car screens -->
     <string name="help">Yardım</string>
@@ -1367,11 +1239,7 @@
     <string name="metered_warn">Uyarı görüntülensin (ses oynatılırken uyarı görüntülenmeyebilir)</string>
     <string name="metered_connection_stopped">Ağ bağlantısı kotalı olduğundan ortam durduruldu</string>
     <string name="metered_connection_warning">Bağlantınız kotalı olduğundan ek ücretler söz konusu olabilir.</string>
-    <string name="adding">Ekleniyor</string>
-    <string name="to">şuraya</string>
     <string name="device">Aygıt</string>
-    <string name="connected_device">Bağlı aygıt</string>
-    <string name="model">Aygıt modeli</string>
     <string name="prefs_app_data">Uygulama verileri</string>
     <string name="export_settings_summary">Ayarlarınızı bir dosyaya dışa aktararak daha sonra içe aktarabilirsiniz</string>
     <string name="export_settings">Ayarları dışa aktar</string>
@@ -1407,12 +1275,6 @@
     <string name="generating_logs">Günlük kayıtları oluşturuluyor. Lütfen bekleyin.</string>
     <string name="default_playback_action">Oynatma işlemi</string>
     <string name="files">Dosyalar</string>
-    <string name="remote_access_feedback_generate">Rapor oluştur</string>
-    <string name="remote_access_feedback_generated">Geri bildirim raporunuz oluşturuldu</string>
-    <string name="remote_access_feedback_generated_explanation">Varsayılan e-posta istemciniz ile göndermek için aşağıdaki düğmeye dokunun. Herhangi bir sorunla karşılaşırsanız, aşağıdaki alanları kopyalayıp yapıştırarak e-postayı kendiniz gönderebilirsiniz.</string>
-    <string name="remote_access_feedback_file_explanation">Az önce gerekli dosyayı indirdiniz. Lütfen e-postanıza eklemeyi unutmayın.</string>
-    <string name="generic_copied_to_clipboard">Panoya kopyalandı</string>
     <string name="feedback_email_warning">Herhangi bir e-posta istemcisi kurulmamış</string>
-    <string name="feedback_email_warning_remote_action">Ayarları aç</string>
     <string name="feedback_email_warning_try_anyway">Yine de dene</string>
     </resources>

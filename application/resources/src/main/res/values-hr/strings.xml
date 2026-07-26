@@ -93,16 +93,6 @@
         <item quantity="few">%d video snimke</item>
         <item quantity="other">%d video snimki</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 film</item>
-        <item quantity="few">%d filma</item>
-        <item quantity="other">%d filmova</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV emisija</item>
-        <item quantity="few">%d TV emisije</item>
-        <item quantity="other">%d TV emisija</item>
-    </plurals>
     <string name="internal_memory">Unutarnja memorija</string>
     <string name="audio">Glazba</string>
     <string name="video">Video</string>
@@ -513,7 +503,6 @@
     <string name="delete_the_selected">Obriši označeno</string>
     <string name="download_the_selected">Preuzmi označeno</string>
     <string name="next">Sljedeće</string>
-    <string name="download">Preuzmi</string>
     <string name="ctx_player_video_track">Označi video zapis</string>
     <string name="ctx_player_audio_track">Zvučni zapis</string>
     <string name="ctx_player_subs_track">Zapis podnaslova</string>
@@ -559,23 +548,6 @@
     <string name="share">Dijeli</string>
     <string name="invalid_file">Neispravna datoteka. Ne može se dijeliti.</string>
     <string name="share_file">Dijeli %s</string>
-    <string name="find_metadata">Pronađi metapodatke</string>
-    <string name="moviepedia_hint">Traži metapodatke</string>
-    <string name="moviepedia_result">Rezultati videa</string>
-    <string name="directed_by">Režija</string>
-    <string name="casting">Casting</string>
-    <string name="produced_by">Proizvodnja</string>
-    <string name="written_by">Tekst</string>
-    <string name="music_by">Glazba</string>
-    <string name="posters">Plakati</string>
-    <string name="header_tvshows">TV serije</string>
-    <string name="header_movies">Filmovi</string>
-    <string name="season_number">Sezona %s</string>
-    <string name="resume_episode">Nastavi (%s)</string>
-    <string name="start_over">Počni ponovo</string>
-    <string name="next_episode">Sljedeća epizoda</string>
-    <string name="recently_played">Nedavno reproducirano</string>
-    <string name="recently_added">Nedavno dodano</string>
     <string name="video_information">Informacija o videu</string>
 
     <string name="channels">Kanali</string>
@@ -615,9 +587,6 @@
     <string name="sub_result_by_name_episode">Epizoda %s</string>
 
     <string name="sub_result_by_file">Rezultati za tvoju datoteku</string>
-    <string name="donate">Pomogni VLC-u</string>
-    <string name="donate_desc">Podrži volontere koji grade VLC</string>
-    <string name="tip_jar">Pomogni VLC-u</string>
     <string name="thank_you">Hvala</string>
     <string name="air_action_rewind">Premotaj 10 s natrag</string>
     <string name="air_action_forward">Premotaj 10 s naprijed</string>

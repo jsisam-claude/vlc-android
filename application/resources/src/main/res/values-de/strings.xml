@@ -125,14 +125,6 @@
         <item quantity="one">1 Video</item>
         <item quantity="other">%d Videos</item>
     </plurals>
-    <plurals name="movies_quantity">
-        <item quantity="one">1 Film</item>
-        <item quantity="other">%d Filme</item>
-    </plurals>
-    <plurals name="tvshow_quantity">
-        <item quantity="one">1 TV-Sendung</item>
-        <item quantity="other">%d TV-Sendungen</item>
-    </plurals>
     <plurals name="track_quantity">
         <item quantity="one">1 Titel</item>
         <item quantity="other">%d Titel</item>
@@ -234,8 +226,6 @@
     <string name="wait_before_sleep">Bis das aktuelle Medienelement zuerst fertig ist warten</string>
     <string name="reset_on_interaction">Bei jeder Interaktion zurücksetzen</string>
     <string name="default_sleep_timer_summary">%1$s, warten auf Medienende: %2$s, Zurücksetzen bei Interaktion: %3$s</string>
-    <string name="video_player_remote">Videoplayer-Fernbedienung</string>
-    <string name="remote_keyboard_navigation">Tastaturnavigation</string>
 
     <string name="server_add_title">Einen neuen Server zu den Favoriten hinzufügen</string>
     <string name="server_domain_hint">Serveradresse (Domainname oder IP)</string>
@@ -358,7 +348,6 @@
     <string name="screen_orientation_landscape_sensor">Querformat (Sensor)</string>
     <string name="screen_orientation_last_locked">Letzte gesperrte Ausrichtung</string>
     <string name="enable_black_theme">Schwarzes Design</string>
-    <string name="dark_theme">Dunkles Design</string>
     <string name="theme_auto">Automatisches Design</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="subtitle_preferred_language">Bevorzugte Untertitelsprache</string>
@@ -503,29 +492,6 @@
     <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
     <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
-    <string name="remote_access">Fernzugriff</string>
-    <string name="remote_access_version_title">Version für Fernzugriff</string>
-    <string name="remote_access_hash_title">Remote-Zugriffs-Hash</string>
-    <string name="remote_access_status">Serverstatus</string>
-    <string name="remote_access_status_summary">Tippen, um den Serverstatus anzuzeigen</string>
-    <string name="remote_access_connections">Verbindungen</string>
-    <string name="remote_access_links">Links</string>
-    <string name="remote_access_active">Fernzugriff aktiv</string>
-    <string name="remote_access_notification">Fernzugriff aktiv auf %s</string>
-    <string name="remote_access_notification_stopped">Fernzugriff gestoppt</string>
-    <string name="remote_access_notification_connecting">Fernzugriffsverbindung wird hergestellt</string>
-    <string name="remote_access_notification_error">Fehler beim Fernzugriff</string>
-    <string name="remote_access_notification_stopping">Fernzugriff wird gestoppt</string>
-    <string name="remote_access_notification_not_init">Fernzugriff wird initialisiert</string>
-    <string name="enable_remote_access">Fernzugriff aktivieren</string>
-    <string name="remote_access_info">Fernzugriff-Info</string>
-    <string name="remote_access_content">Inhalt</string>
-    <string name="remote_access_medialibrary_content">Medienbibliotheksinhalt</string>
-    <string name="remote_access_medialibrary_content_summary">Aktiviert: %1$s\nDeaktiviert: %2$s</string>
-    <string name="remote_access_file_browser_content">Datei-Browser</string>
-    <string name="remote_access_network_browser_content">Netzwerk-Browser</string>
-    <string name="remote_access_playback_control">Wiedergabe steuern</string>
-    <string name="remote_access_logs">Protokolldateien teilen</string>
     <string name="casting_switch_title">Drahtloses Streamen</string>
     <string name="casting_passthrough_title">Audio-Passthrough</string>
     <string name="casting_passthrough_summary">Lassen Sie Ihren Fernseher das Audio-Rendering verwalten</string>
@@ -655,8 +621,6 @@
     <string name="search_global">Suche in allen Medienbibliotheken</string>
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
-    <string name="chapters">Kapitel</string>
-    <string name="notset">Nicht festgelegt</string>
     <string name="go_to_chapter">Wechsle zum Kapitel…</string>
     <string name="current_chapter">Kapitel: %s</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
@@ -676,19 +640,7 @@
     <string name="show_in_settings">In Einstellungen anzeigen</string>
 
 <!--    update-->
-    <string name="update_title">Update verfügbar</string>
-    <string name="install_nightly_title">Nightly-Version installieren</string>
-    <string name="update_text">Eine neue Nightly-Version von VLC für Android ist verfügbar!\n\nSie sehen dies, weil Sie eine Nightly-Version verwenden.</string>
-    <string name="install_text">Nightly-Versionen werden jeden Tag automatisch mit den neuesten Funktionen und Fixes aktualisiert.\n\nJetzt herunterladen?</string>
 
-    <string name="open_in_browser">Im Browser öffnen</string>
-    <string name="install">Installieren</string>
-    <string name="install_nightly">Die Nightly-Version installieren</string>
-    <string name="install_nightly_alert">Nightly-Builds sind experimentelle Versionen, die täglich aktualisiert werden.\n\nErwarten Sie neue Funktionen, aber auch neue Fehler!</string>
-    <string name="nightly_version">Gefundene Version: %2$s - %1$s</string>
-    <string name="update_nightly_alert">Sie verwenden eine Nightly-Version. Möchten Sie regelmäßig nach Updates suchen?</string>
-    <string name="update_nightly">Automatisch aktualisieren</string>
-    <string name="update_nightly_summary">Regelmäßig nach nächtlichen Updates suchen</string>
 
 
     <!-- Accessibility -->
@@ -711,7 +663,6 @@
     <string name="allow_storage_access_description">VLC benötigt diese Berechtigung, um auf die Mediendateien auf diesem Gerät zugreifen zu können.</string>
     <string name="partial_content">VLC kann nicht auf alle Ihre Dateien zugreifen</string>
     <string name="partial_content_description">Ab Android 11 benötigen Anwendungen eine spezielle Berechtigung, um auf alle Gerätedateien zuzugreifen.\n\n%s</string>
-    <string name="never_ask_again">Nicht erneut fragen</string>
     <string name="never_show_again">Nie wieder anzeigen, auch nicht für zukünftige Versionen</string>
     <string name="allow_settings_access_ringtone_title">VLC das Einstellen des Klingeltons erlauben</string>
     <string name="allow_settings_access_ringtone_description">VLC benötigt diese Berechtigung um, dieses Lied als Klingelton einzurichten.</string>
@@ -867,7 +818,6 @@
     <string name="next">Nächstes</string>
     <string name="skip">Überspringen</string>
     <string name="next_step">Fortfahren</string>
-    <string name="download">Herunterladen</string>
     <string name="ctx_player_video_track">Videospur auswählen</string>
     <string name="ctx_player_audio_track">Audiospur</string>
     <string name="ctx_player_subs_track">Untertitelspur</string>
@@ -967,25 +917,7 @@
     <string name="share_message">Hier ist %s</string>
     <string name="share_track_info">Die Titel-Informationen teilen</string>
     <string name="share_track">Derzeit höre ich %s</string>
-    <string name="find_metadata">Metadaten finden</string>
-    <string name="moviepedia_hint">Metadaten suchen</string>
-    <string name="moviepedia_result">Video-Ergebnisse</string>
-    <string name="directed_by">Unter der Regie von</string>
-    <string name="casting">Besetzung</string>
-    <string name="produced_by">Produziert von</string>
-    <string name="written_by">Verfasst von</string>
-    <string name="music_by">Musik von</string>
-    <string name="posters">Poster</string>
-    <string name="backdrops">Kulissen</string>
-    <string name="header_tvshows">TV-Sendungen</string>
-    <string name="header_movies">Filme</string>
-    <string name="season_number">Staffel %s</string>
-    <string name="resume_episode">Fortsetzen (%s)</string>
-    <string name="start_over">Von vorn beginnen</string>
-    <string name="next_episode">Nächste Episode</string>
     <string name="open_network_settings">Netzwerk-Einstellungen öffnen?</string>
-    <string name="recently_played">Zuletzt wiedergegeben</string>
-    <string name="recently_added">Zuletzt hinzugefügt</string>
     <string name="playback_multiple_errors">Mehrere Medien können nicht abgespielt werden</string>
     <string name="clear_media_db_message">Sie verlieren Ihren Verlauf, Lesezeichen und die von Ihnen erstellten Wiedergabelisten, Sie behalten aber Ihre VLC für Android Einstellungen</string>
     <string name="clear_app_data_message">Sie verlieren Ihren Verlauf, Lesezeichen, Wiedergabelisten und alle VLC-Einstellungen</string>
@@ -1044,19 +976,11 @@
     <string name="sub_result_by_name_hearing_impaired">Nur Hörgeschädigte</string>
 
     <string name="sub_result_by_file">Ergebnis für Ihre Datei</string>
-    <string name="donate">VLC helfen</string>
-    <string name="donate_desc">Die Freiwilligen unterstützen, die VLC entwickeln</string>
-    <string name="donate_subscribtion">Ich möchte, dass dies eine monatliche Unterstützung ist</string>
-    <string name="donate_send">Ihre Unterstützung starten</string>
-    <string name="donation_description">Ihre Unterstützung ermöglicht es uns:\ndie VLC-App für Android zu verbessern\ndie VideoLAN Association zu unterstützen</string>
     <string name="subscription_purchased">Sie haben eine monatliche Unterstützung abonniert</string>
     <string name="subscription_cancel">Sie können die Unterstützung im PlayStore beenden</string>
     <string name="subscription_cancel_tv">Wie wird die Unterstützung beendet</string>
-    <string name="donate_unsubscribe_tv">Zum Beenden, bitte %s auf einem Computer oder Handy öffnen und diesen Code scannen:</string>
-    <string name="tip_jar">VLC helfen</string>
     <string name="thank_you">Vielen Dank</string>
     <string name="thank_you_desc">Danke für Ihre Unterstützung!\nDies wird uns bei der Verbesserung von VLC helfen.</string>
-    <string name="donate_again">Die App nochmals unterstützen</string>
 
     <string name="mark_as_played">Als gespielt markieren</string>
     <string name="mark_as_not_played">Als nicht abgespielt markieren</string>
@@ -1163,7 +1087,6 @@
     <string name="discovery_failed">Erkennung fehlgeschlagen für: %s</string>
     <string name="lock_use_sensor_title">Mit Sensor sperren</string>
     <string name="lock_use_sensor_summary">Wenn die Ausrichtung gesperrt ist, den Sensor zur umgekehrten Ausrichtung verwenden</string>
-    <string name="start">Start</string>
     <string name="notification_permission">Berechtigung für Benachrichtigungen</string>
     <string name="notification_permission_explanation">VLC benötigt Ihre Erlaubnis zum Senden von Benachrichtigungen.\nDie App benachrichtigt Sie nur, wenn Sie Ihre Medien scannen oder das benutzerdefinierte Video Bild in Bild verwenden.\nWenn Sie dies ablehnen, funktioniert VLC nicht, die Benachrichtigungen werden jedoch ausgeblendet.</string>
     <string name="permission">Berechtigungen</string>
@@ -1302,63 +1225,7 @@
     <string name="replace_playlist">Wiedergabeliste ersetzen</string>
 
     <!-- Remote access -->
-    <string name="ra_server_running">Fernzugriff aktiv</string>
-    <string name="ra_remote_access">Fernzugriff</string>
-    <string name="ra_remote_access_description">Fernzugriff-Statusbenachrichtigung</string>
-    <string name="ra_log_file">Protokolldateien</string>
-    <string name="ra_log_type">Protokolltyp</string>
-    <string name="ra_send_files">Dateien senden</string>
-    <string name="ra_not_in_foreground">Die Anwendung ist nicht im Vordergrund. Video kann nicht gestartet werden.</string>
-    <string name="ra_disconnected">Vom Gerät getrennt</string>
-    <string name="ra_file">Datei</string>
-    <string name="ra_upload_remaining">Hochladen von %s Dateien</string>
-    <string name="ra_upload_all">Alle hochladen</string>
-    <string name="ra_drop_files_tip">Dateien irgendwo fallen lassen, um sie an Ihr Gerät zu senden</string>
-    <string name="ra_prepare_download">Vorbereitung des Herunterladens</string>
-    <string name="ra_forbidden">Inhalt in den Einstellungen deaktiviert</string>
-    <string name="ra_playback_forbidden">Wiedergabesteuerung in den Einstellungen deaktiviert</string>
-    <string name="ra_logs_forbidden">Freigabe von Protokollen in den Einstellungen deaktiviert</string>
-    <string name="ra_code_requested_explanation">Um Ihren Server zu schützen, ist der Zugriff geschützt.\nBitte geben Sie den Code aus den Benachrichtigungen ein</string>
-    <string name="ra_ssl_explanation_title">Unsichere Verbindung</string>
-    <string name="ra_ssl_explanation">Ihre Verbindung ist nicht sicher.</string>
-    <string name="ra_ssl_explanation_browser">Aufgrund der Implementierung der Browsersicherheit erhalten Sie auf der nächsten Seite eine Sicherheitswarnung.</string>
-    <string name="ra_ssl_explanation_accept">Stellen Sie sicher, dass Sie das Zertifikat akzeptieren, um den Fernzugriff nutzen zu können</string>
-    <string name="ra_ssl_button">Verwenden Sie eine sichere Verbindung.</string>
-    <string name="ra_new_code">Einen neuen Code senden</string>
-    <string name="home">Startseite</string>
-    <string name="ra_code">Geben Sie diesen Code ein: %s</string>
-    <string name="ra_send_logs">die Fernzugriffsprotokolle auf dem Gerät speichern</string>
-    <string name="ra_otp">Fernzugriff-Einmalpasswort</string>
-    <string name="ra_otp_description">Zugriffsanfragen für den Fernzugriff</string>
-    <string name="ra_otp_title">Anmeldeversuch per Fernzugriff</string>
-    <string name="ra_otp_subtitle">Wenn Sie es sind, geben Sie diesen Code auf dem anderen Gerät ein</string>
-    <string name="ra_otp_not_me">Das bin ich nicht</string>
-    <string name="ra_output">Audioausgabe</string>
-    <string name="ra_play_on_browser">Im Browser wiedergeben</string>
-    <string name="ra_play_on_device">Auf dem Gerät wiedergeben</string>
-    <string name="ra_browser_audio_not_found">Medien nicht gefunden oder können im Browser nicht abgespielt werden</string>
-    <string name="ra_browser_audio_unsupported_format">Dieses Audioformat wird von Ihrem Browser nicht unterstützt</string>
 
-    <string name="ra_onboarding_welcome_desc">Willkommen bei der Fernbedienung von VLC für Android. Durch Aktivierung können Sie die Wiedergabe dieses Geräts steuern und mehr</string>
-    <string name="ra_onboarding_how_title">Steuern Sie Ihr Gerät</string>
-    <string name="ra_onboarding_how_desc">Steuern Sie die Wiedergabe Ihres Geräts, senden oder rufen Sie Dateien ab und mehr</string>
-    <string name="ra_onboarding_ssl_title">Datenverschlüsselung</string>
-    <string name="ra_onboarding_ssl_desc">Der Fernzugriff ist verschlüsselt, um den Verlust Ihrer Daten zu verhindern</string>
-    <string name="ra_onboarding_otp_title">Legitimierung</string>
-    <string name="ra_onboarding_otp_desc">Mit der Einmalpasswort-Authentifizierung verhindern Sie unerwünschten Zugriff auf Ihre Daten</string>
-    <string name="ra_onboarding_content_title">Inhaltlicher Zugriff</string>
-    <string name="ra_onboarding_content_desc">Wählen Sie aus, was zugänglich sein soll und was nicht</string>
-    <string name="ra_onboarding_content_ml">Medienbibliotheksinhaltszugriff</string>
-    <string name="ra_onboarding_content_files">Datei-Browser</string>
-    <string name="ra_onboarding_content_playback">Wiedergabesteuerung</string>
-    <string name="ra_disable">Deaktivieren</string>
-    <string name="ra_log_web">Protokoll für den Fernzugriff</string>
-    <string name="ra_log_crash">Absturz-Protokoll</string>
-    <string name="ra_log_mobile">Geräteprotokoll</string>
-    <string name="ra_log_current">Aktuelle lokale Protokolle</string>
-    <string name="ra_invalid_login">Sie müssen sich auf Ihrem Gerät anmelden</string>
-    <string name="ra_invalid_otp">Ungültiger Code bereitgestellt</string>
-    <string name="learn_more">Erfahren Sie mehr</string>
 
     <!-- car screens -->
     <string name="help">Hilfe</string>
@@ -1374,11 +1241,7 @@
     <string name="metered_warn">Mich warnen (die Warnung kann bei der Audiowiedergabe übersehen werden)</string>
     <string name="metered_connection_stopped">Medien stoppen, da die Verbindung gemessen wird</string>
     <string name="metered_connection_warning">Ihre Verbindung wird gemessen. Es können Gebühren anfallen.</string>
-    <string name="adding">Füge hinzu</string>
-    <string name="to">zu</string>
     <string name="device">Gerät</string>
-    <string name="connected_device">Verbundenes Gerät</string>
-    <string name="model">Gerätemodell</string>
     <string name="prefs_app_data">Anwendungsdaten</string>
     <string name="export_settings_summary">Exportieren Sie Ihre Einstellungen in eine Datei, um sie später zu importieren</string>
     <string name="export_settings">Exporteinstellungen</string>
@@ -1414,12 +1277,6 @@
     <string name="generating_logs">Protokolle werden erstellt. Bitte warten.</string>
     <string name="default_playback_action">Wiedergabeaktion</string>
     <string name="files">Dateien</string>
-    <string name="remote_access_feedback_generate">Bericht erstellen</string>
-    <string name="remote_access_feedback_generated">Ihr Feedback-Bericht wurde erstellt</string>
-    <string name="remote_access_feedback_generated_explanation">Tippen Sie auf die Schaltfläche unten, um die E-Mail mit Ihrem Standard-E-Mail-Client zu versenden. Bei Problemen können Sie die Felder unten kopieren und einfügen und die E-Mail selbst versenden.</string>
-    <string name="remote_access_feedback_file_explanation">Sie haben die benötigte Datei heruntergeladen. Bitte denken Sie daran, sie Ihrer E-Mail anzuhängen.</string>
-    <string name="generic_copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="feedback_email_warning">Kein E-Mail-Client installiert</string>
-    <string name="feedback_email_warning_remote_action">Einstellungen öffnen</string>
     <string name="feedback_email_warning_try_anyway">Trotzdem versuchen</string>
     </resources>

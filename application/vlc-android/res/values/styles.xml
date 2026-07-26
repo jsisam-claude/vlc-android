@@ -66,14 +66,11 @@
         <item name="font_audio_light">@color/grey700</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title">@color/list_title</item>
-        <item name="donate_card">@color/orange500</item>
-        <item name="donate_item_background">@drawable/donate_background_color</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="audio_chips_color">@color/black_transparent_75</item>
         <item name="audio_chips_text_color">@color/white_transparent_60</item>
         <item name="bottom_navigation_focus">@color/orange_800_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress</item>
-        <item name="otp_code_background">@drawable/rounded_corners_otp_code</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle</item>
         <item name="primary_focus">@color/orange_800_transparent_20</item>
@@ -260,14 +257,11 @@
         <item name="font_audio_light">@color/grey400</item>
         <item name="list_subtitle">@color/list_subtitle_dark</item>
         <item name="list_title">@color/list_title_dark</item>
-        <item name="donate_card">@color/orange500transparent</item>
-        <item name="donate_item_background">@drawable/donate_background_color_dark</item>
         <item name="android:windowBackground">@color/dark_background</item>
         <item name="audio_chips_color">@color/white_transparent_90</item>
         <item name="audio_chips_text_color">@color/black_transparent_60</item>
         <item name="bottom_navigation_focus">@color/white_transparent_10</item>
         <item name="scan_background">@drawable/rounded_corners_scan_progress_dark</item>
-        <item name="otp_code_background">@drawable/rounded_corners_otp_code_dark</item>
         <item name="fast_scroller_bubble">@drawable/fastscroller_bubble_black</item>
         <item name="fast_scroller_handle">@drawable/fastscroller_handle_black</item>
         <item name="primary_focus">@color/orange_500_transparent_20</item>
@@ -427,26 +421,9 @@
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="VLCImageCardViewTitleOnly" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/VLCImageCardViewTitleOnlyStyle</item>
-        <item name="imageCardViewTitleStyle">@style/VLCImageCardViewTitleOnlyTextStyle</item>
-    </style>
 
-    <style name="VLCImageCardViewNoTitle" parent="Theme.Leanback">
-        <item name="imageCardViewStyle">@style/VLCImageCardViewNoTitle</item>
-    </style>
 
-    <style name="VLCImageCardViewTitleOnlyTextStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:height">38sp</item>
-    </style>
 
-    <style name="VLCImageCardViewTitleOnlyStyle" parent="Widget.Leanback.ImageCardViewStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="lbImageCardViewType">Title</item>
-    </style>
 
     <style name="VLCImageCardViewContentStyleTextAppearance" parent="TextAppearance.Leanback.ImageCardView.Content">
         <item name="android:gravity">center_horizontal</item>
@@ -815,19 +792,6 @@
         <item name="strokeColor">?attr/card_border</item>
     </style>
 
-    <style name="DonateButton">
-        <item name="android:minHeight">48dip</item>
-        <item name="android:minWidth">88dip</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/donate_button_background</item>
-        <item name="background">@drawable/donate_button_background</item>
-        <item name="android:foreground">@drawable/donate_button_ripple</item>
-
-    </style>
 
     <style name="About" />
 
