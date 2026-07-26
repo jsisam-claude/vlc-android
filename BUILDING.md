@@ -61,12 +61,15 @@ SHA-512-verified against the upstream sums in `vlc/contrib/src/*/SHA512SUMS`).
 The pruning is applied at the contrib bootstrap in
 `libvlcjni/buildsystem/compile-libvlc.sh` via `--disable-*` flags: the heavy
 and out-of-scope libraries are gone — **dav1d, libvpx, x264/x265,
-dvdnav/dvdread, live555, bluray, cddb, mad, aom, lame, openapv, mysofa** and
-the other encoders / disc / streaming / spatial-audio libraries. What is
-**kept** (and therefore in the vendored set): the ffmpeg decoders, the
-libass subtitle stack, the gnutls TLS stack, and — deliberately, because the
-fork keeps user-initiated network browsing and casting — **smb2, nfs,
-libdsm, upnp and microdns**.
+dvdnav/dvdread, live555, bluray, cddb, mad, aom, openapv, mysofa,
+spatialaudio** and the other disc / streaming / spatial-audio libraries.
+What is **kept** (and therefore in the vendored set): the ffmpeg decoders,
+the libass subtitle stack, the gnutls TLS stack, **lame** (despite a
+`--disable-lame` flag, ffmpeg's `BUILD_ENCODERS` dependency pulls it back
+in — it provides the mp3 encoder the Chromecast transcode pipeline uses,
+and its source archive is vendored), and — deliberately, because the fork
+keeps user-initiated network browsing and casting — **smb2, nfs, libdsm,
+upnp and microdns**.
 
 ## What still comes from outside (toolchain boundary)
 

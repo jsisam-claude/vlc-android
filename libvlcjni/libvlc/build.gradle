@@ -27,7 +27,6 @@ android {
         resValue "string", "build_vlc_revision", vlc_revision
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('merge')) {
-                task.dependsOn hrtfsCopy
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
                 task.dependsOn luaModuleCopy
@@ -71,10 +70,8 @@ android {
         }
     }
 
-    task hrtfsCopy(type: Copy) {
-        from '../vlc/share/hrtfs'
-        into 'assets/hrtfs'
-    }
+    // hrtfsCopy removed: the spatialaudio module (sole consumer of the HRTF
+    // asset) is not built in this fork.
 
     task luaPlaylistCopy(type: Copy) {
         from '../vlc/share/lua/playlist'
