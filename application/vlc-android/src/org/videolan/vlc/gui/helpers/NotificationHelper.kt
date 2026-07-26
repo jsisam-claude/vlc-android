@@ -185,6 +185,11 @@ object NotificationHelper {
     fun createNotificationChannels(appCtx: Context) {
         if (!AndroidUtil.isOOrLater) return
         val notificationManager = appCtx.getSystemService<NotificationManager>()!!
+        // Channels created by the removed remote-access feature on installs that
+        // carried data over from upstream VLC; delete them so they stop showing
+        // in the system notification settings.
+        notificationManager.deleteNotificationChannel("vlc_remote_access")
+        notificationManager.deleteNotificationChannel("vlc_remote_access_otp")
         val channels = mutableListOf<NotificationChannel>()
         // Playback channel
         if (notificationManager.getNotificationChannel(PLAYBACK_SERVICE_CHANNEL_ID) == null ) {
