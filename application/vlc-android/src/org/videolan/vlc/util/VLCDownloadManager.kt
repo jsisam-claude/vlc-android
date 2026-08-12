@@ -88,13 +88,7 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         // Some filenames from opensubtitles.org had characters not authorized for an Android Uri
         // This sanitizes the filename so it can be used as dest in copyFile
         // cf https://www.rfc-editor.org/rfc/rfc2396 #2.4.3 mentionned in the Uri.parse method doc
-        subtitleItem.fileName = subtitleItem.fileName
-            .replace("/", "_")
-            .replace("\"", "")
-            .replace("<", "")
-            .replace(">", "")
-            .replace("#", "")
-            .replace("%", "")
+        subtitleItem.fileName = sanitizeForPath(subtitleItem.fileName)
         FileUtils.copyFile(localUri, "$extractDirectory/${subtitleItem.fileName}")?.let {dest ->
             subtitleItem.run {
                 ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
@@ -139,7 +133,20 @@ object VLCDownloadManager: BroadcastReceiver(), DefaultLifecycleObserver {
         ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
     }
 
-    private fun getDownloadPath(subtitleItem: SubtitleItem) = "VLC/${subtitleItem.movieReleaseName}_${subtitleItem.fileName}.zip"
+    private fun getDownloadPath(subtitleItem: SubtitleItem) =
+        "VLC/${sanitizeForPath(subtitleItem.movieReleaseName)}_${sanitizeForPath(subtitleItem.fileName)}.zip"
+
+    // OpenSubtitles fields are remote-controlled; strip path separators and Uri-unsafe
+    // characters before interpolating them into any on-disk destination so a "/" or
+    // "../" sequence cannot escape the target directory.
+    private fun sanitizeForPath(name: String) = name
+        .replace("/", "_")
+        .replace("\\", "_")
+        .replace("\"", "")
+        .replace("<", "")
+        .replace(">", "")
+        .replace("#", "")
+        .replace("%", "")
 
     private fun getDownloadState(downloadId: Long): Pair<Int, String> {
         val query = DownloadManager.Query()

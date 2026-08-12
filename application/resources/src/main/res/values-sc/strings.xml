@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Revisione</string>
     <string name="about">Informatziones</string>
-    <string name="about_vlc_text">VLC pro Android™ est una versione mòbile de su leghidore multimediale VLC, su populare leghidore multimediale a mitza aberta. Sa versione pro Android™ podet lèghere totu sos documentos e de sos flussos de retza.</string>
     <string name="authors">Autores</string>
     <string name="vlc_authors">Autores de VLC.</string>
     <string name="is_compiled_by">Compiladu dae:</string>
@@ -650,9 +649,6 @@
     <string name="music_now_playing">In riprodutzione</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget VLC arbu</string>
-    <string name="widget_name_b">Widget VLC nieddu</string>
-    <string name="widget_name_mini_player">Leghidore minimale VLC</string>
     <string name="widget_old_text">Amus annoadu sos widgets nostros!</string>
     <string name="widget_old_description_start">Noas bonas! Amus publicadu widgets megiorados.\nOferint prus reatividade e personalizatzione</string>
     <string name="whats_next">Ite b\'at a èssere in su benidore?</string>

@@ -253,7 +253,6 @@
     <!-- About -->
     <string name="revision">Ревизия</string>
     <string name="about">О программе</string>
-    <string name="about_vlc_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить любые файлы и сетевые потоки.</string>
     <string name="authors">Авторы</string>
     <string name="vlc_authors">и авторы VLC.</string>
     <string name="is_compiled_by">Скомпилировано:</string>
@@ -496,9 +495,6 @@
     <string name="music_now_playing">Сейчас играет</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC в светлом оформлении</string>
-    <string name="widget_name_b">VLC в тёмном оформлении</string>
-    <string name="widget_name_mini_player">Миниплеер VLC</string>
     <string name="widget_old_text">Наши виджеты обновились!</string>
     <string name="widget_old_description_start">Хорошие новости! Мы выпустили улучшенные виджеты,\nболее отзывчивые и гибкие в настройке.</string>
     <string name="whats_next">Что дальше?</string>

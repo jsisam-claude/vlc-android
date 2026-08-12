@@ -305,7 +305,6 @@
     <!-- About -->
     <string name="revision">Αναθεώρηση</string>
     <string name="about">Σχετικά</string>
-    <string name="about_vlc_text">Το VLC για Android™ είναι ένα port του προγράμματος αναπαραγωγής πολυμέσων VLC, του δημοφιλούς προγράμματος αναπαραγωγής πολυμέσων ανοιχτού κώδικα. Η έκδοση Android™ μπορεί να διαβάσει όλα τα αρχεία και τις  μεταδόσεις δικτύου.</string>
     <string name="authors">Δημιουργοί</string>
     <string name="vlc_authors">και δημιουργούς του VLC.</string>
     <string name="is_compiled_by">Μεταγλωττίστηκε από</string>
@@ -645,9 +644,6 @@
     <string name="music_now_playing">Αναπαράγεται τώρα</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Ανοιχτόχρωμες μικροεφαρμογές VLC</string>
-    <string name="widget_name_b">Σκουρόχρωμες μικροεφαρμογές VLC</string>
-    <string name="widget_name_mini_player">Μίνι αναπαραγωγός πολυμέσων VLC</string>
     <string name="widget_old_text">Ενημερώσαμε τις μικροεφαρμογές μας!</string>
     <string name="widget_old_description_start">Ευχάριστα νέα! Κυκλοφόρησαν βελτιωμένες μικροεφαρμογές.\nΠροσφέρουν μεγαλύτερη απόκριση και εξατομίκευση</string>
     <string name="whats_next">Τι έπεται;</string>

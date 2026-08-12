@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Revisjon</string>
     <string name="about">Rakenduse teave</string>
-    <string name="about_vlc_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja üks arendusi. Androidi™ versioon suudab avada enamikke meediafaile ja voogedastusvorminguid.</string>
     <string name="authors">Autorid</string>
     <string name="vlc_authors">ja VLC autorid.</string>
     <string name="is_compiled_by">Kompilaator: </string>
@@ -650,9 +649,6 @@
     <string name="music_now_playing">Praegu esitamisel</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC valge vidin</string>
-    <string name="widget_name_b">VLC tume vidin</string>
-    <string name="widget_name_mini_player">VLC miniesitaja</string>
     <string name="widget_old_text">Me oleme selle rakenduse vidinaid uuendanud!</string>
     <string name="widget_old_description_start">Head uudised! Meil on nüüd kasutusel täiendadud vidinad.\nNad reageerivad paremini ja on kohandatavamad</string>
     <string name="whats_next">Ja edasi?</string>

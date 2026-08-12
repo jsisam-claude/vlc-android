@@ -246,7 +246,6 @@
     <!-- About -->
     <string name="revision">Marudio</string>
     <string name="about">Kuhusu</string>
-    <string name="about_vlc_text">VLC ya Android™ ni nakala ya kichezaji midia cha VLC , kichezaji midia maarufu na programu huria. Nakala ya Android™ inaweza kusoma faili zote na mitiririko yote ya mtandao.</string>
     <string name="authors">Waandishi</string>
     <string name="vlc_authors">na Waandishi wa VLC.</string>
     <string name="is_compiled_by">Imekonganywa na</string>
@@ -522,9 +521,6 @@
     <string name="music_now_playing">Kinachocheza sasa</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Wijeti nyeupe ya VLC</string>
-    <string name="widget_name_b">Wijeti nyeusi ya VLC</string>
-    <string name="widget_name_mini_player">Kichezaji kidogo cha VLC</string>
     <string name="widget_old_text">Tulisasisha wijeti zetu!</string>
     <string name="widget_old_description_start">Habari njema! Tumetoa wijeti bora.\nNi itikivu zaidi na ni rahisi kutanafsisha</string>
     <string name="whats_next">Nini kifuatacho?</string>

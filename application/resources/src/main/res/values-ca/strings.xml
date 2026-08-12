@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Revisió</string>
     <string name="about">En quant a</string>
-    <string name="about_vlc_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC, el popular reproductor de codi obert. La versió per l\'Android™ permet llegir tota mena de fitxers i fluxos de xarxa.</string>
     <string name="authors">Autors</string>
     <string name="vlc_authors">i autors del VLC</string>
     <string name="is_compiled_by">Compilat per</string>
@@ -650,9 +649,6 @@
     <string name="music_now_playing">Reproduint</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget blanc del VLC</string>
-    <string name="widget_name_b">Widget fosc del VLC</string>
-    <string name="widget_name_mini_player">Mini reproductor VLC</string>
     <string name="widget_old_text">Hem actualitzat els nostres ginys!</string>
     <string name="widget_old_description_start">Bones notícies! Hem alliberat ginys millorats.\nOfereixen més reactivitat i personalització</string>
     <string name="whats_next">I ara què?</string>

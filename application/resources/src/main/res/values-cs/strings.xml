@@ -325,7 +325,6 @@
     <!-- About -->
     <string name="revision">Revize</string>
     <string name="about">O aplikaci</string>
-    <string name="about_vlc_text">VLC pro Android™ je port přehrávače médií VLC, oblíbeného přehrávače médií s otevřeným zdrojovým kódem. Verze pro Android™ dokáže číst všechny soubory a síťové streamy. </string>
     <string name="authors">Autoři</string>
     <string name="vlc_authors">a autoři aplikace VLC.</string>
     <string name="is_compiled_by">Zkompilovaný</string>
@@ -668,9 +667,6 @@
     <string name="music_now_playing">Nyní hraje…</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Světlý widget VLC</string>
-    <string name="widget_name_b">Tmavý widget VLC</string>
-    <string name="widget_name_mini_player">Mini přehrávač VLC</string>
     <string name="widget_old_text">Aktualizovali jsme widgety!</string>
     <string name="widget_old_description_start">Dobré zprávy! Vydali jsme vylepšené widgety.\nNabízejí lepší odezvu a možnosti přizpůsobení</string>
     <string name="whats_next">Co bude dál?</string>

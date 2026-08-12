@@ -430,8 +430,6 @@
     <string name="music_now_playing">अहिले बजिरहेको</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC व्हाइट विजेट</string>
-    <string name="widget_name_b">VLC डार्क विजेट</string>
     <string name="whats_next">अब कुन?</string>
     <string name="click_here">विस्तृत जानकारीको लागि यहाँ थिच्नुहोस्</string>
     <string name="allow_storage_access_title">VLC लाई भिडियो र अडियो फाइलहरू पहुँच गर्न अनुमति दिनुहोस्</string>

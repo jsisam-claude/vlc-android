@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Revision</string>
     <string name="about">Über</string>
-    <string name="about_vlc_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann alle Dateien und Netzwerk-Streams lesen.</string>
     <string name="authors">Autoren</string>
     <string name="vlc_authors">und VLC-Autoren.</string>
     <string name="is_compiled_by">Kompiliert durch</string>
@@ -650,9 +649,6 @@
     <string name="music_now_playing">Gerade läuft</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC weißes Widget</string>
-    <string name="widget_name_b">VLC dunkles Widget</string>
-    <string name="widget_name_mini_player">VLC Mini-Player</string>
     <string name="widget_old_text">Wir haben unsere Widgets aktualisiert!</string>
     <string name="widget_old_description_start">Gute Nachrichten! Wir haben verbesserte Widgets veröffentlicht.\nSie bieten mehr Reaktionsfähigkeit und Anpassungsmöglichkeiten</string>
     <string name="whats_next">Was kommt als nächstes?</string>

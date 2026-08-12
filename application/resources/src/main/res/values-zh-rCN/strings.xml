@@ -298,7 +298,6 @@
     <!-- About -->
     <string name="revision">修订版本</string>
     <string name="about">关于</string>
-    <string name="about_vlc_text">VLC for Android™ 是广受欢迎的开源媒体播放器 ｢VLC media player｣ 的移植版本。Android™ 版本可以读取几乎所有文件以及网络流。</string>
     <string name="authors">作者</string>
     <string name="vlc_authors">及 VLC 全体作者。</string>
     <string name="is_compiled_by">编译软件</string>
@@ -639,9 +638,6 @@
     <string name="music_now_playing">正在播放</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC 白色小挂件</string>
-    <string name="widget_name_b">VLC 深色小挂件</string>
-    <string name="widget_name_mini_player">VLC 迷你播放器</string>
     <string name="widget_old_text">我们的小工具有更新!</string>
     <string name="widget_old_description_start">好消息! 我们发布了改进版的小工具。\n新版小工具更具响应性，可自定义的功能更多</string>
     <string name="whats_next">需要我做什么吗?</string>

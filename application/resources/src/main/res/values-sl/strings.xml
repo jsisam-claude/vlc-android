@@ -325,7 +325,6 @@
     <!-- About -->
     <string name="revision">Predelava</string>
     <string name="about">O programu</string>
-    <string name="about_vlc_text">VLC za Android™ je prilagojena različica VLC predvajalnika, priljubljenega odprto-kodnega predvajalnika vsebin. Različica za Android™ zna brati vse vrste datotek in omrežnih pretokov.</string>
     <string name="authors">Avtorji</string>
     <string name="vlc_authors">in avtorji programa VLC.</string>
     <string name="is_compiled_by">Prevod kode</string>
@@ -664,9 +663,6 @@
     <string name="music_now_playing">Trenutno se predvaja</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Beli VLC gradnik</string>
-    <string name="widget_name_b">Temni VLC gradnik</string>
-    <string name="widget_name_mini_player">VLC mini predvajalniki</string>
     <string name="widget_old_text">Naši gradniki so bili posodobljeni!</string>
     <string name="widget_old_description_start">Dobra novica! Uvedli smo izboljšane gradnike.\nSo bolj odzivni in jih mogoče jih je prilagajati po meri.</string>
     <string name="whats_next">Kako naprej?</string>

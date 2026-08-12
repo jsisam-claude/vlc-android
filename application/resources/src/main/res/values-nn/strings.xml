@@ -463,7 +463,6 @@
     <string name="no_subs_found">Ingen undertekstar i denne mappa</string>
     <string name="music_now_playing">Spelar no</string>
 
-    <string name="widget_name_mini_player">VLC minispelar</string>
     <string name="click_here">Trykk her for å lesa meir.</string>
     <string name="allow_storage_access_title">Tillat VLC tilgang til video- og lydfiler</string>
     <string name="permission_ask_again">Gje løyve</string>

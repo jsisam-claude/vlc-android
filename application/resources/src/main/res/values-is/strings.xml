@@ -244,7 +244,6 @@
     <!-- About -->
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
-    <string name="about_vlc_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta opna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
     <string name="authors">Höfundar</string>
     <string name="vlc_authors">og höfundar VLC.</string>
     <string name="is_compiled_by">Vistþýtt af</string>
@@ -508,9 +507,6 @@
     <string name="music_now_playing">Í afspilun núna</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Hvítir VLC-viðmótshlutar</string>
-    <string name="widget_name_b">Dökkir VLC-viðmótshlutar</string>
-    <string name="widget_name_mini_player">VLC smáspilari</string>
     <string name="whats_next">Hvað næst?</string>
     <string name="click_here">Smelltu hér til að sjá nánari upplýsingar.</string>
     <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>

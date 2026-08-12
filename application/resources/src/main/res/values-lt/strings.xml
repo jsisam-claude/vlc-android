@@ -288,7 +288,6 @@
     <!-- About -->
     <string name="revision">Revizija</string>
     <string name="about">Apie</string>
-    <string name="about_vlc_text">VLC, skirta „Android“™ sistemai, yra VLC medijos leistuvės (populiarios atvirojo kodo medijos leistuvės) prievadas. „Android“™ versija gali skaityti visas rinkmenas ir tinklo srautus.</string>
     <string name="authors">Kūrėjai</string>
     <string name="vlc_authors">ir VLC autoriai.</string>
     <string name="is_compiled_by">Parengė</string>
@@ -598,9 +597,6 @@
     <string name="music_now_playing">Dabar groja</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Baltas VLC valdiklis</string>
-    <string name="widget_name_b">Tamsus VLC valdiklis</string>
-    <string name="widget_name_mini_player">VLC mini leistuvė</string>
     <string name="widget_old_text">Atnaujinome savo valdiklius!</string>
     <string name="widget_old_description_start">Geros naujienos! Išleidome patobulintus valdiklius.\nJie siūlo didesnį atsaką ir tinkinimą</string>
     <string name="whats_next">Kas toliau?</string>

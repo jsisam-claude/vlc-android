@@ -316,7 +316,6 @@
     <!-- About -->
     <string name="revision">Revizie</string>
     <string name="about">Despre</string>
-    <string name="about_vlc_text">VLC pentru Android™ este o portare a media player-ului VLC, popularul media player de tip open source. Versiunea pentru Android™ poate citi majoritatea fișierelor și fluxurilor de rețea.</string>
     <string name="authors">Autori</string>
     <string name="vlc_authors">și autorii VLC.</string>
     <string name="is_compiled_by">este compilată de:</string>
@@ -659,9 +658,6 @@
     <string name="music_now_playing">Acum se reda</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC  Widget Alb</string>
-    <string name="widget_name_b">VLC  Widget Intunecat</string>
-    <string name="widget_name_mini_player">Mini player VLC</string>
     <string name="widget_old_text">Ne-am actualizat widget-urile!</string>
     <string name="widget_old_description_start">Vești bune! Am lansat widget-uri îmbunătățite.\nEle oferă mai multă capacitate de răspuns și personalizare</string>
     <string name="whats_next">Ce urmează?</string>

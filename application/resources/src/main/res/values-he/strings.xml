@@ -320,7 +320,6 @@
     <!-- About -->
     <string name="revision">מהדורה</string>
     <string name="about">על אודות</string>
-    <string name="about_vlc_text">VLC ל־Android™‎ הוא הסבה של נגן המדיה הפופולרית בקוד פתוחVLC. הגירסה ל־Android™‎ יכולה לקרוא את כל הקבצים ותזרימי הרשת.</string>
     <string name="authors">יוצרים</string>
     <string name="vlc_authors">ויוצרי VLC.</string>
     <string name="is_compiled_by">נבנה על ידי</string>
@@ -663,9 +662,6 @@
     <string name="music_now_playing">מתנגן כעת</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">וידג׳ט לבן של VLC</string>
-    <string name="widget_name_b">וידג׳ט כהה של VLC</string>
-    <string name="widget_name_mini_player">נגן VLC מוקטן</string>
     <string name="widget_old_text">עדכנו את הווידג׳טים שלנו!</string>
     <string name="widget_old_description_start">חדשות טובות! הפצנו וידג׳טים משופרים.\nהם מציעים תגובתיות ויכולות התאמה משופרות</string>
     <string name="whats_next">מה הלאה?</string>

@@ -253,7 +253,6 @@
     <!-- About -->
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_vlc_text">VLC para Android™ es un port de VLC reproductor multimedia, el popular reproductor de medios de código abierto. La versión de Android™ puede leer todos los archivos y trasmisiones de red.</string>
     <string name="authors">Autores</string>
     <string name="vlc_authors">y Autores de VLC.</string>
     <string name="is_compiled_by">Compilado por</string>
@@ -503,8 +502,6 @@
     <string name="music_now_playing">Reproduciendo ahora</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget Blanco de VLC</string>
-    <string name="widget_name_b">Widget Oscuro de VLC</string>
     <string name="allow_storage_access_title">Permitir a VLC acceder a archivos de audio y video</string>
     <string name="allow_storage_access_description">VLC requiere permiso para acceder a los archivos multimedia del dispositivo.</string>
     <string name="allow_settings_access_ringtone_title">Permitir a VLC cambiar tono de llamada</string>

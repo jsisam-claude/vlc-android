@@ -406,8 +406,6 @@
     <string name="music_now_playing">Yn Chwarae Nawr</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Teclyn VLC Gwyn</string>
-    <string name="widget_name_b">Teclyn VLC Tywyll</string>
     <string name="allow_storage_access_title">Caniatáu VLC i gael at ffeiliau fideo a sain</string>
     <string name="allow_storage_access_description">Mae VLC angen eich caniatâd er mwyn cael at ffeiliau cyfryngau ar y ddyfais hon.</string>
     <string name="allow_settings_access_ringtone_title">Caniatáu VLC i osod y sain canu</string>

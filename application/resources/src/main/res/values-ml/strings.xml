@@ -239,7 +239,6 @@
     <!-- About -->
     <string name="revision">പരിഷ്‌കരണം</string>
     <string name="about">കുറിച്ച്‌</string>
-    <string name="about_vlc_text">ആൻഡ്രോയിഡ്™-നുള്ള വിഎൽസി എന്നത് ജനപ്രിയ തുറന്ന കോഡുള്ള മീഡിയ പ്ലെയറായ വിഎൽസി മീഡിയ പ്ലെയറിന്റെ ഒരു പതിപ്പാണ് ആണ്. ആൻഡ്രോയിഡ് ™ പതിപ്പിന് എല്ലാ ഫയലുകളും ശ്രിംഘലയിൽ നിന്നുള്ള ഒഴുക്കുകളും വായിക്കാനാകും.</string>
     <string name="authors">രചയിതാക്കൾ</string>
     <string name="vlc_authors">പിന്നെ വിഎൽസി രചയിതാക്കളും </string>
     <string name="is_compiled_by">സമാഹരിച്ചത്</string>
@@ -497,9 +496,6 @@
     <string name="music_now_playing">ഇപ്പോള്‍ പ്ലേ ചെയ്യുന്നവ</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">വിഎൽസി വെളുത്ത വിഡ്ജെറ്റ് </string>
-    <string name="widget_name_b">വിഎൽസി കറുത്ത വിഡ്ജെറ്റ് </string>
-    <string name="widget_name_mini_player">VLC മിനി പ്ലെയർ</string>
     <string name="widget_old_text">ഞങ്ങൾ ഞങ്ങളുടെ വിജറ്റുകൾ അപ്ഡേറ്റ് ചെയ്തു!</string>
     <string name="widget_old_description_start">ശുഭ വാർത്ത! ഞങ്ങൾ മെച്ചപ്പെടുത്തിയ വിജറ്റുകൾ പുറത്തിറക്കിയിരിക്കുന്നു.\nഅവ കൂടുതൽ പ്രതികരണശേഷിയും ഇഷ്ടാനുസൃതമാക്കലും വാഗ്ദാനം ചെയ്യുന്നു</string>
     <string name="whats_next">അടുത്തത് എന്താണ്?</string>

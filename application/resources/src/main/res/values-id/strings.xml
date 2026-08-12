@@ -247,7 +247,6 @@
     <!-- About -->
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
-    <string name="about_vlc_text">VLC untuk Android™ merupakan bagian dari VLC media player, pemutar media terbuka yang populer. Versi Android™ dapat membuka semua jenis file dan salurang media langsung.</string>
     <string name="authors">Pencipta</string>
     <string name="vlc_authors">dan Para Pengembang VLC</string>
     <string name="is_compiled_by">Disusun oleh</string>
@@ -530,9 +529,6 @@
     <string name="music_now_playing">Sekarang Diputar</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC Widget Putih</string>
-    <string name="widget_name_b">VLC Widget Gelap</string>
-    <string name="widget_name_mini_player">VLC pemutar mini</string>
     <string name="widget_old_text">Kami telah memperbaharui widget kami!</string>
     <string name="widget_old_description_start">Kabar gembira! Kami merilis gawit (widget) yang ditingkatkan.\nMereka menawarkan daya respons dan penyesuaian yang lebih</string>
     <string name="whats_next">Apa selanjutnya?</string>

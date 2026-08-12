@@ -299,7 +299,6 @@
     <!-- About -->
     <string name="revision">리비전</string>
     <string name="about">정보</string>
-    <string name="about_vlc_text">Android™용 VLC는 인기 있는 오픈 소스 미디어 재생기인 VLC 미디어 재생기의 이식된 버전입니다. Android™ 버전은 모든 파일과 네트워크 스트림을 읽을 수 있습니다.</string>
     <string name="authors">작성자</string>
     <string name="vlc_authors">및 VLC 제작자들.</string>
     <string name="is_compiled_by">컴파일러:</string>
@@ -642,9 +641,6 @@
     <string name="music_now_playing">지금 재생 중</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC 흰색 위젯</string>
-    <string name="widget_name_b">VLC 검은색 위젯</string>
-    <string name="widget_name_mini_player">VLC 미니 재생기</string>
     <string name="widget_old_text">위젯을 업데이트 했습니다!</string>
     <string name="widget_old_description_start">좋은 소식입니다! 우리는 개선된 위젯을 릴리즈했습니다.\n더 나은 응답성과 커스터마이징 기능을 제공합니다.</string>
     <string name="whats_next">다음에 할 작업은 무엇입니까?</string>

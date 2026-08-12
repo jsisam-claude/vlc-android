@@ -385,8 +385,6 @@
     <string name="music_now_playing">กำลังเล่นอยู่</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">วิดเจ็ต VLC สีขาว</string>
-    <string name="widget_name_b">วิดเจ็ต VLC สีเข้ม</string>
     <string name="allow_storage_access_title">อนุญาตให้ VLC เข้าถึงไฟล์วิดีโอและเสียง</string>
     <string name="allow_storage_access_description">VLC จำเป็นต้องให้คุณอนุญาตสิทธิ์การเข้าถึงนี้เพื่อเข้าถึงไฟล์สื่อบนอุปกรณ์นี้</string>
     <string name="allow_settings_access_ringtone_title">อนุญาตให้ VLC ตั้งค่าเสียงเรียกเข้า</string>

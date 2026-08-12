@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Revisione</string>
     <string name="about">Apprupositu</string>
-    <string name="about_vlc_text">VLC per Android™ hè una purtera di VLC media player, u lettore medià pupulare à fonte aperta. A versione Android™ pò leghje tutti i schedarii è i flussi di a reta.</string>
     <string name="authors">Autori</string>
     <string name="vlc_authors">è l’autori di VLC.</string>
     <string name="is_compiled_by">Cumpilatu da</string>
@@ -648,9 +647,6 @@
     <string name="music_now_playing">Ripruduzzione in corsu</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget VLC Biancu</string>
-    <string name="widget_name_b">Widget VLC Scuru</string>
-    <string name="widget_name_mini_player">Mini lettore VLC</string>
     <string name="widget_old_text">Avemu messu à livellu i nostri widgets !</string>
     <string name="widget_old_description_start">Bella nutizia ! Avemu publicatu widgets amendati.\nPermettenu più di riattività è di persunalizazione</string>
     <string name="whats_next">Cosa hà da accade dopu ?</string>

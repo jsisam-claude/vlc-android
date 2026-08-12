@@ -264,7 +264,6 @@
     <!-- About -->
     <string name="revision">Revisjon</string>
     <string name="about">Om</string>
-    <string name="about_vlc_text">VLC for Android™ er en port av VLC mediespiller, den populære åpen-kildekodede mediespilleren. Android™-versjonen kan lese alle filer og nettverksstrømmer.</string>
     <string name="authors">Forfattere</string>
     <string name="vlc_authors">og VLC-utviklere.</string>
     <string name="is_compiled_by">Kompilert av</string>
@@ -531,9 +530,6 @@
     <string name="music_now_playing">Spilles nå</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Lys VLC-modul</string>
-    <string name="widget_name_b">Mørk VLC-modul</string>
-    <string name="widget_name_mini_player">VLC mini player</string>
     <string name="widget_old_text">Vi har oppdatert våre skjermelement!</string>
     <string name="whats_next">Hva blir det neste?</string>
     <string name="click_here">Klikk her for å lære mer.</string>

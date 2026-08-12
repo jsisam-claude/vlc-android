@@ -254,7 +254,6 @@
     <!-- About -->
     <string name="revision">تاریخ به روز رسانی</string>
     <string name="about">درباره</string>
-    <string name="about_vlc_text">وی‌ال‌سی برای اندروید™ یک ترابری از پخش‌کنندهٔ رسانه وی‌ال‌سی است، پخش‌کنندهٔ رسانه متن‌باز و محبوب.  نگارش اندروید™ می‌تواند همهٔ پرونده‌ها و جریان‌های شبکه را بخواند.</string>
     <string name="authors">مؤلف‌ها</string>
     <string name="vlc_authors">و نویسندگان وی‌ال‌سی.</string>
     <string name="is_compiled_by">تالیف توسط</string>
@@ -516,9 +515,6 @@
     <string name="music_now_playing">در حال پخش</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">ابزارک روشن VLC</string>
-    <string name="widget_name_b">ابزارک تیره اندروید</string>
-    <string name="widget_name_mini_player">پخش کننده کوچک VLC</string>
     <string name="widget_old_text">ما ابزارک‌هایمان را بروزرسانی کردیم!</string>
     <string name="widget_old_description_start">خبر خوب! ما ابزارک‌های بهبود یافته‌ای را منتشر کردیم.
 آنها پاسخگویی و سفارشی سازی بیشتری را ارایه می‌‎دهند</string>

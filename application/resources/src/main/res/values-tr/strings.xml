@@ -307,7 +307,6 @@
     <!-- About -->
     <string name="revision">Değişiklik</string>
     <string name="about">Hakkında</string>
-    <string name="about_vlc_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir parçasıdır. Android™ sürümü tüm dosya ve ağ akışlarını okuyabilir.</string>
     <string name="authors">Geliştirenler</string>
     <string name="vlc_authors">ve VLC geliştiricileri.</string>
     <string name="is_compiled_by">Derleyici</string>
@@ -648,9 +647,6 @@
     <string name="music_now_playing">Şimdi oynatılan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Açık VLC ekran bileşeni</string>
-    <string name="widget_name_b">Koyu VLC ekran bileşeni</string>
-    <string name="widget_name_mini_player">VLC mini oynatıcı</string>
     <string name="widget_old_text">Ekran bileşenlerimizi güncelledik!</string>
     <string name="widget_old_description_start">İyi haberlerimiz var! Geliştirilmiş ekran bileşenlerini yayınladık.\nArtık daha uyumlu ve özelleştirilebilir</string>
     <string name="whats_next">Sırada ne var?</string>

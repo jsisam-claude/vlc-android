@@ -286,7 +286,6 @@
     <!-- About -->
     <string name="revision">Adwel</string>
     <string name="about">Diwar-benn</string>
-    <string name="about_vlc_text">VLC evit Android™ zo ur porzh eus al lenner mediaoù VLC, al lenner mediaoù digor brudet. Ar stumm AndroidTM a c\'hell lenn an holl restroù hag ar froudoù rouedad.</string>
     <string name="authors">Oberourien</string>
     <string name="vlc_authors">hag aozerien VLC.</string>
     <string name="is_compiled_by">Kempunet gant</string>
@@ -543,8 +542,6 @@
     <string name="music_now_playing">O lenn</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget VLC gwenn</string>
-    <string name="widget_name_b">Widget VLC teñval</string>
     <string name="allow_storage_access_title">Aotren VLC da dizhout ar restroù video hag aodio</string>
     <string name="allow_settings_access_ringtone_title">Aotren VLC da dermeniñ ar soniri</string>
     <string name="allow_settings_access_ringtone_description">VLC en deus ezhomm ec\'h aotrefec\'h an arload-mañ evit lakaat ar sonenn-mañ evel soniri.</string>

@@ -276,7 +276,6 @@
     <!-- About -->
     <string name="revision">Semakan</string>
     <string name="about">Perihal</string>
-    <string name="about_vlc_text">VLC untuk Android™ merupakan sebuah port pemain media VLC, pemain media sumber terbuka yang terkenal. Versi Android™ dapat membaca semua fail dan strim rangkaian.</string>
     <string name="authors">Pengarang</string>
     <string name="vlc_authors">dan Para Pengarang VLC.</string>
     <string name="is_compiled_by">Dikompil oleh</string>
@@ -593,9 +592,6 @@
     <string name="music_now_playing">Kini Dimainkan</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget Putih VLC</string>
-    <string name="widget_name_b">Widget Gelap VLC</string>
-    <string name="widget_name_mini_player">Pemain mini VLC</string>
     <string name="widget_old_text">Kami telah mengemas kini widget anda!</string>
     <string name="widget_old_description_start">Berita baik! Kami telah menambah baik widget.\nIa lebih respons dan boleh disuaikan</string>
     <string name="whats_next">Yang berikutnya?</string>

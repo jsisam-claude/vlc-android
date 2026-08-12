@@ -325,7 +325,6 @@
     <!-- About -->
     <string name="revision">Revízia</string>
     <string name="about">O aplikácii</string>
-    <string name="about_vlc_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať všetky súbory a sieťové streamy.</string>
     <string name="authors">Autori</string>
     <string name="vlc_authors">a autori VLC</string>
     <string name="is_compiled_by">Skompilované</string>
@@ -668,9 +667,6 @@
     <string name="music_now_playing">Práve sa prehráva</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Widget pre biely VLC</string>
-    <string name="widget_name_b">Widget pre tmavý VLC</string>
-    <string name="widget_name_mini_player">VLC mini player</string>
     <string name="widget_old_text">Aktualizovali sme widgety!</string>
     <string name="widget_old_description_start">Dobré správy! Vydali sme vylepšené widgety.\nPonúkajú lepšiu odozvu a možnosť prispôsobenia</string>
     <string name="whats_next">Čo ďalej?</string>

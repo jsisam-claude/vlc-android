@@ -428,9 +428,6 @@
     <string name="music_now_playing">Á seinm faoi láthair</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">Giuirléid Bhán VLC</string>
-    <string name="widget_name_b">Giuirléid Dhubh VLC</string>
-    <string name="widget_name_mini_player">Mionsheinnteoir VLC</string>
     <string name="widget_old_text">Tá ár gcuid giuirléidí nuashonraithe againn!</string>
     <string name="whats_next">Cad é an chéad rud eile?</string>
     <string name="click_here">Brúigh anseo chun tuilleadh eolais a chur air.</string>

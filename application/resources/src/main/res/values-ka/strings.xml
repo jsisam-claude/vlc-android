@@ -305,7 +305,6 @@
     <!-- About -->
     <string name="revision">გამოცემა</string>
     <string name="about">შესახებ</string>
-    <string name="about_vlc_text">VLC Android™ არის ამ სისტემისთვის მორგებული ცნობილი და ღია წყაროს მქონე მედიაფაილების დამკვრელი VLC media player. მოცემულ Android™-ვერსიას შეუძლია ყველა სახის ფაილისა და ქსელური ნაკადის გაშვება.</string>
     <string name="authors">შემქმნელები</string>
     <string name="vlc_authors">და VLC-ს ავტორები.</string>
     <string name="is_compiled_by">გარდამქმნელი</string>
@@ -644,9 +643,6 @@
     <string name="music_now_playing">ახლა გაშვებულია</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">ნათელი VLC-ჩანართი</string>
-    <string name="widget_name_b">მუქი VLC-ჩანართი</string>
-    <string name="widget_name_mini_player">VLC მინიდამკვრელი</string>
     <string name="widget_old_text">ეკრანის განახლებული ჩანართები!</string>
     <string name="widget_old_description_start">სასიამოვნო სიახლე! გამოვუშვით გაუმჯობესებული ჩანართები.\nმეტად სწრაფმოქმედი და ადვილად მოსარგები გახდა</string>
     <string name="whats_next">რა იქნება შემდეგ?</string>

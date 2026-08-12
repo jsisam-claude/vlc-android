@@ -294,7 +294,6 @@
     <!-- About -->
     <string name="revision">Berrikuspena</string>
     <string name="about">Honi buruz</string>
-    <string name="about_vlc_text">VLC Android™ VLC kode irekiko multimedia erreproduzitzaile ezagunaren ataka da, . Android™ bertsioak fitxategi eta sareko korronte guztiak irakur ditzake.</string>
     <string name="authors">Egileak</string>
     <string name="vlc_authors">eta VLC egileak.</string>
     <string name="is_compiled_by">Konpilatzailea</string>
@@ -590,9 +589,6 @@
     <string name="music_now_playing">Orain erreproduzitzen</string>
 
     <!-- Widget -->
-    <string name="widget_name_w">VLC trepeta zuria</string>
-    <string name="widget_name_b">VLC trepeta iluna</string>
-    <string name="widget_name_mini_player">VLC  erreproduzigailu txikia</string>
     <string name="widget_old_text">Gure trepetak eguneratu ditugu!</string>
     <string name="widget_old_description_start">Berri onak! Trepeta hobetuak kaleratu ditugu.\nMoldagarritasun eta pertsonalizazio handiagoa eskaintzen dute</string>
     <string name="whats_next">Zer berri?</string>
