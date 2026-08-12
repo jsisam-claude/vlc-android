@@ -101,10 +101,13 @@ Three layers, three treatments:
    `settings.gradle`/`build.gradle` detect the mirror and resolve
    **exclusively** from it; external repositories are never contacted and
    anything missing fails loudly. Additionally,
-   `gradle/verification-metadata.xml` is **committed** (758 components,
-   generated with `--write-verification-metadata sha256` against the full
-   `assembleDev` graph): Gradle verifies the SHA-256 of every resolved
-   artifact on every build, mirror or not.
+   `gradle/verification-metadata.xml` is **committed** (767 components,
+   generated with `--write-verification-metadata sha256` across the
+   `assembleDev` **and** `lintDev` graphs): Gradle verifies the SHA-256 of
+   every resolved artifact on every build, mirror or not. (The lint
+   toolchain is included so `lint` runs under strict verification too;
+   regenerate with both tasks in scope if you add a task that resolves new
+   artifacts, or it will fail closed.)
    Remaining third-party binaries in the APK after the remote-access
    removal: androidx/material/desugar (Google, Apache-2.0/GPL+CE),
    kotlin-stdlib + kotlinx-coroutines (JetBrains, Apache-2.0), and the
@@ -144,8 +147,8 @@ pins):
   packages the four freshly built native libs. A stripped, re-signed
   arm64 test APK built this way runs ~65 MB.
 - **Dependency verification is enforced**: `gradle/verification-metadata.xml`
-  (758 components, SHA-256) is committed and the build passes with it
-  active.
+  (767 components, SHA-256) is committed and both `assembleDev` and `lintDev`
+  pass with it active.
 
 Remaining outside the sandbox: on-device testing, 32-bit ABIs (build with
 NDK 21 per the table above), and populating `../vlc-mirror/m2` if you want

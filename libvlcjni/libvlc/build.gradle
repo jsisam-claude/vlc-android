@@ -26,7 +26,12 @@ android {
         resValue "string", "build_libvlc_revision", libvlc_revision
         resValue "string", "build_vlc_revision", vlc_revision
         tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('merge')) {
+            // The lua Copy tasks write into assets/lua (a declared asset source dir). Every task
+            // that consumes the merged assets must run after them or Gradle 9 fails the build with
+            // an implicit-dependency error: the asset merge, and also lint's model/analyze tasks.
+            if (task.name.startsWith('merge')
+                    || (task.name.startsWith('generate') && task.name.endsWith('LintModel'))
+                    || task.name.startsWith('lintAnalyze')) {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
                 task.dependsOn luaModuleCopy
