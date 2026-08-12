@@ -103,8 +103,13 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         KEY_CURRENT_AUDIO, KEY_CURRENT_MEDIA, KEY_CURRENT_MEDIA_RESUME, KEY_AUDIO_LAST_PLAYLIST,
         KEY_MEDIA_LAST_PLAYLIST, KEY_MEDIA_LAST_PLAYLIST_RESUME, KEY_CURRENT_AUDIO_RESUME_THUMB,
         POSITION_IN_MEDIA_LIST, POSITION_IN_AUDIO_LIST, POSITION_IN_SONG, POSITION_IN_MEDIA,
-        //Remote access
+        //Sensitive credentials — must never land in the exported settings file (it is written to
+        //public external storage and offered via the share sheet). The remote-access keys are legacy
+        //(that feature is removed) but stay blacklisted to protect any prefs migrated from upstream VLC.
         KEYSTORE_PASSWORD_IV, KEY_COOKIE_ENCRYPT_KEY, KEY_COOKIE_SIGN_KEY, KEYSTORE_PASSWORD, ENCRYPTED_KEY_NAME,
+        //Credentials for features this fork keeps: the OpenSubtitles session (bearer token + username)
+        //and the parental-control PIN (an unsalted SHA-256 of a short PIN, trivially brute-forced).
+        KEY_OPEN_SUBTITLES_USER, KEY_OPEN_SUBTITLES_LIMIT, KEY_SAFE_MODE_PIN,
         //Others
         KEY_NAVIGATOR_SCREEN_UNSTABLE, KEY_FRAGMENT_ID, KEY_DEBLOCKING, KEY_LAST_SESSION_CRASHED, KEY_METERED_CONNECTION, KEY_MEDIALIBRARY_SCAN
 
