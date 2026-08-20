@@ -1,7 +1,15 @@
 pluginManagement {
     repositories {
-        google()
-        mavenCentral()
+        // Match the root build: in self-contained mode resolve ONLY from the
+        // committed mirror, so this build root never contacts external repos
+        // either (compile.sh builds libvlc through it via --project-dir).
+        def localMirror = new File(settingsDir, "../../vlc-mirror/m2")
+        if (localMirror.isDirectory()) {
+            maven { url = localMirror.toURI() }
+        } else {
+            google()
+            mavenCentral()
+        }
     }
 }
 

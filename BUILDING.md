@@ -48,8 +48,10 @@ The buildsystem was patched to respect vendored trees:
   `:=`-assigned). The `extras/tools` archives still need physical staging;
   run `../vlc-libs/place-build-inputs.sh` (bootstrap step 3) to copy the
   committed archives into place.
-- `compile-medialibrary.sh` uses the committed sqlite source archive instead
-  of downloading, and `--reset` won't touch vendored trees.
+- `compile-medialibrary.sh` prefers the committed sqlite source archive; if
+  it is missing it falls back to downloading, then enforces the pinned
+  SHA-512 either way (mismatch is a hard `exit 1`). `--reset` won't touch
+  vendored trees.
 
 ## Pruned contrib set
 
@@ -102,18 +104,32 @@ Three layers, three treatments:
    **exclusively** from it; external repositories are never contacted and
    anything missing fails loudly. Additionally,
    `gradle/verification-metadata.xml` is **committed** (767 components,
-   generated with `--write-verification-metadata sha256` across the
-   `assembleDev` **and** `lintDev` graphs): Gradle verifies the SHA-256 of
-   every resolved artifact on every build, mirror or not. (The lint
-   toolchain is included so `lint` runs under strict verification too;
-   regenerate with both tasks in scope if you add a task that resolves new
-   artifacts, or it will fail closed.)
+   1370 SHA-256 artifact entries, `verify-metadata=true`, and no
+   trusted-artifact/regex/PGP escape hatches): Gradle verifies every
+   artifact resolved **through the repo-root build** — the app, television,
+   resources, tools, mediadb and `:medialibrary` — mirror or not. It was
+   generated across the `assembleDev` **and** `lintDev` graphs, so lint runs
+   under strict verification too; add new task graphs to the regeneration or
+   they fail closed.
+   **Known scope gap:** `compile.sh -l` builds libvlc with
+   `--project-dir libvlcjni/libvlc`, and because `libvlcjni/settings.gradle`
+   exists that invocation's build root is `libvlcjni/`, which has no
+   verification metadata — so its plugin classpath (AGP, kotlin-gradle-plugin,
+   the publish plugins) resolves unverified. Close it either by building that
+   module through the root (`./gradlew :libvlcjni:libvlc:<task>`, already
+   declared in `settings.gradle`) or by generating
+   `libvlcjni/gradle/verification-metadata.xml` (note `.gitignore`'s
+   `gradle*/` rule means it must be `git add -f`'d, as the root one was).
+   Both need a build to validate, so neither is applied here.
    Remaining third-party binaries in the APK after the remote-access
    removal: androidx/material/desugar (Google, Apache-2.0/GPL+CE),
-   kotlin-stdlib + kotlinx-coroutines (JetBrains, Apache-2.0), and the
-   okhttp/retrofit/moshi trio — which exists **only** for the OpenSubtitles
-   download dialog. Removing that feature would leave Google + JetBrains as
-   the only binary vendors (see REMOVED.md for what that costs).
+   kotlin-stdlib + kotlinx-coroutines (JetBrains, Apache-2.0), okhttp +
+   retrofit (OpenSubtitles networking), moshi (OpenSubtitles **and** general
+   JSON use — settings import/export, locale/equalizer/library metadata),
+   plus zxing (QR fallback for browserless TVs), colorpicker (subtitle and
+   widget preferences), konfetti (the About easter egg) and ok2curl.
+   Dropping OpenSubtitles would remove okhttp/retrofit but **not** moshi, and
+   would not by itself reduce the vendor list to Google + JetBrains.
 3. **The platform toolchain (SDK, NDK — see the table above for the
    32-bit/64-bit version split — JDK, Gradle 9.3.1): pinned installs.**
    Gradle is SHA-256-pinned in `compile.sh`; SDK/NDK
