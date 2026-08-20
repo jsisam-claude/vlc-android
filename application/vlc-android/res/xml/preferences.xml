@@ -49,6 +49,12 @@
                 android:key="metered_connection"
                 android:summary="%s"
                 android:title="@string/metered_connection"/>
+        <CheckBoxPreference
+                app:singleLineTitle="false"
+                android:key="allow_remote_artwork"
+                android:defaultValue="false"
+                android:summary="@string/allow_remote_artwork_summary"
+                android:title="@string/allow_remote_artwork_title"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/permissions"
             android:key="permissions_title">

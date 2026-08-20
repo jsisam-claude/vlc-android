@@ -1256,6 +1256,8 @@
 
     <string name="network" >Network</string>
     <string name="metered_connection">Action for streams when the connection is metered</string>
+    <string name="allow_remote_artwork_title">Load artwork from the internet</string>
+    <string name="allow_remote_artwork_summary">Off by default. Some network shares and streams supply a web address for cover art; fetching it contacts that server automatically whenever the item is shown, which can be used to track you.</string>
     <string name="metered_do_nothing">Do nothing</string>
     <string name="metered_stop">Stop playback</string>
     <string name="metered_warn">Warn me (the warning may be missed for audio playback)</string>

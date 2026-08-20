@@ -488,8 +488,16 @@ object PreferenceParser {
             val restorePrefsName = activity.packageName + "_restore"
             val restoringPrefs = activity.getSharedPreferences(restorePrefsName, Context.MODE_PRIVATE)
 
+            // The blacklist has to be symmetric: export refuses to write these keys out,
+            // so import must refuse to take them in. Otherwise a hand-crafted settings
+            // file injects credentials and control values — e.g. open_subtitles_user
+            // carries the API base URL that DomainInterceptor rewrites requests to
+            // (leaking the API key and bearer token), and safe_mode_pin overwrites the
+            // parental-control PIN.
+            val blacklist = Settings.getRestoreBlacklist()
             restoringPrefs.edit {
                 savedSettings.settings.forEach { settingEntry ->
+                    if (settingEntry.key in blacklist) return@forEach
                     when (settingEntry.type) {
                         SettingType.BOOLEAN -> putBoolean(settingEntry.key, settingEntry.value as Boolean)
                         SettingType.INT -> putInt(settingEntry.key, (settingEntry.value as Double).toInt())

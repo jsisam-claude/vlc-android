@@ -28,11 +28,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import kotlinx.coroutines.launch
 import org.videolan.resources.VLCInstance
+import org.videolan.tools.AppScope
 import org.videolan.tools.KEY_CASTING_AUDIO_ONLY
 import org.videolan.tools.KEY_CASTING_PASSTHROUGH
 import org.videolan.tools.KEY_CASTING_QUALITY
 import org.videolan.tools.KEY_ENABLE_CASTING
 import org.videolan.vlc.R
+import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
 
 class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -57,6 +59,14 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
     }
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
+            // Apply the casting opt-in immediately. RendererDelegate is a process-wide
+            // object and the restart offered above only recreates the Activity, so
+            // without this the discoverers keep multicasting after the user turns
+            // casting off (and stay off after turning it on, until connectivity flaps).
+            KEY_ENABLE_CASTING -> {
+                val enabled = sharedPreferences?.getBoolean(KEY_ENABLE_CASTING, false) == true
+                AppScope.launch { if (enabled) RendererDelegate.start() else RendererDelegate.stop() }
+            }
             KEY_CASTING_PASSTHROUGH, KEY_CASTING_QUALITY, KEY_CASTING_AUDIO_ONLY -> {
                 lifecycleScope.launch {
                     VLCInstance.restart()

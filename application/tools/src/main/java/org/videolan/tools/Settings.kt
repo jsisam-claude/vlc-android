@@ -300,6 +300,7 @@ const val KEY_AUDIO_PLAYER_SHOW_COVER = "audio_player_show_cover"
 const val KEY_ENABLE_CLONE_MODE = "enable_clone_mode"
 const val KEY_USER_DECLINED_STORAGE_ACCESS = "user_declined_storage_access"
 const val KEY_METERED_CONNECTION = "metered_connection"
+const val KEY_ALLOW_REMOTE_ARTWORK = "allow_remote_artwork"
 
 //Widgets
 const val KEY_WIDGET_THEME = "widget_theme"

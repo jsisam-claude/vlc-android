@@ -37,7 +37,10 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.media.MediaWrapper
+import org.videolan.resources.AppContextProvider
 import org.videolan.tools.BitmapCache
+import org.videolan.tools.KEY_ALLOW_REMOTE_ARTWORK
+import org.videolan.tools.Settings
 import org.videolan.tools.HttpImageLoader
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.R
@@ -132,8 +135,15 @@ object AudioUtil {
     @WorkerThread
     fun readCoverBitmap(requestedPath: String?, width: Int): Bitmap? {
         val path = requestedPath ?: return null
-        if (isSchemeHttpOrHttps(path)) return runBlocking(Dispatchers.Main) {
-            HttpImageLoader.downloadBitmap(path)
+        // Artwork URLs come from remote servers (UPnP/DLNA browse results, stream
+        // metadata) and are fetched whenever the item is rendered — i.e. without the
+        // user asking for any network access, which a hostile server can use as a
+        // tracking beacon. Opt-in only, like casting.
+        if (isSchemeHttpOrHttps(path)) {
+            val allowed = Settings.getInstance(AppContextProvider.appContext)
+                    .getBoolean(KEY_ALLOW_REMOTE_ARTWORK, false)
+            if (!allowed) return null
+            return runBlocking(Dispatchers.Main) { HttpImageLoader.downloadBitmap(path) }
         }
         return BitmapCache.getBitmapFromMemCache(path.removeFileScheme() + "_$width") ?: fetchCoverBitmap(path, width)
     }
