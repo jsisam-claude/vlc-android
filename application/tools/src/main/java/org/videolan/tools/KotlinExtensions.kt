@@ -184,12 +184,6 @@ fun Resources.getDrawableOrDefault(name: String, defPackage: String, @DrawableRe
     }
 }
 
-fun Context.resIdByName(resIdName: String?, resType: String): Int {
-    resIdName?.let {
-        return resources.getIdentifier(it, resType, packageName)
-    }
-    throw Resources.NotFoundException()
-}
 
 fun Resources.isXmlResource(resourceId: Int): Boolean {
     val typedValue = TypedValue()

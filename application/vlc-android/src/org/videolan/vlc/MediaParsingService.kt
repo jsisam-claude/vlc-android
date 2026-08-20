@@ -91,7 +91,6 @@ import org.videolan.tools.KEY_MEDIALIBRARY_SCAN
 import org.videolan.tools.ML_SCAN_OFF
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
-import org.videolan.tools.localBroadcastManager
 import org.videolan.tools.removeFileScheme
 import org.videolan.vlc.gui.FeedbackActivity
 import org.videolan.vlc.gui.helpers.NotificationHelper

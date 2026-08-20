@@ -35,7 +35,7 @@ class PreferencesCastingUITest: BasePreferenceUITest() {
         onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), isEnabled)!!
                 .check(matches(isDisplayed()))
 
-        checkToggleWorks(key, settings)
+        checkToggleWorks(key, settings, default = false)
 
         onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), not(isEnabled))!!
                 .check(matches(isDisplayed()))

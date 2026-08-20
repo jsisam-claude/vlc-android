@@ -103,8 +103,6 @@ revision.
 
 ## 8. Intentional leftovers
 
-- Translated strings, drawables and colors that belonged to removed features
-  are kept to avoid churn in ~60 locale files; they are inert resources.
 - The `INTERNET` permission remains — it is required for user-initiated
   streaming and network browsing.
 

@@ -472,7 +472,7 @@ object MediaUtils {
         val id = data?.lastPathSegment ?: return@launch
         // Media from medialib
         val mw = context.getFromMl {
-            val longId = id.substringAfter("_").toLong()
+            val longId = id.substringAfter("_").toLongOrNull() ?: return@getFromMl null
             when {
                 id.startsWith("album_") -> getAlbum(longId)
                 id.startsWith("artist_") -> getArtist(longId)

@@ -49,7 +49,6 @@ import org.videolan.tools.DrawableCache
 import org.videolan.tools.Settings
 import org.videolan.tools.getContextWithLocale
 import org.videolan.vlc.R
-import org.videolan.vlc.StartActivity
 import org.videolan.vlc.util.FlagSet
 import org.videolan.vlc.util.PlaybackAction
 import org.videolan.vlc.util.TextUtils

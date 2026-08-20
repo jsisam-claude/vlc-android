@@ -22,7 +22,6 @@
  */
 package org.videolan.vlc.gui.browser
 
-import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle

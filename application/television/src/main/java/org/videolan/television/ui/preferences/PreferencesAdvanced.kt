@@ -39,7 +39,6 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -77,7 +76,6 @@ import org.videolan.tools.KEY_OPENGL
 import org.videolan.tools.KEY_PREFER_SMBV1
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.DebugLogActivity

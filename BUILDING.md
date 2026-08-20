@@ -73,6 +73,38 @@ and its source archive is vendored), and — deliberately, because the fork
 keeps user-initiated network browsing and casting — **smb2, nfs, libdsm,
 upnp and microdns**.
 
+## Host packages (Debian trixie / Ubuntu 24.04)
+
+The build compiles several host tools from the vendored `host-tools/` sources,
+so this list is only what must come from the distro. Package names are
+identical on Debian trixie and Ubuntu 24.04.
+
+```sh
+sudo apt-get install -y \
+    openjdk-25-jdk \
+    build-essential git curl wget unzip zip tar xz-utils bzip2 patch file \
+    autoconf automake m4 pkg-config libtool-bin \
+    cmake ninja-build meson python3 python3-setuptools \
+    bison flex gperf nasm \
+    gettext help2man protobuf-compiler ant
+```
+
+Why the less obvious ones:
+
+| Package | Needed for |
+|---|---|
+| `openjdk-25-jdk` | Gradle/AGP. Reference build environment is Debian trixie's **`25.0.4+7-1~deb13u1`**. (The verification runs recorded under Status were executed on the same Debian `openjdk-25` source package rebuilt for Ubuntu 24.04, `25.0.3+9-2~24.04.2` — one upstream patch release behind, because Debian's archives are not reachable from that sandbox.) |
+| `gperf` | fontconfig generates a perfect-hash header with it; without it the contrib build fails late |
+| `nasm` | ffmpeg x86 assembly — required only for the `x86`/`x86_64` ABIs, not for arm |
+| `ant` | VLC's `extras/tools` bootstrap checks for it. It is **not** vendored: upstream publishes Ant only as a prebuilt jar distribution, which this project's source-only policy forbids |
+| `meson`, `ninja-build` | build system for several contribs (harfbuzz, libass deps) |
+| `bison`, `flex` | generated parsers in the contrib chain |
+| `libtool-bin`, `gettext`, `help2man`, `protobuf-compiler` | checked by `extras/tools/bootstrap`. Vendored sources exist for these, so they are optional — installing them just skips building them |
+
+Minimum versions the bootstrap enforces (all satisfied by trixie/24.04):
+autoconf 2.71, automake 1.15, m4 1.4.16, libtool 2.4, cmake 3.18, meson 0.60,
+bison 3.0, protoc 3.4, nasm 2.15.
+
 ## What still comes from outside (toolchain boundary)
 
 | External | Why |

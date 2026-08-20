@@ -47,7 +47,6 @@ import org.videolan.tools.KEY_PERSISTENT_INCOGNITO
 import org.videolan.tools.KEY_SET_LOCALE
 import org.videolan.tools.Settings
 import org.videolan.tools.putSingle
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.util.DialogDelegate
 import org.videolan.vlc.util.NetworkConnectionManager

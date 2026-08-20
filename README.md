@@ -24,7 +24,7 @@ toolchain boundary.
 
 ---
 
-This is the official **Android** port of [VLC](https://videolan.org/vlc/).
+This is a fork of the official **Android** port of [VLC](https://videolan.org/vlc/).
 
 VLC on Android plays all the same files as the classical version of VLC, and features a media database
 for Audio and Video files and stream.

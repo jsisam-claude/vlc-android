@@ -55,7 +55,6 @@ import org.videolan.tools.SAVE_BRIGHTNESS
 import org.videolan.tools.SCREEN_ORIENTATION
 import org.videolan.tools.SHOW_SEEK_IN_COMPACT_NOTIFICATION
 import org.videolan.tools.TV_FOLDERS_FIRST
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.VlcMigrationHelper
 import org.videolan.vlc.gui.preferences.PreferenceVisibilityManager.isPreferenceVisible
 import org.videolan.vlc.util.FeatureFlag
