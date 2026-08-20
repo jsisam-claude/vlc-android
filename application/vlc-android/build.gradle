@@ -57,7 +57,7 @@ android {
             includeAndroidResources = true
         }
         unitTests.all {
-            jvmArgs '-noverify'
+            jvmArgs '-noverify', '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
             testLogging {
                 events "passed", "skipped", "failed", "standardOut", "standardError"
                 outputs.upToDateWhen { false }
@@ -241,12 +241,11 @@ dependencies {
 
 static def buildTime(project) {
     if (project.hasProperty('forceDeterministic')) {
-        def code = new ByteArrayOutputStream()
-        project.exec {
-            commandLine 'git', 'show', '--no-patch', '--format=%cd' , '--date=format-local:%Y-%m-%d'
-            standardOutput = code
-        }
-        return code.toString()
+        // project.exec was removed in Gradle 9; without this -PforceDeterministic (the
+        // project's only reproducible-build mode) fails at configuration time.
+        return project.providers.exec {
+            commandLine 'git', 'show', '--no-patch', '--format=%cd', '--date=format-local:%Y-%m-%d'
+        }.standardOutput.asText.get().trim()
     }
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }

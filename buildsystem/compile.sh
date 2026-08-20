@@ -179,21 +179,25 @@ else
         diagnostic "No password"
         exit 1
     fi
-    rm -f gradle.properties
     STOREALIAS="vlc"
 fi
 
 if [ ! -f gradle.properties ]; then
-    echo android.enableJetifier=true > gradle.properties
+    echo android.enableJetifier=false > gradle.properties
     echo android.useAndroidX=true >> gradle.properties
     echo kapt.incremental.apt=true >> gradle.properties
     echo kapt.use.worker.api=true >> gradle.properties
     echo kapt.include.compile.classpath=false >> gradle.properties
-    echo keyStoreFile=$KEYSTORE_FILE >> gradle.properties
-    echo storealias=$STOREALIAS >> gradle.properties
-    if [ -z "$PASSWORD_KEYSTORE" ]; then
-        echo storepwd=android >> gradle.properties
-    fi
+fi
+
+# Append only the signing keys, never rewrite the file: the committed gradle.properties
+# carries org.gradle.jvmargs (-Xmx4g), android.newDsl/builtInKotlin/nonTransitiveRClass
+# and enableJetifier=false. Deleting it silently dropped all of those and re-enabled
+# Jetifier for exactly the release builds that matter.
+grep -q '^keyStoreFile=' gradle.properties || echo keyStoreFile=$KEYSTORE_FILE >> gradle.properties
+grep -q '^storealias=' gradle.properties || echo storealias=$STOREALIAS >> gradle.properties
+if [ -z "$PASSWORD_KEYSTORE" ]; then
+    grep -q '^storepwd=' gradle.properties || echo storepwd=android >> gradle.properties
 fi
 
 init_local_props() {
@@ -331,8 +335,8 @@ GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
 
 if [ -e "./gradlew" ] && [ -x "./gradlew" ]; then
     GRADLE_CACHED_VERSION=$(./gradlew -q 2>/dev/null | grep gradle_version= | cut -b 16-)
-    if [ "$GRADLE_PATH_VERSION" != "$GRADLE_VERSION" ]; then
-        diagnostic "gradlew version $GRADLE_PATH_VERSION not matching $GRADLE_VERSION"
+    if [ "$GRADLE_CACHED_VERSION" != "$GRADLE_VERSION" ]; then
+        diagnostic "gradlew version $GRADLE_CACHED_VERSION not matching $GRADLE_VERSION"
         rm -rf "./gradlew"
     fi
 fi

@@ -93,15 +93,15 @@ Why the less obvious ones:
 
 | Package | Needed for |
 |---|---|
-| `openjdk-25-jdk` | Gradle/AGP. Reference build environment is Debian trixie's **`25.0.4+7-1~deb13u1`**. (The verification runs recorded under Status were executed on the same Debian `openjdk-25` source package rebuilt for Ubuntu 24.04, `25.0.3+9-2~24.04.2` — one upstream patch release behind, because Debian's archives are not reachable from that sandbox.) |
+| `openjdk-25-jdk` | Gradle/AGP. Reference build environment is Debian trixie's **`25.0.4+7-1~deb13u1`** (intended target, supplied by the user; not verifiable from this sandbox — Debian archives are blocked by its egress policy, so check which trixie suite provides it). (The verification runs recorded under Status were executed on the same Debian `openjdk-25` source package rebuilt for Ubuntu 24.04, `25.0.3+9-2~24.04.2` — one upstream patch release behind, because Debian's archives are not reachable from that sandbox.) |
 | `gperf` | fontconfig generates a perfect-hash header with it; without it the contrib build fails late |
 | `nasm` | ffmpeg x86 assembly — required only for the `x86`/`x86_64` ABIs, not for arm |
 | `ant` | VLC's `extras/tools` bootstrap checks for it. It is **not** vendored: upstream publishes Ant only as a prebuilt jar distribution, which this project's source-only policy forbids |
-| `meson`, `ninja-build` | build system for several contribs (harfbuzz, libass deps) |
+| `meson` | build system for several contribs (harfbuzz, libass deps). Not vendored |
 | `autopoint` | `autoreconf` runs it for gettext-using contribs; libgpg-error fails with "Can't exec autopoint" without it. Separate package from `gettext` on Debian/Ubuntu |
 | `texinfo` (`makeinfo`), `gawk` | required by several autotools contribs during `autoreconf`/doc generation |
 | `bison`, `flex` | generated parsers in the contrib chain |
-| `libtool-bin`, `gettext`, `help2man`, `protobuf-compiler` | checked by `extras/tools/bootstrap`. Vendored sources exist for these, so they are optional — installing them just skips building them |
+| `libtool-bin`, `gettext`, `help2man`, `protobuf-compiler`, `ninja-build` | checked by `extras/tools/bootstrap`. Vendored sources exist for all five, so they are optional — installing them just skips building them |
 
 Minimum versions the bootstrap enforces (all satisfied by trixie/24.04):
 autoconf 2.71, automake 1.15, m4 1.4.16, libtool 2.4, cmake 3.18, meson 0.60,
@@ -165,7 +165,14 @@ Three layers, three treatments:
    Dropping OpenSubtitles would remove okhttp/retrofit but **not** moshi, and
    would not by itself reduce the vendor list to Google + JetBrains.
 3. **The platform toolchain (SDK, NDK — see the table above for the
-   32-bit/64-bit version split — JDK, Gradle 9.3.1): pinned installs.**
+   32-bit/64-bit version split — and Gradle 9.3.1): pinned installs. The JDK
+   is NOT pinned by anything in the repo** — there is no
+   `java { toolchain }`, no `org.gradle.java.home`, so the build uses whatever
+   `JAVA_HOME`/PATH supplies. Export `JAVA_HOME` to your JDK 25 before
+   building. This matters beyond tidiness: AGP decides warn-vs-error on
+   `source/target 8` from the *running* javac version, and javac 21 and 25
+   emit byte-different (semantically identical) class files, so an APK is not
+   bit-reproducible across JDKs.
    Gradle is SHA-256-pinned in `compile.sh`; SDK/NDK
    packages are checksummed by `sdkmanager` against Google's signed
    repository manifest. Google's terms do not allow republishing the

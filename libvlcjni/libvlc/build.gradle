@@ -22,6 +22,15 @@ android {
 
     namespace = 'org.videolan'
 
+    compileOptions {
+        // Without this the module silently takes AGP's default (Java 11) while every other
+        // module compiles at 8 — and it is the one module whose javac then uses the
+        // per-JDK jlink --system image, tying its output to whatever JDK ran the build.
+        // Literal, not rootProject.ext: this module is also built with libvlcjni/ as root.
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         resValue "string", "build_libvlc_revision", libvlc_revision
         resValue "string", "build_vlc_revision", vlc_revision
