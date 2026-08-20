@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
+import android.util.Log
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
@@ -36,6 +37,8 @@ import org.videolan.tools.KEY_ENABLE_CASTING
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.gui.helpers.restartMediaPlayer
+
+private const val TAG = "VLC/PreferencesCasting"
 
 class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -65,7 +68,12 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
             // casting off (and stay off after turning it on, until connectivity flaps).
             KEY_ENABLE_CASTING -> {
                 val enabled = sharedPreferences?.getBoolean(KEY_ENABLE_CASTING, false) == true
-                AppScope.launch { if (enabled) RendererDelegate.start() else RendererDelegate.stop() }
+                // VLCInstance.getInstance throws on an incompatible CPU and AppScope has no
+                // CoroutineExceptionHandler, so an uncaught throw here would kill the process.
+                AppScope.launch {
+                    runCatching { if (enabled) RendererDelegate.start() else RendererDelegate.stop() }
+                            .onFailure { Log.w(TAG, "casting toggle failed", it) }
+                }
             }
             KEY_CASTING_PASSTHROUGH, KEY_CASTING_QUALITY, KEY_CASTING_AUDIO_ONLY -> {
                 lifecycleScope.launch {

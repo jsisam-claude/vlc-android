@@ -52,6 +52,10 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         // Renderer discovery multicasts on the local network: keep it off unless casting was enabled explicitly
         if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_ENABLE_CASTING, false)) return
         val libVlc = withContext(Dispatchers.IO) { VLCInstance.getInstance(AppContextProvider.appContext) }
+        // Re-check: the user can toggle casting off (or another caller can run) while the libvlc
+        // init above suspends, and stop() would no-op because started is still false.
+        if (!Settings.getInstance(AppContextProvider.appContext).getBoolean(KEY_ENABLE_CASTING, false)) return
+        if (started) return
         started = true
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)

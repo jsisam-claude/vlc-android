@@ -28,27 +28,39 @@ class PreferencesCastingUITest: BasePreferenceUITest() {
                 .perform(click())
     }
 
+    /**
+     * Dependent casting rows are disabled while the opt-in switch is off, so turn it on
+     * through the UI (one click from the shipped default of false) before touching them.
+     */
+    private fun enableCasting() {
+        onPreferenceRow(R.id.recycler_view, withKey(KEY_ENABLE_CASTING))!!.perform(click())
+    }
+
     @Test
     fun checkWirelessCastingSetting() {
         val key = KEY_ENABLE_CASTING
 
-        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), isEnabled)!!
+        // casting is opt-in in this fork, so the dependent rows start disabled and
+        // become enabled once the switch is turned on
+        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), not(isEnabled))!!
                 .check(matches(isDisplayed()))
 
         checkToggleWorks(key, settings, default = false)
 
-        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), not(isEnabled))!!
+        onPreferenceRow(R.id.recycler_view, withKey(KEY_CASTING_PASSTHROUGH), isEnabled)!!
                 .check(matches(isDisplayed()))
     }
 
     @Test
     fun checkAudioPassthroughSetting() {
+        enableCasting()
         val key = KEY_CASTING_PASSTHROUGH
         checkToggleWorks(key, settings, default = false)
     }
 
     @Test
     fun checkCastingQualitySetting() {
+        enableCasting()
         val key = KEY_CASTING_QUALITY
 
         checkModeChanged(key, "0", "2", MAP_CASTING_QUALITY)

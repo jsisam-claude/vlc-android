@@ -513,8 +513,11 @@ object PreferenceParser {
             //Migrate the new shared preferences using the version of the restored json file
             VersionMigration.migrateVersion(activity, restoringPrefs, savedSettings?.version)
 
-            // Copy all the restored settings to the main shared preferences
+            // Copy the restored settings to the main shared preferences. Filter again:
+            // the scratch prefs file is not cleared before use, so residue from an earlier
+            // import (including one made by a build predating this filter) must not pass.
             restoringPrefs.all.forEach { setting ->
+                if (setting.key in Settings.getRestoreBlacklist()) return@forEach
                 setting.value?.let { newValue ->
                     Settings.getInstance(activity).putSingle(setting.key, newValue)
                 }

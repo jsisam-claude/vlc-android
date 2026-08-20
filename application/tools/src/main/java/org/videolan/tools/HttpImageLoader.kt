@@ -47,6 +47,11 @@ object HttpImageLoader {
     private val jobsLocker = Mutex()
 
     suspend fun downloadBitmap(imageUrl: String): Bitmap? {
+        // Artwork URLs are supplied by remote servers (UPnP/DLNA browse results, stream
+        // metadata) and would otherwise be fetched automatically whenever an item is
+        // rendered — a hostile server can use that as a tracking beacon. Opt-in only,
+        // like casting. Gated here because this is the single point every caller reaches.
+        if (!Settings.allowRemoteArtwork) return null
         val icon = BitmapCache.getBitmapFromMemCache(imageUrl) ?: jobsLocker.withLock {
             currentJobs[imageUrl]?.takeIf { it.isActive }
         }?.await()

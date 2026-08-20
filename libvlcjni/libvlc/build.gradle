@@ -29,9 +29,12 @@ android {
             // The lua Copy tasks write into assets/lua (a declared asset source dir). Every task
             // that consumes the merged assets must run after them or Gradle 9 fails the build with
             // an implicit-dependency error: the asset merge, and also lint's model/analyze tasks.
+            // Matched by shape, not by exact name: AGP has lintAnalyze*, lintVitalAnalyze*,
+            // generate*LintModel, generate*LintVitalModel and generate*LintReportModel, and the
+            // lintVital* family runs in assembleRelease/bundleRelease.
             if (task.name.startsWith('merge')
-                    || (task.name.startsWith('generate') && task.name.endsWith('LintModel'))
-                    || task.name.startsWith('lintAnalyze')) {
+                    || task.name.startsWith('lint')
+                    || (task.name.startsWith('generate') && task.name.contains('Lint'))) {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
                 task.dependsOn luaModuleCopy

@@ -85,8 +85,8 @@ sudo apt-get install -y \
     build-essential git curl wget unzip zip tar xz-utils bzip2 patch file \
     autoconf automake m4 pkg-config libtool-bin \
     cmake ninja-build meson python3 python3-setuptools \
-    bison flex gperf nasm \
-    gettext help2man protobuf-compiler ant
+    bison flex gperf nasm gawk \
+    gettext autopoint texinfo help2man protobuf-compiler ant
 ```
 
 Why the less obvious ones:
@@ -98,6 +98,8 @@ Why the less obvious ones:
 | `nasm` | ffmpeg x86 assembly — required only for the `x86`/`x86_64` ABIs, not for arm |
 | `ant` | VLC's `extras/tools` bootstrap checks for it. It is **not** vendored: upstream publishes Ant only as a prebuilt jar distribution, which this project's source-only policy forbids |
 | `meson`, `ninja-build` | build system for several contribs (harfbuzz, libass deps) |
+| `autopoint` | `autoreconf` runs it for gettext-using contribs; libgpg-error fails with "Can't exec autopoint" without it. Separate package from `gettext` on Debian/Ubuntu |
+| `texinfo` (`makeinfo`), `gawk` | required by several autotools contribs during `autoreconf`/doc generation |
 | `bison`, `flex` | generated parsers in the contrib chain |
 | `libtool-bin`, `gettext`, `help2man`, `protobuf-compiler` | checked by `extras/tools/bootstrap`. Vendored sources exist for these, so they are optional — installing them just skips building them |
 

@@ -49,6 +49,7 @@ import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST
 import org.videolan.tools.KEY_MEDIA_LAST_PLAYLIST_RESUME
 import org.videolan.tools.PLAYBACK_HISTORY
 import org.videolan.tools.RESULT_RESTART
+import org.videolan.tools.KEY_ALLOW_REMOTE_ARTWORK
 import org.videolan.tools.Settings
 import org.videolan.tools.Settings.isPinCodeSet
 import org.videolan.tools.VIDEO_RESUME_PLAYBACK
@@ -216,6 +217,8 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         if (sharedPreferences == null || key == null) return
 
         when (key) {
+            KEY_ALLOW_REMOTE_ARTWORK ->
+                Settings.allowRemoteArtwork = sharedPreferences.getBoolean(KEY_ALLOW_REMOTE_ARTWORK, false)
             "video_action_switch" -> if (!AndroidUtil.isOOrLater && findPreference<ListPreference>(key)?.value == "2"
                     && !Permissions.canDrawOverlays(activity))
                 Permissions.checkDrawOverlaysPermission(activity)

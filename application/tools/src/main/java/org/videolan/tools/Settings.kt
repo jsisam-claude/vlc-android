@@ -33,6 +33,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
     var showTrackNumber = true
     var tvFoldersFirst = true
     var incognitoMode = false
+    var allowRemoteArtwork = false
     var safeMode = false
     var fastplaySpeed = 2f
     private var audioControlsChangeListener: (() -> Unit)? = null
@@ -59,6 +60,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ init(it.applicat
         showTrackNumber = prefs.getBoolean(ALBUMS_SHOW_TRACK_NUMBER, true)
         tvFoldersFirst = prefs.getBoolean(TV_FOLDERS_FIRST, true)
         incognitoMode = prefs.getBoolean(KEY_INCOGNITO, false)
+        allowRemoteArtwork = prefs.getBoolean(KEY_ALLOW_REMOTE_ARTWORK, false)
         safeMode = prefs.getBoolean(KEY_SAFE_MODE, false) && prefs.getString(KEY_SAFE_MODE_PIN, "")?.isNotBlank() == true
         return prefs
     }
