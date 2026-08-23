@@ -2,7 +2,11 @@
 buildscript {
     ext.android_plugin_version = '9.3.1'
     ext.kotlin_version = '2.4.10'
-    ext.kotlinx_version = '1.11.0'
+    // Capped at the 1.8 line: 1.9.0 made ExecutorCoroutineDispatcher (the
+    // supertype of Dispatchers.Default/IO) implement java.lang.AutoCloseable,
+    // which only exists from API 19 and is not core-library-desugared -- it
+    // reaches the dex verbatim and breaks the API 17/18 floor.
+    ext.kotlinx_version = '1.8.1'
     repositories {
         flatDir dirs: "gradle/plugins"
         def localMirror = new File(rootDir, "../vlc-mirror/m2")
@@ -104,7 +108,13 @@ ext {
     junitExtVersion = '1.3.0'
     mockito = '3.3.3' // matches powermock-api-mockito2 2.0.9
     retrofit = '2.12.0' // last okhttp3-based line; retrofit 3.x needs okhttp 5 (minSdk 21)
-    moshi = '1.15.2'
+    // Capped at 1.8.0: from 1.9.0 Moshi's reflective ClassJsonAdapter throws
+    // for any @kotlin.Metadata class ("Cannot serialize Kotlin type"), and the
+    // OpenSubtitles models here are reflective Kotlin data classes using
+    // @field:Json, which moshi-kotlin-codegen does not read. Moving them to
+    // codegen or KotlinJsonAdapterFactory changes JSON binding semantics and
+    // needs an end-to-end OpenSubtitles run to validate -- not a version bump.
+    moshi = '1.8.0'
     powerMock = '2.0.9'
     espressoVersion = '3.7.0'
     livedataTest = '1.3.0'

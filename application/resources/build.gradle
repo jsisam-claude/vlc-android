@@ -95,6 +95,13 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     api "com.squareup.moshi:moshi-adapters:$rootProject.ext.moshi"
+    // converter-moshi declares a much newer moshi, which would win conflict
+    // resolution and reintroduce the "Cannot serialize Kotlin type" throw.
+    // The converter itself only calls Moshi.adapter(Type, Set), present since
+    // 1.8.0, so pinning the runtime down is safe.
+    api("com.squareup.moshi:moshi") {
+        version { strictly "$rootProject.ext.moshi" }
+    }
 
     api "androidx.core:core-ktx:$rootProject.ext.androidxCoreVersion"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
