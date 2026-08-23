@@ -1,4 +1,9 @@
 cache:
+    # Keyed by the pinned Gradle version: without a key the runner keeps
+    # restoring the previously uploaded archive, which was built when this
+    # list still contained `gradle/` and therefore carries a stale
+    # gradle/verification-metadata.xml that lands on top of the checkout.
+    key: "gradle-9.7.1"
     paths:
         - .gradle/
         - gradle-9.7.1/

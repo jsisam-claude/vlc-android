@@ -21,12 +21,16 @@
 package org.videolan.vlc.repository
 
 import android.net.Uri
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import org.videolan.vlc.ExternalMonitor
 
 
+// Every test in this class is commented out upstream, so JUnit fails it with
+// "No runnable methods" as soon as it is compiled at all.
+@Ignore("no runnable methods: the test bodies are commented out upstream")
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(Uri::class, ExternalMonitor::class)
 class BrowserFavRepositoryTest {

@@ -137,8 +137,8 @@ Three layers, three treatments:
    `settings.gradle`/`build.gradle` detect the mirror and resolve
    **exclusively** from it; external repositories are never contacted and
    anything missing fails loudly. Additionally,
-   `gradle/verification-metadata.xml` is **committed** (1025 components,
-   1847 SHA-256 artifact entries, `verify-metadata=true`, and no
+   `gradle/verification-metadata.xml` is **committed** (1033 components,
+   1860 SHA-256 artifact entries, `verify-metadata=true`, and no
    trusted-artifact/regex/PGP escape hatches): Gradle verifies every
    artifact resolved **through the repo-root build** — the app, television,
    resources, tools, mediadb and `:medialibrary` — mirror or not. It was
@@ -198,7 +198,7 @@ Kotlin 2.4.10 on JDK 25 — the committed pins):
   packages the four freshly built native libs. A stripped, re-signed
   arm64 test APK built this way runs ~65 MB.
 - **Dependency verification is enforced**: `gradle/verification-metadata.xml`
-  (1025 components, SHA-256) is committed; `assembleDev`, `lintDev`, the unit
+  (1033 components, SHA-256) is committed; `assembleDev`, `lintDev`, the unit
   tests and both androidTest APKs pass with it active.
 
 Remaining outside the sandbox: on-device testing, 32-bit ABIs (build with

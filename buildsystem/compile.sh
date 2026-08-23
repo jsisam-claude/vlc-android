@@ -366,7 +366,13 @@ if [ ! -e "./gradlew" ] || [ ! -x "./gradlew" ]; then
         rm -rf ${GRADLE_DOWNLOADED_ZIP}
     fi
 
-    gradle wrapper ${gradle_prop} || fail "gradle: wrapper failed"
+    # Pass the checksum explicitly: `gradle wrapper` rewrites distributionUrl
+    # but PRESERVES any distributionSha256Sum already in
+    # gradle/wrapper/gradle-wrapper.properties, so after a GRADLE_VERSION bump
+    # the old sum would be checked against the new distribution and every run
+    # would die with "Verification of Gradle distribution failed" -- without
+    # self-healing, since each run regenerates and re-preserves it.
+    gradle wrapper --gradle-distribution-sha256-sum ${GRADLE_SHA256} ${gradle_prop} || fail "gradle: wrapper failed"
 
     chmod a+x gradlew
 fi

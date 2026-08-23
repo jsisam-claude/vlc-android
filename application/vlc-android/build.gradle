@@ -165,14 +165,30 @@ task generateSources(type: Jar) {
 }
 
 
-// The repository/ and viewmodels/ unit tests predate today's DAO and
-// OpenSubtitles APIs and reference helpers (test-common) that were deleted
-// upstream in 2020 -- they do not compile upstream either. Excluded until
-// they are modernized; the util/ tests still run.
+// These unit tests do not compile: they reference helpers from the
+// `test-common` source set that upstream deleted in 2020, or call medialibrary
+// and repository APIs whose signatures have since changed. Listed file by file
+// rather than by directory so their still-compiling siblings keep running --
+// a repository/** + viewmodels/** glob also drops VideosViewModelTest,
+// AudioBrowserViewModelTest and BrowserFavRepositoryTest, which are current.
+def brokenUnitTests = [
+        'org/videolan/vlc/repository/DirectoryRepositoryTest.kt',
+        'org/videolan/vlc/repository/ExternalSubRepositoryTest.kt',
+        'org/videolan/vlc/repository/SlaveRepositoryTest.kt',
+        'org/videolan/vlc/viewmodels/HistoryModelTest.kt',
+        'org/videolan/vlc/viewmodels/StreamsModelTest.kt',
+        'org/videolan/vlc/viewmodels/SubtitlesModelTest.kt',
+        'org/videolan/vlc/viewmodels/browser/FileBrowserModelTest.kt',
+        'org/videolan/vlc/viewmodels/browser/FilePickerModelTest.kt',
+        'org/videolan/vlc/viewmodels/browser/NetworkModelTest.kt',
+        'org/videolan/vlc/viewmodels/browser/StorageModelTest.kt',
+        'org/videolan/vlc/viewmodels/mobile/AlbumSongsViewModelTest.kt',
+        'org/videolan/vlc/viewmodels/mobile/PlaylistViewModelTest.kt',
+        'org/videolan/vlc/viewmodels/mobile/PlaylistsViewModelTest.kt',
+]
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     if (name.toLowerCase(java.util.Locale.ROOT).contains('unittest')) {
-        exclude 'org/videolan/vlc/repository/**'
-        exclude 'org/videolan/vlc/viewmodels/**'
+        brokenUnitTests.each { exclude it }
     }
 }
 
