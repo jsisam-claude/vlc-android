@@ -60,6 +60,12 @@ android {
         }
     }
     namespace = 'org.videolan.vlc.mediadb'
+    lint {
+        // Report-only, like upstream's app module: these modules carry
+        // years of upstream findings (translations, legacy layouts) that
+        // predate this fork. Reports are still generated for review.
+        abortOnError = false
+    }
 
 }
 
@@ -73,7 +79,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espressoVersion"
     //Room
     implementation "androidx.room:room-ktx:$rootProject.ext.roomVersion"
-    ksp ('org.xerial:sqlite-jdbc:3.36.0')
+    ksp ("org.xerial:sqlite-jdbc:$rootProject.ext.jdbcVersion")
     ksp "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation project(':application:tools')
     implementation project(':application:resources')

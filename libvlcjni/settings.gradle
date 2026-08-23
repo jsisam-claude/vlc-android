@@ -2,7 +2,9 @@ pluginManagement {
     repositories {
         // Match the root build: in self-contained mode resolve ONLY from the
         // committed mirror, so this build root never contacts external repos
-        // either (compile.sh builds libvlc through it via --project-dir).
+        // either. compile.sh normally builds :libvlcjni:libvlc through the
+        // repo root now; this root is still used for an out-of-tree
+        // VLC_LIBJNI_PATH and for standalone libvlcjni checkouts.
         def localMirror = new File(settingsDir, "../../vlc-mirror/m2")
         if (localMirror.isDirectory()) {
             maven { url = localMirror.toURI() }
@@ -14,13 +16,13 @@ pluginManagement {
 }
 
 plugins {
-    id("com.android.settings") version "9.1.1"
+    id("com.android.settings") version "9.3.1"
 }
 
 android {
     minSdk = 17
     targetSdk = 36
-    compileSdk = 36 // Dockers: 3.0=36 / 4.0=36
-    buildToolsVersion = '36.0.0'
+    compileSdk = 37 // targetSdk stays 36: compileSdk is compile-time only
+    buildToolsVersion = '37.0.0'
 }
 include ':libvlc'

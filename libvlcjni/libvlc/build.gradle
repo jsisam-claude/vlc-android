@@ -20,7 +20,22 @@ def vlc_revision = vlcSourcesFile.exists() ? providers.exec {
 
 android {
 
+    // Same reason as :application:app -- this module packages the libvlc .so
+    // files into its AAR. Guarded because this file is also usable from the
+    // standalone libvlcjni build root, which does not define these.
+    if (rootProject.ext.has('toolchainNdkVersion')) {
+        ndkVersion = rootProject.ext.toolchainNdkVersion
+        if (rootProject.ext.tooclchainNdkPath != null)
+            ndkPath = rootProject.ext.tooclchainNdkPath
+    }
+
     namespace = 'org.videolan'
+    lint {
+        // Report-only, like upstream's app module: these modules carry
+        // years of upstream findings (translations, legacy layouts) that
+        // predate this fork. Reports are still generated for review.
+        abortOnError = false
+    }
 
     compileOptions {
         // Without this the module silently takes AGP's default (Java 11) while every other

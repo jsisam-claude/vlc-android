@@ -12,7 +12,7 @@ pluginManagement {
 }
 
 plugins {
-    id("com.android.settings") version '9.1.1'
+    id("com.android.settings") version '9.3.1'
 }
 
 def vlcMajorVersion = hasProperty('forceVlc4') && getProperty('forceVlc4') ? 4 : 3
@@ -20,8 +20,8 @@ def vlcMajorVersion = hasProperty('forceVlc4') && getProperty('forceVlc4') ? 4 :
 android {
     minSdk = vlcMajorVersion == 3 ? 17 : 23
     targetSdk = 36
-    compileSdk = 36 // Dockers: 3.0=36 / 4.0=36
-    buildToolsVersion = '36.0.0'
+    compileSdk = 37 // targetSdk stays 36: compileSdk is compile-time only
+    buildToolsVersion = '37.0.0'
 }
 
 include ':libvlcjni:libvlc', ':medialibrary'

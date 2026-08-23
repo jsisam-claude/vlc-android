@@ -69,7 +69,6 @@
             android:padding="16dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintEnd_toStartOf="@+id/permAll"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/permNone"

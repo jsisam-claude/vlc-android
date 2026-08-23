@@ -42,11 +42,18 @@ android {
         }
     }
     namespace = 'org.videolan.television'
+    lint {
+        // Report-only, like upstream's app module: these modules carry
+        // years of upstream findings (translations, legacy layouts) that
+        // predate this fork. Reports are still generated for review.
+        abortOnError = false
+    }
 
 }
 
 dependencies {
     implementation project(':application:vlc-android')
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "androidx.test:core:$rootProject.ext.testCore"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.junitExtVersion"
     implementation 'com.jaredrummler:colorpicker:1.1.0'

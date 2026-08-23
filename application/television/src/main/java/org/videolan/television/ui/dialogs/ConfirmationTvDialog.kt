@@ -14,8 +14,8 @@ import org.videolan.television.ui.dialogs.ConfirmationTvActivity.Companion.CONFI
 class ConfirmationTvDialog : GuidedStepSupportFragment() {
 
     override fun onCreateGuidance(savedInstanceState: Bundle?): GuidanceStylist.Guidance {
-        return GuidanceStylist.Guidance(arguments!!.getString(CONFIRMATION_DIALOG_TITLE),
-                arguments!!.getString(CONFIRMATION_DIALOG_TEXT),
+        return GuidanceStylist.Guidance(requireArguments().getString(CONFIRMATION_DIALOG_TITLE),
+                requireArguments().getString(CONFIRMATION_DIALOG_TEXT),
                 "", null)
     }
 

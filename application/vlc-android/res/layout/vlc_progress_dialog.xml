@@ -54,7 +54,6 @@
                     android:onClick="@{handler::onCancel}"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                     android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}" />
-            tools:visibility="visible"/>
         </RelativeLayout>
     </ScrollView>
 </layout>

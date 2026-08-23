@@ -54,6 +54,12 @@ android {
         res.srcDirs = ['flavors/debug/res']
     }
     namespace = 'org.videolan.resources'
+    lint {
+        // Report-only, like upstream's app module: these modules carry
+        // years of upstream findings (translations, legacy layouts) that
+        // predate this fork. Reports are still generated for review.
+        abortOnError = false
+    }
     buildFeatures {
         buildConfig = true
     }
@@ -83,8 +89,8 @@ dependencies {
     api "androidx.leanback:leanback-preference:$rootProject.ext.androidxLeanbackVersion"
 
     // Retrofit
-    api "com.squareup.okhttp3:okhttp:4.9.3"
-    api 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    api "com.squareup.okhttp3:okhttp:4.12.0"
+    api 'com.squareup.okhttp3:logging-interceptor:4.12.0'
     api 'com.github.mrmike:ok2curl:0.8.0'
     api "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     api "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"

@@ -792,7 +792,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 add(CTX_RENAME)
                 if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) add(CTX_DELETE)
                 if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment && Settings.getInstance(requireActivity()).getBoolean(KEY_QUICK_PLAY, false)) add(CTX_QUICK_PLAY)
-                if (!isRootDirectory && this is FileBrowserFragment) add(CTX_DELETE)
                 if (mw.type == MediaWrapper.TYPE_DIR) {
                     if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) add(CTX_BAN_FOLDER)
                     val isEmpty = viewModel.isFolderEmpty(mw)

@@ -86,8 +86,8 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler<Me
     override fun onBindViewHolder(holder: AbstractMediaItemViewHolder<ViewDataBinding>, position: Int, payloads: List<Any>) {
         if (!payloads.isNullOrEmpty() && payloads[0] is MediaLibraryItem)  {
             val isSelected = (payloads[0] as MediaLibraryItem).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
-                holder.setCoverlay(isSelected)
-                holder.selectView(isSelected)
+            holder.setCoverlay(isSelected)
+            holder.selectView(isSelected)
         } else onBindViewHolder(holder, position)
     }
 

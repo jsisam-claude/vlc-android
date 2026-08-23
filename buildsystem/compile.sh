@@ -233,14 +233,27 @@ init_local_props() {
     ndk_line_start="^android\.ndkPath="
     total_ndk_count=`grep -c "${ndk_line_start}" "$1"`
     good_ndk_count=`grep -c "${ndk_line_start}${android_ndk_regex}\$" "$1"`
-    # if one of each is found and both match the environment vars, no action needed
+    # check for the line setting the NDK version. Gradle needs it to agree with
+    # android.ndkPath: if it is missing (Android Studio writes sdk.dir and
+    # android.ndkPath but never this VLC-specific key) the build.gradle fallback
+    # applies instead, AGP reports CXX1100 and resolves no NDK at all -- which
+    # only degrades stripDebugSymbols to a warning, so the APK silently ships
+    # unstripped .so files.
+    ndk_version_line_start="^android\.ndkFullVersion="
+    ndk_full_version=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3)
+    ndk_version_regex=`make_regex "${ndk_full_version}"`
+    total_ndk_version_count=`grep -c "${ndk_version_line_start}" "$1" || true`
+    good_ndk_version_count=`grep -c "${ndk_version_line_start}${ndk_version_regex}\$" "$1" || true`
+    # if one of each is found and all match the environment vars, no action needed
     if [ "$total_sdk_count" -eq "1" ] && [ "$good_sdk_count" -eq "1" ] \
-    && [ "$total_ndk_count" -eq "1" ] && [ "$good_ndk_count" -eq "1" ]
+    && [ "$total_ndk_count" -eq "1" ] && [ "$good_ndk_count" -eq "1" ] \
+    && [ "$total_ndk_version_count" -eq "1" ] && [ "$good_ndk_version_count" -eq "1" ]
     then
         return 0
     fi
     # if neither property is set they can simply be appended to the file
-    if [ "$total_sdk_count" -eq "0" ] && [ "$total_ndk_count" -eq "0" ]; then
+    if [ "$total_sdk_count" -eq "0" ] && [ "$total_ndk_count" -eq "0" ] \
+    && [ "$total_ndk_version_count" -eq "0" ]; then
         echo_props >> "$1"
         return 0
     fi
@@ -327,9 +340,9 @@ if [ -z "$VLC_TARBALLS" ] && [ -d "$(pwd -P)/../vlc-libs/contrib-tarballs" ]; th
     diagnostic "contrib tarballs: using vendored cache $VLC_TARBALLS"
 fi
 
-GRADLE_VERSION=9.3.1
+GRADLE_VERSION=9.7.1
 # the SHA256 is found in https://gradle.org/release-checksums/
-GRADLE_SHA256=b266d5ff6b90eada6dc3b20cb090e3731302e553a27c5d3e4df1f0d76beaff06
+GRADLE_SHA256=acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a
 GRADLE_URL=https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 GRADLE_DOWNLOADED_ZIP=gradle-${GRADLE_VERSION}-bin.zip
 
@@ -445,7 +458,16 @@ if [ -n "$M2_REPO" ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $GRADLE_TASK
+    # Build libvlc through the root build so dependency verification and the
+    # local-mirror repository setup apply (the standalone libvlcjni root has no
+    # verification metadata). Only the in-tree libvlcjni is a subproject of
+    # this root, so an out-of-tree VLC_LIBJNI_PATH keeps the old invocation.
+    if [ "$VLC_LIBJNI_PATH" = "$(pwd -P)/libvlcjni" ]; then
+        GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} ":libvlcjni:libvlc:$GRADLE_TASK"
+    else
+        diagnostic "libvlcjni is out of tree ($VLC_LIBJNI_PATH): building from its own root, without dependency verification"
+        GRADLE_ABI=$GRADLE_ABI ./gradlew ${gradle_prop} --project-dir ${VLC_LIBJNI_PATH}/libvlc $GRADLE_TASK
+    fi
     RUN=0
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     gradle_prop="$gradle_prop -PvlcLibVariant=$GRADLE_ABI"

@@ -132,9 +132,9 @@ class ConfirmDeleteDialog : VLCBottomSheetDialogFragment() {
                 val nbFiles = mediaList.filter { it is MediaWrapper && it.type != MediaWrapper.TYPE_DIR }.size
                 val nbFolders = mediaList.filter { it is MediaWrapper && it.type == MediaWrapper.TYPE_DIR }.size
                 when {
-                    nbFiles == 0 -> getString(R.string.confirm_delete_folders, nbFolders)
-                    nbFolders == 0 -> getString(R.string.confirm_delete_files, nbFiles)
-                    else -> getString(R.string.confirm_delete_folders_and_files, nbFolders, nbFiles)
+                    nbFiles == 0 -> getString(R.string.confirm_delete_folders, nbFolders.toString())
+                    nbFolders == 0 -> getString(R.string.confirm_delete_files, nbFiles.toString())
+                    else -> getString(R.string.confirm_delete_folders_and_files, nbFolders.toString(), nbFiles.toString())
                 }
 
             }

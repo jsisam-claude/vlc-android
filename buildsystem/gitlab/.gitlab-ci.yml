@@ -1,8 +1,11 @@
 cache:
     paths:
         - .gradle/
-        - gradle-9.3.1/
-        - gradle/
+        - gradle-9.7.1/
+        # Only the generated wrapper -- caching all of gradle/ would restore a
+        # stale gradle/verification-metadata.xml over the committed one after
+        # checkout, failing every newly bumped coordinate.
+        - gradle/wrapper/
         - gradlew
 
 variables:
@@ -358,7 +361,10 @@ publish_libs:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b
-        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -p libvlcjni publishToMavenLocal
+        # Through the repo root, not -p libvlcjni: the standalone libvlcjni
+        # build root has no verification metadata, so publishing from it would
+        # resolve the release AAR's classpath unverified.
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO :libvlcjni:libvlc:publishToMavenLocal
         - ./gradlew -Dmaven.repo.local=$M2_REPO -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"
@@ -380,7 +386,8 @@ publish_libs-v4:
         - mkdir -p $M2_REPO
         - git config --global --add safe.directory $CI_PROJECT_DIR/libvlcjni
         - ./buildsystem/compile.sh --init -b -vlc4
-        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p libvlcjni publishToMavenLocal
+        # See publish_libs: build through the repo root so verification applies.
+        - GRADLE_ABI=ALL ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true :libvlcjni:libvlc:publishToMavenLocal
         - ./gradlew -Dmaven.repo.local=$M2_REPO -PforceVlc4=true -p medialibrary publishToMavenLocal
     artifacts:
         name: "${CI_COMMIT_TAG}.dbg"

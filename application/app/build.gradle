@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    // Without this the module that actually strips and packages the native
+    // libraries falls back to AGP's built-in default NDK, which this project
+    // never pins or installs -- stripDebugSymbols then fails soft and the APK
+    // ships the .so files unstripped.
+    ndkVersion = rootProject.ext.toolchainNdkVersion
+    if (rootProject.ext.tooclchainNdkPath != null)
+        ndkPath = rootProject.ext.tooclchainNdkPath
+
     compileOptions {
         coreLibraryDesugaringEnabled = true
         sourceCompatibility "$rootProject.ext.targetJVM"
@@ -187,9 +195,8 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
     testImplementation "com.jraska.livedata:testing-ktx:$rootProject.ext.livedataTest"
     testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric"
-    androidTestImplementation "com.android.support:multidex:1.0.3"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
     androidTestImplementation "androidx.test:rules:$rootProject.ext.testCore"
     androidTestImplementation 'com.jraska:falcon:2.2.0'
-    androidTestImplementation 'tools.fastlane:screengrab:2.1.0'
+    androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
 }

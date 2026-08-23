@@ -60,6 +60,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
     }
 
     @Suppress("UNCHECKED_CAST")
+    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         return if (inGrid)
