@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import org.videolan.libvlc.util.AndroidUtil
@@ -60,7 +59,6 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
     }
 
     @Suppress("UNCHECKED_CAST")
-    @TargetApi(Build.VERSION_CODES.M)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = LayoutInflater.from(parent.context)
         return if (inGrid)
@@ -123,7 +121,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
 
     private fun getProtocol(media: MediaWrapper) = if (media.type != MediaWrapper.TYPE_DIR) null else media.uri.scheme
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
     inner class MediaItemTVViewHolder(
             binding: MediaBrowserTvItemBinding,
             override val eventsHandler: IEventsHandler<MediaLibraryItem>,
@@ -244,7 +242,7 @@ class FileTvItemAdapter(private val eventsHandler: IEventsHandler<MediaLibraryIt
                     }
                 }
             }
-            binding.container.clipToOutline = true
+            if (VlcMigrationHelper.isLolliPopOrLater) binding.container.clipToOutline = true
             binding.showSeen = seenMediaMarkerVisible
         }
 
