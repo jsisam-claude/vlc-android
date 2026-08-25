@@ -36,8 +36,62 @@ way the scripts in `buildsystem/` were.
 ## Building
 
 ```sh
-./buildsystem/compile.sh -l -a arm64-v8a   # libvlc + medialibrary + app
+./buildsystem/compile.sh -a arm64-v8a      # libvlc + medialibrary + app
 ```
+
+`ANDROID_SDK` and `ANDROID_NDK` must be exported first (`compile.sh` exits
+if either is unset), and `JAVA_HOME` should point at your JDK 25. `-a` is
+optional — it defaults to `arm64-v8a` (with a warning); `arm64` and `arm` are
+accepted as aliases for `arm64-v8a` and `armeabi-v7a`.
+
+**What each invocation actually builds** — the flags are not additive, and
+`-l` is not "libvlc as well as the rest":
+
+| Command | `libvlc.so` + `libvlcjni.so` | `libmla.so` | Gradle target |
+|---|---|---|---|
+| `compile.sh -a <abi>` | yes | yes | `:application:app:assembleDev` |
+| `compile.sh -l -a <abi>` | yes | **no** (`-l` sets `NO_ML`) | `:libvlcjni:libvlc:assembleDev` only |
+| `compile.sh -ml -a <abi>` | only if `libvlcjni/libvlc/jni/libs/` is absent | yes | `:medialibrary:assembleDev` only |
+| `compile.sh --no-ml -a <abi>` | yes | no | `:application:app:assembleDev` |
+
+`-l` does not produce an APK at all. If you follow it with a Gradle app
+build, the APK is missing `libmla.so` — and that failure is quiet:
+`MedialibraryImpl` catches the `UnsatisfiedLinkError` and returns `false`
+(`medialibrary/src/org/videolan/medialibrary/MedialibraryImpl.java:60-66`),
+so the app starts but the media library never initialises and browsing stays
+empty. Use the plain form for a complete app.
+
+**The native step runs on every one of those invocations** (except `-ml`
+when libvlc is already built) — it is not skipped just because the `.so`
+files exist. What makes it cheap is that the underlying scripts are
+incremental: contribs are stamped per package, and VLC's `configure` re-runs
+only when `$VLC_BUILD_DIR/config.h` is missing **or** `--release` is passed,
+so a release build always reconfigures and recompiles VLC from scratch.
+Changing the NDK, the ABI, or a vendored source or patch invalidates the
+corresponding stage.
+
+Measured on a 4-vCPU machine, for arm64-v8a:
+
+| Re-run | Cost |
+|---|---|
+| nothing changed | **~17 s** — 0 contribs and 0 VLC objects rebuilt |
+| VLC reconfigured (`--release`, or `config.h` removed) | ~2.5 min (765 objects) |
+| contribs from scratch | ~9 min (41 packages) |
+
+Even the 17-second case is not a true no-op: the static module list is
+regenerated and **`libvlc.so` and `libvlcjni.so` are relinked every run**, so
+their timestamps always change even when their contents do not. The
+expensive-looking part of that run is `make install` plus the `objcopy`
+symbol-redefine loop over ~250 plugin archives, neither of which is
+incremental by construction.
+
+**Gradle on its own never builds native code.** No module declares
+`externalNativeBuild`; `libvlcjni/libvlc` and `medialibrary` simply package
+whatever `.so` files sit in their `jni/libs/<abi>/`. So `./gradlew
+assembleDev`, and pressing Run in Android Studio, reuse the last artifacts
+`compile.sh` produced — silently, and with no staleness check against the
+VLC sources. Re-run `compile.sh` after touching anything under
+`../vlc-libs`.
 
 The buildsystem was patched to respect vendored trees:
 
