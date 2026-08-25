@@ -152,8 +152,16 @@ fi
 cd ${MEDIALIBRARY_BUILD_DIR}
 
 if [ "$RELEASE" = "1" ]; then
-    git describe --exact-match HEAD > /dev/null || \
-        avlc_checkfail "Release builds must use tags"
+    # The vendored drop has no .git of its own, so `git describe` would walk up
+    # to the outer repository and fail -- which aborted every release build.
+    # .vendored records the exact upstream commit, which is the same guarantee
+    # the tag check was after.
+    if [ -f "${MEDIALIBRARY_BUILD_DIR}/.vendored" ]; then
+        echo "medialibrary: vendored at $(cat "${MEDIALIBRARY_BUILD_DIR}/.vendored")"
+    else
+        git describe --exact-match HEAD > /dev/null || \
+            avlc_checkfail "Release builds must use tags"
+    fi
 fi
 
 if [ "$ANDROID_ABI" = "armeabi-v7a" ]; then

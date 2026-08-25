@@ -65,17 +65,23 @@ empty. Use the plain form for a complete app.
 when libvlc is already built) — it is not skipped just because the `.so`
 files exist. What makes it cheap is that the underlying scripts are
 incremental: contribs are stamped per package, and VLC's `configure` re-runs
-only when `$VLC_BUILD_DIR/config.h` is missing **or** `--release` is passed,
-so a release build always reconfigures and recompiles VLC from scratch.
-Changing the NDK, the ABI, or a vendored source or patch invalidates the
-corresponding stage.
+only when `$VLC_BUILD_DIR/config.h` is missing. Switching ABI is a full build
+for the new ABI (the trees are per-ABI and independent), and a contrib is
+rebuilt when its `SHA512SUMS` changes.
+
+Note that **changing `ANDROID_NDK` does not trigger a reconfigure**: the VLC
+build directory keeps the compiler paths baked into its `config.status` from
+whenever `configure` last ran, so after an NDK bump you must delete
+`../vlc-libs/vlc/build-android-<tuple>/config.h` (or the whole build dir) or
+VLC keeps compiling with the old toolchain while the contribs use the new
+one.
 
 Measured on a 4-vCPU machine, for arm64-v8a:
 
 | Re-run | Cost |
 |---|---|
 | nothing changed | **~17 s** — 0 contribs and 0 VLC objects rebuilt |
-| VLC reconfigured (`--release`, or `config.h` removed) | ~2.5 min (765 objects) |
+| VLC reconfigured (`config.h` removed) | ~2.5 min (765 objects) |
 | contribs from scratch | ~9 min (41 packages) |
 
 Even the 17-second case is not a true no-op: the static module list is
@@ -92,6 +98,20 @@ assembleDev`, and pressing Run in Android Studio, reuse the last artifacts
 `compile.sh` produced — silently, and with no staleness check against the
 VLC sources. Re-run `compile.sh` after touching anything under
 `../vlc-libs`.
+
+The corollary is worth knowing before you type it: **`./gradlew clean`
+deletes `jni/libs` and `jni/obj`** in both native modules (their `clean`
+tasks list those directories explicitly), and no Gradle task can put them
+back. After a clean, the next `./gradlew assembleDev` happily produces an
+APK with no native libraries in it at all — an empty `jniLibs` directory is
+not an error. Only `compile.sh` regenerates them.
+
+`--release` propagates to all three native components and to the APK. It
+reaches `compile-libvlc.sh` explicitly (the variable is not exported, so
+without that pass-through a release APK shipped a `--enable-debug`,
+`NDK_DEBUG=1` libvlc), and release builds of the medialibrary are gated on
+the vendored-commit marker rather than `git describe`, which cannot work for
+a vendored drop with no `.git` of its own.
 
 The buildsystem was patched to respect vendored trees:
 

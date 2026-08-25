@@ -426,7 +426,16 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
         fi
         if ${VLC_LIBJNI_PATH}/vlc/extras/ci/check-url.sh "$VLC_PREBUILT_CONTRIBS_URL"; then CONTRIB_FLAGS="--with-prebuilt-contribs"; fi
     fi
-    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh -a ${ARCH} ${CONTRIB_FLAGS} ${CONFIG_ARGS} --license $AVLC_CONTRIB_LICENSE
+    # --release has to be passed through explicitly: compile-libvlc.sh reads it
+    # from $RELEASE, which is a plain (unexported) shell variable here, so a
+    # child process never sees it. Without this, `compile.sh --release` built
+    # libvlc.so and libvlcjni.so with --enable-debug and NDK_DEBUG=1 and
+    # packaged them into a release APK.
+    libvlc_args="-a ${ARCH} ${CONTRIB_FLAGS} ${CONFIG_ARGS} --license $AVLC_CONTRIB_LICENSE"
+    if [ "$RELEASE" = 1 ]; then
+        libvlc_args="$libvlc_args --release"
+    fi
+    ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh ${libvlc_args}
 
     cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
 fi
