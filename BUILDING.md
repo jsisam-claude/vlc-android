@@ -6,6 +6,23 @@ downloads at build time. Every Gradle variant now uses
 `project(':libvlcjni:libvlc')` and `project(':medialibrary')` instead of
 prebuilt artifacts.
 
+## Which guide builds what
+
+Four repositories, three apps, two independent stacks:
+
+| App | Build guide | Toolchain |
+|---|---|---|
+| VLC-NG — Android APK | **this file** | Linux + JDK 25 + SDK/NDK |
+| `minimal-player.exe` — standalone Windows player | `vlc-light-win64/BUILDING.md` | Windows + VS 2022 |
+| `MediaGallery.exe` | `media-gallery/BUILDING.md` | Windows + VS 2022 |
+
+`vlc-libs` has no build of its own — it is this repo's vendored source
+supplier, consumed as the sibling `../vlc-libs`. The two Windows repos are a
+**different project** that shares no code with this one.
+
+There is **no CI for this repo**: every claim under Status below comes from a
+manual run, not a per-commit check. The Windows repos build on every push.
+
 ## One-time bootstrap
 
 **Already executed and committed** — the trees and archives below are in the

@@ -14,7 +14,9 @@ entirely. The app only touches the network for actions the user explicitly
 takes — playing a stream, browsing a share, or downloading a subtitle.
 
 See [REMOVED.md](REMOVED.md) for the complete inventory of what was removed,
-what was kept and why. Base: upstream `master` @ `c3b20bc9a107`.
+what was kept and why. Import base: upstream `master` @ `c3b20bc9a107`,
+with the applicable fixes from `c3b20bc..cfee6d3` adopted on top (see
+commit `1d3d042`).
 
 The fork also builds **without prebuilt binaries**: libvlc and medialibrary
 are compiled from vendored source (shared tree in the sibling

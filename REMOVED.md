@@ -1,7 +1,8 @@
 # Removed: telemetry, phone-home and dead weight
 
 This fork of [videolan/vlc-android](https://github.com/videolan/vlc-android)
-(base: upstream `master` @ `c3b20bc9a1070e3e8f43aee284d2a2b6b621296b`,
+(import base: upstream `master` @ `c3b20bc9a1070e3e8f43aee284d2a2b6b621296b`,
+with applicable fixes through `cfee6d3` adopted on top,
 v3.7.2 Beta 1 era) removes every piece of code that communicated over the
 network without an explicit user action, plus the dead modules that supported
 it. This document is the complete inventory.
