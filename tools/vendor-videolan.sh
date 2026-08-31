@@ -88,7 +88,7 @@ if [ ! -e "$ROOT/libvlcjni/vlc" ]; then
         ln -s ../../vlc-libs/vlc "$ROOT/libvlcjni/vlc"
         note "linked libvlcjni/vlc -> ../../vlc-libs/vlc"
     else
-        echo "WARNING: ../vlc-libs not found. Clone jsisam-claude/vlc-libs next to"
+        echo "WARNING: ../vlc-libs not found. Clone the companion vlc-libs repo next to"
         echo "         this repository, then re-run this script."
     fi
 fi

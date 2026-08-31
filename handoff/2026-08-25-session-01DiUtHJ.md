@@ -1,10 +1,10 @@
 # Handoff — session_01DiUtHJMjAZbDEazWctdjFp ("VLC Android telemetry removal")
 
-Written 2026-08-25. Repo `jsisam-claude/vlc-android`, branch `main`, HEAD `6f1a163`.
+Written 2026-08-25. Repo `vlc-android`, branch `main`, HEAD `6f1a163`.
 
 Companion handoff from the concurrent Windows-player session:
 `handoff/2026-08-25-session-011XWXFg.md` on `claude/vlc-win64-minimal-player-do4urk`
-in `jsisam-claude/vlc-light-win64`. **The two sessions share no files** — see
+in `vlc-light-win64`. **The two sessions share no files** — see
 "Consolidation" at the end.
 
 ---
@@ -13,10 +13,10 @@ in `jsisam-claude/vlc-light-win64`. **The two sessions share no files** — see
 
 | Repo | Branch | Role | Owned by |
 |---|---|---|---|
-| `jsisam-claude/vlc-android` | `main` | **Source of truth for the Android fork (VLC-NG).** The app, `libvlcjni/`, `medialibrary/`, the buildsystem. | this session |
-| `jsisam-claude/vlc-libs` | `main` | Vendored common sources: the VLC tree at libvlcjni's `VLC_TESTED_HASH` (+20 android patches +12 security backports), libvlcjni/medialibrary/libvlcpp sources, sqlite, and ~49 SHA-512-verified contrib tarballs. Consumed as the sibling `../vlc-libs`. | this session |
-| `jsisam-claude/vlc-light-win64` | `claude/vlc-win64-minimal-player-do4urk` | The **Windows player** — a different project. Not touched by this session. | the other session |
-| `jsisam-claude/vlc-light-win64` | `stale`, `claude/vlc-android-remove-telemetry-2tt0dm` | Dead Android snapshots predating the repo split. `stale` carries `MOVED.md`; the other is one commit behind it and has no marker. | nobody — awaiting deletion |
+| `vlc-android` | `main` | **Source of truth for the Android fork (VLC-NG).** The app, `libvlcjni/`, `medialibrary/`, the buildsystem. | this session |
+| `vlc-libs` | `main` | Vendored common sources: the VLC tree at libvlcjni's `VLC_TESTED_HASH` (+20 android patches +12 security backports), libvlcjni/medialibrary/libvlcpp sources, sqlite, and ~49 SHA-512-verified contrib tarballs. Consumed as the sibling `../vlc-libs`. | this session |
+| `vlc-light-win64` | `claude/vlc-win64-minimal-player-do4urk` | The **Windows player** — a different project. Not touched by this session. | the other session |
+| `vlc-light-win64` | `stale`, `claude/vlc-android-remove-telemetry-2tt0dm` | Dead Android snapshots predating the repo split. `stale` carries `MOVED.md`; the other is one commit behind it and has no marker. | nobody — awaiting deletion |
 
 **Why this layout.** The Android fork originally lived in `vlc-light-win64`
 alongside the Windows player. It was split out earlier in this session:
@@ -205,7 +205,7 @@ paths exist in the repos this session touches.
 
 The single shared artifact is the `vlc-light-win64` repo itself, which still
 carries the two dead Android branches. Deleting them is safe once you are
-satisfied `jsisam-claude/vlc-android` is the source of truth — deletion has
+satisfied `vlc-android` is the source of truth — deletion has
 been blocked by policy for both sessions, so it needs to be done by you.
 
 ---

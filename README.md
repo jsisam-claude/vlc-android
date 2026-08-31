@@ -20,7 +20,7 @@ commit `1d3d042`).
 
 The fork also builds **without prebuilt binaries**: libvlc and medialibrary
 are compiled from vendored source (shared tree in the sibling
-[`vlc-libs`](https://github.com/jsisam-claude/vlc-libs) repo).
+`vlc-libs` repo, alongside this one under the same account).
 See [BUILDING.md](BUILDING.md) for the one-time bootstrap and the exact
 toolchain boundary.
 

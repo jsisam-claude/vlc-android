@@ -30,7 +30,7 @@ repositories. Re-run these steps only to re-pin versions.
 
 ```sh
 # 1. sibling checkout of the shared source repo
-git clone https://github.com/jsisam-claude/vlc-libs ../vlc-libs
+git clone https://github.com/<owner>/vlc-libs ../vlc-libs   # same account as this repo
 
 # 2. vendor the code.videolan.org trees into this repo (pinned + verified):
 #    libvlcjni @ 81bb02ba, medialibrary @ 8c56e26c (libvlcpp patched),

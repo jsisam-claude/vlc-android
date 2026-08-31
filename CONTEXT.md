@@ -11,9 +11,9 @@ until that name exists.
 
 | Repo | Role |
 |---|---|
-| `jsisam-claude/vlc-android` (this one, `main`) | The app, `libvlcjni/`, `medialibrary/`, the buildsystem. Source of truth. |
-| `jsisam-claude/vlc-libs` (`main`) | Vendored common source, consumed as the sibling `../vlc-libs`. Passive supplier — the dependency is strictly one-way. |
-| `jsisam-claude/vlc-light-win64` | A *different project* (a Windows player). It still holds two dead Android branches, `stale` and `claude/vlc-android-remove-telemetry-2tt0dm`, left over from before the repo split. Do not push to them. |
+| `vlc-android` (this one, `main`) | The app, `libvlcjni/`, `medialibrary/`, the buildsystem. Source of truth. |
+| `vlc-libs` (`main`) | Vendored common source, consumed as the sibling `../vlc-libs`. Passive supplier — the dependency is strictly one-way. |
+| `vlc-light-win64` | A *different project* (a Windows player). It still holds two dead Android branches, `stale` and `claude/vlc-android-remove-telemetry-2tt0dm`, left over from before the repo split. Do not push to them. |
 
 ## Invariants — do not regress these
 
