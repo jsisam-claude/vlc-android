@@ -267,7 +267,7 @@ Three layers, three treatments:
 ## Status
 
 **The full pipeline has been executed end-to-end from the vendored sources**
-(NDK 29.0.14206865, arm64-v8a, Gradle 9.7.1 + AGP 9.4.0, compileSdk 37,
+(NDK 29.0.14206865, arm64-v8a, Gradle 9.7.1 + AGP 9.3.1, compileSdk 37,
 Kotlin 2.4.10 on JDK 25 — the committed pins):
 
 - Bootstrap **executed and committed**: libvlcjni, medialibrary (+libvlcpp,
@@ -285,12 +285,20 @@ Kotlin 2.4.10 on JDK 25 — the committed pins):
   vlc-libs; `vendor-vlc.sh` now applies patches robustly).
 - **The app APK assembles** (`:application:app:assembleDev`) with the real
   pins: `compile.sh` downloaded Gradle 9.7.1 itself and verified its
-  SHA-256, AGP 9.4.0 resolved from Google Maven, and the produced APK
+  SHA-256, AGP 9.3.1 resolved from Google Maven, and the produced APK
   packages the four freshly built native libs. A stripped, re-signed
   arm64 test APK built this way runs ~65 MB.
 - **Dependency verification is enforced**: `gradle/verification-metadata.xml`
   (1096 components, SHA-256) is committed; `assembleDev`, `lintDev`, the unit
-  tests and both androidTest APKs pass with it active.
+  tests and the app androidTest APK pass with it active (the library
+  modules' test APKs exceed the 64K method limit; see the 2026-09-06 handoff).
+
+Since that run, AGP moved to **9.4.0** (commit `8d4a555`). That change was
+verified at the Gradle layer only - strict dependency verification with
+`--refresh-dependencies` over `assembleDev`, `lintDev`, the app androidTest
+APK and the unit tests, on JDK 21 - not by re-running the native pipeline
+and not on a device. The end-to-end claims above still describe the 9.3.1
+run.
 
 Remaining outside the sandbox: on-device testing, 32-bit ABIs (build with
 NDK 21 per the table above), and populating `../vlc-mirror/m2` if you want
