@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_plugin_version = '9.3.1'
+    ext.android_plugin_version = '9.4.0'
     ext.kotlin_version = '2.4.10'
     // Capped at the 1.8 line: 1.9.0 made ExecutorCoroutineDispatcher (the
     // supertype of Dispatchers.Default/IO) implement java.lang.AutoCloseable,
