@@ -107,27 +107,34 @@ these metadata-only artifacts were never re-fetched, so never recorded; a
 cold cache fetches them and strict mode rejects them. Not a mismatch, so no
 integrity concern — a coverage gap.
 
-Write-mode runs so far add `com.google.guava:guava-parent:33.3.1-jre` and
-`kotlinx-coroutines-bom:1.8.0`. **`junit-bom:5.11.0-M2` has not yet been
-recorded by any write-mode run**, even with `--refresh-dependencies`; the
-in-flight run adds `help` to the task list to see whether that resolves it.
-If it still does not, investigate that artifact specifically before
-trusting a strict-mode result.
+Write-mode runs add exactly `com.google.guava:guava-parent:33.3.1-jre` and
+`kotlinx-coroutines-bom:1.8.0` (+13 lines, 1033 → 1035 components) — the
+same delta across four runs, including one with `help` in the task list and
+`--refresh-dependencies`. **`junit-bom:5.11.0-M2` is never recorded by write
+mode**, yet strict-mode `help` rejects it. This is the open problem on the
+critical path: strict mode cannot pass until it is understood. Start by
+checking whether strict `help` still fails after the baseline write (the
+first strict run predates any write); if it does, trace which plugin
+declares the `org.junit:junit-bom:5.11.0-M2` platform (likely
+`kotlin-gradle-plugin` or `gradle-maven-publish-plugin`) and why Gradle
+verifies its `.module` without recording it. Do not paper over it with a
+hand-written entry.
 
 ### 3d. Finding: task names — the `dev` build type has no test variants
 `assembleDevAndroidTest` and `testDevUnitTest` do not exist. Both androidTest
 and unit tests are wired to `debug` only. Validated by Gradle itself:
 `assembleDev`, `lintDev`, `assembleDebugAndroidTest`, `testDebugUnitTest`.
 
-### 3e. Finding: root `assembleDebugAndroidTest` fails on two library modules
-`:application:mediadb:mergeExtDexDebugAndroidTest` and
-`:application:resources:mergeExtDexDebugAndroidTest` fail with the 64K
-method-reference limit. Their androidTest APKs never had multidex; only
-`app` and `television` (which set `multiDexEnabled`) assemble. The handoff's
-"both androidTest APKs" meant those two. Pre-existing, never exercised by
-the documented graph, **out of scope** for an AGP bump. Scope androidTest to
-`:application:app:assembleDebugAndroidTest
-:application:television:assembleDebugAndroidTest`.
+### 3e. Finding: androidTest APKs fail on every library module at the 64K limit
+`mergeExtDexDebugAndroidTest` fails with the 64K method-reference limit on
+`:application:mediadb`, `:application:resources` **and
+`:application:television`** — all library modules (task registered by
+`com.android.internal.library`). Only `:application:app`, the application
+module with `multiDexEnabled = true`, assembles its androidTest APK. The
+previous handoff's "both androidTest APKs" must not be read as app +
+television. Pre-existing, never exercised by the documented graph, **out of
+scope** for an AGP bump. Scope androidTest to
+`:application:app:assembleDebugAndroidTest` only.
 
 ### 3f. Findings about the metadata mechanism
 - Gradle writes `verification-metadata.xml` at build finish **even when the
@@ -140,15 +147,18 @@ the documented graph, **out of scope** for an AGP bump. Scope androidTest to
 - `<verify-metadata>true`, zero trust escapes: both must survive unchanged.
 
 ### 3g. The exact remaining procedure
-The in-flight run (log `baseline-931-run4.log` in the container scratchpad,
-ephemeral) is step 1. A pristine copy of the committed metadata was saved
+Four baseline runs were made; the last (`baseline-931-run4.log`, ephemeral)
+ran 533 tasks and failed only on the television test APK (3e). Its metadata
+delta is left **uncommitted** in the working tree of this container; it is
+fully reproducible, and `git checkout -- gradle/verification-metadata.xml`
+restores the committed state. Step 1 below has therefore not yet completed
+cleanly: the strict-mode run has not been attempted since the write. A pristine copy of the committed metadata was saved
 as `verification-metadata.PRE-baseline.xml` (also ephemeral; `git show
 8cf91af:gradle/verification-metadata.xml` is the durable equivalent).
 
 ```sh
 export JAVA_HOME=<jdk21> ANDROID_HOME=<sdk> ANDROID_SDK_ROOT=<sdk>; PATH=<gradle-9.7.1>/bin:$PATH
-TASKS="help assembleDev lintDev :application:app:assembleDebugAndroidTest \
-       :application:television:assembleDebugAndroidTest testDebugUnitTest"
+TASKS="help assembleDev lintDev :application:app:assembleDebugAndroidTest testDebugUnitTest"
 # 1. baseline at 9.3.1 — diff must be ADDITIVE ONLY, then strict mode must pass
 gradle --write-verification-metadata sha256 --refresh-dependencies $TASKS
 git diff gradle/verification-metadata.xml      # expect only + lines
