@@ -149,10 +149,10 @@ scope** for an AGP bump. Scope androidTest to
 ### 3g. The exact remaining procedure
 Four baseline runs were made; the last (`baseline-931-run4.log`, ephemeral)
 ran 533 tasks and failed only on the television test APK (3e). Its metadata
-delta is left **uncommitted** in the working tree of this container; it is
-fully reproducible, and `git checkout -- gradle/verification-metadata.xml`
-restores the committed state. Step 1 below has therefore not yet completed
-cleanly: the strict-mode run has not been attempted since the write. A pristine copy of the committed metadata was saved
+delta (the two entries in 3c, additive only) is **committed** as a partial
+baseline so it survives the container. Step 1 below has still not completed
+cleanly: the strict-mode run has not been attempted since the write, and
+`junit-bom` remains unrecorded, so expect strict `help` to still fail on it. A pristine copy of the committed metadata was saved
 as `verification-metadata.PRE-baseline.xml` (also ephemeral; `git show
 8cf91af:gradle/verification-metadata.xml` is the durable equivalent).
 
