@@ -60,12 +60,16 @@ GitHub branches page:
 After deletion, the "Known false positive" section of `CONTEXT.md` is
 obsolete and can be removed.
 
-## 3. AGP 9.3.1 → 9.4.0 — IN FLIGHT, held before the bump itself
+## 3. AGP 9.3.1 → 9.4.0 — DONE (build-time verified)
 
 The user asked for the bump despite a recommendation to wait for a device
-test. **No AGP change has been committed.** `build.gradle:3` still reads
-`ext.android_plugin_version = '9.3.1'`. What has been done is the
-groundwork, which surfaced several facts worth more than the bump.
+test. It is committed: `ext.android_plugin_version = '9.4.0'`, with the
+verification metadata regenerated (+61 components, nothing removed, zero
+trust escapes) and proven under strict verification with
+`--refresh-dependencies` over `help assembleDev lintDev
+:application:app:assembleDebugAndroidTest testDebugUnitTest`. Zero new
+warning or deprecation lines versus the 9.3.1 run. Still never run on a
+device. The groundwork below surfaced facts worth keeping.
 
 ### 3a. Compatibility (checked against the release notes)
 AGP 9.4.0 needs Gradle ≥ 9.6.0 (have 9.7.1), JDK ≥ 17, build-tools ≥ 36.0.0
@@ -108,17 +112,19 @@ cold cache fetches them and strict mode rejects them. Not a mismatch, so no
 integrity concern — a coverage gap.
 
 Write-mode runs add exactly `com.google.guava:guava-parent:33.3.1-jre` and
-`kotlinx-coroutines-bom:1.8.0` (+13 lines, 1033 → 1035 components) — the
-same delta across four runs, including one with `help` in the task list and
-`--refresh-dependencies`. **`junit-bom:5.11.0-M2` is never recorded by write
-mode**, yet strict-mode `help` rejects it. This is the open problem on the
-critical path: strict mode cannot pass until it is understood. Start by
-checking whether strict `help` still fails after the baseline write (the
-first strict run predates any write); if it does, trace which plugin
-declares the `org.junit:junit-bom:5.11.0-M2` platform (likely
-`kotlin-gradle-plugin` or `gradle-maven-publish-plugin`) and why Gradle
-verifies its `.module` without recording it. Do not paper over it with a
-hand-written entry.
+`kotlinx-coroutines-bom:1.8.0` (+13 lines, 1033 → 1035 components), and
+that turned out to be sufficient: with those two committed, strict `help`
+**passes even with `--refresh-dependencies`**, and so does the full graph.
+`junit-bom:5.11.0-M2` was a one-off of the very first cold resolution, not a
+persistent gap. The mechanism, corroborated at 9.4.0: Gradle records a BOM
+only when it actually binds a constraint in the resolution result. At
+9.3.1 no junit artifact is on the buildscript classpath (`buildEnvironment`
+shows none), so that BOM was consulted and verified but never recorded; at
+9.4.0 the new android-test-engine really uses junit-platform 1.13.3, and
+`junit-bom:5.13.3` **was** recorded. Consulted-only BOMs can trip strict
+mode on a truly cold first resolution and then never again; if one ever
+does, a hand-written entry hashed from the artifact in the Gradle cache is
+the correct fix, but only after confirming it is consulted-only.
 
 ### 3d. Finding: task names — the `dev` build type has no test variants
 `assembleDevAndroidTest` and `testDevUnitTest` do not exist. Both androidTest
@@ -147,12 +153,12 @@ scope** for an AGP bump. Scope androidTest to
 - `<verify-metadata>true`, zero trust escapes: both must survive unchanged.
 
 ### 3g. The exact remaining procedure
-Four baseline runs were made; the last (`baseline-931-run4.log`, ephemeral)
-ran 533 tasks and failed only on the television test APK (3e). Its metadata
-delta (the two entries in 3c, additive only) is **committed** as a partial
-baseline so it survives the container. Step 1 below has still not completed
-cleanly: the strict-mode run has not been attempted since the write, and
-`junit-bom` remains unrecorded, so expect strict `help` to still fail on it. A pristine copy of the committed metadata was saved
+Both steps completed. Baseline at 9.3.1: the two-entry delta was committed
+(`4f83fd5`) and then proven — strict mode with `--refresh-dependencies` over
+the full task set, `BUILD SUCCESSFUL`, 618 tasks, no verification report.
+Bump: `build.gradle` to 9.4.0, write-mode regeneration (618 tasks all
+re-executed, +61 components, 1035 → 1096), guards passed, strict proof
+`BUILD SUCCESSFUL`. The old 9.1.1 and 9.3.1 trees remain, per precedent. A pristine copy of the committed metadata was saved
 as `verification-metadata.PRE-baseline.xml` (also ephemeral; `git show
 8cf91af:gradle/verification-metadata.xml` is the durable equivalent).
 
