@@ -38,7 +38,9 @@ assuming; each has been broken at least once before.
 ## Building
 
 ```sh
-export ANDROID_SDK=... ANDROID_NDK=... JAVA_HOME=...   # JDK 25
+export ANDROID_SDK=... ANDROID_NDK=... JAVA_HOME=...   # JDK 25; or just
+                                                        # ANDROID_HOME with one
+                                                        # NDK installed under it
 ./buildsystem/compile.sh -a arm64-v8a                   # complete build
 ```
 

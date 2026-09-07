@@ -56,9 +56,14 @@ way the scripts in `buildsystem/` were.
 ./buildsystem/compile.sh -a arm64-v8a      # libvlc + medialibrary + app
 ```
 
-`ANDROID_SDK` and `ANDROID_NDK` must be exported first (`compile.sh` exits
-if either is unset), and `JAVA_HOME` should point at your JDK 25. `-a` is
-optional — it defaults to `arm64-v8a` (with a warning); `arm64` and `arm` are
+`ANDROID_SDK` and `ANDROID_NDK` must be set (`compile.sh` exits if either is
+unset), and `JAVA_HOME` should point at your JDK 25. With an Android Studio
+layout you can export less: `compile.sh` takes `ANDROID_SDK` from
+`ANDROID_HOME` when only that is set, picks the NDK automatically when
+**exactly one** is installed under `$ANDROID_SDK/ndk/`, and defaults
+`JAVA_HOME` to Debian's `/usr/lib/jvm/java-25-openjdk-amd64` when that
+directory exists. Anything you export explicitly wins over those defaults.
+`-a` is optional — it defaults to `arm64-v8a` (with a warning); `arm64` and `arm` are
 accepted as aliases for `arm64-v8a` and `armeabi-v7a`.
 
 **What each invocation actually builds** — the flags are not additive, and

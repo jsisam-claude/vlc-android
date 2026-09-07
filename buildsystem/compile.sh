@@ -124,9 +124,39 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+# Debian / Android Studio layout defaults. Anything already exported wins;
+# these only fill in what is unset.
+#  - JAVA_HOME: Debian's openjdk-25-jdk package. Gradle/AGP run on whatever
+#    JAVA_HOME supplies (nothing in the repo pins the JDK), so default it to
+#    the reference JDK when it is installed.
+#  - ANDROID_SDK: Android Studio and the sdkmanager docs export ANDROID_HOME;
+#    the VLC scripts have always wanted ANDROID_SDK. The value flows into
+#    local.properties as sdk.dir via init_local_props below, alongside the
+#    android.ndkPath / android.ndkFullVersion keys Gradle also needs, which
+#    is why sdk.dir is not written with a bare "echo >" here.
+#  - ANDROID_NDK: sdkmanager installs NDKs under $ANDROID_SDK/ndk/<version>.
+#    With exactly one installed, use it; with several, the choice is not
+#    guessable (32-bit ABIs need 21.x, 64-bit need 27-29) so stay unset and
+#    hit the check below.
+if [ -z "$JAVA_HOME" ] && [ -d /usr/lib/jvm/java-25-openjdk-amd64 ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+fi
+if [ -z "$ANDROID_SDK" ] && [ -n "$ANDROID_HOME" ]; then
+    export ANDROID_SDK="$ANDROID_HOME"
+fi
+if [ -z "$ANDROID_NDK" ] && [ -n "$ANDROID_SDK" ] && [ -d "$ANDROID_SDK/ndk" ]; then
+    ndk_candidates=$(ls -d "$ANDROID_SDK"/ndk/*/ 2>/dev/null | wc -l)
+    if [ "$ndk_candidates" -eq 1 ]; then
+        export ANDROID_NDK="$(ls -d "$ANDROID_SDK"/ndk/*/ | sed 's:/$::')"
+        diagnostic "*** ANDROID_NDK not set: using the only installed NDK, $ANDROID_NDK"
+    fi
+fi
+
 if [ -z "$ANDROID_NDK" ] || [ -z "$ANDROID_SDK" ]; then
    diagnostic "You must define ANDROID_NDK, ANDROID_SDK before starting."
    diagnostic "They must point to your NDK and SDK directories."
+   diagnostic "(ANDROID_HOME is accepted for the SDK; the NDK is picked up"
+   diagnostic " automatically only when exactly one is installed under it.)"
    exit 1
 fi
 
