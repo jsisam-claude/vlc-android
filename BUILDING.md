@@ -25,8 +25,19 @@ manual run, not a per-commit check. The Windows repos build on every push.
 
 ## One-time bootstrap
 
-**Already executed and committed** — the trees and archives below are in the
-repositories. Re-run these steps only to re-pin versions.
+The vendored *trees and archives* below are committed, so steps 2 and 3 are
+re-runs only needed to re-pin versions. **Step 1 and the `libvlcjni/vlc`
+symlink are not committed and never can be** — the sibling checkout is a
+separate repository and the symlink is gitignored (`.gitignore:3`), so every
+fresh clone needs them.
+
+Since 2026-09-11 `compile.sh` creates that symlink itself when it finds a
+vlc-libs checkout (sibling or nested; `VLC_LIBS_DIR` overrides), and **refuses
+to build without one** rather than letting libvlcjni's `get-vlc.sh` silently
+clone VLC over the network. Set `ALLOW_VLC_CLONE=1` if you actually want the
+upstream clone. Before that guard existed, a missing symlink produced both an
+unintended download and — because a Gradle `Copy` with a missing source is
+NO-SOURCE and succeeds — an AAR containing no assets, from a green build.
 
 ```sh
 # 1. sibling checkout of the shared source repo
@@ -149,6 +160,29 @@ The buildsystem was patched to respect vendored trees:
   SHA-512 either way (mismatch is a hard `exit 1`). `--reset` won't touch
   vendored trees.
 
+## Pruning a module means removing its options too
+
+`libvlc` treats a command-line option that **no loaded module defines** as a
+fatal error: `libvlc_new()` returns NULL and the app dies with
+`IllegalStateException: can't create LibVLC instance`. The diagnostic goes to
+stderr, which Android discards, and the early log buffer is dropped before the
+Android logger attaches — so **nothing appears in logcat at all**. That silence
+is the fingerprint.
+
+So every entry in the pruned set below is also a commitment to stop passing
+that module's options from the app layer. Two slipped through and shipped:
+`--hrtf-file` (spatialaudio) crashed every launch, and `--soundfont`
+(fluidsynth) was latent until a user picked a MIDI soundfont. Both are now
+removed from `VLCOptions.kt`, each with a comment naming the module.
+
+`tools/check-libvlc-options.py` enforces this. It cross-references every
+`--option` literal the app can emit against the options defined by the core and
+by the modules actually linked into the generated `libvlcjni-modules.c`.
+`compile.sh` runs it straight after `compile-libvlc.sh` — the first moment that
+list exists — and fails the build on a mismatch. An option it cannot resolve is
+a warning, never a failure, so a parsing gap degrades to noise. Run it by hand
+with `tools/check-libvlc-options.py -v` to see every option and its owner.
+
 ## Pruned contrib set
 
 The contrib set is the **dependency-correct** closure for the fork's kept
@@ -270,6 +304,22 @@ Three layers, three treatments:
    directory, not in a public repo.
 
 ## Status
+
+**2026-09-11: it ran on a real device for the first time.** The APK built from
+vendored sources, installed and launched; the medialibrary scanned storage and
+populated the list. Three defects surfaced and are fixed — the two fatal
+options above, and the uncommittable `libvlcjni/vlc` symlink that silently
+caused both a network clone and an assets-free AAR.
+
+**Playback does not start yet.** Tapping an item opens the player but nothing
+plays, no video and no audio, and the loading cone spins indefinitely with no
+error dialog. Stock VLC plays the same file on the same device, so the
+platform is not at fault. An `EncounteredError` would close the player, which
+rules out the missing-module family for this symptom; the two live candidates
+are the two-surface gate at `MediaPlayer.java:769` and the mediacodec
+direct-rendering handshake that runs before `input.c:1437`. Full diagnosis,
+the in-app experiments that need no rebuild, and the logcat decision table are
+in [handoff/2026-09-11-device-bringup.md](handoff/2026-09-11-device-bringup.md).
 
 **The full pipeline has been executed end-to-end from the vendored sources**
 (NDK 29.0.14206865, arm64-v8a, Gradle 9.7.1 + AGP 9.3.1, compileSdk 37,

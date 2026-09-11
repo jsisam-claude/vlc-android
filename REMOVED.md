@@ -116,3 +116,26 @@ this environment and **builds successfully** — every module's Kotlin/Java
 compiles against the vendored source trees, covering all removals above.
 The native stage has since been executed end-to-end as well — see the
 Status section of [BUILDING.md](BUILDING.md).
+
+**Runtime verification, 2026-09-11.** The app was installed and launched on a
+physical device for the first time. The privacy invariants held: casting stayed
+off (`KEY_ENABLE_CASTING` defaults false and `RendererDelegate.start` returns
+before touching libvlc), remote artwork stayed off, and the medialibrary scan
+ran entirely locally. No removed feature left a live call site. Playback itself
+does not start yet — an unrelated defect tracked in
+[handoff/2026-09-11-device-bringup.md](handoff/2026-09-11-device-bringup.md).
+
+## 10. Removing a module obliges removing its options
+
+Not a removal in itself, but the rule that governs all of them. `libvlc`
+treats a command-line option that **no loaded module defines** as fatal:
+`libvlc_new()` returns NULL, the app throws `IllegalStateException`, and
+nothing at all is written to logcat, because the diagnostic goes to a stderr
+Android discards and the early log buffer is dropped before the Android logger
+attaches.
+
+So pruning a contrib is only half the job — the options that module defined
+must stop being passed too. `--hrtf-file` (spatialaudio) and `--soundfont`
+(fluidsynth) were both missed and both shipped; the first crashed every
+launch. `tools/check-libvlc-options.py`, run from `compile.sh` after the native
+build, now fails the build on any such mismatch.

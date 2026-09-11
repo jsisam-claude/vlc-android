@@ -18,6 +18,24 @@ def vlc_revision = vlcSourcesFile.exists() ? providers.exec {
     commandLine('git', 'rev-parse', '--short', 'HEAD')
 }.standardOutput.asText.get().trim() : 'unknown'
 
+// A Copy task whose source directory does not exist is NO-SOURCE: Gradle skips
+// it and the build still SUCCEEDS. libvlcjni/vlc is a gitignored symlink to
+// ../../vlc-libs/vlc, so in a fresh clone it is absent, every lua copy below is
+// skipped, and the AAR ships with no assets at all -- a broken artifact from a
+// green build. Resolve the sources through this instead, so the failure is loud.
+def requireVlcShare = { String relative ->
+    File dir = file(relative)
+    if (!dir.isDirectory()) {
+        throw new GradleException(
+            "libvlc: required source directory is missing: ${dir}\n" +
+            "  libvlcjni/vlc is a gitignored symlink and is absent in a fresh clone.\n" +
+            "  Create it before building:  ln -s ../../vlc-libs/vlc libvlcjni/vlc\n" +
+            "  (./tools/vendor-videolan.sh does this, and much else, for you.)\n" +
+            "  Without it the AAR would be built with no lua assets and no error.")
+    }
+    return dir
+}
+
 android {
 
     // Same reason as :application:app -- this module packages the libvlc .so
@@ -106,19 +124,19 @@ android {
     // asset) is not built in this fork.
 
     task luaPlaylistCopy(type: Copy) {
-        from '../vlc/share/lua/playlist'
+        from { requireVlcShare('../vlc/share/lua/playlist') }
         into 'assets/lua/playlist'
         exclude '**/*.txt'
     }
 
     task luaModuleCopy(type: Copy) {
-        from '../vlc/share/lua/modules'
+        from { requireVlcShare('../vlc/share/lua/modules') }
         into 'assets/lua/modules'
         exclude '**/*.txt'
     }
 
     task luaMetaCopy(type: Copy) {
-        from '../vlc/share/lua/meta'
+        from { requireVlcShare('../vlc/share/lua/meta') }
         into 'assets/lua/meta'
         exclude '**/*.txt'
     }

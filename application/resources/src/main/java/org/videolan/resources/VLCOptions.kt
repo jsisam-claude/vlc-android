@@ -219,13 +219,14 @@ object VLCOptions {
             }
             if (pref.getBoolean(KEY_PREFER_SMBV1, true))
                 options.add("--smb-force-v1")
-            if (!Settings.showTvUi) {
-                //Ambisonic
-                val hstfDir = context.getDir("vlc", Context.MODE_PRIVATE)
-                val hstfPath = "${hstfDir.absolutePath}/.share/hrtfs/dodeca_and_7channel_3DSL_HRTF.sofa"
-                options.add("--hrtf-file")
-                options.add(hstfPath)
-            }
+            // --hrtf-file is NOT passed. Its only definer is the spatialaudio
+            // module (modules/audio_filter/channel_mixer/spatialaudio.cpp), which
+            // this fork disables along with mysofa in aa07a05. libvlc's second
+            // config_LoadCmdLine pass treats an option that no loaded module
+            // defines as FATAL, so passing it makes libvlc_new() return NULL and
+            // the app dies at startup with "can't create LibVLC instance".
+            // The matching hrtfsCopy asset task is likewise gone from
+            // libvlcjni/libvlc/build.gradle. Restore both together, or neither.
             if (pref.getBoolean(KEY_AUDIO_REPLAY_GAIN_ENABLE, false)) {
                 options.add("--audio-replay-gain-mode=${pref.getString(KEY_AUDIO_REPLAY_GAIN_MODE, "track")}")
                 options.add("--audio-replay-gain-preamp=${pref.getString(KEY_AUDIO_REPLAY_GAIN_PREAMP, "0.0")}")
@@ -235,10 +236,12 @@ object VLCOptions {
                 else
                     options.add("--no-audio-replay-gain-peak-protection")
             }
-            val soundFontFile = getSoundFontFile(context)
-            if (soundFontFile.exists()) {
-                options.add("--soundfont=${soundFontFile.path}")
-            }
+            // --soundfont is NOT passed, for the same reason as --hrtf-file above:
+            // on Android its only definer is the fluidsynth codec
+            // (modules/codec/fluidsynth.c; audiotoolbox_midi.c is Apple-only) and
+            // this fork disables both --fluidsynth and --fluidlite. Emitting it
+            // would be a fatal libvlc_new() failure for any user who has picked a
+            // soundfont, so MIDI playback is simply unavailable here.
             options.add("--preferred-resolution=${pref.getString(KEY_PREFERRED_RESOLUTION, "-1")!!}")
             if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, "VLC Options: ${options.joinToString(" ")}")
             return options

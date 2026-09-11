@@ -38,11 +38,19 @@ assuming; each has been broken at least once before.
 ## Building
 
 ```sh
+git clone <owner>/vlc-libs ../vlc-libs                 # sibling; NOT committed
 export ANDROID_SDK=... ANDROID_NDK=... JAVA_HOME=...   # JDK 25; or just
                                                         # ANDROID_HOME with one
                                                         # NDK installed under it
 ./buildsystem/compile.sh -a arm64-v8a                   # complete build
 ```
+
+`compile.sh` links `libvlcjni/vlc` into the vlc-libs checkout itself and
+refuses to build without one; that symlink is gitignored, so it is missing in
+every fresh clone.
+
+**Status: the app builds, installs and launches, but playback does not start
+yet** — see `handoff/2026-09-11-device-bringup.md`.
 
 Read `BUILDING.md` before running anything else. The traps that cost real time:
 

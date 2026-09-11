@@ -362,13 +362,24 @@ fi
 # GRADLE #
 ##########
 
-# Prefer the vendored contrib source-archive cache from a sibling vlc-libs
-# checkout so contrib builds run without downloads. The variable the contrib
-# build actually consumes is VLC_TARBALLS (compile-libvlc.sh passes it to make
-# as TARBALLS=... on the command line — the makefile :=-assigns TARBALLS, so a
-# plain environment variable would be ignored).
-if [ -z "$VLC_TARBALLS" ] && [ -d "$(pwd -P)/../vlc-libs/contrib-tarballs" ]; then
-    export VLC_TARBALLS="$(pwd -P)/../vlc-libs/contrib-tarballs"
+# Locate the vlc-libs checkout that supplies the VLC core and the contrib
+# archives. The documented layout is a sibling directory, but a nested one is
+# common in practice, so accept both rather than silently falling back to
+# network downloads. VLC_LIBS_DIR may also be set explicitly.
+if [ -z "$VLC_LIBS_DIR" ]; then
+    for candidate in "$(pwd -P)/../vlc-libs" "$(pwd -P)/vlc-libs"; do
+        if [ -d "$candidate" ]; then VLC_LIBS_DIR="$candidate"; break; fi
+    done
+fi
+[ -n "$VLC_LIBS_DIR" ] && diagnostic "vlc-libs: using $VLC_LIBS_DIR"
+
+# Prefer the vendored contrib source-archive cache from that checkout so contrib
+# builds run without downloads. The variable the contrib build actually consumes
+# is VLC_TARBALLS (compile-libvlc.sh passes it to make as TARBALLS=... on the
+# command line — the makefile :=-assigns TARBALLS, so a plain environment
+# variable would be ignored).
+if [ -z "$VLC_TARBALLS" ] && [ -n "$VLC_LIBS_DIR" ] && [ -d "$VLC_LIBS_DIR/contrib-tarballs" ]; then
+    export VLC_TARBALLS="$VLC_LIBS_DIR/contrib-tarballs"
     diagnostic "contrib tarballs: using vendored cache $VLC_TARBALLS"
 fi
 
@@ -413,6 +424,36 @@ fi
 ####################
 # Fetch VLC source #
 ####################
+
+# libvlcjni reads the VLC core from $VLC_LIBJNI_PATH/vlc. In this fork that path
+# is a symlink into the vlc-libs checkout, created by tools/vendor-videolan.sh --
+# and it is gitignored (.gitignore:3), so it does NOT exist in a fresh clone.
+# When it is missing, libvlcjni's get-vlc.sh silently CLONES VLC from
+# code.videolan.org, which breaks this fork's no-downloads contract; the Gradle
+# lua asset copies in libvlcjni/libvlc/build.gradle also become NO-SOURCE, so the
+# AAR is built with no assets and the build still reports success. Link it here,
+# and refuse to fall through to the clone.
+if [ -z "$VLC_SRC_DIR" ] && [ ! -e "$VLC_LIBJNI_PATH/vlc" ]; then
+    if [ -n "$VLC_LIBS_DIR" ] && [ -d "$VLC_LIBS_DIR/vlc" ]; then
+        # Relative first so the checkout stays relocatable; fall back to absolute
+        # if the relative form does not resolve (non-default VLC_LIBJNI_PATH, or
+        # a nested vlc-libs layout).
+        ln -s ../../vlc-libs/vlc "$VLC_LIBJNI_PATH/vlc" 2>/dev/null || true
+        if [ ! -d "$VLC_LIBJNI_PATH/vlc" ]; then
+            rm -f "$VLC_LIBJNI_PATH/vlc"
+            ln -s "$VLC_LIBS_DIR/vlc" "$VLC_LIBJNI_PATH/vlc" || fail "VLC sources: could not link $VLC_LIBJNI_PATH/vlc"
+        fi
+        diagnostic "VLC sources: linked $VLC_LIBJNI_PATH/vlc -> $(readlink "$VLC_LIBJNI_PATH/vlc")"
+    else
+        diagnostic "VLC sources: $VLC_LIBJNI_PATH/vlc is missing and no vlc-libs checkout was found."
+        diagnostic "  This fork takes the VLC core from vlc-libs and never downloads it."
+        diagnostic "  Clone it beside this repo:  git clone <your-account>/vlc-libs ../vlc-libs"
+        diagnostic "  then run ./tools/vendor-videolan.sh, or set VLC_LIBS_DIR to an existing checkout."
+        diagnostic "  To let libvlcjni clone VLC from the network anyway, set ALLOW_VLC_CLONE=1."
+        [ "$ALLOW_VLC_CLONE" = 1 ] || fail "VLC sources: refusing to download VLC (see above)"
+        diagnostic "VLC sources: ALLOW_VLC_CLONE=1 set, falling through to the upstream network clone"
+    fi
+fi
 
 # If you want to use an existing vlc dir add its path to an VLC_SRC_DIR env var
 if [ -z "$VLC_SRC_DIR" ]; then
@@ -468,6 +509,21 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
     ${VLC_LIBJNI_PATH}/buildsystem/compile-libvlc.sh ${libvlc_args}
 
     cp -a ${VLC_LIBJNI_PATH}/libvlc/jni/obj/local/${ANDROID_ABI}/*.so "${OUT_DBG_DIR}"
+
+    # The native build has just generated the static module list, so this is the
+    # first moment we can tell which libvlc modules the APK will actually
+    # contain. Contrib pruning removes modules, removing the options they
+    # define, while the app layer keeps passing them -- and libvlc treats an
+    # option no loaded module defines as a FATAL libvlc_new() failure whose
+    # diagnostic Android discards. That shipped twice (--hrtf-file, --soundfont)
+    # and is invisible to compiling and to unit tests. Catch it here instead.
+    if command -v python3 >/dev/null 2>&1; then
+        python3 "$(pwd -P)/tools/check-libvlc-options.py" \
+            --app "$(pwd -P)" --vlc "${VLC_LIBJNI_PATH}/vlc" \
+            || fail "libvlc options: the app passes options no built module defines (see above)"
+    else
+        diagnostic "*** python3 not found: skipping the libvlc option/module check"
+    fi
 fi
 
 if [ "$NO_ML" != 1 ]; then
