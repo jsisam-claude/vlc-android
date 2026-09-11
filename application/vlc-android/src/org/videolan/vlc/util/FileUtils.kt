@@ -131,15 +131,6 @@ object FileUtils {
         }
     }
 
-    fun copyHrtfs(context: Context, force: Boolean) {
-        AppScope.launch(Dispatchers.IO) {
-            val destinationFolder = context.getDir("vlc",
-                    Context.MODE_PRIVATE).absolutePath + "/.share/hrtfs"
-            val am = context.assets
-            copyAssetFolder(am, "hrtfs", destinationFolder, force)
-        }
-    }
-
     fun copyLua(context: Context, force: Boolean) {
         AppScope.launch(Dispatchers.IO) {
             val destinationFolder = context.getDir("vlc",

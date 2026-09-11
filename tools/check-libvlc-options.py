@@ -39,9 +39,19 @@ degrades to noise rather than a broken build.
 
 Usage
 -----
-    tools/check-libvlc-options.py [--vlc DIR] [--app DIR] [--modules FILE] [-v]
+    tools/check-libvlc-options.py --arch arm64 [--vlc DIR] [--app DIR] [-v]
+    tools/check-libvlc-options.py --modules path/to/libvlcjni-modules.c
 
-All paths default to this fork's layout. Exits 1 on an error-class finding.
+Paths default to this fork's layout. Exits 1 on an error-class finding, and
+also when its inputs are missing -- pass --allow-missing to run it outside a
+build, but never from compile.sh.
+
+Out of scope: the custom-options preference (``KEY_CUSTOM_LIBVLC_OPTIONS``,
+``VLCOptions.kt``) splices arbitrary user text into the same fatal argv and
+cannot be checked statically. Guarding that needs a runtime retry without the
+custom options in ``VLCInstance``, which is separate work. Module *values*
+(``--vout=gles2,none``, ``--aout``, ``:codec=``) are also unchecked here; they
+degrade rather than crash.
 """
 
 import argparse
@@ -74,6 +84,16 @@ OPT_RE = re.compile(r'"(--[a-zA-Z][a-zA-Z0-9-]*)(=[^"]*)?"')
 # Options the app emits that libvlc's core accepts positionally or that are
 # intentionally passed through unvalidated.
 IGNORE = {'--help', '--version', '--longhelp', '--full-help'}
+
+# ABI -> target triplet, mirroring compile-libvlc.sh. The generated module list
+# lives in build-android-<triplet>/ndk/, and a multi-ABI tree has several, so
+# the ABI has to be supplied rather than guessed.
+ARCH_TUPLE = {
+    'arm': 'arm-linux-androideabi',
+    'arm64': 'aarch64-linux-android',
+    'x86': 'i686-linux-android',
+    'x86_64': 'x86_64-linux-android',
+}
 
 
 def read(path):
@@ -182,27 +202,43 @@ def main():
     ap.add_argument('--vlc', default=os.path.join(here, 'libvlcjni', 'vlc'),
                     help='VLC core source tree')
     ap.add_argument('--modules', default=None,
-                    help='generated libvlcjni-modules.c (default: autodetect '
-                         'under the VLC build dirs)')
+                    help='generated libvlcjni-modules.c (default: derived from '
+                         '--arch)')
+    ap.add_argument('--arch', default=None, choices=sorted(ARCH_TUPLE),
+                    help='ABI whose build directory to check; required unless '
+                         '--modules is given')
+    ap.add_argument('--allow-missing', action='store_true',
+                    help='exit 0 instead of 1 when the VLC tree or the '
+                         'generated module list is absent. Only for running '
+                         'this script outside a build; never pass it from '
+                         'compile.sh, because "nothing to check" is exactly '
+                         'the state this check exists to catch.')
     ap.add_argument('-v', '--verbose', action='store_true')
     args = ap.parse_args()
 
+    # A check that silently passes when its inputs are missing is not a check.
+    # Both conditions below are normal outside a build and impossible inside
+    # one, so they fail closed unless the caller opts out explicitly.
+    missing = 1 if not args.allow_missing else 0
+
     if not os.path.isdir(args.vlc):
-        print('check-libvlc-options: no VLC source tree at %s, skipping'
-              % args.vlc, file=sys.stderr)
-        return 0
+        print('check-libvlc-options: no VLC source tree at %s' % args.vlc,
+              file=sys.stderr)
+        return missing
 
     modules_c = args.modules
     if not modules_c:
-        for entry in sorted(os.listdir(args.vlc)):
-            candidate = os.path.join(args.vlc, entry, 'ndk', 'libvlcjni-modules.c')
-            if entry.startswith('build-android-') and os.path.isfile(candidate):
-                modules_c = candidate
-                break
-    if not modules_c or not os.path.isfile(modules_c):
-        print('check-libvlc-options: no libvlcjni-modules.c yet, skipping '
-              '(run after the native build)', file=sys.stderr)
-        return 0
+        if not args.arch:
+            print('check-libvlc-options: pass --arch or --modules; guessing '
+                  'which build-android-* directory to read would silently '
+                  'validate the wrong ABI', file=sys.stderr)
+            return missing
+        modules_c = os.path.join(args.vlc, 'build-android-%s' % ARCH_TUPLE[args.arch],
+                                 'ndk', 'libvlcjni-modules.c')
+    if not os.path.isfile(modules_c):
+        print('check-libvlc-options: no generated module list at %s -- run this '
+              'after the native build' % modules_c, file=sys.stderr)
+        return missing
 
     built = built_modules(modules_c)
     src2plugin = source_to_plugin(args.vlc)

@@ -83,3 +83,7 @@ medialibrary/medialibrary/mla/
 medialibrary/medialibrary/crossfile-*.meson
 # gradle*/ above ignores the unzipped distribution; the committed dependency
 # pins live at gradle/verification-metadata.xml (force-added, stays tracked)
+
+# Python bytecode from tools/
+__pycache__/
+*.pyc

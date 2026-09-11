@@ -226,10 +226,21 @@ fi
 # carries org.gradle.jvmargs (-Xmx4g), android.newDsl/builtInKotlin/nonTransitiveRClass
 # and enableJetifier=false. Deleting it silently dropped all of those and re-enabled
 # Jetifier for exactly the release builds that matter.
-grep -q '^keyStoreFile=' gradle.properties || echo keyStoreFile=$KEYSTORE_FILE >> gradle.properties
-grep -q '^storealias=' gradle.properties || echo storealias=$STOREALIAS >> gradle.properties
-if [ -z "$PASSWORD_KEYSTORE" ]; then
-    grep -q '^storepwd=' gradle.properties || echo storepwd=android >> gradle.properties
+# The signing properties are passed to Gradle on the command line (see
+# GRADLE_SIGNING_PROPS below) rather than appended to gradle.properties.
+# gradle.properties is a TRACKED file here, and KEYSTORE_FILE defaults to
+# "$HOME/.android/debug.keystore" -- so appending wrote the builder's home
+# directory path into version control, left the working tree dirty after every
+# build, and was one `git add -A` away from being committed. -P properties are
+# read by project.findProperty() exactly the same way (application/app/
+# build.gradle:63-71).
+#
+# Remove the keys if an earlier build already appended them, so the tracked
+# file goes back to being clean.
+if grep -qE '^(keyStoreFile|storealias|storepwd)=' gradle.properties 2>/dev/null; then
+    grep -vE '^(keyStoreFile|storealias|storepwd)=' gradle.properties > gradle.properties.tmp \
+        && mv -f gradle.properties.tmp gradle.properties
+    diagnostic "gradle.properties: removed signing keys written there by an earlier build"
 fi
 
 init_local_props() {
@@ -517,13 +528,15 @@ if [ "$BUILD_MEDIALIB" != 1 ] || [ ! -d "${VLC_LIBJNI_PATH}/libvlc/jni/libs/" ];
     # option no loaded module defines as a FATAL libvlc_new() failure whose
     # diagnostic Android discards. That shipped twice (--hrtf-file, --soundfont)
     # and is invisible to compiling and to unit tests. Catch it here instead.
-    if command -v python3 >/dev/null 2>&1; then
-        python3 "$(pwd -P)/tools/check-libvlc-options.py" \
-            --app "$(pwd -P)" --vlc "${VLC_LIBJNI_PATH}/vlc" \
-            || fail "libvlc options: the app passes options no built module defines (see above)"
-    else
-        diagnostic "*** python3 not found: skipping the libvlc option/module check"
-    fi
+    # --arch, not autodetection: a multi-ABI tree has several build-android-*
+    # directories and guessing would validate the wrong one. No --allow-missing:
+    # inside a build, "nothing to check" means the native stage did not produce
+    # what it should have, which is itself a failure.
+    command -v python3 >/dev/null 2>&1 \
+        || fail "python3 is required to verify libvlc options against the built modules"
+    python3 "$(pwd -P)/tools/check-libvlc-options.py" \
+        --app "$(pwd -P)" --vlc "${VLC_LIBJNI_PATH}/vlc" --arch "$ARCH" \
+        || fail "libvlc options: the app passes options no built module defines (see above)"
 fi
 
 if [ "$NO_ML" != 1 ]; then
@@ -558,6 +571,14 @@ GRADLE_TASK="${ACTION}${BUILDTYPE}"
 
 if [ -n "$M2_REPO" ]; then
     gradle_prop="$gradle_prop -Dmaven.repo.local=$M2_REPO"
+fi
+
+# Signing properties, formerly appended to the tracked gradle.properties.
+# PASSWORD_KEYSTORE, when set, is read straight from the environment by
+# application/app/build.gradle, so it is deliberately not echoed here.
+gradle_prop="$gradle_prop -PkeyStoreFile=$KEYSTORE_FILE -Pstorealias=$STOREALIAS"
+if [ -z "$PASSWORD_KEYSTORE" ]; then
+    gradle_prop="$gradle_prop -Pstorepwd=android"
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then

@@ -276,7 +276,9 @@ class StartActivity : FragmentActivity() {
             }
         }
         FileUtils.copyLua(applicationContext, upgrade)
-        FileUtils.copyHrtfs(applicationContext, upgrade)
+        // copyHrtfs removed with the spatialaudio module: the hrtfs asset folder
+        // is no longer produced by libvlcjni/libvlc/build.gradle, so this only
+        // ever spawned IO to find nothing.
         if (AndroidDevices.watchDevices) this.enableStorageMonitoring()
         finish()
     }

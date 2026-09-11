@@ -114,6 +114,78 @@ From the previous commit, recorded here for completeness: `JAVA_HOME`,
 installed under `$ANDROID_SDK/ndk/`) are now defaulted, so an Android Studio
 layout builds with only `ANDROID_HOME` exported.
 
+### 2.4 Hardening found by a follow-up audit
+
+A 14-agent audit over option coverage, packaging, bootstrap fragility and PII
+ran after the fixes above. It refuted seven of its own top eight findings; what
+survived verification against the source is below. Everything here was checked
+by hand before being applied.
+
+- **An APK with zero native libraries, from a green build.** `jniLibs.srcDirs`
+  in `libvlcjni/libvlc/build.gradle` is populated by `ndk-build`, not by
+  Gradle. If the native stage has not run the directory simply does not exist,
+  AGP merges nothing, and the AAR — and every APK built from it — ships with no
+  `.so` at all. On device that is unrecoverable, not degraded: the loader calls
+  `System.exit(1)`. A `doFirst` on `merge*JniLibFolders` now fails with the
+  offending directories listed. `-PallowNoNativeLibs=true` opts out for
+  deliberate Java-layer-only builds (dependency verification, lint, unit
+  tests); `compile.sh` never passes it. Verified both ways.
+- **The option checker failed open.** As first written it returned 0 when the
+  VLC tree or the generated module list was missing — precisely the states it
+  exists to catch. It now exits 1, behind an explicit `--allow-missing` for
+  standalone use, and `compile.sh` never passes that either. A missing
+  `python3` is likewise fatal there now, instead of skipping the only gate
+  against a class that has already shipped twice.
+- **The checker guessed the ABI.** It took the first `build-android-*`
+  directory it found, so on a multi-ABI tree it validated the wrong build. It
+  now requires `--arch` (or an explicit `--modules`), and `compile.sh` passes
+  `$ARCH`.
+- **Signing properties were appended to a tracked file.**
+  `compile.sh` wrote `keyStoreFile=$KEYSTORE_FILE` into `gradle.properties`,
+  which is tracked here, and `KEYSTORE_FILE` defaults to
+  `$HOME/.android/debug.keystore` — so every build wrote the builder's home
+  directory path into version control and left the tree dirty, one `git add -A`
+  from being committed. They are now passed as `-P` properties, which
+  `project.findProperty()` reads identically, and an earlier build's leftovers
+  are stripped from `gradle.properties` on the next run.
+- **`vendor-vlc.sh` skipped the patch stack.** Its early exit on a matching
+  `.vendored` SHA sits *above* the patch loop, so re-running with a changed or
+  newly added patch directory was a silent no-op that left `vlc/` at the right
+  commit with the wrong patches. It now compares the recorded patch names
+  against the directory and refuses rather than lying. (The `patch --force`
+  half of that concern was overstated: rejects still set exit status and the
+  existing `||` catches them.)
+- **A source directory literally named `null`.** Unset `GRADLE_VLC_SRC_DIRS`
+  interpolated into `jniLibs.srcDirs`. Guarded.
+- **Dead halves of the two removed features.** The SoundFont MIDI preference
+  still appeared in Settings although `--soundfont` is gone, and `copyHrtfs()`
+  still spawned IO on every upgrade for an asset folder the build no longer
+  produces. Both removed. The rest of the soundfont plumbing
+  (`PreferencesAudio.kt`, `FilePickerProvider`, `MediaUtils.useAsSoundFont`)
+  is now unreachable dead code; left in place deliberately, since removing it
+  spans two modules and several translated strings for no functional gain.
+
+Deliberately **not** changed, with reasons:
+
+- **`CLEAN_VARS` in `libvlcjni/libvlc/jni/Android.mk:4,9,14`** (should be
+  `CLEAR_VARS`). Real, but harmless today because each block reassigns its
+  `LOCAL_*` with `:=`, and it is vendored upstream code — editing it without a
+  recorded patch weakens the vendoring contract for no gain.
+- **`VLC_SRC_DIR` is a broken escape hatch.** `compile.sh` branches on it, but
+  `compile-libvlc.sh:141-150` assigns `VLC_SRC_DIR` from its own detection and
+  never reads the environment. Setting it therefore disables the no-download
+  guard and changes nothing downstream. Pre-existing upstream wart; fixing it
+  means either plumbing the variable through or deleting the branches, and
+  either changes a documented escape hatch, so it needs a decision rather than
+  a silent edit.
+- **`splits.abi` in `application/app/build.gradle:128-145`** produces four
+  release APKs from one built ABI. Real, but the right fix depends on what you
+  intend to distribute.
+- **The NDK fallback** at `build.gradle:80` resolves to `21.4.7075529` for VLC
+  3 when `local.properties` carries no `android.ndkFullVersion`, and
+  `compile-libvlc.sh:119-129` rejects r21 for 64-bit. Inert while no `.so`
+  reach packaging; needs a real build to confirm the consequence.
+
 ## 3. Open: playback never starts
 
 **Symptom.** Tap an item, the player opens, nothing plays, the cone spins
@@ -145,8 +217,19 @@ and is cleared **only** by `MediaPlayer.Event.Playing` (→ `onPlaying()` →
   this was worth checking.)
 - **The platform.** Stock VLC plays the same file on the same device.
 
-**The two surviving shapes** — either `nativePlay()` was never issued, or the
-input thread is blocked before `input.c:1437`:
+- **Candidate 1 below, on further audit.** The Java playback path is
+  byte-identical to upstream: the whole `application/` diff against `1c6bf67`
+  is 520 insertions against 24,375 deletions, all feature *removal*, and it
+  touches neither `PlaybackService.kt` nor `VideoPlayerActivity.kt`. The
+  `AWindow` surface state machine (`AWindow.java:370-396`) is pure Java fed
+  only by platform surface callbacks. The same Java, the same device, the same
+  file: if it completes under stock VLC it completes here. So `nativePlay()`
+  **is** being issued, and the stall is native. Candidate 1 is kept below
+  because it was the leading theory for a while and the reasoning that killed
+  it is worth not repeating.
+
+**The two shapes that were live** — either `nativePlay()` was never issued, or
+the input thread is blocked before `input.c:1437`:
 
 1. **The two-surface gate.** `MediaPlayer.java:769` — `play()` sets
    `mPlayRequested` and returns early while `mWindow.areSurfacesWaiting()`.
@@ -164,9 +247,47 @@ input thread is blocked before `input.c:1437`:
    error. Note this ordering also excludes the ordinary "hardware decoder
    hangs" story, which would happen *after* `PLAYING_S` with the cone gone.
 
+### The sharpest native hypothesis
+
+If the stall is native, the only variable this fork controls is which modules
+got linked. `modules/video_output/android/display.c:707` creates the subtitle
+window; at `:715-720`, if that fails **and** the main window is opaque
+(mediacodec direct rendering, the default) **and** `!vd->obj.force`,
+`android_display` logs `cannot blend subtitles with an opaque surface, trying
+next vout` and fails Open. The only other vout that can consume
+`VLC_CODEC_ANDROID_OPAQUE` is gles2 with `glconv_android`, and
+`modules/video_output/Makefile.am:417-419` builds `libegl_android_plugin` and
+`libglconv_android_plugin` **only under `if HAVE_EGL`** — which is true only
+because `compile-libvlc.sh:515-516` hand-generates `egl.pc`/`glesv2.pc`, and
+**configure runs once ever** (`compile-libvlc.sh:633` gates on
+`config.h` already existing). A tree whose configure ran before those two lines
+existed has `HAVE_EGL` false and no opaque-capable fallback vout, permanently,
+with no rebuild able to notice.
+
+State this honestly: that explains silent *video*, not silent *audio*. If audio
+is genuinely dead too, the input thread stopped upstream of ES selection and no
+amount of source reading settles it.
+
+A free check on the build machine, no rebuild:
+
+```sh
+grep -o 'vlc_entry__[a-z0-9_]*' <vlc>/build-android-aarch64-linux-android/ndk/libvlcjni-modules.c \
+  | sort -u | grep -E 'glconv|egl|gles2|android_display|mediacodec'
+```
+
+Missing `glconv_android`/`egl_android` would make the above the answer.
+
 ### Next steps, cheapest first
 
-Two in-app experiments need no rebuild and no adb, and together they pin it:
+Three in-app experiments need no rebuild and no adb:
+
+0. **Long-press the video → "Play as audio."** (`VideoGridFragment.kt:616` →
+   `VideosViewModel.kt:161-166`, setting `MEDIA_FORCE_AUDIO`.) This takes
+   `PlaylistManager.kt:512-513`'s direct-play branch and attaches **no surface
+   at all**, while holding the container, demuxer, access and audio codec
+   constant. If it plays, the fault is in the video chain. If it hangs, the
+   fault is upstream of ES selection and every video-side theory above is
+   wrong. This is the single most informative free test.
 
 1. **Settings → Video → Hardware acceleration → Disabled.** That takes
    `VLCOptions.kt:302` down `setHWDecoderEnabled(false, false)`, removing
@@ -232,7 +353,13 @@ The absence of a feedback loop, not the defects, is the structural problem.
   `claude/zealous-einstein-y8nak8` (`6396501`). After they go, drop the
   "Known false positive" section from CONTEXT.md.
 - **Kotlin 2.4.20** is out; recommended hold (KSP must move with it).
-- **`handoff/` should be trimmed** before these repos are made public.
+- **`handoff/` should be trimmed** before these repos are made public. The
+  2026-08-25 handoff in `vlc-light-win64` also records GitHub billing state, in
+  a repo that file itself describes as public.
+- **The 12 security backports are unverifiable from the checkout.** Unlike the
+  20 android patches, which were confirmed applied by reverse dry-run, the
+  backports are recorded in `vlc-libs/vlc/.patched` as bare upstream SHAs with
+  no patch files retained. Retaining them would make the claim checkable.
 - Win64 default-branch naming, and the final non-VLC naming pass.
 
 ## 6. Conventions that still hold

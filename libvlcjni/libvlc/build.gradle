@@ -81,6 +81,37 @@ android {
                 task.dependsOn luaMetaCopy
                 task.dependsOn luaModuleCopy
             }
+
+            // jniLibs.srcDirs above is populated by ndk-build (compile-libvlc.sh),
+            // not by Gradle. If the native stage has not run, the directory simply
+            // does not exist, AGP merges nothing, and the AAR -- and every APK
+            // built from it -- ships with ZERO .so files from a completely green
+            // build. On device that is unrecoverable rather than degraded:
+            // LibVLC.java's loader calls System.exit(1) when the library is
+            // missing. Fail at packaging time instead.
+            //
+            // Opt out with -PallowNoNativeLibs=true to build the Java/Gradle
+            // layer alone (dependency verification, lint, unit tests). compile.sh
+            // never passes it: it always builds the .so first.
+            if (task.name.startsWith('merge') && task.name.endsWith('JniLibFolders')) {
+                task.doFirst {
+                    if (project.findProperty('allowNoNativeLibs') == 'true') return
+                    def dirs = android.sourceSets.main.jniLibs.srcDirs
+                    def found = dirs.findAll { it.isDirectory() }
+                            .collect { d -> project.fileTree(d).filter { it.name.endsWith('.so') }.files }
+                            .flatten()
+                    if (found.isEmpty()) {
+                        throw new GradleException(
+                            "libvlc: no .so files in any jniLibs source directory:\n" +
+                            dirs.collect { "    ${it}${it.isDirectory() ? '' : '  (does not exist)'}" }.join('\n') +
+                            "\n  The native stage has not run, so this AAR would contain no native\n" +
+                            "  libraries and the app would abort on launch.\n" +
+                            "  Build them:  ./buildsystem/compile.sh -a <abi>\n" +
+                            "  Or, to build only the Java layer on purpose, pass\n" +
+                            "  -PallowNoNativeLibs=true.")
+                    }
+                }
+            }
         }
 
     }
@@ -88,7 +119,9 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = [ 'jni/libs' ]
-            jniLibs.srcDirs += "$vlcSrcDirs"
+            // Unset GRADLE_VLC_SRC_DIRS used to interpolate to a source
+            // directory literally named "null".
+            if (vlcSrcDirs) jniLibs.srcDirs += vlcSrcDirs
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']
